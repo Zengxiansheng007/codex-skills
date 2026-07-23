@@ -1,0 +1,73 @@
+{
+  "documentType": "ui-automation-requirement",
+  "sourceBaseline": {
+    "documents": ["sample-prd-v1"],
+    "designs": [],
+    "codeBranch": "sample-main",
+    "environment": "sample-test",
+    "capturedAt": "2026-07-12"
+  },
+  "moduleUnderstanding": {
+    "moduleName": "Pipeline List",
+    "moduleBoundary": "Read pipeline list and inspect status only.",
+    "submodules": ["Pipeline navigation", "Pipeline table"],
+    "inScope": ["list query", "empty state"],
+    "outOfScope": ["create pipeline", "run pipeline"],
+    "responsibilities": ["show pipeline data"],
+    "knownStaleOrOfflineModules": []
+  },
+  "businessObjects": [
+    {
+      "name": "Pipeline",
+      "keyFields": ["pipelineId", "name", "status"],
+      "businessIds": ["pipelineId"],
+      "displayFields": ["name", "status"],
+      "validationRules": ["status must be visible when data exists"]
+    }
+  ],
+  "stateModel": {
+    "states": ["empty", "running", "success", "failed"],
+    "transitions": [],
+    "terminalStates": ["success", "failed"],
+    "asyncPollingRequired": true
+  },
+  "permissions": {
+    "roles": ["project member"],
+    "menuRules": ["pipeline list visible"],
+    "buttonRules": ["create button read-only test excludes click"],
+    "dataScopeRules": ["project scoped"],
+    "backendEnforcement": ["unauthorized API should deny"]
+  },
+  "upstreamDownstream": {
+    "upstreamInputs": ["project context"],
+    "currentModuleProcessing": ["query pipeline list"],
+    "downstreamVerification": ["pipeline API response"],
+    "syncDependencies": ["menu route"],
+    "asyncDependencies": ["pipeline status task"],
+    "degradationWhenUnavailable": "mark downstream unverified"
+  },
+  "evidenceContract": {
+    "uiEvidence": ["route screenshot", "selected menu"],
+    "apiEvidence": ["pipeline list response"],
+    "taskEvidence": ["status polling when applicable"],
+    "downstreamEvidence": ["readonly detail page"],
+    "logEvidence": ["console errors"],
+    "evidenceIndexRequired": true
+  },
+  "acceptanceCriteria": ["pipeline list page is reachable and evidence is complete"],
+  "riskAndSafety": {
+    "allowedActions": ["navigate", "query", "assert"],
+    "manualConfirmActions": [],
+    "forbiddenActions": ["create", "delete", "run"],
+    "sensitiveData": ["credentials", "tokens"],
+    "externalModelBoundary": "visible content only after approval"
+  },
+  "handoffTargets": {
+    "developmentPlan": ["none"],
+    "testPlan": ["scope and evidence strategy"],
+    "testcaseGenerator": ["readonly list cases"],
+    "uiTest": ["navigation and evidence execution"]
+  },
+  "openQuestions": [],
+  "grillQuestions": []
+}
