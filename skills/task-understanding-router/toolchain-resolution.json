@@ -1,0 +1,24 @@
+{
+  "targetRuntime": "Codex-current-instance",
+  "scope": "Codex-only; WorkBuddy portability excluded",
+  "selectedCreator": {
+    "skillName": "skill-creator",
+    "root": "C:\\Users\\lenovo\\.codex\\skills\\.system\\skill-creator",
+    "skillSha256": "2940E08D49E5197453E58A4387D14CB07101B97911C992EF75C8289E0A1734C0"
+  },
+  "scripts": {
+    "init": {"path": "scripts/init_skill.py", "sha256": "50281D4B53C73F6FFA1E98ADF1EE9FCD55D4854970F24513E33DA65F073F74BE", "present": true},
+    "quickValidate": {"path": "scripts/quick_validate.py", "sha256": "5347A0A09CFB546BBA1C0D1A30DAE0A233D9A05F57BD4E7877155C588BCDABF7", "present": true}
+  },
+  "validatorImports": {"yaml": "required"},
+  "python": {
+    "path": "C:\\DevelopTool\\Python311\\python.exe",
+    "sha256": "5F7B89A612C9B8AF1D6456CDFCD1DBE5CA630849E79AEBCED9BEE9A6694952EC",
+    "version": "3.11",
+    "yamlVersion": "6.0.3",
+    "utf8Mode": "PYTHONUTF8=1 required for Chinese UTF-8 Skill content"
+  },
+  "interfaceMetadata": {"openaiYaml": "generated-by-selected-tool"},
+  "rejectedCandidates": ["cache/plugin/snapshot copy with unknown provenance"],
+  "verifiedAt": "2026-07-19"
+}
