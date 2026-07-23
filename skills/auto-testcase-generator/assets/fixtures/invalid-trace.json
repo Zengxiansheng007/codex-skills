@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "type": "prd",
+      "confidence": "confirmed"
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "TC-001",
+      "title": "Bad vague case",
+      "priority": "PX",
+      "modulePath": [],
+      "sourceIds": ["SRC-404"],
+      "oracle": "SRC-001",
+      "confidence": "confirmed",
+      "changeStatus": "new",
+      "steps": [
+        {
+          "action": "click button",
+          "expected": ""
+        }
+      ]
+    }
+  ]
+}
