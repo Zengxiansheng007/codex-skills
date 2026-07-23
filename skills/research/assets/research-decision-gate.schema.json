@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Decision Gate",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "depth",
+    "mode",
+    "recommendationStatus",
+    "rerunResearchRequired",
+    "riskAcceptanceRequired",
+    "openCriticalFindings",
+    "coverageMatrix",
+    "grillFindingCoverage"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "depth": { "enum": ["light", "standard", "deep"] },
+    "mode": {
+      "enum": [
+        "fact-check",
+        "skill-design",
+        "product-reference",
+        "literature-review",
+        "plan-support",
+        "grill-support"
+      ]
+    },
+    "recommendationStatus": {
+      "enum": ["accepted", "caveated", "rejected", "rerun", "partial", "blocked"]
+    },
+    "rerunResearchRequired": { "type": "boolean" },
+    "riskAcceptanceRequired": { "type": "boolean" },
+    "openCriticalFindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "reason", "blockedDecision", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "enum": ["P0", "P1"] },
+          "reason": { "type": "string" },
+          "blockedDecision": { "type": "string" },
+          "requiredEvidenceTypes": { "type": "array" },
+          "status": { "enum": ["open", "blocked", "accepted-risk", "closed"] }
+        }
+      }
+    },
+    "coverageMatrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["objectType", "objectId", "coverageStatus", "evidenceIds", "confidenceRationale", "limitations"],
+        "properties": {
+          "objectType": { "type": "string" },
+          "objectId": { "type": "string" },
+          "coverageStatus": { "enum": ["sufficient", "caveated", "insufficient", "blocked"] },
+          "evidenceIds": { "type": "array", "items": { "type": "string" } },
+          "confidenceRationale": { "type": "string" },
+          "limitations": { "type": "array" }
+        }
+      }
+    },
+    "grillFindingCoverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["findingId", "severity", "blockedDecision", "coverageStatus", "evidenceIds", "rerunResearchRequired"],
+        "properties": {
+          "findingId": { "type": "string" },
+          "severity": { "enum": ["P0", "P1", "P2"] },
+          "blockedDecision": { "type": "string" },
+          "coverageStatus": { "enum": ["sufficient", "caveated", "insufficient", "blocked"] },
+          "evidenceIds": { "type": "array", "items": { "type": "string" } },
+          "followupQueries": { "type": "array" },
+          "designRecommendation": { "type": "string" },
+          "rerunResearchRequired": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}
