@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research Report</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1100px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warning { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>{{title}}</h1>
+  <p>{{generatedAt}}</p>
+  <section class="summary">{{summary}}</section>
+  <h2>Scope And Assumptions</h2>
+  {{scope}}
+  <h2>Key Findings</h2>
+  {{findings}}
+  <h2>Evidence Table</h2>
+  {{evidenceTable}}
+  <h2>Conflicts And Uncertainty</h2>
+  {{conflicts}}
+  <h2>Source Coverage</h2>
+  {{coverage}}
+  <h2>Security And Access Notes</h2>
+  {{security}}
+  <h2>Main Workflow Recommendation</h2>
+  {{recommendation}}
+</main>
+<script type="application/json" id="research-metadata">{{researchMetadataJson}}</script>
+<script type="application/json" id="evidence-index">{{evidenceIndexJson}}</script>
+<script type="application/json" id="search-log">{{searchLogJson}}</script>
+<script type="application/json" id="run-status">{{runStatusJson}}</script>
+{{researchDecisionGateJsonBlock}}
+</body>
+</html>
