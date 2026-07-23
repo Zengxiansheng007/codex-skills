@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="zh-CN">
+<body>
+<main><h1>Invalid Decision Gate Fixture</h1><p>https://example.com/source</p></main>
+<script type="application/json" id="research-metadata">{"title":"fixture"}</script>
+<script type="application/json" id="evidence-index">{"sources":[{"id":"S1","url":"https://example.com/source"}],"claims":[{"id":"C1","status":"supported","evidenceIds":["S1"]}]}</script>
+<script type="application/json" id="search-log">{"queries":[]}</script>
+<script type="application/json" id="run-status">{"status":"complete","p0OpenCount":1,"p1OpenCount":0}</script>
+<script type="application/json" id="research-decision-gate">{"schemaVersion":"1.0","depth":"standard","mode":"skill-design","recommendationStatus":"accepted","rerunResearchRequired":false,"riskAcceptanceRequired":false,"openCriticalFindings":[{"id":"RF-1","severity":"P0","reason":"missing evidence","blockedDecision":"recommendation","status":"open"}],"coverageMatrix":[{"objectType":"claim","objectId":"C1","coverageStatus":"insufficient","evidenceIds":[],"confidenceRationale":"Missing evidence.","limitations":["no primary source"]}],"grillFindingCoverage":[]}</script>
+</body>
+</html>
