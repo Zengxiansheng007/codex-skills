@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Understanding Router"
+  short_description: "Frame and route new tasks before execution"
+  default_prompt: "Classify this new task, state the appropriate understanding, and route it safely before execution."
