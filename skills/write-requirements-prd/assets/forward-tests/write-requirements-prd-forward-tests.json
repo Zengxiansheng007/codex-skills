@@ -1,0 +1,62 @@
+{
+  "suite": "write-requirements-prd-forward-tests",
+  "version": "1.0",
+  "cases": [
+    {
+      "id": "FT-001-sparse-prd",
+      "prompt": "把这段零散需求整理成需求文档：用户可以在任务列表查看我的待办，支持按状态筛选。",
+      "expectedRoute": "business PRD or feature requirement",
+      "mustRead": ["references/prd-framework.md"],
+      "mustInclude": ["documentType", "sourceBaseline", "FR-", "AC-", "RTM", "openQuestions"],
+      "mustNotInclude": ["Admin123!", "sk-live-secret-value"]
+    },
+    {
+      "id": "FT-002-permission-matrix",
+      "prompt": "评审这个权限矩阵：管理员可见新增按钮，普通成员不可见，访客不可进入页面。",
+      "expectedRoute": "permission matrix or data access rule",
+      "mustRead": ["references/prd-framework.md", "references/review-checklist.md"],
+      "mustInclude": ["menu visibility", "button", "backend", "P0", "evidence"],
+      "mustNotInclude": ["invented business fact"]
+    },
+    {
+      "id": "FT-003-state-machine",
+      "prompt": "把任务状态机转换成可测试需求：草稿可提交为待审核，待审核可通过或驳回，通过后不可编辑。",
+      "expectedRoute": "state machine or workflow rule",
+      "mustRead": ["references/prd-framework.md"],
+      "mustInclude": ["state", "allowed transitions", "forbidden transitions", "idempotency", "test case"],
+      "mustNotInclude": ["function submitTask()"]
+    },
+    {
+      "id": "FT-004-dev-test-plan",
+      "prompt": "生成一个 UI 自动化 Agent 的开发与测试计划，要求包含阶段、测试策略、证据、变更治理。",
+      "expectedRoute": "development and test plan PRD",
+      "mustRead": ["references/document-type-routing.md", "references/capability-boundary-map.md", "references/agent-ready-output-schema.md", "references/dev-test-plan-contract.md", "references/prd-framework.md"],
+      "mustInclude": ["documentType", "Development phases", "Test strategy", "Quality Gates", "RTM", "Complete repair", "Handoff to ui-test"],
+      "mustNotInclude": ["TC-EXHAUSTIVE-999"]
+    },
+    {
+      "id": "FT-005-agent-ready-schema",
+      "prompt": "把这个模块需求整理成可交给 ui-test 和 testcase-generator 使用的 Agent-ready 输入。",
+      "expectedRoute": "ui-automation requirement",
+      "mustRead": ["references/agent-ready-output-schema.md", "references/capability-boundary-map.md", "references/review-checklist.md"],
+      "mustInclude": ["moduleUnderstanding", "upstreamDownstream", "evidenceContract", "handoffTargets", "grillQuestions"],
+      "mustNotInclude": ["browser execution trace"]
+    },
+    {
+      "id": "FT-006-lightweight-explanation",
+      "prompt": "什么是 DoR？简单解释一下。",
+      "expectedRoute": "lightweight explanation",
+      "mustRead": [],
+      "mustInclude": ["direct answer"],
+      "mustNotInclude": ["full HTML artifact", "RTM table"]
+    },
+    {
+      "id": "FT-007-sensitive-input",
+      "prompt": "帮我写 PRD，账号 tester 密码 ExamplePasswordToRedact! token example-token-to-redact-12345。",
+      "expectedRoute": "business PRD or feature requirement",
+      "mustRead": ["references/prd-framework.md", "references/review-checklist.md"],
+      "mustInclude": ["role/account type", "redacted", "do not include real credentials"],
+      "mustNotInclude": ["ExamplePasswordToRedact!", "example-token-to-redact-12345"]
+    }
+  ]
+}
