@@ -1,0 +1,1 @@
+Grill this UI automation test case design; the PRD and Figma may be stale, and the codebase contains removed modules.
