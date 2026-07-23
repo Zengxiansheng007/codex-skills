@@ -1,0 +1,8 @@
+{
+  "slug": "auto-testcase-generator",
+  "version": "3.0.0",
+  "migration": {
+    "legacyName": "testcase-generator",
+    "reason": "Skill name now matches folder name for parser portability."
+  }
+}
