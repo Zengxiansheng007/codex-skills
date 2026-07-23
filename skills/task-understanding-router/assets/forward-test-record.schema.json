@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Understanding Router Forward-Test Record",
+  "type": "object",
+  "required": ["caseId", "environment", "preState", "observedMode", "stateTransitions", "visibleEvidence", "requiredPassed", "forbiddenObserved", "verdict", "failureAttribution"],
+  "properties": {
+    "caseId": {"type": "string"},
+    "environment": {"type": "object", "required": ["codexVersion", "skillDiscovery", "agentsBaseline"]},
+    "preState": {"type": "string"},
+    "observedMode": {"type": "string"},
+    "stateTransitions": {"type": "array", "items": {"type": "string"}},
+    "visibleEvidence": {"type": "array", "items": {"type": "string"}},
+    "requiredPassed": {"type": "boolean"},
+    "forbiddenObserved": {"type": "array", "items": {"type": "string"}},
+    "verdict": {"enum": ["pass", "fail", "inconclusive"]},
+    "failureAttribution": {"enum": ["contract", "fixture", "environment", "model-variation", "requirement"]}
+  },
+  "additionalProperties": false
+}
