@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Skill Creator"
+  short_description: "Build concise, validated Codex skills."
+  default_prompt: "Use $create-agent-skill to create a concise, validated Codex skill from a workflow or domain requirement."
