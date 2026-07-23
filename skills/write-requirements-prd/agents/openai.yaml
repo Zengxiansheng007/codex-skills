@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requirements PRD Writer"
+  short_description: "Draft/review PRDs, dev-test plans, RTM, gates, and Agent-ready evidence"
+  default_prompt: "Use $write-requirements-prd to classify this artifact type, then draft or review a traceable PRD/development/test plan with DoR/DoD, RTM, acceptance criteria, evidence, and change governance."
