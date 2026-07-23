@@ -1,0 +1,13 @@
+name: session-handoff
+summary: Create redacted, evidence-marked handoff documents so a fresh agent can resume long-running work.
+invocation:
+  mode: user_or_model
+  examples:
+    - "为当前任务生成交接文档"
+    - "handoff this session to the next agent"
+    - "保存当前上下文，下一轮继续执行"
+quality_gates:
+  - Validate required sections.
+  - Redact credentials and personal data.
+  - Mark verified, referenced, and unverified claims.
+  - Return the handoff path and recovery prompt.
