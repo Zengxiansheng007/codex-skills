@@ -1,0 +1,5 @@
+interface:
+  display_name: "UI-test"
+  short_description: "Run and harden Midscene-first Web UI testing workflows."
+  default_prompt: "Use $ui-test to turn the supplied requirements and URL into a safe Midscene-first UI test, verify it with Playwright and Solution D evidence, review execution quality, repair failures, and produce HTML reports."
+
