@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Skill"
+  short_description: "Design, validate, and harden Codex skills."
+  default_prompt: "Use $create-skill to create or improve a high-quality Codex Agent Skill from my workflow or requirement."
