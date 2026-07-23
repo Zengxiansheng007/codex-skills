@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Analyzer"
+  short_description: "Vet Skills for adoption, execution safety, redesign readiness, and runtime logic."
+  default_prompt: "Use $analysis-skill to analyze a local or staged Agent Skill in R0 read-only mode and produce a Chinese security, design, runtime, logic, and refactor evidence report."
