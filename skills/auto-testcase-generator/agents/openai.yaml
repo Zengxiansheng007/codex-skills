@@ -1,0 +1,4 @@
+name: auto-testcase-generator
+display_name: Auto Testcase Generator
+description: Source-grounded test case design, review, traceability, and incremental maintenance.
+version: 3.0.0
