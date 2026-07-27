@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Strict Closure Blocks",
+  "type": "object",
+  "required": [
+    "critiqueLoopLog",
+    "sourceReviewFindings",
+    "followupQueryMatrix",
+    "p0p1ClosureMatrix"
+  ],
+  "properties": {
+    "critiqueLoopLog": {
+      "type": "object",
+      "required": ["strictLoopRequired", "rounds"],
+      "properties": {
+        "strictLoopRequired": { "type": "boolean" },
+        "rounds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "roundId",
+              "purpose",
+              "sourceIds",
+              "reviewFindingIds",
+              "generatedFollowupQueryIds",
+              "stopDecision"
+            ],
+            "properties": {
+              "roundId": { "type": "string" },
+              "purpose": { "type": "string" },
+              "sourceIds": { "type": "array", "items": { "type": "string" } },
+              "reviewFindingIds": { "type": "array", "items": { "type": "string" } },
+              "generatedFollowupQueryIds": { "type": "array", "items": { "type": "string" } },
+              "stopDecision": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "sourceReviewFindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "severity",
+          "sourceIds",
+          "weakness",
+          "blockedObjects",
+          "requiredEvidenceTypes"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "enum": ["P0", "P1", "P2", "P3"] },
+          "sourceIds": { "type": "array", "items": { "type": "string" } },
+          "weakness": { "type": "string" },
+          "blockedObjects": { "type": "array", "items": { "type": "string" } },
+          "requiredEvidenceTypes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "followupQueryMatrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["queryId", "findingIds", "query", "preferredSourceTiers"],
+        "properties": {
+          "queryId": { "type": "string" },
+          "findingIds": { "type": "array", "items": { "type": "string" } },
+          "query": { "type": "string" },
+          "preferredSourceTiers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "p0p1ClosureMatrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["findingId", "status", "closingEvidenceIds", "closureReason"],
+        "properties": {
+          "findingId": { "type": "string" },
+          "status": { "enum": ["closed", "blocked", "accepted-risk"] },
+          "closingEvidenceIds": { "type": "array", "items": { "type": "string" } },
+          "closureReason": { "type": "string" }
+        }
+      }
+    }
+  }
+}

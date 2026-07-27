@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<body>
+<main><h1>Invalid Strict Loop Fake Closure</h1><p>https://example.com/source</p></main>
+<script type="application/json" id="research-metadata">{"title":"fixture","highImpact":true,"strictLoopRequired":true}</script>
+<script type="application/json" id="evidence-index">{"sources":[{"id":"S1","url":"https://example.com/source"}],"claims":[{"id":"C1","status":"supported","evidenceIds":["S1"]}]}</script>
+<script type="application/json" id="search-log">{"queries":[]}</script>
+<script type="application/json" id="run-status">{"status":"complete","p0OpenCount":0,"p1OpenCount":0}</script>
+<script type="application/json" id="critique-loop-log">{"strictLoopRequired":true,"rounds":[{"roundId":"R1","purpose":"initial-search","sourceIds":["S1"],"reviewFindingIds":["RF-1"],"generatedFollowupQueryIds":["FQ-1"],"stopDecision":"continue"}]}</script>
+<script type="application/json" id="source-review-findings">[{"id":"RF-1","severity":"P1","sourceIds":["S1"],"weakness":"single source is incomplete","blockedObjects":["C1"],"requiredEvidenceTypes":["primary docs"]}]</script>
+<script type="application/json" id="followup-query-matrix">[{"queryId":"FQ-1","findingIds":["RF-1"],"query":"Find stronger primary coverage for the gap","preferredSourceTiers":["official-docs","local-primary"]}]</script>
+<script type="application/json" id="p0p1-closure-matrix">[{"findingId":"RF-1","status":"closed","closingEvidenceIds":[],"closureReason":"This fixture is intentionally invalid because closure has no evidence"}]</script>
+<script type="application/json" id="research-decision-gate">{"schemaVersion":"1.0","depth":"standard","mode":"skill-design","recommendationStatus":"accepted","rerunResearchRequired":false,"riskAcceptanceRequired":false,"openCriticalFindings":[],"coverageMatrix":[{"objectType":"claim","objectId":"C1","coverageStatus":"sufficient","evidenceIds":["S1"],"confidenceRationale":"Primary fixture source supports the claim.","limitations":[]}],"grillFindingCoverage":[]}</script>
+</body>
+</html>

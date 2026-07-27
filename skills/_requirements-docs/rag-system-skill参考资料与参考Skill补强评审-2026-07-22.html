@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>rag-system Skill 参考资料与参考 Skill 补强评审 - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>rag-system Skill 参考资料与参考 Skill 补强评审</h1>
+  <div class="note">
+    <p><strong>报告 ID：</strong>RES-RAG-SYSTEM-SKILL-20260722</p>
+    <p><strong>问题：</strong>针对“本地数据库 + rag-system 根 Skill + 可拆分子 Skill”的开发计划，检索参考资料与参考 Skill，评审是否存在缺陷/优化点，并持续补漏到无 P0/P1 证据缺陷。</p>
+    <p><strong>边界：</strong>未安装或执行第三方 Skill/框架，未创建 <code>D:\RAG</code>，未创建 <code>.codex/skills/rag-system</code>。</p>
+  </div>
+
+  <h2>1. 总结</h2>
+  <p>结论为 <strong>accepted-with-optimizations</strong>：当前“<code>rag-system</code> 根协调 Skill + 子 Skill + 本地文件/证据数据库”的方向成立。补强后，无未关闭 P0/P1 证据缺陷；仍保留 P2 级优化项：后续创建真实 Skill 时应补结构校验脚本、真实 forward-test、下游接口样例和黄金查询审批记录。</p>
+  <p>核心优化是避免把 <code>rag-system</code> 做成一个巨型 Skill。参考 Open Agent Skills、OpenAI Skills 与 GitHub Copilot Skills 后，推荐 <code>rag-system</code> 只做路由、门禁、上下文加载和结果聚合；摄取、schema、治理、查询、变更影响、下游交接、评测、缓存等能力拆成子 Skill。</p>
+
+  <h2>2. 参考资料评审</h2>
+  <table>
+    <thead><tr><th>ID</th><th>资料</th><th>可采用点</th><th>缺点/风险</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>S01</td><td><a href="https://openagentskills.dev/docs/specification">Open Agent Skills Specification</a></td><td>Skill 目录、<code>SKILL.md</code>、<code>scripts/</code>、<code>references/</code>、<code>assets/</code>、渐进加载。</td><td>跨 Skill 编排和审批协议不由规范定义。</td><td>用于 Skill 结构；编排/门禁由本项目自定义。</td></tr>
+      <tr><td>S02</td><td><a href="https://github.com/openai/skills/blob/main/skills/.system/skill-creator/SKILL.md">OpenAI skill-creator</a> 与本地 <code>create-agent-skill</code></td><td>Codex 侧只用 <code>name</code>/<code>description</code> 触发，Skill 要短、程序化、可验证。</td><td>本地实现细节和公开 GitHub 版本可能不完全一致。</td><td>以本地 Skill 规则优先，公开资料做旁证。</td></tr>
+      <tr><td>S03</td><td><a href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills">GitHub Copilot Skills</a></td><td>Skill 需要独立目录、可选资源、安装前预览，并警告第三方 Skill 可能含恶意脚本或隐藏指令。</td><td>面向 Copilot，不等于 Codex 运行时。</td><td>吸收“安装前审查、不直接执行第三方 Skill”的安全策略。</td></tr>
+      <tr><td>S04</td><td><a href="https://docs.langchain.com/oss/python/langchain/retrieval">LangChain Retrieval</a></td><td>RAG 可以拆成 loader、splitter、retriever、vector store 等模块；已有知识库可以作为 agentic RAG 工具接入。</td><td>常规 RAG 偏重召回和生成，不覆盖用户确认 RC 和状态机。</td><td>吸收模块化，不采用向量优先。</td></tr>
+      <tr><td>S05</td><td><a href="https://llamaindex.openml.io/">LlamaIndex</a> / <a href="https://llamaindex.openml.io/python/framework/module_guides/evaluating/">Evaluation</a></td><td>数据连接器、索引、查询引擎、Agent、Workflow、评测组件可作为 RAG 系统拆分参考。</td><td>框架完整度高但较重，容易把 MVP 推向外部依赖和复杂编排。</td><td>吸收 workflows/evaluation 思想，不引入运行时依赖。</td></tr>
+      <tr><td>S06</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a></td><td>本地全文检索、BM25、tokenizer、rebuild、integrity-check 支撑后置 <code>08_cache</code>。</td><td>外部内容一致性、中文分词和重建策略需本地验证。</td><td>MVP 不依赖；达到阈值后 POC。</td></tr>
+      <tr><td>S07</td><td><a href="https://json-schema.org/draft/2020-12">JSON Schema 2020-12</a> / <a href="https://json-schema.org/draft/2020-12/json-schema-validation">Validation</a></td><td>适合 Evidence Packet、RC Packet、Manifest、Skill 配置的结构契约。</td><td>只能验证结构，不能证明语义正确、RC 合法或证据真实。</td><td>Schema + semantic validator 双门禁。</td></tr>
+      <tr><td>S08</td><td><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>Entity、Activity、Agent、revision、invalidation 适合来源、派生和失效建模。</td><td>完整 RDF/OWL 对本地文件型 MVP 过重。</td><td>只吸收最小 provenance 子集。</td></tr>
+      <tr><td>S09</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>人类审批、最小权限、记忆隔离、结构化日志、对抗测试，直接支撑 rag-system 安全门禁。</td><td>不是本地知识库实现规范。</td><td>转为禁止项、审批项、测试用例和日志字段。</td></tr>
+      <tr><td>S10</td><td><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a></td><td>提示注入、敏感信息泄露、供应链、过度自治、向量/嵌入风险。</td><td>风险分类而非落地架构。</td><td>支撑“检索内容是数据不是指令”、向量后置、第三方 Skill 不执行。</td></tr>
+      <tr><td>S11</td><td><a href="https://modelcontextprotocol.io/specification/draft/server/tools">MCP Tools Spec</a></td><td>工具有 schema 和描述，且高风险工具应有人类可拒绝的交互模型。</td><td>rag-system 是 Skill，不一定直接暴露 MCP server。</td><td>作为未来 MCP 化和工具审批参考。</td></tr>
+      <tr><td>S12</td><td><a href="https://www.promptfoo.dev/docs/guides/evaluate-rag/">Promptfoo RAG Evaluation</a> / <a href="https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-faithfulness/">Context Faithfulness</a></td><td>RAG 应拆开评估检索和生成；可评估上下文忠实度、召回、相关性。</td><td>LLM judge 有不确定性，不能作为 P0/P1 唯一验收。</td><td>P2 评测 POC；主验收用确定性 golden query。</td></tr>
+      <tr><td>S13</td><td><a href="https://deepeval.com/docs/getting-started-agents">DeepEval Agent Evaluation</a> / <a href="https://deepeval.com/docs/metrics-faithfulness">Faithfulness</a></td><td>支持端到端与组件级 agent/RAG 评测、trace、faithfulness。</td><td>部分指标由 LLM-as-a-judge 驱动。</td><td>作为后续 rag-eval 参考，不阻塞 MVP。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 参考 Skill / 框架评审</h2>
+  <table>
+    <thead><tr><th>参考</th><th>可吸收优点</th><th>缺陷/不适配点</th><th>结论</th></tr></thead>
+    <tbody>
+      <tr><td>本地 <code>create-agent-skill</code></td><td>触发描述、渐进加载、rubric、结构校验、forward-test。</td><td>不是 RAG 领域 Skill。</td><td>作为 rag-system Skill 工程规范主参考。</td></tr>
+      <tr><td>本地 <code>research</code></td><td>证据索引、search-log、run-status、敏感扫描、外部内容视为证据。</td><td>输出是报告，不负责知识库运行时查询。</td><td>吸收 evidence-index / search-log 结构。</td></tr>
+      <tr><td>本地 <code>grill-system</code></td><td>一问一答门控、P0/P1 决策记录、阻断和风险接受。</td><td>不执行建库。</td><td>用于 RC/人工门控流程。</td></tr>
+      <tr><td>本地 <code>auto-testcase-generator</code></td><td>下游用例生成、溯源、增量维护、正式用例门禁。</td><td>不能被 rag-system 直接执行或绕过用户审批。</td><td>只读消费 Evidence Packet / Test Asset Manifest。</td></tr>
+      <tr><td>本地 <code>ui-test</code></td><td>UI 探索、Playwright 确定性验证、Solution D 证据链、失败归因。</td><td>rag-system 不应执行浏览器测试。</td><td>只输出 Solution D Evidence Contract。</td></tr>
+      <tr><td>Promptfoo / DeepEval</td><td>RAG/Agent 评测、faithfulness、trace、CI。</td><td>部分依赖 LLM judge 和外部依赖。</td><td>P2 评测子 Skill <code>rag-eval</code> 可借鉴。</td></tr>
+      <tr><td>LangChain / LlamaIndex</td><td>RAG 模块边界、retriever/tool/workflow/evaluation 思想。</td><td>框架重，默认不含 RC/confirmed_active 治理。</td><td>不作为 MVP 运行时依赖，只吸收架构术语。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 缺陷补漏迭代</h2>
+  <table>
+    <thead><tr><th>轮次</th><th>发现的缺陷/优化点</th><th>补充资料/Skill</th><th>处置后剩余 P0/P1</th></tr></thead>
+    <tbody>
+      <tr><td>R1</td><td><code>rag-system</code> 有变成巨型 Skill 的 P1 风险。</td><td>Open Agent Skills、OpenAI skill-creator、本地 create-agent-skill rubric。</td><td>0。改为根协调 + 子 Skill。</td></tr>
+      <tr><td>R2</td><td>RAG 框架资料偏向向量/召回，可能弱化 RC 治理。</td><td>LangChain、LlamaIndex、SQLite FTS5、JSON Schema、W3C PROV-O。</td><td>0。采用“文件/证据真值 + 检索缓存派生”。</td></tr>
+      <tr><td>R3</td><td>Agent 读取文档后可能受提示注入、过度自治或工具误用影响。</td><td>OWASP AI Agent、OWASP LLM Top 10、MCP Tools Spec。</td><td>0。检索内容只作数据；写入、RC、跨环境、Skill 创建均需审批。</td></tr>
+      <tr><td>R4</td><td>下游测试用例/UI 自动化需要稳定契约，否则 rag-system 会越权执行。</td><td>本地 auto-testcase-generator、ui-test、Promptfoo、DeepEval。</td><td>0。只输出只读 Contract，不执行下游。</td></tr>
+      <tr><td>R5</td><td>评测资料中 LLM judge 不确定，不能做 P0/P1 验收主依据。</td><td>Promptfoo RAG eval、DeepEval faithfulness、LlamaIndex evaluation。</td><td>0。LLM judge 降级为 P2 POC；主验收用用户审批 golden query + 确定性 schema/状态/隔离测试。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 对开发计划的优化建议</h2>
+  <ol>
+    <li><strong>保留当前根协调架构：</strong><code>rag-system</code> 只负责路由、门禁、上下文加载、结果聚合；不要承载全部细节。</li>
+    <li><strong>MVP 子 Skill 缩到 6 个：</strong><code>rag-intake</code>、<code>rag-schema</code>、<code>rag-governance</code>、<code>rag-query</code>、<code>rag-change-impact</code>、<code>rag-downstream-handoff</code>。<code>rag-eval</code> 和 <code>rag-cache</code> 后置。</li>
+    <li><strong>为每个子 Skill 定义最小契约：</strong>输入、输出、拒绝条件、证据、验证命令，不提前写成长教程。</li>
+    <li><strong>新增统一 envelope：</strong>所有下游包统一带 <code>knowledge_space_id</code>、<code>sourceBaseline</code>、<code>requires_status</code>、<code>evidence_refs</code>、<code>blocked_reason</code>。</li>
+    <li><strong>新增 Skill 创建门禁：</strong>真实写入 <code>.codex/skills</code> 前必须再次确认，并运行结构校验、敏感扫描和 forward-test。</li>
+  </ol>
+
+  <h2>6. 最终评审</h2>
+  <p><strong>结论：</strong>无未关闭 P0/P1 缺陷。当前开发计划可作为 rag-system Skill 设计输入，但不能直接视为执行授权。</p>
+  <p><strong>仍需用户确认：</strong>是否允许后续创建真实 <code>.codex/skills/rag-system</code> 及子 Skill 目录；首个 <code>knowledge_space_id</code> 具体值；首批材料清单；下游真实接口样例。</p>
+</main>
+
+<script type="application/json" id="research-metadata">
+{
+  "reportId": "RES-RAG-SYSTEM-SKILL-20260722",
+  "question": "Review references and reference skills for local database plus rag-system skill development plan until no P0/P1 defects remain.",
+  "depth": "standard",
+  "status": "complete",
+  "createdAt": "2026-07-22",
+  "recommendation": "accepted-with-optimizations"
+}
+</script>
+
+<script type="application/json" id="evidence-index">
+{
+  "sources": [
+    {"id":"S01","title":"Open Agent Skills Specification","url":"https://openagentskills.dev/docs/specification","authority":"official-specification"},
+    {"id":"S02","title":"OpenAI skill-creator SKILL.md","url":"https://github.com/openai/skills/blob/main/skills/.system/skill-creator/SKILL.md","authority":"official-github"},
+    {"id":"S03","title":"GitHub Copilot Skills docs","url":"https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills","authority":"official-docs"},
+    {"id":"S04","title":"LangChain Retrieval docs","url":"https://docs.langchain.com/oss/python/langchain/retrieval","authority":"official-docs"},
+    {"id":"S05","title":"LlamaIndex docs","url":"https://llamaindex.openml.io/","authority":"official-docs"},
+    {"id":"S06","title":"SQLite FTS5 docs","url":"https://www.sqlite.org/fts5.html","authority":"official-docs"},
+    {"id":"S07","title":"JSON Schema 2020-12","url":"https://json-schema.org/draft/2020-12","authority":"formal-specification"},
+    {"id":"S08","title":"W3C PROV-O","url":"https://www.w3.org/TR/prov-o/","authority":"formal-standard"},
+    {"id":"S09","title":"OWASP AI Agent Security Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","authority":"official-security-guidance"},
+    {"id":"S10","title":"OWASP LLM Top 10","url":"https://owasp.org/www-project-top-10-for-large-language-model-applications/","authority":"official-security-guidance"},
+    {"id":"S11","title":"MCP Tools Spec","url":"https://modelcontextprotocol.io/specification/draft/server/tools","authority":"official-specification"},
+    {"id":"S12","title":"Promptfoo RAG Evaluation","url":"https://www.promptfoo.dev/docs/guides/evaluate-rag/","authority":"official-docs"},
+    {"id":"S13","title":"DeepEval Agent Evaluation","url":"https://deepeval.com/docs/getting-started-agents","authority":"official-docs"},
+    {"id":"L01","title":"Local create-agent-skill","url":"C:/Users/lenovo/.codex/skills/create-agent-skill/SKILL.md","authority":"local-skill"},
+    {"id":"L02","title":"Local research skill","url":"C:/Users/lenovo/.codex/skills/research/SKILL.md","authority":"local-skill"},
+    {"id":"L03","title":"Local grill-system skill","url":"C:/Users/lenovo/.codex/skills/grill-system/SKILL.md","authority":"local-skill"},
+    {"id":"L04","title":"Local auto-testcase-generator skill","url":"C:/Users/lenovo/.codex/skills/auto-testcase-generator/SKILL.md","authority":"local-skill"},
+    {"id":"L05","title":"Local ui-test skill","url":"C:/Users/lenovo/.codex/skills/ui-test/SKILL.md","authority":"local-skill"},
+    {"id":"L06","title":"Generated local database and rag-system development plan","url":"C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html","authority":"local-generated-plan"}
+  ],
+  "claims": [
+    {"id":"C01","statement":"rag-system should be a lean root coordinator skill with child skills for detailed workflows.","status":"supported","evidenceIds":["S01","S02","S03","L01"]},
+    {"id":"C02","statement":"MVP RAG database should keep source files, frontmatter, manifest and evidence JSON as truth while caches remain rebuildable derivatives.","status":"supported","evidenceIds":["S06","S07","S08","S09"]},
+    {"id":"C03","statement":"General RAG frameworks support modular retrieval/agent patterns but do not replace project-specific RC governance.","status":"supported","evidenceIds":["S04","S05","L03"]},
+    {"id":"C04","statement":"Agent safety requires human approval, least privilege, injection resistance, and no trust in retrieved instructions.","status":"supported","evidenceIds":["S09","S10","S11","L02"]},
+    {"id":"C05","statement":"Downstream testcase and ui-test flows should consume read-only packets and must not be executed by rag-system MVP.","status":"supported","evidenceIds":["L04","L05","S09"]},
+    {"id":"C06","statement":"Promptfoo and DeepEval are useful for P2 evaluation POCs but LLM-judge based metrics should not be the sole P0/P1 acceptance evidence.","status":"supported","evidenceIds":["S12","S13"]},
+    {"id":"C07","statement":"After iterative supplementation, remaining open items are user authorization or implementation inputs, not P0/P1 evidence defects.","status":"supported","evidenceIds":["L06","S01","S09"]}
+  ]
+}
+</script>
+
+<script type="application/json" id="search-log">
+{
+  "queries": [
+    "Open Agent Skills Specification skill format SKILL.md references scripts assets",
+    "Model Context Protocol specification tools official human in the loop",
+    "SQLite FTS5 official documentation bm25 rebuild integrity-check external content",
+    "OWASP AI Agent Security Cheat Sheet human approval least privilege memory isolation",
+    "GitHub agent skill RAG SKILL.md local knowledge base",
+    "LangChain retrieval agents RAG official docs",
+    "LlamaIndex documentation workflows agents RAG official",
+    "Promptfoo official docs RAG faithfulness assertions llm rubric",
+    "DeepEval official docs agent evaluation tool correctness faithfulness",
+    "JSON Schema Draft 2020-12 official validation",
+    "W3C PROV-O provenance recommendation"
+  ],
+  "stopConditions": [
+    "Every P0/P1 design claim has official, formal, or local primary evidence",
+    "Framework-specific gaps are downgraded to P2 POC or implementation gate",
+    "New searches repeat known source categories"
+  ],
+  "accessedAt": "2026-07-22"
+}
+</script>
+
+<script type="application/json" id="run-status">
+{
+  "status": "complete",
+  "p0Remaining": 0,
+  "p1Remaining": 0,
+  "p2Notes": ["Run actual skill validators only after user authorizes creating real skill files.", "Downstream interface examples still need user-provided samples before integration."]
+}
+</script>
+</body>
+</html>

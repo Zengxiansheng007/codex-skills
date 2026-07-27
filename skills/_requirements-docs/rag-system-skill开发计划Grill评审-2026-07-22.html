@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>rag-system Skill 开发计划 Grill 评审 - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 980px; margin: 0 auto; }
+    h1, h2 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>rag-system Skill 开发计划 Grill 评审</h1>
+  <p>本轮 Grill 结论：可以把 <code>rag-system</code> 设计为根协调 Skill，并允许拆分多个子 Skill。当前开发计划可进入评审；真实创建 <code>D:\RAG</code> 或 <code>.codex/skills/rag-system</code> 仍需后续明确授权。</p>
+  <h2>关键问题</h2>
+  <table>
+    <thead><tr><th>ID</th><th>问题</th><th>推荐结论</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>G-RAG-001</td><td>rag-system 是单一大 Skill 还是根协调 Skill + 子 Skill？</td><td>根协调 Skill + 子 Skill。这样可保持触发清晰、上下文轻、职责单一。</td><td>confirmed by user intent</td></tr>
+      <tr><td>G-RAG-002</td><td>本轮是否实际创建 Skill 文件和 D:\RAG？</td><td>不创建。先生成开发计划，真实写入需后续授权。</td><td>assumed boundary</td></tr>
+      <tr><td>G-RAG-003</td><td>下游测试用例/UI 自动化如何接入？</td><td>通过 Evidence Packet、Test Asset Manifest、Solution D Evidence Contract 只读接入。</td><td>planned</td></tr>
+    </tbody>
+  </table>
+</main>
+<script type="application/json" id="grill-session">
+{
+  "sessionId": "grill-rag-system-skill-plan-20260722",
+  "scenario": "requirements+design-review+pre-implementation",
+  "status": "blocked",
+  "sourceInputs": [
+    {"type":"prd","pathOrLabel":"outputs/本地知识库PRD-vNext-2026-07-22.html","freshness":"current"},
+    {"type":"development-plan","pathOrLabel":"outputs/本地知识库开发计划-vNext-2026-07-22.html","freshness":"current"},
+    {"type":"test-plan","pathOrLabel":"outputs/本地知识库测试计划-vNext-2026-07-22.html","freshness":"current"},
+    {"type":"user-requirement","pathOrLabel":"rag-system skill as RAG system, child skills allowed","freshness":"current"}
+  ],
+  "questions": [
+    {
+      "id": "G-RAG-001",
+      "question": "rag-system 应设计为根协调 Skill 并允许拆分子 Skill 吗？",
+      "purpose": "决定 Skill 架构边界和上下文加载方式。",
+      "evidence": ["E-RAG-001", "E-RAG-002"],
+      "recommendedAnswer": "是。rag-system 作为根协调 Skill，子 Skill 按 intake/schema/governance/query/change-impact/downstream/eval/cache 拆分。",
+      "blockingDecision": "skill architecture",
+      "userResponse": "user stated skill as RAG system and child skills can be split",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "G-RAG-002",
+      "question": "本轮是否创建真实 rag-system Skill 文件？",
+      "purpose": "防止计划任务越界为文件系统写入或 Skill 安装。",
+      "evidence": ["E-RAG-003"],
+      "recommendedAnswer": "否。本轮只生成开发计划；真实创建 .codex/skills/rag-system 需后续授权。",
+      "blockingDecision": "implementation authorization",
+      "userResponse": "not yet provided",
+      "status": "proposed",
+      "severity": "P0"
+    },
+    {
+      "id": "G-RAG-003",
+      "question": "下游服务契约是否先采用只读 Evidence Packet 和 Manifest？",
+      "purpose": "防止 rag-system 直接执行测试或生成正式用例。",
+      "evidence": ["E-RAG-001"],
+      "recommendedAnswer": "是。MVP 只输出 Evidence Packet、RC Packet、Change Impact Packet、Test Asset Manifest 和 Solution D Evidence Contract。",
+      "blockingDecision": "downstream contract",
+      "userResponse": "covered by prior confirmations",
+      "status": "confirmed",
+      "severity": "P1"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-RAG-001",
+      "title": "Use root coordinator skill architecture",
+      "sourceQuestion": "G-RAG-001",
+      "decision": "confirmed",
+      "consequence": "rag-system remains lean; subskills own detailed workflows and validators."
+    },
+    {
+      "id": "D-RAG-002",
+      "title": "Do not implement in this turn",
+      "sourceQuestion": "G-RAG-002",
+      "decision": "pending-user-authorization",
+      "consequence": "Development plan can be used for review, but actual skill/database creation is blocked."
+    }
+  ],
+  "evidenceIndex": [
+    {"id":"E-RAG-001","type":"prd","pathOrUrl":"outputs/本地知识库PRD-vNext-2026-07-22.html","claim":"PRD requires controlled evidence, confirmed_active RC, downstream Evidence Packet and no automatic disk scan."},
+    {"id":"E-RAG-002","type":"skill-guidance","pathOrUrl":"create-agent-skill references","claim":"Effective skills should be lean, trigger-specific, progressively disclose references, and avoid broad tutorials."},
+    {"id":"E-RAG-003","type":"safety-boundary","pathOrUrl":"user/session constraints","claim":"Actual D:/RAG creation and skill file creation require explicit user authorization."}
+  ],
+  "openItems": [
+    {"id":"O-RAG-001","severity":"P0","owner":"user","question":"是否授权后续创建真实 .codex/skills/rag-system 和子 Skill 目录？"},
+    {"id":"O-RAG-002","severity":"P0","owner":"user","question":"首个 knowledge_space_id 和第一批材料清单何时提供？"},
+    {"id":"O-RAG-003","severity":"P1","owner":"user","question":"ui-test、auto-testcase-generator、Solution D 的真实接口样例何时提供？"}
+  ],
+  "nextActions": [
+    {"type":"artifact","target":"outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html","reason":"Review development plan before implementation authorization."},
+    {"type":"skill","target":"create-agent-skill","reason":"Use only after user authorizes actual skill creation."}
+  ]
+}
+</script>
+</body>
+</html>

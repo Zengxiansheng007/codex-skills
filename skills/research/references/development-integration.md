@@ -11,7 +11,7 @@ Use Research Skill inside development as an evidence gate, not as an executor.
 | Defect analysis | Third-party or version behavior suspected | Root-cause evidence | Classify bug vs asset vs environment |
 | Asset promotion | Turning findings into long-lived docs/scripts | Freshness and acceptance report | Promote only reviewed conclusions |
 
-Research outputs must be reviewed as `accepted`, `caveated`, `rejected`, or `rerun` before they affect long-lived assets.
+Research outputs must be reviewed as `accepted`, `caveated`, `rejected`, or `rerun` before they affect long-lived assets. High-impact outputs must also expose the recursive closure blocks before downstream skills treat the report as complete.
 
 ## Decision Gate Consumption
 

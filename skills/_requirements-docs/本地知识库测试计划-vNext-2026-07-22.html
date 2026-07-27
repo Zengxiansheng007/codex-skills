@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地知识库测试计划 vNext - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库测试计划 vNext</h1>
+  <div class="note">
+    <p><strong>documentType：</strong>Test Plan</p>
+    <p><strong>测试目标：</strong>验证本地知识库 MVP 是否能安全摄取用户材料、保持知识空间隔离、区分证据与 RC、阻断未确认事实、向下游 Agent 输出可追溯证据包。</p>
+    <p><strong>测试边界：</strong>本计划定义测试策略和验收项，不执行真实入库、不访问生产环境、不测试未提供的内部 Skill 实现。</p>
+  </div>
+
+  <h2>1. 测试范围</h2>
+  <table>
+    <tbody>
+      <tr><th>范围内</th><td>目录/schema、准入门禁、敏感拒绝、状态机、RC 用户确认、space 隔离、Evidence Packet、Change Impact、下游契约、索引重建。</td></tr>
+      <tr><th>范围外</th><td>真实生产数据测试、账号登录测试、自动扫描磁盘、第三方 Skill 安装执行、完整 UI 自动化运行、SQLite FTS5 正式接入测试、向量库效果评测。</td></tr>
+      <tr><th>测试依据</th><td>本地知识库 PRD vNext、开发计划 vNext、WorkBuddy PRD、Codex 历史 PRD、research 补强资料、Grill 决策。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 入场、暂停、退出标准</h2>
+  <table>
+    <thead><tr><th>类别</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>Entry</td><td>用户提供首个 <code>knowledge_space_id</code>、首批脱敏材料清单、黄金查询意图、允许文件类型；空库骨架与 schema 已生成。</td></tr>
+      <tr><td>Pause</td><td>发现疑似凭据、访问令牌、Cookie、未脱敏生产数据；space 不明确；RC 规则冲突；测试环境将触达非测试系统。</td></tr>
+      <tr><td>Resume</td><td>用户确认材料处理方式或提供脱敏替代；space 和 RC 范围明确；拒绝报告已生成且未复制敏感正文。</td></tr>
+      <tr><td>Exit</td><td>P0/P1 测试全通过；无敏感误入库；无跨 space 召回；active 不可正式引用；报告证据完整。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. Q7 展开：黄金查询与负向安全用例</h2>
+  <p>黄金查询不是普通搜索样例，而是验收“知识库能不能被 Agent 安全使用”的最小基准。用户已确认：用户提供 PRD 等参考资料，Codex 基于这些资料生成黄金查询、负向安全用例和候选预期结果，再由用户审批后使用。它必须同时覆盖正确答案、阻断、隔离、敏感拒绝、变更影响和下游证据契约。</p>
+  <table>
+    <thead><tr><th>类别</th><th>用户需提供</th><th>Codex 补充</th><th>预期结果</th></tr></thead>
+    <tbody>
+      <tr><td>正确 RC 与引用</td><td>业务代表问题、期望 RC、适用范围</td><td>Evidence Packet 校验、引用回链</td><td>返回 <code>confirmed_active</code> RC、来源、证据、定位。</td></tr>
+      <tr><td>无 RC 阻断</td><td>尚未确认或待审问题</td><td>状态机用例</td><td>返回 <code>need-review</code>，不得生成正式用例。</td></tr>
+      <tr><td>冲突阻断</td><td>两个版本/材料矛盾的例子</td><td>CONFLICT 和 RC 审计检查</td><td>进入 <code>uncertain</code>，等待用户裁决。</td></tr>
+      <tr><td>跨空间隔离</td><td>两个不同项目/产品中同名概念</td><td>space 硬过滤测试</td><td>不得召回其他 <code>knowledge_space_id</code> 内容。</td></tr>
+      <tr><td>敏感资料拒绝</td><td>脱敏后的模拟敏感样本类型</td><td>拒绝集和报告校验</td><td>拒绝入库，不写索引，不回显完整敏感值。</td></tr>
+      <tr><td>来源变化不改写 RC</td><td>同一材料的新旧版本</td><td>CHG/IMP 校验</td><td>新建版本和影响候选，既有 RC 不自动变更。</td></tr>
+      <tr><td>下游契约</td><td>一个可生成测试资产的真实业务问题</td><td>Manifest 和 Solution D Contract 校验</td><td>只有 RC 满足时生成只读下游输入。</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <p><strong>为什么需要你提供：</strong>Codex 可以设计结构性、安全性和边界类用例，但不能替你定义“哪些业务问题最能代表真实工作”。如果黄金查询全由 Agent 编，测试会变成自证循环。</p>
+    <p><strong>已确认流程：</strong>你提供 PRD、设计说明、接口说明、历史用例或其他参考资料；Codex 从中生成候选黄金查询、负向用例、预期 Evidence Packet 和阻断条件；你审批通过后，这些内容才进入正式测试基线。</p>
+  </div>
+
+  <h2>4. 测试类型与覆盖</h2>
+  <table>
+    <thead><tr><th>ID</th><th>测试类型</th><th>目标</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>TC-KB-001</td><td>结构测试</td><td>schema、frontmatter、manifest 字段完整</td><td>Schema 校验报告</td></tr>
+      <tr><td>TC-KB-002</td><td>准入测试</td><td>只处理用户清单文件，不扫描其他目录</td><td>Admission Report</td></tr>
+      <tr><td>TC-KB-003</td><td>安全拒绝测试</td><td>敏感样本阻断，不入库不索引</td><td>Reject Report、索引检查</td></tr>
+      <tr><td>TC-KB-004</td><td>状态机测试</td><td>raw/reviewing/active/confirmed_active/uncertain/superseded/deprecated 转换正确</td><td>State Transition Report</td></tr>
+      <tr><td>TC-KB-005</td><td>RC 门禁测试</td><td>active 不能作为正式用例依据</td><td>阻断报告、Evidence Packet</td></tr>
+      <tr><td>TC-KB-006</td><td>冲突测试</td><td>矛盾材料进入 uncertain，生成 CONFLICT，不自动裁决</td><td>CONFLICT 记录</td></tr>
+      <tr><td>TC-KB-007</td><td>检索测试</td><td>同 space 返回正确证据包</td><td>Query Report</td></tr>
+      <tr><td>TC-KB-008</td><td>隔离测试</td><td>跨 space 不召回</td><td>查询对照报告</td></tr>
+      <tr><td>TC-KB-009</td><td>变更影响测试</td><td>新版本只生成 CHG/IMP，不改 RC</td><td>Change Impact Report</td></tr>
+      <tr><td>TC-KB-010</td><td>MVP 检索基线测试</td><td><code>INDEX.md</code>、frontmatter、manifest 和证据 JSON 能支持黄金查询、证据回链和阻断状态；<code>08_cache</code> 只校验可重建策略占位</td><td>Build / Query Baseline Report</td></tr>
+      <tr><td>TC-KB-011</td><td>下游契约测试</td><td>Evidence Packet、Manifest、Solution D Contract 可被只读消费</td><td>Contract Fixture Report</td></tr>
+      <tr><td>TC-KB-012</td><td>Agent 安全测试</td><td>文档内提示注入不能改变 Agent 目标、权限或工具调用</td><td>Injection Refusal Report</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 证据要求</h2>
+  <table>
+    <thead><tr><th>证据</th><th>必须包含</th><th>不可包含</th></tr></thead>
+    <tbody>
+      <tr><td>Admission Report</td><td>文件 ID、space、类型、大小、准入结论、脱敏确认状态</td><td>敏感正文、真实凭据</td></tr>
+      <tr><td>Reject Report</td><td>拒绝类型、文件 ID、规则 ID、处理建议</td><td>完整密钥、Cookie、生产客户明细</td></tr>
+      <tr><td>Evidence Packet</td><td>query_id、space、RC、source、locator、evidence、blocked_reason</td><td>无引用的正式答案</td></tr>
+      <tr><td>RC Audit</td><td>用户确认动作、时间、来源、范围、状态</td><td>Agent 自动确认记录</td></tr>
+      <tr><td>Contract Fixture</td><td>下游只读输入、schema 校验、阻断条件</td><td>真实账号、生产操作命令</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. 测试数据策略</h2>
+  <ul>
+    <li>使用用户提供的脱敏材料和 Codex 构造的合成负向样本。</li>
+    <li>敏感拒绝样本只使用占位形态，不记录真实密钥、真实 Cookie、真实客户信息。</li>
+    <li>至少准备两个 <code>knowledge_space_id</code> 的合成空间，用于隔离测试。</li>
+    <li>准备一组 old/new 来源样本，用于变更影响测试。</li>
+    <li>准备 active、confirmed_active、uncertain 三类状态样本，用于下游门禁测试。</li>
+  </ul>
+
+  <h2>7. 缺陷分级与处理</h2>
+  <table>
+    <thead><tr><th>级别</th><th>定义</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>P0</td><td>敏感信息入库、跨 space 召回、active 被正式引用、Agent 自动 RC、无证据正式答案</td><td>立即停止测试，修复后全量回归。</td></tr>
+      <tr><td>P1</td><td>证据回链不完整、状态机边界不清、变更影响漏报、下游契约字段缺失</td><td>阻塞 MVP 验收，修复并重测相关链路。</td></tr>
+      <tr><td>P2</td><td>报告可读性、命名、性能阈值、维护便利性问题</td><td>记录并排期，不阻塞安全 MVP。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 回归策略</h2>
+  <p>每次 schema、状态机、准入规则、RC 规则、查询契约、下游接口字段变化后，必须回归：结构校验、敏感拒绝、space 隔离、active 阻断、confirmed_active 正向查询、变更不改 RC、缓存重建、下游契约。</p>
+
+  <h2>9. 参考资料和工具启发</h2>
+  <table>
+    <thead><tr><th>资料/Skill</th><th>用于测试计划</th><th>限制</th></tr></thead>
+    <tbody>
+      <tr><td>ISTQB CTAL-TA</td><td>测试依据、预言机、风险测试、回归</td><td>不覆盖 Agent 来源治理</td></tr>
+      <tr><td>NIST AI 600-1</td><td>AI 评测记录、生命周期治理、TEVV</td><td>阈值需项目自定</td></tr>
+      <tr><td>OWASP AI Agent / LLM Top 10</td><td>人工门控、提示注入、敏感泄露、越权自治负向测试</td><td>需转化为本地测试夹具</td></tr>
+      <tr><td>Playwright</td><td>后续 UI 确定性证据链</td><td>本阶段不执行浏览器测试</td></tr>
+      <tr><td>Promptfoo/DeepEval</td><td>后续 Agent 输出稳定性和工具正确性 POC</td><td>LLM judge 不作为 P0/P1 主验收</td></tr>
+      <tr><td>Midscene</td><td>后续视觉探索</td><td>不能单独证明业务成功</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10. 测试 RTM</h2>
+  <table>
+    <thead><tr><th>PRD 需求</th><th>测试项</th><th>证据</th><th>通过条件</th></tr></thead>
+    <tbody>
+      <tr><td>FR-KB-001/002</td><td>TC-KB-002/003</td><td>Admission/Reject Report</td><td>只处理用户清单；敏感拒绝。</td></tr>
+      <tr><td>FR-KB-003/007</td><td>TC-KB-001/007</td><td>Schema/Evidence Packet</td><td>正式引用可回链。</td></tr>
+      <tr><td>FR-KB-004</td><td>TC-KB-008</td><td>查询对照报告</td><td>跨 space 召回为零。</td></tr>
+      <tr><td>FR-KB-005/006</td><td>TC-KB-004/005/006</td><td>状态和 CONFLICT 报告</td><td>未确认事实阻断。</td></tr>
+      <tr><td>FR-KB-008</td><td>TC-KB-011</td><td>Contract Fixture Report</td><td>下游只读契约可校验。</td></tr>
+      <tr><td>FR-KB-009</td><td>TC-KB-010</td><td>Build Report</td><td>缓存可重建。</td></tr>
+    </tbody>
+  </table>
+</main>
+<script type="application/json" id="test-plan">
+{
+  "documentType": "test-plan",
+  "version": "vNext-2026-07-22",
+  "sourceBaseline": ["PRD vNext", "development plan vNext", "research review", "grill confirmations"],
+  "testItems": ["TC-KB-001", "TC-KB-002", "TC-KB-003", "TC-KB-004", "TC-KB-005", "TC-KB-006", "TC-KB-007", "TC-KB-008", "TC-KB-009", "TC-KB-010", "TC-KB-011", "TC-KB-012"],
+  "mvpSearchBackend": "INDEX.md + frontmatter + manifest + evidence JSON",
+  "excludedUntilThreshold": ["SQLite FTS5 production integration", "vector search evaluation"],
+  "entryCriteria": ["user knowledge_space_id concrete value", "user material list", "desensitization confirmation", "user-provided PRD/reference materials", "user-approved golden query baseline"],
+  "pauseCriteria": ["suspected secret", "unredacted production data", "unclear space", "RC conflict", "non-test environment access"],
+  "exitCriteria": ["zero P0/P1", "no sensitive ingestion", "no cross-space recall", "active blocked", "evidence complete"],
+  "evidence": ["Admission Report", "Reject Report", "Evidence Packet", "RC Audit", "Contract Fixture Report"],
+  "goldenQueryWorkflow": "user provides PRD/reference materials; Codex generates candidate golden queries and negative cases; user approves before baseline use",
+  "goldenQueryCategories": ["correct RC with citation", "no RC block", "conflict block", "cross-space isolation", "sensitive reject", "source change no RC mutation", "downstream contract"]
+}
+</script>
+</body>
+</html>

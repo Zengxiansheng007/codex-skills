@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>本地知识库与 rag-system 全量执行报告 - 2026-07-23</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 20px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 10px; vertical-align: top; }
+    th { background: #f9fafb; }
+    .ok { border-left: 4px solid #16a34a; background: #f0fdf4; padding: 10px 14px; }
+    .warn { border-left: 4px solid #d97706; background: #fffbeb; padding: 10px 14px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库与 rag-system 全量执行报告</h1>
+  <div class="ok">
+    <p><strong>执行结论：</strong><code>passed-with-user-decision-pending</code>。开发计划与联合测试计划中的 MVP 骨架、Skill、schema、fixture、候选 packet 和验证脚本已完成；自动化校验全部通过。</p>
+    <p><strong>重要边界：</strong>系统已可运行 MVP 治理流程，但真实 <code>confirmed_active</code> RC 仍为 0。当前所有业务材料只处于候选或阻塞状态。</p>
+  </div>
+
+  <h2>1. 已实施内容</h2>
+  <table>
+    <thead><tr><th>范围</th><th>落地内容</th><th>路径</th></tr></thead>
+    <tbody>
+      <tr><td>本地知识库骨架</td><td>创建 00_inbox 到 08_cache、schemas、scripts、fixtures、reports 等目录。</td><td><code>D:\RAG</code></td></tr>
+      <tr><td>源与治理记录</td><td>manifest、INDEX、候选材料清单、证据记录、冲突记录、审计记录。</td><td><code>D:\RAG\manifest.json</code></td></tr>
+      <tr><td>候选 PRD 材料</td><td>登记 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code>，状态为 <code>active-candidate</code>。</td><td><code>D:\RAG\00_inbox\candidate-materials.json</code></td></tr>
+      <tr><td>阻塞材料</td><td>保留 <code>D:\RAG\产研效能.lakebook</code> 为 <code>blocked-pending-sensitive-review</code>，未入库、未摘要、未 RC。</td><td><code>D:\RAG\manifest.json</code></td></tr>
+      <tr><td>Packet 契约</td><td>Evidence Packet、RC Packet、Change Impact Packet、Test Asset Manifest、Solution D Evidence Contract schema-lite 与 fixture。</td><td><code>D:\RAG\schemas</code> / <code>D:\RAG\fixtures\packets</code></td></tr>
+      <tr><td>下游候选包</td><td>候选 Test Asset Manifest、Change Impact Packet、下游 Handoff，均为 candidate/need-review。</td><td><code>D:\RAG\04_test_assets</code> / <code>D:\RAG\07_handover</code></td></tr>
+      <tr><td>Skill 体系</td><td>创建 <code>rag-system</code> 根 Skill 与 6 个子 Skill。</td><td><code>C:\Users\lenovo\.codex\skills\rag-*</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 测试执行结果</h2>
+  <table>
+    <thead><tr><th>测试</th><th>命令</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>数据层 + packet MVP 验证</td><td><code>python D:\RAG\scripts\validate_rag_mvp.py</code></td><td>14 passed, 0 failed</td></tr>
+      <tr><td>rag-system forward-test</td><td><code>python C:\Users\lenovo\.codex\skills\rag-system\scripts\forward_test_rag_system.py</code></td><td>5 passed, 0 failed</td></tr>
+      <tr><td>Skill 结构校验</td><td><code>quick_validate.py</code> against 7 <code>rag-*</code> skills</td><td>全部 valid</td></tr>
+      <tr><td>敏感形态扫描</td><td><code>Select-String</code> over controlled RAG text files and skill files</td><td>无命中</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 测试覆盖映射</h2>
+  <table>
+    <thead><tr><th>计划项</th><th>覆盖状态</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>TC-KB-001..010</td><td>已覆盖</td><td><code>D:\RAG\reports\rag-mvp-validation-report.json</code></td></tr>
+      <tr><td>TC-PACKET-001..005</td><td>已覆盖</td><td>schema-lite + 正反例 fixture 验证</td></tr>
+      <tr><td>TC-RAG-SKILL-001/003/007/008</td><td>已覆盖</td><td><code>D:\RAG\reports\rag-system-forward-test-report.json</code></td></tr>
+      <tr><td>TC-RAG-SKILL-002/004/005/006</td><td>已覆盖</td><td>MVP 验证脚本 + Skill 操作规则</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 保留的用户决策</h2>
+  <div class="warn">
+    <p>以下不是实现失败，而是按治理规则必须由用户确认的事实边界。</p>
+  </div>
+  <ul>
+    <li>首个真实 <code>knowledge_space_id</code>、别名、纳入范围、排除范围仍待用户提供。</li>
+    <li><code>产研平台智能体交互评审.lake</code> 发现 P0 冲突：PRD 上传文件类型到底支持 <code>doc/docx/pdf/md</code>，还是仅支持 <code>.md</code>，需用户裁决后才能形成 RC。</li>
+    <li><code>D:\RAG\产研效能.lakebook</code> 仍因疑似敏感命中被阻塞；复核/脱敏前不得入库、不得进入 RC、不得下游消费。</li>
+    <li>正式黄金查询、正式测试用例基线、Solution D 确认证据仍需基于用户确认后的 <code>confirmed_active</code> RC。</li>
+  </ul>
+</main>
+
+<script type="application/json" id="execution-report">
+{
+  "artifactType": "rag-implementation-execution-report",
+  "executedAt": "2026-07-23T12:00:00+08:00",
+  "status": "passed-with-user-decision-pending",
+  "implemented": {
+    "ragRoot": "D:/RAG",
+    "rootSkill": "C:/Users/lenovo/.codex/skills/rag-system",
+    "childSkills": [
+      "C:/Users/lenovo/.codex/skills/rag-intake",
+      "C:/Users/lenovo/.codex/skills/rag-schema",
+      "C:/Users/lenovo/.codex/skills/rag-governance",
+      "C:/Users/lenovo/.codex/skills/rag-query",
+      "C:/Users/lenovo/.codex/skills/rag-change-impact",
+      "C:/Users/lenovo/.codex/skills/rag-downstream-handoff"
+    ]
+  },
+  "validation": {
+    "ragMvp": {"passed": 14, "failed": 0, "report": "D:/RAG/reports/rag-mvp-validation-report.json"},
+    "forwardTest": {"passed": 5, "failed": 0, "report": "D:/RAG/reports/rag-system-forward-test-report.json"},
+    "skillValidation": {"skills": 7, "failed": 0},
+    "sensitiveScan": {"status": "passed", "matches": 0}
+  },
+  "rcCount": 0,
+  "blockedMaterials": ["D:/RAG/产研效能.lakebook"],
+  "candidateMaterials": ["C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake"],
+  "openUserDecisions": [
+    "real knowledge_space_id and scope",
+    "PRD upload file type conflict",
+    "lakebook sensitive review/remediation",
+    "confirmed_active RC approval",
+    "golden query approval"
+  ]
+}
+</script>
+</body>
+</html>

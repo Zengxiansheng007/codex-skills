@@ -29,6 +29,7 @@ High-impact research reports must include a machine-readable JSON data block:
 - `grillFindingCoverage` contains every `grill-system` P0/P1 finding used to support a recommendation.
 - `rerunResearchRequired=true` when a feasible follow-up search can close P0/P1 gaps.
 - `riskAcceptanceRequired=true` when a recommendation would require using insufficient or blocked evidence.
+- High-impact reports should also include `critique-loop-log`, `source-review-findings`, `followup-query-matrix`, and `p0p1-closure-matrix`, and those blocks must agree with `research-decision-gate`.
 
 ## Downstream Contract
 

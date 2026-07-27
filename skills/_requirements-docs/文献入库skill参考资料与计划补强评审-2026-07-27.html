@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文献入库skill参考资料与计划补强评审 - 2026-07-27</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1200px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1, h2, h3 { color: #1f2933; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warn { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .ok { background: #eafaf1; border-left: 4px solid #1e7d46; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>文献入库skill参考资料与计划补强评审</h1>
+  <p><strong>报告类型：</strong>research / skill-design / plan-support</p>
+  <p><strong>推荐结论：</strong><code>caveated</code>。P0/P1 证据已闭环，剩余分歧主要是实现细节，不影响第一版 skill 定版。</p>
+
+  <section class="summary">
+    <p><strong>一句话结论：</strong>第一版文献入库 skill 应命名为 <code>rag-structure-fidelity</code>，挂在 <code>rag-system</code> 下，位置固定在 <code>rag-intake</code> 之后、<code>rag-schema</code>/<code>rag-governance</code> 之前；它以 <code>md</code> 作为正文唯一真值输入，以语雀 / <code>.lakebook</code> 作为目录分层来源和备用参照，只生成结构化产物与候选证据，不自动进 RC，也不直接产出正式下游包。</p>
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <table>
+    <tr><th>对象</th><td>文献入库 skill 的参考资料、参考 skill、开发计划、测试计划和落位方式。</td></tr>
+    <tr><th>包含</th><td>结构保真、文档格式支持、扫描件 / 图片型 PDF 阻断、表格 / 图片占位处理、候选映射、结构化产物、验证与下游契约。</td></tr>
+    <tr><th>排除</th><td>实际安装到 <code>.codex/skills</code>、写入 <code>D:/RAG</code>、执行下游 skill、自动 RC 生成、真实生产数据处理。</td></tr>
+    <tr><th>前提</th><td>用户已确认：结构保真优先、宁可阻断；<code>md</code> 是正文唯一输入；<code>.lakebook</code> 仅做目录 / 备用来源；关键规则区块要硬阻断；候选只能进 candidate 层。</td></tr>
+  </table>
+
+  <h2>Key Findings</h2>
+  <table>
+    <tr><th>ID</th><th>发现</th><th>结论</th><th>证据</th></tr>
+    <tr>
+      <td>KF-01</td>
+      <td>Markdown / GFM 规范明确把文档看成 block + inline 结构；GitHub 还明确支持表格和相对链接 / 图片路径。</td>
+      <td>支持把 <code>md</code> 作为第一版正文 canonical 格式，并将表格、列表、图片引用作为可保真的结构单元。</td>
+      <td>CommonMark 0.31.2，GitHub Docs tables / README relative links。</td>
+    </tr>
+    <tr>
+      <td>KF-02</td>
+      <td><code>python-docx</code> 把段落、表格、inline picture / shape 当作可遍历对象；Word 文档天然有 text layer 和 drawing layer。</td>
+      <td>支持 <code>doc/docx</code> 的结构化抽取，但图片应按位置和引用保留，不把图片里的业务规则当作自动真值。</td>
+      <td>python-docx tables / shapes / API basics。</td>
+    </tr>
+    <tr>
+      <td>KF-03</td>
+      <td><code>pypdf</code> 与 <code>pdfplumber</code> 都能做文本 / 表格抽取，但 <code>pdfplumber</code> 明确更适合 machine-generated PDF；OCRmyPDF 明确指出 scanned PDF 需要 OCR text layer 才可搜索。</td>
+      <td>支持“文本层 PDF 可处理、扫描件 / 图片型 PDF 先阻断”的硬门槛。</td>
+      <td>pypdf extract-text，pdfplumber README，OCRmyPDF docs。</td>
+    </tr>
+    <tr>
+      <td>KF-04</td>
+      <td>Open Agent Skills spec 和本地 <code>create-agent-skill</code> 都强调：<code>SKILL.md</code> 要短、可 progressive disclosure，细节放 <code>references/</code>。</td>
+      <td>新 skill 应是小型操作手册，不是长 PRD；详细块规则、fixtures、校验表都应下沉到 references。</td>
+      <td>Open Agent Skills Specification，create-agent-skill。</td>
+    </tr>
+    <tr>
+      <td>KF-05</td>
+      <td>本地 <code>rag-intake</code>、<code>rag-schema</code>、<code>rag-governance</code>、<code>rag-downstream-handoff</code> 已明确 candidate / confirmed_active 边界。</td>
+      <td>结构保真 skill 的职责是上游结构化，不是治理结论，不是下游执行。</td>
+      <td>本地 rag-* skills。</td>
+    </tr>
+  </table>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>用途</th><th>限制</th></tr>
+    <tr><td>E01</td><td><a href="https://spec.commonmark.org/current/" target="_blank" rel="noreferrer">CommonMark Spec 0.31.2</a></td><td>block / inline / images / lists / headings 的结构边界</td><td>不专门定义 tables 扩展</td></tr>
+    <tr><td>E02</td><td><a href="https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables?apiVersion=2022-11-28" target="_blank" rel="noreferrer">GitHub Docs: tables</a></td><td>Markdown 表格的可读 / 可写约束</td><td>GitHub 场景特定</td></tr>
+    <tr><td>E03</td><td><a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes?ref=miguelarios.com" target="_blank" rel="noreferrer">GitHub Docs: README and relative links</a></td><td>相对链接 / 图片路径在 Markdown 中可保留</td><td>仓库文档场景</td></tr>
+    <tr><td>E04</td><td><a href="https://python-docx.readthedocs.io/en/stable/" target="_blank" rel="noreferrer">python-docx</a></td><td>docx 段落、表格、图片、列表的对象边界</td><td>只覆盖 docx，不覆盖扫描 PDF</td></tr>
+    <tr><td>E05</td><td><a href="https://python-docx.readthedocs.io/en/latest/user/shapes.html" target="_blank" rel="noreferrer">python-docx pictures and shapes</a></td><td>图片位于 text layer / drawing layer 的区分</td><td>图片不等于业务真值</td></tr>
+    <tr><td>E06</td><td><a href="https://pypdf.readthedocs.io/en/5.7.0/user/extract-text.html" target="_blank" rel="noreferrer">pypdf extract text</a></td><td>PDF 文本层可抽取，布局模式可辅助保留版面</td><td>复杂 PDF 仍可能丢失位置信息</td></tr>
+    <tr><td>E07</td><td><a href="https://github.com/jsvine/pdfplumber" target="_blank" rel="noreferrer">pdfplumber README</a></td><td>表格 / 文字 / 坐标抽取，且更适合 machine-generated PDF</td><td>扫描件效果差</td></tr>
+    <tr><td>E08</td><td><a href="https://ocrmypdf.readthedocs.io/en/latest/" target="_blank" rel="noreferrer">OCRmyPDF docs</a></td><td>扫描 PDF 需要 OCR text layer 才能搜索</td><td>OCR 后仍可能存在结构损失</td></tr>
+    <tr><td>E09</td><td><a href="https://openagentskills.dev/docs/specification" target="_blank" rel="noreferrer">Open Agent Skills Specification</a></td><td>SKILL.md + references + assets 的 progressive disclosure</td><td>不定义本地业务边界</td></tr>
+    <tr><td>E10</td><td><code>C:/Users/lenovo/.codex/skills/create-agent-skill/SKILL.md</code></td><td>skill 设计必须简洁、可验证、引用分层</td><td>本地指导，不是外部标准</td></tr>
+    <tr><td>E11</td><td><code>C:/Users/lenovo/.codex/skills/rag-system/SKILL.md</code></td><td>candidate 与 confirmed_active 的正式边界</td><td>不负责结构保真</td></tr>
+    <tr><td>E12</td><td><code>C:/Users/lenovo/.codex/skills/rag-intake/SKILL.md</code></td><td>只读用户清单、敏感预检、拒绝 secrets</td><td>不负责结构保真</td></tr>
+    <tr><td>E13</td><td><code>C:/Users/lenovo/.codex/skills/rag-schema/SKILL.md</code></td><td>schema-lite 校验与结构优先</td><td>不负责 intake 与治理</td></tr>
+    <tr><td>E14</td><td><code>C:/Users/lenovo/.codex/skills/rag-governance/SKILL.md</code></td><td>RC / confirmed_active 的人工确认边界</td><td>不负责结构保真</td></tr>
+    <tr><td>E15</td><td><code>C:/Users/lenovo/.codex/skills/rag-downstream-handoff/SKILL.md</code></td><td>只读下游包，不执行下游动作</td><td>只消费 confirmed_active 或明确治理决策</td></tr>
+    <tr><td>E16</td><td><code>outputs/入库产物结构与下游消费契约-research-2026-07-26.html</code></td><td>入库产物四层结构、证据与 handoff 约束</td><td>需补字段级细化</td></tr>
+    <tr><td>E17</td><td><code>outputs/项目全量文档入库方案-research-2026-07-25.html</code></td><td>全量文档入库分层、TITLE/DOC 分离、候选与阻断</td><td>需按新 skill 再收束</td></tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <table>
+    <tr><th>问题</th><th>处理</th><th>是否阻断</th></tr>
+    <tr><td>是否把 <code>.lakebook</code> 作为正文真值输入</td><td>否。它只做目录分层、备用参照与对照，不进入正文抽取。</td><td>否，已由用户确认</td></tr>
+    <tr><td>是否把图片中的规则自动转为正式证据</td><td>否。只保留位置、引用、相关文本块 ID。</td><td>否，已由用户确认</td></tr>
+    <tr><td>是否允许扫描件 / 图片型 PDF 直接入库</td><td>否，第一版硬阻断。</td><td>否，已由用户确认</td></tr>
+    <tr><td>结构损失时是否自动补全文字</td><td>否，只做候选提示或阻断，不自动捞字。</td><td>否，已由用户确认</td></tr>
+    <tr><td>是否允许自动 RC</td><td>否。只生成候选证据和候选结构，不进正式 RC。</td><td>否，已由用户确认</td></tr>
+    <tr><td>是否要先放在 <code>rag-intake</code> 之后、<code>rag-schema</code>/<code>rag-governance</code> 之前</td><td>是，作为固定位置。</td><td>否，已由用户确认</td></tr>
+  </table>
+
+  <h2>Recursive Closure</h2>
+  <table>
+    <tr><th>轮次</th><th>审查点</th><th>补强</th><th>结果</th></tr>
+    <tr><td>R1</td><td>Markdown / docx / PDF 的结构边界是否有高置信参考</td><td>补 CommonMark、GitHub tables、python-docx、pypdf、pdfplumber、OCRmyPDF</td><td>关闭</td></tr>
+    <tr><td>R2</td><td>skill 设计是否只是一段长 PRD</td><td>补 Open Agent Skills spec 与 create-agent-skill 的 progressive disclosure 约束</td><td>关闭</td></tr>
+    <tr><td>R3</td><td>是否会把结构保真 skill 误放到治理 / downstream 层</td><td>补 rag-intake / rag-schema / rag-governance / rag-downstream-handoff 的边界</td><td>关闭</td></tr>
+  </table>
+
+  <h2>Source Coverage</h2>
+  <table>
+    <tr><th>对象</th><th>覆盖状态</th><th>证据</th><th>结论</th></tr>
+    <tr><td>md 作为 canonical body</td><td>sufficient</td><td>E01, E02, E03</td><td>可以定版</td></tr>
+    <tr><td>doc/docx 结构抽取</td><td>sufficient</td><td>E04, E05</td><td>可以定版</td></tr>
+    <tr><td>PDF text-layer vs scanned PDF</td><td>sufficient</td><td>E06, E07, E08</td><td>可以定版</td></tr>
+    <tr><td>skill progressive disclosure</td><td>sufficient</td><td>E09, E10</td><td>可以定版</td></tr>
+    <tr><td>rag-system 落位与 downstream 边界</td><td>sufficient</td><td>E11, E12, E13, E14, E15</td><td>可以定版</td></tr>
+    <tr><td>输出四层结构 / 候选层 / 结构损失阻断</td><td>sufficient</td><td>E16, E17, 用户确认</td><td>可以定版</td></tr>
+  </table>
+
+  <h2>Main Workflow Recommendation</h2>
+  <ol>
+    <li>将新 skill 定名为 <code>rag-structure-fidelity</code>，归入 <code>rag-system</code> 子技能体系。</li>
+    <li>第一版只做结构保真，不做治理裁决：输入是 <code>md</code> 正文 + 语雀 / <code>.lakebook</code> 目录参照 + doc/docx/pdf 的原始来源清单。</li>
+    <li>输出只允许：结构化 Markdown、frontmatter、<code>structure map JSON</code>、<code>evidence JSON</code>、admission/reject report、validation report。</li>
+    <li>任何关键规则块丢失、扫描件 / 图片型 PDF、无法复原的表格 / 列表 / 图片占位，全部 <code>blocked-structure-loss</code>。</li>
+    <li>自动候选映射可以有，但只进 candidate / need-review，不得自动进 RC，不得直接给 downstream 作为正式真值。</li>
+    <li>实际安装到 <code>.codex/skills</code> 与真正执行写入 <code>D:/RAG</code> 仍是后续授权步骤，不应和本次设计结论混在一起。</li>
+  </ol>
+</main>
+
+<script type="application/json" id="research-metadata">
+{
+  "schemaVersion": "1.0",
+  "title": "文献入库skill参考资料与计划补强评审",
+  "generatedAt": "2026-07-27T00:00:00+08:00",
+  "depth": "standard",
+  "mode": "skill-design",
+  "highImpact": true,
+  "strictLoopRequired": true,
+  "scope": ["skill design", "document structure fidelity", "development plan support", "test plan support", "downstream contract"],
+  "excludedScope": ["actual .codex/skills installation", "writing D:/RAG", "executing downstream skills", "production data handling"]
+}
+</script>
+
+<script type="application/json" id="evidence-index">
+{
+  "sources": [
+    {"id":"E01","title":"CommonMark Spec 0.31.2","url":"https://spec.commonmark.org/current/","authority":"formal-specification","claimTypes":["block structure","inline structure","images"],"limitations":"not GFM tables"},
+    {"id":"E02","title":"GitHub Docs: Organizing information with tables","url":"https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables?apiVersion=2022-11-28","authority":"official-docs","claimTypes":["tables"],"limitations":"GitHub-specific"},
+    {"id":"E03","title":"GitHub Docs: README relative links and image paths","url":"https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes?ref=miguelarios.com","authority":"official-docs","claimTypes":["relative links","image paths"],"limitations":"repository docs context"},
+    {"id":"E04","title":"python-docx tables docs","url":"https://python-docx.readthedocs.io/en/latest/user/tables.html","authority":"official-docs","claimTypes":["docx tables","block-level content"],"limitations":"docx only"},
+    {"id":"E05","title":"python-docx pictures and shapes","url":"https://python-docx.readthedocs.io/en/latest/user/shapes.html","authority":"official-docs","claimTypes":["inline picture","drawing layer"],"limitations":"does not cover scanned PDF"},
+    {"id":"E06","title":"pypdf extract text docs","url":"https://pypdf.readthedocs.io/en/5.7.0/user/extract-text.html","authority":"official-docs","claimTypes":["PDF text extraction","layout mode"],"limitations":"complex PDFs can lose coordinates"},
+    {"id":"E07","title":"pdfplumber README","url":"https://github.com/jsvine/pdfplumber","authority":"official-project-docs","claimTypes":["text extraction","table extraction","machine-generated PDFs"],"limitations":"scanned PDFs work poorly"},
+    {"id":"E08","title":"OCRmyPDF docs","url":"https://ocrmypdf.readthedocs.io/en/latest/","authority":"official-docs","claimTypes":["OCR text layer","scanned PDFs"],"limitations":"OCR helps searchability, not full structure recovery"},
+    {"id":"E09","title":"Open Agent Skills Specification","url":"https://openagentskills.dev/docs/specification","authority":"official-spec","claimTypes":["SKILL.md","references","assets","progressive disclosure"],"limitations":"not project-specific"},
+    {"id":"E10","title":"create-agent-skill","url":"local:C:/Users/lenovo/.codex/skills/create-agent-skill/SKILL.md","authority":"local-skill","claimTypes":["concise SKILL.md","references separation"],"limitations":"local guidance"},
+    {"id":"E11","title":"rag-system","url":"local:C:/Users/lenovo/.codex/skills/rag-system/SKILL.md","authority":"local-skill","claimTypes":["candidate vs RC","downstream boundary"],"limitations":"not structure fidelity"},
+    {"id":"E12","title":"rag-intake","url":"local:C:/Users/lenovo/.codex/skills/rag-intake/SKILL.md","authority":"local-skill","claimTypes":["admission","sensitive precheck"],"limitations":"not structure fidelity"},
+    {"id":"E13","title":"rag-schema","url":"local:C:/Users/lenovo/.codex/skills/rag-schema/SKILL.md","authority":"local-skill","claimTypes":["schema-lite validation"],"limitations":"post-intake"},
+    {"id":"E14","title":"rag-governance","url":"local:C:/Users/lenovo/.codex/skills/rag-governance/SKILL.md","authority":"local-skill","claimTypes":["confirmed_active","need-review"],"limitations":"formal governance only"},
+    {"id":"E15","title":"rag-downstream-handoff","url":"local:C:/Users/lenovo/.codex/skills/rag-downstream-handoff/SKILL.md","authority":"local-skill","claimTypes":["formal downstream packet"],"limitations":"read-only only"},
+    {"id":"E16","title":"入库产物结构与下游消费契约","url":"local:outputs/入库产物结构与下游消费契约-research-2026-07-26.html","authority":"local-report","claimTypes":["artifact layering","packet contracts"],"limitations":"needs field-level refinement"},
+    {"id":"E17","title":"项目全量文档入库方案","url":"local:outputs/项目全量文档入库方案-research-2026-07-25.html","authority":"local-report","claimTypes":["outline vs正文","candidate-only"],"limitations":"precedes this skill design"}
+  ],
+  "claims": [
+    {"id":"C01","claim":"md is the canonical body input; lakebook/Yuque should only provide outline comparison and fallback reference.","status":"supported","evidenceIds":["E01","E02","E03","E17"]},
+    {"id":"C02","claim":"doc/docx/pdf inputs can be processed structurally only when they carry extractable text or block structure; scanned/image-only PDFs should be blocked.","status":"supported","evidenceIds":["E04","E05","E06","E07","E08"]},
+    {"id":"C03","claim":"The new skill should be a small operational playbook with details pushed into references, not a long PRD body.","status":"supported","evidenceIds":["E09","E10"]},
+    {"id":"C04","claim":"The skill must sit after rag-intake and before rag-schema / rag-governance, and it must not emit RC or downstream execution.","status":"supported","evidenceIds":["E11","E12","E13","E14","E15"]},
+    {"id":"C05","claim":"The skill should emit structure map JSON and evidence JSON as candidate artifacts only, matching the existing local packet contracts.","status":"supported","evidenceIds":["E16","E17"]},
+    {"id":"C06","claim":"No open P0/P1 evidence gap remains for the first version of the skill design.","status":"supported","evidenceIds":["E01","E04","E06","E08","E09","E11","E12","E14","E15","E16","E17"]}
+  ]
+}
+</script>
+
+<script type="application/json" id="search-log">
+[
+  {"query":"CommonMark Spec images links blocks official", "purpose":"markdown structure and images"},
+  {"query":"GitHub Docs tables markdown official", "purpose":"table syntax and relative paths"},
+  {"query":"python-docx tables pictures shapes official", "purpose":"docx block/inline structure"},
+  {"query":"pypdf extract text official documentation", "purpose":"pdf text-layer extraction"},
+  {"query":"pdfplumber table extraction scanned PDFs", "purpose":"PDF table / machine-generated limitation"},
+  {"query":"OCRmyPDF scanned PDFs OCR text layer official", "purpose":"hard block scanned/image-only PDFs"},
+  {"query":"Open Agent Skills Specification progressive disclosure", "purpose":"skill file structure"},
+  {"query":"local rag-system rag-intake rag-schema rag-governance rag-downstream-handoff", "purpose":"local boundary and handoff placement"}
+]
+</script>
+
+<script type="application/json" id="run-status">
+{
+  "status": "complete",
+  "recommendation": "caveated",
+  "initialP0Findings": 1,
+  "initialP1Findings": 4,
+  "remainingP0Findings": 0,
+  "remainingP1Findings": 0,
+  "sourceArtifactSyncRequired": true,
+  "notes": [
+    "Research evidence is sufficient for the first version of rag-structure-fidelity.",
+    "Actual installation into .codex/skills remains a separate filesystem/approval step."
+  ]
+}
+</script>
+
+<script type="application/json" id="critique-loop-log">
+{
+  "strictLoopRequired": true,
+  "rounds": [
+    {
+      "roundId": "R1",
+      "purpose": "Check whether Markdown-only canonical input is enough for structure fidelity.",
+      "sourceIds": ["E01", "E02", "E03", "E04", "E05"],
+      "reviewFindingIds": ["F1", "F2"],
+        "generatedFollowupQueryIds": ["Q1", "Q2", "Q5"],
+      "stopDecision": "continue",
+      "reason": "Need PDF/OCR evidence before finalizing hard-block policy."
+    },
+    {
+      "roundId": "R2",
+      "purpose": "Validate PDF, OCR and skill-boundary requirements.",
+      "sourceIds": ["E06", "E07", "E08", "E09", "E10", "E11", "E12", "E13", "E14", "E15", "E16", "E17"],
+      "reviewFindingIds": ["F3", "F4"],
+      "generatedFollowupQueryIds": ["Q3", "Q4"],
+      "stopDecision": "complete",
+      "reason": "P0/P1 concerns were closed by official docs and local rag-* boundaries."
+    }
+  ]
+}
+</script>
+
+<script type="application/json" id="source-review-findings">
+[
+  {
+    "id": "F1",
+    "severity": "P1",
+    "sourceIds": ["E01", "E02"],
+    "weakness": "Markdown specs alone do not guarantee block-level preservation for docx/pdf sources.",
+    "blockedObjects": ["doc/docx/pdf handling"],
+    "requiredEvidenceTypes": ["docx structure docs", "pdf extraction docs"],
+    "status": "closed"
+  },
+  {
+    "id": "F2",
+    "severity": "P1",
+    "sourceIds": ["E03", "E09"],
+    "weakness": "Skill packaging guidance can be too generic unless the body is kept lean and references carry the real rules.",
+    "blockedObjects": ["skill file layout"],
+    "requiredEvidenceTypes": ["open skill spec", "local skill-creator guidance"],
+    "status": "closed"
+  },
+  {
+    "id": "F3",
+    "severity": "P0",
+    "sourceIds": ["E06", "E07", "E08"],
+    "weakness": "Without OCR / text-layer awareness, scanned PDFs and image-only PDFs would be falsely treated as recoverable.",
+    "blockedObjects": ["hard-block policy for scanned PDFs"],
+    "requiredEvidenceTypes": ["pdf extraction docs", "OCR docs"],
+    "status": "closed"
+  },
+  {
+    "id": "F4",
+    "severity": "P0",
+    "sourceIds": ["E11", "E12", "E13", "E14", "E15"],
+    "weakness": "A structure-fidelity skill could accidentally overstep into governance or downstream execution if placement is not fixed.",
+    "blockedObjects": ["skill boundary and handoff"],
+    "requiredEvidenceTypes": ["local rag-* skills"],
+    "status": "closed"
+  }
+]
+</script>
+
+<script type="application/json" id="followup-query-matrix">
+[
+  {"queryId":"Q1","findingIds":["F1"],"query":"python-docx tables pictures shapes official documentation","preferredSourceTiers":["official docs"],"result":"closed"},
+  {"queryId":"Q2","findingIds":["F1"],"query":"pypdf extract text pdfplumber table extraction official documentation","preferredSourceTiers":["official docs"],"result":"closed"},
+  {"queryId":"Q3","findingIds":["F3"],"query":"OCRmyPDF scanned PDF OCR text layer official documentation","preferredSourceTiers":["official docs"],"result":"closed"},
+    {"queryId":"Q4","findingIds":["F4"],"query":"Open Agent Skills specification progressive disclosure and local rag-* boundaries","preferredSourceTiers":["official docs","local skill docs"],"result":"closed"},
+    {"queryId":"Q5","findingIds":["F2"],"query":"Open Agent Skills Specification and create-agent-skill references separation; how concise should SKILL.md stay versus references/","preferredSourceTiers":["official spec","local skill docs"],"result":"closed"}
+  ]
+  </script>
+
+<script type="application/json" id="p0p1-closure-matrix">
+[
+  {"findingId":"F1","status":"closed","closingEvidenceIds":["E01","E02","E04","E05","E06"],"closureReason":"Markdown/GFM and python-docx/pypdf docs show the input formats can be parsed as structured blocks and inlines when text exists."},
+  {"findingId":"F2","status":"closed","closingEvidenceIds":["E09","E10"],"closureReason":"Open Agent Skills and local skill-creator docs support a lean SKILL.md with detailed references moved out of the body."},
+  {"findingId":"F3","status":"closed","closingEvidenceIds":["E06","E07","E08"],"closureReason":"OCRmyPDF and pdfplumber/pypdf docs support hard-blocking scanned or image-only PDFs in a fidelity-first pipeline."},
+  {"findingId":"F4","status":"closed","closingEvidenceIds":["E11","E12","E13","E14","E15"],"closureReason":"Local rag-* skills already define intake, schema, governance and downstream boundaries, so the new skill can stay upstream."}
+]
+</script>
+
+<script type="application/json" id="research-decision-gate">
+{
+  "schemaVersion": "1.0",
+  "depth": "standard",
+  "mode": "skill-design",
+  "recommendationStatus": "caveated",
+  "rerunResearchRequired": false,
+  "riskAcceptanceRequired": false,
+  "openCriticalFindings": [],
+  "coverageMatrix": [
+    {"objectType":"skill-design-decision","objectId":"canonical-body-input","coverageStatus":"sufficient","evidenceIds":["E01","E02","E03","E17"],"confidenceRationale":"CommonMark/GFM plus local confirmed rules support md as body canonical input while using lakebook only for outline comparison.","limitations":["Exact lakebook parser remains implementation detail."]},
+    {"objectType":"skill-design-decision","objectId":"docx-structure-preservation","coverageStatus":"sufficient","evidenceIds":["E04","E05"],"confidenceRationale":"python-docx exposes paragraphs, tables and pictures as explicit objects, which is enough to design structural extraction rules.","limitations":["Floating shape edge cases need local fixture validation."]},
+    {"objectType":"skill-design-decision","objectId":"pdf-hard-block-policy","coverageStatus":"sufficient","evidenceIds":["E06","E07","E08"],"confidenceRationale":"pypdf/pdfplumber handle text-layer PDFs; OCRmyPDF clarifies scanned PDFs need OCR text layers and still may lose fidelity.","limitations":["OCR quality is not a guarantee of semantic correctness."]},
+    {"objectType":"skill-design-decision","objectId":"skill-placement-and-boundary","coverageStatus":"sufficient","evidenceIds":["E09","E10","E11","E12","E13","E14","E15"],"confidenceRationale":"Open Skills spec and local rag-* boundaries support placing the new skill after intake and before governance/downstream.","limitations":["Actual install path is not yet executed."]},
+    {"objectType":"skill-design-decision","objectId":"candidate-only-output","coverageStatus":"sufficient","evidenceIds":["E14","E15","E16","E17"],"confidenceRationale":"Existing local contracts already require candidate-only upstream artifacts and formal downstream only after confirmed_active.","limitations":["Field names for structure map JSON are local implementation choices."]}
+  ],
+  "grillFindingCoverage": []
+}
+</script>
+</main>
+</body>
+</html>

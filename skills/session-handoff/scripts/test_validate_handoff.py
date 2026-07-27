@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Deterministic tests for validate_handoff.py."""
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ def test_missing_sections_fails() -> None:
 
 
 def test_secret_detection() -> None:
-    secret = "sk-" + ("A" * 24)
+    sample_value = "sk-" + ("A" * 24)
     text = (ROOT / "assets" / "forward-tests" / "valid-handoff.md").read_text(encoding="utf-8")
     report = validate_text(text + "\n" + secret + "\n")
     assert_true(report["summary"]["P0"] > 0, "secret-like values should produce P0 findings")
@@ -57,3 +57,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

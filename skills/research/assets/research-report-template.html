@@ -32,6 +32,8 @@
   {{conflicts}}
   <h2>Source Coverage</h2>
   {{coverage}}
+  <h2>Recursive Closure</h2>
+  {{recursiveClosure}}
   <h2>Security And Access Notes</h2>
   {{security}}
   <h2>Main Workflow Recommendation</h2>
@@ -41,6 +43,10 @@
 <script type="application/json" id="evidence-index">{{evidenceIndexJson}}</script>
 <script type="application/json" id="search-log">{{searchLogJson}}</script>
 <script type="application/json" id="run-status">{{runStatusJson}}</script>
+{{critiqueLoopJsonBlock}}
+{{sourceReviewFindingsJsonBlock}}
+{{followupQueryMatrixJsonBlock}}
+{{p0p1ClosureMatrixJsonBlock}}
 {{researchDecisionGateJsonBlock}}
 </body>
 </html>

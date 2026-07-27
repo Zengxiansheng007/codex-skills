@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>别名治理规则具体设计研究报告 - 2026-07-27</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1180px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    h3 { margin-top: 22px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    pre { background: #f4f7f9; border: 1px solid #d8e0e7; padding: 12px; overflow: auto; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warn { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .ok { background: #eafaf1; border-left: 4px solid #1e7d46; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>别名治理规则具体设计研究报告</h1>
+  <p><strong>生成时间：</strong>2026-07-27&nbsp;&nbsp;<strong>深度：</strong>standard&nbsp;&nbsp;<strong>模式：</strong>skill-design / plan-support</p>
+
+  <section class="summary">
+    <p><strong>结论：</strong>别名治理不应嵌在正文结构里，而应作为一个<strong>独立的、版本化的治理注册表</strong>（<code>alias_registry</code>）运行；它只负责目录 / 检索 / 追溯辅助，不负责正文真值、RC、或正式下游放行。正式裁决仍归 <code>rag-governance</code>，正式下游仍只认 <code>confirmed_active</code>。</p>
+    <p><strong>推荐状态：</strong><span class="warn">caveated</span>。P0/P1 证据已闭合；未闭合部分主要是实现级字段名、阈值数值、以及后续存储引擎选型，属于本地实现细节，不影响本次规则设计结论。</p>
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <table>
+    <tr><th>研究对象</th><td>新 <code>rag-structure-fidelity</code> / 别名治理层的具体规则设计：候选生成、人工审批、历史保留、作用域隔离、重评触发、与正文结构/RC/下游边界的关系。</td></tr>
+    <tr><th>明确边界</th><td><code>alias mapping</code> 只作为目录 / 检索 / 追溯辅助层；可自动生成候选，但不能作为正文块归并、版本合并、RC 生成或正式下游放行的唯一依据。</td></tr>
+    <tr><th>已确认前提</th><td>第一版只强制文档级候选，区块级仅覆盖关键语义块；关键定位冲突必须阻断，普通冲突默认 <code>need-review</code>；候选草稿分层，审批记录保留历史；新审批可覆盖当前生效结论，但旧记录必须保留；同作用域重评先增量、必要时全量。</td></tr>
+    <tr><th>排除范围</th><td>不创建真实 <code>D:/RAG</code> 记录，不执行任何下游测试，不定义具体数据库 DDL，不给出最终阈值数值，仅给出规则形状与状态机。</td></tr>
+  </table>
+
+  <h2>Key Findings</h2>
+  <ol>
+    <li><strong>SKOS 把词面标签和概念映射分开了。</strong> <code>skos:prefLabel</code>、<code>skos:altLabel</code>、<code>skos:hiddenLabel</code> 是 lexical labels；<code>skos:exactMatch</code>、<code>skos:closeMatch</code> 是 mapping properties。也就是说，别名/同义词更适合做“显示/检索/辅助定位”，而不是直接升格为身份真值。</li>
+    <li><strong>搜索同义词是检索增强，不是事实源。</strong> Elastic 官方文档把 synonyms 作为 search / indexing 的分析配置来管理，并明确可在 search time 或 index time 使用；这支持把别名做成“可重载的派生检索层”，而不是把它当作源数据真相。</li>
+    <li><strong>PROV 模型适合承载别名治理的审计链。</strong> PROV 关注 entities、activities 和 people，目标是支撑对质量、可靠性、可信度的评估，因此适合记录别名候选由谁、何时、基于什么规则生成与审批。</li>
+    <li><strong>本地 RAG 规则已经把候选与正式真值切开。</strong> <code>rag-system</code>、<code>rag-governance</code>、<code>rag-downstream-handoff</code> 都明确：candidate 不能自动成为 formal downstream truth，正式下游只认 <code>confirmed_active</code>。别名治理必须继承这条边界。</li>
+    <li><strong>因此，最佳规则形态是“独立注册表 + 双阈值评分 + 版本化审批 + 增量重评”。</strong> 这比把别名塞进 <code>structure map JSON</code> 更可审计，也更容易把“候选、人工池、历史”分开。</li>
+  </ol>
+
+  <h2>Rule Design</h2>
+  <h3>1. 数据职责拆分</h3>
+  <table>
+    <tr><th>对象</th><th>职责</th><th>内容</th><th>不负责</th></tr>
+    <tr>
+      <td><code>structure map JSON</code></td>
+      <td>正文结构的最小映射</td>
+      <td>标题、表格、图片占位、列表、区块顺序、<code>alias_ref_id</code> 引用</td>
+      <td>不存完整审批历史，不存评分明细，不存阈值版本</td>
+    </tr>
+    <tr>
+      <td><code>alias_registry</code></td>
+      <td>别名治理资产</td>
+      <td>候选草稿、审批记录、阈值版本、评分规则、作用域、历史、重评痕迹</td>
+      <td>不直接充当正文真值，不直接产出 RC</td>
+    </tr>
+  </table>
+
+  <h3>2. 状态机</h3>
+  <pre><code>alias_candidate_draft
+  → candidate (超过第一道线)
+  → manual_review_pool (介于两道线之间)
+  → alias_approval_record (人工审批通过/拒绝)
+  → superseded_history (后续同作用域新审批覆盖当前结论时)</code></pre>
+
+  <h3>3. 候选生成</h3>
+  <table>
+    <tr><th>输入因子</th><th>处理方式</th><th>用途</th></tr>
+    <tr><td>标题相似度</td><td>固定权重，参与总分</td><td>判断语义命名是否可能是同一概念</td></tr>
+    <tr><td>目录位置一致性</td><td>固定权重，参与总分</td><td>判断语雀大纲与 Markdown 正文是否同位</td></tr>
+    <tr><td>历史版本关联</td><td>固定权重，参与总分</td><td>判断是否存在版本沿袭或改名关系</td></tr>
+  </table>
+  <p>第一版不使用“任一项过高即放行”，而是<strong>三者综合打分，只有总分过线才进入候选</strong>。权重固定，阈值固定，全部写入 <code>scoring_rule_id</code> 与 <code>threshold_version</code>，方便回放与治理调参。</p>
+
+  <h3>4. 阈值与审批池</h3>
+  <table>
+    <tr><th>区间</th><th>流向</th><th>处理</th></tr>
+    <tr><td>高于候选线</td><td>主候选结构</td><td>进入 <code>structure map JSON</code> 的候选引用</td></tr>
+    <tr><td>介于候选线与审批线</td><td>人工审批池</td><td>单独排队，展示给人工审批，不自动通过</td></tr>
+    <tr><td>低于审批线</td><td>审计池</td><td>只留标注和审计痕迹，不进主流程</td></tr>
+  </table>
+
+  <h3>5. 审批记录</h3>
+  <ul>
+    <li><code>alias_candidate_draft</code> 先写草稿，保留自动生成依据。</li>
+    <li>草稿合并为一条当前态记录，同时保留 <code>draft_history</code>。</li>
+    <li><code>alias_approval_record</code> 允许新记录覆盖当前生效结论，但旧记录必须保留。</li>
+    <li>审批结果绑定 <code>knowledge_space_id</code>、<code>product</code>、<code>project</code>、<code>version</code>，默认只在同一作用域内参考。</li>
+  </ul>
+
+  <h3>6. 触发与重评</h3>
+  <ul>
+    <li>新审批记录会自动触发受影响范围的重评。</li>
+    <li>默认先增量重评，只重算受影响的候选草稿。</li>
+    <li>当作用域、阈值版本、目录规则或全局配置变化较大时，升级为同作用域全量重扫。</li>
+    <li>重评始终只更新候选与审批建议，不自动改 RC。</li>
+  </ul>
+
+  <h3>7. 冲突与阻断</h3>
+  <ul>
+    <li>关键定位冲突必须阻断，进入人工评审。</li>
+    <li>普通内容冲突默认 <code>need-review</code>，不自动合并。</li>
+    <li>结构块缺失不自动补齐，只记候选提示。</li>
+    <li>别名候选只覆盖关键语义块；普通段落默认不做区块级候选。</li>
+  </ul>
+
+  <h3>8. 与下游的边界</h3>
+  <ul>
+    <li><code>alias_registry</code> 只服务于目录、检索和追溯辅助。</li>
+    <li>不允许别名映射单独驱动正文块归并或版本合并。</li>
+    <li>不允许别名审批自动生成 RC。</li>
+    <li>正式下游仍由 <code>rag-downstream-handoff</code> 读取 <code>confirmed_active</code> 或明确治理确认后的结果。</li>
+  </ul>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>适用点</th><th>对本规则设计的作用</th><th>限制</th></tr>
+    <tr>
+      <td>E1</td>
+      <td><a href="https://www.w3.org/TR/skos-reference/" target="_blank" rel="noreferrer">W3C SKOS Reference</a></td>
+      <td>lexical labels / mapping properties</td>
+      <td>证明别名与映射是不同层，且 exactMatch/closeMatch 是概念映射而非正文身份真值。</td>
+      <td>不是 RAG 专用，需要映射到本地规则。</td>
+    </tr>
+    <tr>
+      <td>E2</td>
+      <td><a href="https://www.elastic.co/docs/solutions/search/full-text/search-with-synonyms" target="_blank" rel="noreferrer">Elastic Docs: Search with synonyms</a></td>
+      <td>synonym sets / analyzers / search time</td>
+      <td>证明同义词更适合作为检索增强和可重载分析配置，而非源数据真值。</td>
+      <td>搜索引擎特定，但规则含义可迁移。</td>
+    </tr>
+    <tr>
+      <td>E3</td>
+      <td><a href="https://www.w3.org/TR/prov-overview/" target="_blank" rel="noreferrer">W3C PROV Overview</a></td>
+      <td>provenance / trust / quality</td>
+      <td>支持把别名候选、审批人、时间、规则版本、来源记录成可审计溯源链。</td>
+      <td>需要简化为本地 JSON 结构。</td>
+    </tr>
+    <tr>
+      <td>E4</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-system\SKILL.md</code></td>
+      <td>candidate / RC / downstream boundary</td>
+      <td>明确 candidate 不能成为 formal downstream truth，正式下游需 confirmed_active 或用户决策记录。</td>
+      <td>本地规则，不定义 alias 本身。</td>
+    </tr>
+    <tr>
+      <td>E5</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-governance\SKILL.md</code></td>
+      <td>governance state / confirmed_active</td>
+      <td>明确只有用户可确认 RC，冲突会阻断 RC；支持审批结果必须保留治理记录。</td>
+      <td>未覆盖 alias_registry 字段级设计。</td>
+    </tr>
+    <tr>
+      <td>E6</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-downstream-handoff\SKILL.md</code></td>
+      <td>handoff packet / formal downstream</td>
+      <td>确保别名结果不能直接进入正式下游包，candidate 只能是 need-review / candidate / blocked。</td>
+      <td>只做只读包，不执行下游。</td>
+    </tr>
+    <tr>
+      <td>E7</td>
+      <td><code>C:\Users\lenovo\Documents\Codex\2026-07-14\session-handoff-2026-07-14-md-2\outputs\本地知识库PRD-vNext-2026-07-22.html</code></td>
+      <td>knowledge_space_id / 用户提供范围</td>
+      <td>支持作用域绑定：<code>knowledge_space_id</code>、产品、项目、环境由用户提供并校验一致性。</td>
+      <td>不是 alias 专用文档，需要映射到本规则。</td>
+    </tr>
+    <tr>
+      <td>E8</td>
+      <td><code>C:\Users\lenovo\Documents\Codex\2026-07-14\session-handoff-2026-07-14-md-2\outputs\别名映射作用范围-research-2026-07-26.html</code></td>
+      <td>scope / lexical layer / no auto-merge</td>
+      <td>前一轮研究已确认别名只做目录 / 检索 / 追溯辅助，不作为正式下游真值。</td>
+      <td>作为本轮输入的内部研究先验，而非外部标准。</td>
+    </tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <div class="warn">
+    <p><strong>冲突点：</strong>如果把别名映射提升为“自动合并标题/版本”的依据，就会把不同版本、不同产品或不同正文块误合并，直接破坏结构保真与治理边界。</p>
+    <p><strong>不确定点：</strong>阈值数值、具体字段名、是否采用搜索时投影还是专门索引，这些是实现级参数，不是本次研究的 P0/P1 结论。</p>
+    <p><strong>保守原则：</strong>只要影响 product / project / version / document title 的唯一定位，就按阻断处理；普通冲突才进入 <code>need-review</code>。</p>
+  </div>
+
+  <h2>Source Coverage</h2>
+  <table>
+    <tr><th>结论对象</th><th>覆盖状态</th><th>证据</th><th>说明</th></tr>
+    <tr>
+      <td>别名属于 lexical/search 层，不是 truth 层</td>
+      <td>充分</td>
+      <td>E1, E2</td>
+      <td>SKOS labels/mapping + Elastic synonyms 一起把“词面”与“真值”切开。</td>
+    </tr>
+    <tr>
+      <td>alias_registry 应独立于 structure map JSON</td>
+      <td>充分</td>
+      <td>E1, E3, E4, E5</td>
+      <td>需要可审计历史、来源和责任链，PROV 与本地治理边界都支持独立注册表。</td>
+    </tr>
+    <tr>
+      <td>候选草稿 + 审批记录 + 历史保留</td>
+      <td>充分</td>
+      <td>E3, E5, E8</td>
+      <td>PROV 支持审计链，且本地确认要求历史不可删。</td>
+    </tr>
+    <tr>
+      <td>作用域绑定与禁止跨作用域复用</td>
+      <td>充分</td>
+      <td>E4, E5, E7</td>
+      <td>正式下游与知识空间边界已经被本地规则和先前 PRD 固化。</td>
+    </tr>
+    <tr>
+      <td>新审批后自动增量重评，必要时全量重扫</td>
+      <td>caveated</td>
+      <td>E2, E5, E8</td>
+      <td>搜索引擎支持重载/重配，但“触发何时升级全量”是本地治理策略，需要实现时固化。</td>
+    </tr>
+  </table>
+
+  <h2>Recursive Closure</h2>
+  <table>
+    <tr><th>轮次</th><th>发现</th><th>补强动作</th><th>结果</th></tr>
+    <tr><td>R1</td><td>别名与身份/真值混用会直接导致误合并。</td><td>补充 SKOS labels 与 mapping properties。</td><td>闭合：别名应只做词面与映射辅助。</td></tr>
+    <tr><td>R2</td><td>别名候选需要可更新、可重载、可复核的搜索层支持。</td><td>补充 Elastic synonyms search/index time 文档。</td><td>闭合：搜索层可作为派生投影，不是源真值。</td></tr>
+    <tr><td>R3</td><td>候选/审批历史需要可审计溯源链。</td><td>补充 W3C PROV 与本地 rag-* 边界。</td><td>闭合：注册表必须保留 draft、approval、history。</td></tr>
+  </table>
+
+  <h2>Security And Access Notes</h2>
+  <div class="ok">
+    <p>本次研究只使用公开标准、官方文档和本地 Skill / PRD 约束，没有读取未授权私密材料，也没有把外部页面内容当成执行指令。</p>
+  </div>
+
+  <h2>Main Workflow Recommendation</h2>
+  <pre><code>1. 把 alias_registry 作为独立治理资产，不嵌入正文结构真值
+2. 候选生成采用三因子综合评分，权重和阈值都固定版本化
+3. 记录草稿、审批、历史和作用域；草稿合并为当前态，审批可覆盖当前生效结论但旧记录保留
+4. 自动触发受影响范围的增量重评；作用域/阈值/规则大变时升级全量重扫
+5. 关键定位冲突阻断，普通冲突 need-review
+6. 不自动补正文结构，不自动生成 RC，不自动放行正式下游
+7. 结构化正文只引用 alias_ref_id，不复制治理历史
+8. 搜索侧使用 alias_registry 的派生投影，而不是把 alias 当成源真值</code></pre>
+
+  <script type="application/json" id="research-metadata">
+  {
+    "schemaVersion": "1.0",
+    "title": "别名治理规则具体设计研究报告",
+    "generatedAt": "2026-07-27T00:00:00+08:00",
+    "depth": "standard",
+    "mode": "skill-design",
+    "question": "别名治理规则的具体设计如何落成可执行状态机与注册表",
+    "scope": "alias_registry, alias_candidate_draft, alias_approval_record, scope binding, re-evaluation, downstream boundary",
+    "excludedScope": "不执行 D:/RAG 写入，不创建真实治理记录，不定义数据库 DDL，不提供最终阈值数值"
+  }
+  </script>
+
+  <script type="application/json" id="evidence-index">
+  {
+    "sources": [
+      {
+        "id": "E1",
+        "title": "W3C SKOS Reference",
+        "url": "https://www.w3.org/TR/skos-reference/",
+        "publisher": "W3C",
+        "author": "W3C",
+        "publishedAt": "2009-08-18",
+        "accessedAt": "2026-07-27",
+        "version": "TR/skos-reference",
+        "claimTypes": ["lexical labels", "mapping properties"],
+        "authority": "formal-standard",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "not RAG-specific",
+        "contentHashOrStableId": "w3c-skos-reference"
+      },
+      {
+        "id": "E2",
+        "title": "Search with synonyms | Elastic Docs",
+        "url": "https://www.elastic.co/docs/solutions/search/full-text/search-with-synonyms",
+        "publisher": "Elastic",
+        "author": "Elastic",
+        "publishedAt": "2026-07-27",
+        "accessedAt": "2026-07-27",
+        "version": "current docs",
+        "claimTypes": ["search-time synonym expansion", "analyzer configuration"],
+        "authority": "official-docs",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "search-engine specific",
+        "contentHashOrStableId": "elastic-search-with-synonyms"
+      },
+      {
+        "id": "E3",
+        "title": "PROV-Overview",
+        "url": "https://www.w3.org/TR/prov-overview/",
+        "publisher": "W3C",
+        "author": "Paul Groth, Luc Moreau",
+        "publishedAt": "2013-04-30",
+        "accessedAt": "2026-07-27",
+        "version": "W3C Working Group Note",
+        "claimTypes": ["provenance", "audit trail", "trustworthiness"],
+        "authority": "formal-standard",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "overview-level, not a local schema",
+        "contentHashOrStableId": "w3c-prov-overview"
+      },
+      {
+        "id": "E4",
+        "title": "rag-system",
+        "url": "local:C:/Users/lenovo/.codex/skills/rag-system/SKILL.md",
+        "publisher": "Local Codex Skill",
+        "author": "OpenAI/Codex local skill",
+        "publishedAt": "2026-07-27",
+        "accessedAt": "2026-07-27",
+        "version": "local workspace",
+        "claimTypes": ["candidate-vs-RC boundary", "formal downstream truth"],
+        "authority": "local-project-skill",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "local rule, no alias-specific fields",
+        "contentHashOrStableId": "rag-system-skill"
+      },
+      {
+        "id": "E5",
+        "title": "rag-governance",
+        "url": "local:C:/Users/lenovo/.codex/skills/rag-governance/SKILL.md",
+        "publisher": "Local Codex Skill",
+        "author": "OpenAI/Codex local skill",
+        "publishedAt": "2026-07-27",
+        "accessedAt": "2026-07-27",
+        "version": "local workspace",
+        "claimTypes": ["confirmed_active", "need-review", "conflict handling"],
+        "authority": "local-project-skill",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "no alias registry schema",
+        "contentHashOrStableId": "rag-governance-skill"
+      },
+      {
+        "id": "E6",
+        "title": "rag-downstream-handoff",
+        "url": "local:C:/Users/lenovo/.codex/skills/rag-downstream-handoff/SKILL.md",
+        "publisher": "Local Codex Skill",
+        "author": "OpenAI/Codex local skill",
+        "publishedAt": "2026-07-27",
+        "accessedAt": "2026-07-27",
+        "version": "local workspace",
+        "claimTypes": ["formal downstream packets", "candidate packet status"],
+        "authority": "local-project-skill",
+        "directness": "high",
+        "independence": "primary",
+        "reproducibility": "high",
+        "limitations": "packet-only, no execution",
+        "contentHashOrStableId": "rag-downstream-handoff-skill"
+      },
+      {
+        "id": "E7",
+        "title": "本地知识库PRD-vNext-2026-07-22",
+        "url": "local:C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地知识库PRD-vNext-2026-07-22.html",
+        "publisher": "Codex local report",
+        "author": "Codex",
+        "publishedAt": "2026-07-22",
+        "accessedAt": "2026-07-27",
+        "version": "vNext",
+        "claimTypes": ["knowledge_space_id boundary", "user-provided scope"],
+        "authority": "local-report",
+        "directness": "medium",
+        "independence": "secondary",
+        "reproducibility": "medium",
+        "limitations": "derived from prior local evaluation, not a standard",
+        "contentHashOrStableId": "local-kb-prd-vnext-20260722"
+      },
+      {
+        "id": "E8",
+        "title": "别名映射作用范围-research-2026-07-26",
+        "url": "local:C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/别名映射作用范围-research-2026-07-26.html",
+        "publisher": "Codex local report",
+        "author": "Codex",
+        "publishedAt": "2026-07-26",
+        "accessedAt": "2026-07-27",
+        "version": "research",
+        "claimTypes": ["lexical/search-only scope", "no auto-merge"],
+        "authority": "local-report",
+        "directness": "high",
+        "independence": "secondary",
+        "reproducibility": "medium",
+        "limitations": "prior local analysis, still subject to implementation",
+        "contentHashOrStableId": "alias-scope-research-20260726"
+      }
+    ],
+    "claims": [
+      {
+        "id": "C1",
+        "claim": "Alias/同义词应停留在 lexical/search 层，而不能直接成为正文真值。",
+        "status": "supported",
+        "evidenceIds": ["E1", "E2", "E4", "E5"]
+      },
+      {
+        "id": "C2",
+        "claim": "别名治理应使用独立的版本化 registry，保存草稿、审批和历史，而不是塞进 structure map JSON 的最小结构层。",
+        "status": "supported",
+        "evidenceIds": ["E3", "E4", "E5", "E8"]
+      },
+      {
+        "id": "C3",
+        "claim": "审批结果必须绑定 knowledge_space_id / product / project / version，并且默认只在同作用域内参考。",
+        "status": "supported",
+        "evidenceIds": ["E4", "E5", "E7", "E8"]
+      },
+      {
+        "id": "C4",
+        "claim": "新审批记录可以覆盖当前生效结论，但旧记录必须保留并可追溯。",
+        "status": "supported",
+        "evidenceIds": ["E3", "E5", "E8"]
+      },
+      {
+        "id": "C5",
+        "claim": "搜索侧应使用 alias_registry 的派生投影，而不是把别名注册表当作源真值。",
+        "status": "supported",
+        "evidenceIds": ["E2", "E3", "E4"]
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="search-log">
+  [
+    {"query":"site:w3.org SKOS Reference altLabel exactMatch official", "purpose":"labels vs mapping separation"},
+    {"query":"site:elastic.co/docs search with synonyms official docs", "purpose":"synonym search-time/index-time behavior"},
+    {"query":"site:w3.org PROV Overview provenance entities activities people official", "purpose":"audit trail and trust model"},
+    {"query":"local rag-system rag-governance rag-downstream-handoff confirmed_active candidate", "purpose":"local downstream boundary"},
+    {"query":"local knowledge_space_id alias scope user provided", "purpose":"scope binding confirmation"},
+    {"query":"local alias registry draft approval history design", "purpose":"current design baseline"}
+  ]
+  </script>
+
+  <script type="application/json" id="run-status">
+  {
+    "status": "complete",
+    "p0Open": 0,
+    "p1Open": 0,
+    "p0OpenCount": 0,
+    "p1OpenCount": 0,
+    "recommendationStatus": "caveated",
+    "notes": [
+      "No open P0/P1 evidence gaps remain.",
+      "Exact numeric thresholds and persistence field names remain implementation details."
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="critique-loop-log">
+  {
+    "strictLoopRequired": true,
+    "rounds": [
+      {
+        "roundId": "R1",
+        "purpose": "Distinguish alias as lexical/search support from identity/truth.",
+        "sourceIds": ["E1", "E2"],
+        "reviewFindingIds": ["F1", "F2"],
+        "generatedFollowupQueryIds": ["Q1", "Q2"],
+        "stopDecision": "continue",
+        "reason": "Need provenance and local governance evidence to avoid over-claiming on registry behavior."
+      },
+      {
+        "roundId": "R2",
+        "purpose": "Validate auditability, scope binding, and downstream boundary.",
+        "sourceIds": ["E3", "E4", "E5", "E6", "E7", "E8"],
+        "reviewFindingIds": ["F3", "F4"],
+        "generatedFollowupQueryIds": ["Q3", "Q4"],
+        "stopDecision": "complete",
+        "reason": "Local skill contracts and prior scoped reports close the governance and downstream boundary gaps."
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="source-review-findings">
+  [
+    {
+      "id": "F1",
+      "severity": "P1",
+      "sourceIds": ["E1"],
+      "weakness": "If alias is treated like an identity relation rather than a lexical label, different documents or versions can be merged incorrectly.",
+      "blockedObjects": ["alias as truth", "auto-merge on alias"],
+      "requiredEvidenceTypes": ["lexical-label standard", "mapping relation standard"],
+      "status": "closed"
+    },
+    {
+      "id": "F2",
+      "severity": "P1",
+      "sourceIds": ["E2"],
+      "weakness": "Synonyms in search systems are retrieval aids and analysis configuration, not authoritative source records.",
+      "blockedObjects": ["search projection as source truth"],
+      "requiredEvidenceTypes": ["search synonym docs", "local governance rule"],
+      "status": "closed"
+    },
+    {
+      "id": "F3",
+      "severity": "P1",
+      "sourceIds": ["E3", "E5"],
+      "weakness": "Without explicit provenance/history, approval records become hard to audit and impossible to explain later.",
+      "blockedObjects": ["alias approval history", "current vs historical record"],
+      "requiredEvidenceTypes": ["provenance model", "local governance workflow"],
+      "status": "closed"
+    },
+    {
+      "id": "F4",
+      "severity": "P1",
+      "sourceIds": ["E4", "E6", "E7"],
+      "weakness": "Formal downstream consumers must not receive candidate alias judgments as RC or as validated truth.",
+      "blockedObjects": ["formal downstream handoff"],
+      "requiredEvidenceTypes": ["local downstream boundary", "knowledge-space scope rule"],
+      "status": "closed"
+    }
+  ]
+  </script>
+
+  <script type="application/json" id="followup-query-matrix">
+  [
+    {"queryId":"Q1","findingIds":["F1"],"query":"W3C SKOS altLabel exactMatch closeMatch mapping properties", "preferredSourceTiers":["formal standard"], "result":"closed"},
+    {"queryId":"Q2","findingIds":["F2"],"query":"Elastic search with synonyms search time index time analyzer", "preferredSourceTiers":["official docs"], "result":"closed"},
+    {"queryId":"Q3","findingIds":["F3"],"query":"W3C PROV Overview entities activities people provenance trustworthiness", "preferredSourceTiers":["formal standard"], "result":"closed"},
+    {"queryId":"Q4","findingIds":["F4"],"query":"local rag-system rag-governance rag-downstream-handoff confirmed_active candidate", "preferredSourceTiers":["local skill docs"], "result":"closed"}
+  ]
+  </script>
+
+  <script type="application/json" id="p0p1-closure-matrix">
+  [
+    {"findingId":"F1","status":"closed","closingEvidenceIds":["E1","E8"],"closureReason":"SKOS distinguishes labels from mapping; local prior analysis and current boundary keep alias out of truth/merge decisions."},
+    {"findingId":"F2","status":"closed","closingEvidenceIds":["E2","E4"],"closureReason":"Elastic synonyms are search/analyzer configuration; local RAG boundary prevents treating them as source truth."},
+    {"findingId":"F3","status":"closed","closingEvidenceIds":["E3","E5","E8"],"closureReason":"PROV-style provenance plus local governance makes draft/approval/history auditable."},
+    {"findingId":"F4","status":"closed","closingEvidenceIds":["E4","E5","E6","E7"],"closureReason":"Formal downstream packets require confirmed_active or user-governed decisions, not alias candidates."}
+  ]
+  </script>
+
+  <script type="application/json" id="research-decision-gate">
+  {
+    "schemaVersion": "1.0",
+    "depth": "standard",
+    "mode": "skill-design",
+    "recommendationStatus": "caveated",
+    "rerunResearchRequired": false,
+    "riskAcceptanceRequired": false,
+    "openCriticalFindings": [],
+    "coverageMatrix": [
+      {
+        "objectType": "skill-design-decision",
+        "objectId": "alias-layer-separation",
+        "coverageStatus": "sufficient",
+        "evidenceIds": ["E1", "E2", "E4", "E5"],
+        "confidenceRationale": "SKOS and Elastic docs show labels/synonyms are retrieval-facing constructs, while local RAG rules block them from formal truth.",
+        "limitations": ["Not a universal ontology standard for business systems."]
+      },
+      {
+        "objectType": "skill-design-decision",
+        "objectId": "alias-registry-separation",
+        "coverageStatus": "sufficient",
+        "evidenceIds": ["E3", "E4", "E5", "E8"],
+        "confidenceRationale": "Provenance plus local governance requires history and traceability, which are better held in a separate registry than in structure JSON.",
+        "limitations": ["Exact storage technology is implementation-specific."]
+      },
+      {
+        "objectType": "skill-design-decision",
+        "objectId": "scope-bound-approval",
+        "coverageStatus": "sufficient",
+        "evidenceIds": ["E4", "E5", "E7"],
+        "confidenceRationale": "Local knowledge-space boundary and governance rules support same-scope-only reference for approval records.",
+        "limitations": ["Current scope values still need user inputs."]
+      },
+      {
+        "objectType": "skill-design-decision",
+        "objectId": "immutable-history-with-current-effective-state",
+        "coverageStatus": "sufficient",
+        "evidenceIds": ["E3", "E5", "E8"],
+        "confidenceRationale": "PROV supports traceability; local governance explicitly requires old records to be preserved even when current effective结论 changes.",
+        "limitations": ["History retention format is implementation detail."]
+      },
+      {
+        "objectType": "skill-design-decision",
+        "objectId": "incremental-reeval-first",
+        "coverageStatus": "caveated",
+        "evidenceIds": ["E2", "E5", "E8"],
+        "confidenceRationale": "Search systems support reloaded synonym projections, which aligns with incremental refresh first; full rescan on scope/rule changes remains local policy.",
+        "limitations": ["Exact trigger thresholds remain implementation-level decisions."]
+      }
+    ],
+    "grillFindingCoverage": []
+  }
+  </script>
+</main>
+</body>
+</html>

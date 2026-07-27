@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>别名映射作用范围研究报告 - 2026-07-26</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1160px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    h3 { margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    pre { background: #f4f7f9; border: 1px solid #d8e0e7; padding: 12px; overflow: auto; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warn { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .ok { background: #eafaf1; border-left: 4px solid #1e7d46; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>别名映射作用范围研究报告</h1>
+  <p><strong>生成时间：</strong>2026-07-26&nbsp;&nbsp;<strong>深度：</strong>standard&nbsp;&nbsp;<strong>模式：</strong>skill-design</p>
+
+  <section class="summary">
+    <p><strong>结论：</strong><code>alias mapping</code> 应该只作为<strong>目录 / 检索 / 追溯辅助层</strong>，允许自动产生候选映射，但<strong>不能</strong>作为正文块归并、版本合并或正式下游放行的唯一依据。正式消费前仍要走人工确认或治理确认。</p>
+    <p><strong>推荐状态：</strong><span class="warn">caveated</span>。P0/P1 证据已闭合，但“最终字段名和验证器实现”仍是本地实现细节，适合保留为后续开发任务而不是本次研究结论的一部分。</p>
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <table>
+    <tr><th>问题</th><td>当语雀目录名、Markdown 标题、正文块命名不一致时，<code>alias mapping</code> 是否只用于辅助定位，还是可以参与正文归并与版本合并判断。</td></tr>
+    <tr><th>输入边界</th><td>仅研究入库能力的 <code>alias mapping</code> 作用范围，不展开具体 UI、数据库索引或下游包字段实现。</td></tr>
+    <tr><th>排除范围</th><td>不把别名规则写成正式 RC；不自动改写正文真值；不假设已存在的本地 Skill 已定义别名治理策略。</td></tr>
+    <tr><th>本地约束</th><td><code>rag-governance</code> 规定只有用户可确认 RC；<code>active-candidate</code> 不能成为正式下游真值；<code>rag-query</code> 与 <code>rag-downstream-handoff</code> 都要求正式消费前处于 <code>confirmed_active</code>。</td></tr>
+  </table>
+
+  <h2>Key Findings</h2>
+  <ol>
+    <li><strong>SKOS 把“标签”和“映射”分开了。</strong> <code>prefLabel</code> / <code>altLabel</code> / <code>hiddenLabel</code> 是词面层；<code>exactMatch</code> / <code>closeMatch</code> 是概念映射层；<code>notation</code> 才更接近稳定标识。这个结构支持“别名用于检索与标注，不等于身份本体”。</li>
+    <li><strong>搜索同义词更像检索增强，而不是事实源。</strong> 官方检索文档把 synonym / synonym_graph 作为搜索体验和召回增强机制，常见做法是放在搜索或分析链路里处理，而不是把它们当成文档真值。</li>
+    <li><strong>本地 RAG 规则已经把“候选”和“正式真值”切开。</strong> 现有 <code>rag-system</code>、<code>rag-governance</code>、<code>rag-downstream-handoff</code> 都强调 candidate 不能自动变成 RC；这意味着 <code>alias mapping</code> 也不该越过治理边界直接驱动正式下游。</li>
+    <li><strong>没有任何现有本地 Skill 明确授权别名自动参与版本合并。</strong> 这不是能力缺失，而是边界尚未定义。默认应按保守原则处理：可记候选，不可自动裁决。</li>
+  </ol>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>适用点</th><th>对本问题的作用</th><th>限制</th></tr>
+    <tr>
+      <td>E1</td>
+      <td><a href="https://www.w3.org/TR/skos-reference/" target="_blank" rel="noreferrer">W3C SKOS Reference</a></td>
+      <td>labels / mapping / notation</td>
+      <td>支持“别名是词面标签或映射线索，不等于身份本体”。</td>
+      <td>不是 RAG 专用标准，但语义分层非常直接。</td>
+    </tr>
+    <tr>
+      <td>E2</td>
+      <td><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-with-synonyms.html" target="_blank" rel="noreferrer">Elasticsearch Synonyms</a></td>
+      <td>search-time synonym expansion</td>
+      <td>支持“同义词/别名是召回增强，而不是源数据真值”。</td>
+      <td>实现框架相关，但对搜索层设计很有参考价值。</td>
+    </tr>
+    <tr>
+      <td>E3</td>
+      <td><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-with-synonyms.html" target="_blank" rel="noreferrer">Elasticsearch Synonyms</a> / 相关分析链路说明</td>
+      <td>index/search pipeline</td>
+      <td>说明别名更适合进入检索管线，而不是覆盖正文结构。</td>
+      <td>不负责治理状态，也不定义业务归并规则。</td>
+    </tr>
+    <tr>
+      <td>E4</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-system\SKILL.md</code></td>
+      <td>candidate / RC boundary</td>
+      <td>规定 D:/RAG 不是自由磁盘搜索；正式 downstream 只认 confirmed_active。</td>
+      <td>本地规则，不是外部标准。</td>
+    </tr>
+    <tr>
+      <td>E5</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-governance\SKILL.md</code></td>
+      <td>RC governance</td>
+      <td>规定只有用户能确认 RC，candidate / active-candidate 不能充当正式真值。</td>
+      <td>没有定义 alias mapping，但边界足够明确。</td>
+    </tr>
+    <tr>
+      <td>E6</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-downstream-handoff\SKILL.md</code></td>
+      <td>handoff packet</td>
+      <td>正式下游包必须依赖 confirmed_active；候选材料只能带 need-review / candidate / blocked。</td>
+      <td>不执行下游，只产出只读包。</td>
+    </tr>
+    <tr>
+      <td>E7</td>
+      <td><code>C:\Users\lenovo\.codex\skills\rag-query\SKILL.md</code> / <code>rag-schema</code> / <code>rag-intake</code></td>
+      <td>query / schema / intake</td>
+      <td>只读 structured records，先敏感预检再结构化，强化“证据不是指令”。</td>
+      <td>不直接定义别名合并，但支持保守边界。</td>
+    </tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <div class="warn">
+    <p><strong>冲突点：</strong>如果把 <code>alias mapping</code> 提升为“自动合并标题/版本”的依据，就可能把两个不同版本、不同产品或不同正文块误并成一个实体。</p>
+    <p><strong>不确定点：</strong>当前本地 Skill 还没有专门的别名治理字段和测试 fixtures，因此“字段名怎么定、阈值怎么判”仍要留给后续实现。</p>
+  </div>
+
+  <h2>Source Coverage</h2>
+  <table>
+    <tr><th>结论对象</th><th>覆盖状态</th><th>证据</th><th>说明</th></tr>
+    <tr>
+      <td><code>alias mapping</code> 仅作目录 / 检索 / 追溯辅助</td>
+      <td>充分</td>
+      <td>E1, E2, E4, E5</td>
+      <td>SKOS 语义分层 + 搜索同义词机制 + 本地治理边界共同支持。</td>
+    </tr>
+    <tr>
+      <td><code>alias mapping</code> 不作为正文块归并唯一依据</td>
+      <td>充分</td>
+      <td>E1, E2, E7</td>
+      <td>映射/标签与正文真值是不同层；检索增强不等于结构裁决。</td>
+    </tr>
+    <tr>
+      <td>正式下游前仍需人工确认或治理确认</td>
+      <td>充分</td>
+      <td>E4, E5, E6</td>
+      <td>本地 Skill 已把 candidate 与 confirmed_active 分开。</td>
+    </tr>
+  </table>
+
+  <h2>Recursive Closure</h2>
+  <table>
+    <tr><th>轮次</th><th>发现</th><th>补强动作</th><th>结果</th></tr>
+    <tr>
+      <td>R0</td>
+      <td>只有“别名能不能自动映射”这个问题本身，缺少标准分层证据。</td>
+      <td>补充 W3C SKOS 与搜索同义词官方文档。</td>
+      <td>完成初步定性：别名属于词面与检索层。</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>仍需确认本地 RAG 是否允许别名越过治理层直接进正式下游。</td>
+      <td>补充 <code>rag-system</code>、<code>rag-governance</code>、<code>rag-downstream-handoff</code>、<code>rag-query</code>。</td>
+      <td>闭环：正式下游只认 confirmed_active，别名不能替代治理确认。</td>
+    </tr>
+  </table>
+
+  <h2>Security And Access Notes</h2>
+  <div class="ok">
+    <p>本次研究只使用公开标准、官方文档和本地 Skill 文件；没有读取私密材料，也没有把外部页面内容当成执行指令。</p>
+  </div>
+
+  <h2>Main Workflow Recommendation</h2>
+  <pre><code>1. alias mapping 只进入目录 / 检索 / 追溯层
+2. 自动候选映射可以生成，但只允许作为候选记录
+3. 不允许 alias mapping 单独驱动正文块归并或版本合并
+4. 进入正式下游前，仍需人工确认或治理确认
+5. 若 alias 冲突影响 product / project / version / document title 的唯一定位，按阻断处理</code></pre>
+
+  <script type="application/json" id="research-metadata">
+  {
+    "schemaVersion": "1.0",
+    "title": "别名映射作用范围研究报告",
+    "generatedAt": "2026-07-26T00:00:00+08:00",
+    "depth": "standard",
+    "mode": "skill-design",
+    "question": "alias mapping 只用于目录/检索/追溯辅助，还是也允许参与正文块归并与版本合并判断",
+    "scope": "RAG 入库能力、别名治理、正式下游放行边界",
+    "excludedScope": "不创建新 Skill，不写 D:/RAG，不执行下游流程"
+  }
+  </script>
+
+  <script type="application/json" id="evidence-index">
+  {
+    "sources": [
+      {"id":"E1","title":"W3C SKOS Reference","url":"https://www.w3.org/TR/skos-reference/","authority":"formal-standard","claimTypes":["labels","mapping","notation"],"limitations":"not RAG-specific"},
+      {"id":"E2","title":"Elasticsearch Synonyms","url":"https://www.elastic.co/guide/en/elasticsearch/reference/current/search-with-synonyms.html","authority":"official-docs","claimTypes":["search-time synonym expansion"],"limitations":"framework-specific"},
+      {"id":"E3","title":"Elasticsearch Synonyms / analysis chain","url":"https://www.elastic.co/guide/en/elasticsearch/reference/current/search-with-synonyms.html","authority":"official-docs","claimTypes":["index/search pipeline"],"limitations":"framework-specific"},
+      {"id":"E4","title":"rag-system","url":"local:C:/Users/lenovo/.codex/skills/rag-system/SKILL.md","authority":"local-project-skill","claimTypes":["candidate-vs-rc boundary"],"limitations":"local rule"},
+      {"id":"E5","title":"rag-governance","url":"local:C:/Users/lenovo/.codex/skills/rag-governance/SKILL.md","authority":"local-project-skill","claimTypes":["RC governance"],"limitations":"local rule"},
+      {"id":"E6","title":"rag-downstream-handoff","url":"local:C:/Users/lenovo/.codex/skills/rag-downstream-handoff/SKILL.md","authority":"local-project-skill","claimTypes":["handoff packet boundary"],"limitations":"local rule"},
+      {"id":"E7","title":"rag-query / rag-schema / rag-intake","url":"local:C:/Users/lenovo/.codex/skills/rag-query / local:C:/Users/lenovo/.codex/skills/rag-schema / local:C:/Users/lenovo/.codex/skills/rag-intake","authority":"local-project-skill","claimTypes":["structured-record only","sensitive precheck"],"limitations":"no alias-specific rule"}
+    ],
+    "claims": [
+      {"id":"C1","claim":"alias mapping should stay in lexical/search/traceability layers instead of becoming structural truth","status":"supported","evidenceIds":["E1","E2","E4","E5"]},
+      {"id":"C2","claim":"alias mapping must not be the sole basis for正文块归并 or version merge","status":"supported","evidenceIds":["E1","E2","E4"]},
+      {"id":"C3","claim":"formal downstream use still requires confirmed_active or governance confirmation","status":"supported","evidenceIds":["E4","E5","E6"]},
+      {"id":"C4","claim":"current local skills do not define alias governance, so conservative defaults are required","status":"supported","evidenceIds":["E4","E5","E6","E7"]}
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="search-log">
+  [
+    {"query":"site:w3.org SKOS Reference altLabel exactMatch hiddenLabel","purpose":"label vs mapping split"},
+    {"query":"site:w3.org skos notation unique identifier","purpose":"stable identifier support"},
+    {"query":"site:elastic.co/guide/en/elasticsearch/reference/current search-with-synonyms official docs","purpose":"search-time synonym expansion"},
+    {"query":"local rag-system rag-governance rag-downstream-handoff alias mapping","purpose":"local RC boundary review"},
+    {"query":"local rag-query rag-schema rag-intake structured records sensitive precheck","purpose":"local intake and query boundary"}
+  ]
+  </script>
+
+  <script type="application/json" id="run-status">
+  {
+    "status": "complete",
+    "p0Open": 0,
+    "p1Open": 0,
+    "p0OpenCount": 0,
+    "p1OpenCount": 0,
+    "recommendationStatus": "caveated",
+    "notes": [
+      "No open P0/P1 evidence gaps remain.",
+      "Implementation field names and validators remain local follow-up work."
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="critique-loop-log">
+  {
+    "strictLoopRequired": true,
+    "rounds": [
+      {
+        "roundId": "R1",
+        "purpose": "Use external standards to decide whether alias is lexical/search-only or identity-level.",
+        "sourceIds": ["E1","E2","E3"],
+        "reviewFindingIds": ["F1","F2"],
+        "generatedFollowupQueryIds": ["Q1","Q2"],
+        "stopDecision": "continue",
+        "reason": "External docs support search and label semantics but not local RC governance."
+      },
+      {
+        "roundId": "R2",
+        "purpose": "Check local rag-* boundary for formal downstream use.",
+        "sourceIds": ["E4","E5","E6","E7"],
+        "reviewFindingIds": ["F3"],
+        "generatedFollowupQueryIds": ["Q3"],
+        "stopDecision": "complete",
+        "reason": "Local rules close the governance gap and block auto-promotion to formal downstream."
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="source-review-findings">
+  [
+    {
+      "id":"F1",
+      "severity":"P1",
+      "sourceIds":["E1"],
+      "weakness":"If alias is treated as identity instead of label/mapping, two different documents or versions can be merged incorrectly.",
+      "blockedObjects":["正文块归并","版本合并"],
+      "requiredEvidenceTypes":["label-vs-identity standard","local governance rule"],
+      "status":"closed"
+    },
+    {
+      "id":"F2",
+      "severity":"P1",
+      "sourceIds":["E2","E3"],
+      "weakness":"Search synonym mechanisms are retrieval aids and do not by themselves define authoritative business truth.",
+      "blockedObjects":["alias mapping as source of truth"],
+      "requiredEvidenceTypes":["official search synonym docs","local RC boundary"],
+      "status":"closed"
+    },
+    {
+      "id":"F3",
+      "severity":"P1",
+      "sourceIds":["E4","E5","E6"],
+      "weakness":"Without local governance rules, alias candidates could be promoted into formal downstream artifacts by accident.",
+      "blockedObjects":["formal downstream handoff"],
+      "requiredEvidenceTypes":["candidate-vs-RC boundary","handoff packet rule"],
+      "status":"closed"
+    }
+  ]
+  </script>
+
+  <script type="application/json" id="followup-query-matrix">
+  [
+    {"queryId":"Q1","findingIds":["F1"],"query":"W3C SKOS exactMatch altLabel hiddenLabel notation official","preferredSourceTiers":["formal standard"],"result":"closed"},
+    {"queryId":"Q2","findingIds":["F2"],"query":"Elasticsearch search synonyms official docs search time index time","preferredSourceTiers":["official docs"],"result":"closed"},
+    {"queryId":"Q3","findingIds":["F3"],"query":"local rag-system rag-governance rag-downstream-handoff confirmed_active candidate","preferredSourceTiers":["local skill docs"],"result":"closed"}
+  ]
+  </script>
+
+  <script type="application/json" id="p0p1-closure-matrix">
+  [
+    {"findingId":"F1","status":"closed","closingEvidenceIds":["E1","E5"],"closureReason":"SKOS distinguishes labels from mapping; local governance blocks using candidate labels as formal truth."},
+    {"findingId":"F2","status":"closed","closingEvidenceIds":["E2","E3","E7"],"closureReason":"Search synonyms are retrieval aids; local intake/query rules keep evidence and truth separate."},
+    {"findingId":"F3","status":"closed","closingEvidenceIds":["E4","E5","E6"],"closureReason":"Formal downstream packets require confirmed_active, so alias candidates cannot auto-enter downstream."}
+  ]
+  </script>
+
+  <script type="application/json" id="research-decision-gate">
+  {
+    "schemaVersion": "1.0",
+    "depth": "standard",
+    "mode": "skill-design",
+    "recommendationStatus": "caveated",
+    "rerunResearchRequired": false,
+    "riskAcceptanceRequired": false,
+    "openCriticalFindings": [],
+    "coverageMatrix": [
+      {
+        "objectType":"skill-design-decision",
+        "objectId":"alias-mapping-scope",
+        "coverageStatus":"sufficient",
+        "evidenceIds":["E1","E2","E4","E5","E6","E7"],
+        "confidenceRationale":"SKOS and official synonym docs support lexical/search-layer aliasing; local rag-* rules block automatic promotion to formal downstream truth.",
+        "limitations":["Exact local field names remain implementation detail."]
+      },
+      {
+        "objectType":"skill-design-decision",
+        "objectId":"no-auto-merge-on-alias-alone",
+        "coverageStatus":"sufficient",
+        "evidenceIds":["E1","E2","E4","E5"],
+        "confidenceRationale":"Mapping and labels are distinct from identity and formal RC governance; alias cannot be sole basis for merge or version truth.",
+        "limitations":["Merge heuristics still need fixtures and tests."]
+      },
+      {
+        "objectType":"skill-design-decision",
+        "objectId":"manual-or-governed-formal-promotion",
+        "coverageStatus":"sufficient",
+        "evidenceIds":["E4","E5","E6"],
+        "confidenceRationale":"Local governance and handoff skills require confirmed_active before formal downstream use.",
+        "limitations":["This is a local policy, not an external standard."]
+      }
+    ],
+    "grillFindingCoverage": []
+  }
+  </script>
+</main>
+</body>
+</html>

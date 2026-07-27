@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorkBuddy 本地知识库方案评审与参考资料补强</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1180px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    h3 { margin-top: 24px; color: #1f5f99; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; font-size: 13px; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .ok { background: #eafaf1; border-left: 4px solid #1e7d46; padding: 14px 16px; }
+    .warn { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .p0 { color: #a33; font-weight: 700; }
+    .p1 { color: #8a5a00; font-weight: 700; }
+    .p2 { color: #666; font-weight: 700; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>WorkBuddy 本地知识库方案评审与参考资料补强</h1>
+  <p>报告 ID：REVIEW-WB-KB-20260722｜日期：2026-07-22｜类型：review-report + standard research supplement｜状态：accepted-with-required-sync</p>
+
+  <section class="summary">
+    <strong>结论：</strong>WorkBuddy 方案整体方向合理，已经吸收“PRD 非绝对真值、用户提供材料、禁止自动扫描、禁凭据/未脱敏生产数据、参考 Skill 只吸收机制”等核心约束。结合用户本轮 5 条确认后，方案可作为 Codex 后续完善本地知识库的参考，但 WorkBuddy 原 PRD 仍需同步关闭或降级若干 open item，尤其是 <code>O-004</code> 和 <code>O-003</code> 的表达方式。按本评审给出的修正口径处理后，设计层面无 P0/P1 阻塞；若直接使用原 PRD v1.1 且不修订 open item，则仍存在 P1 文档同步风险。
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <table>
+    <tr><th>评审对象</th><td>WorkBuddy Grill 报告：<code>C:\Users\lenovo\WorkBuddy\2026-07-22-15-59-41\deliverables\gstack\grill-report-kb-design-2026-07-22.html</code>；WorkBuddy PRD v1.1：<code>C:\Users\lenovo\WorkBuddy\2026-07-22-15-59-41\deliverables\gstack\需求文档-本地知识库-2026-07-22.html</code>。</td></tr>
+    <tr><th>Codex 基线</th><td><code>outputs\本地知识库部署流程与需求文档-v1.html</code>；<code>outputs\testcase-system-参考资料重检与开发测试执行计划-v2-2026-07-16.html</code>。</td></tr>
+    <tr><th>用户本轮确认</th><td>允许拆分；材料先入待审区；记录 Agent 判断但只有用户确认后进入 RC；允许保留原始副本；优先产出 Markdown/JSON/YAML 等 Agent 友好结构。</td></tr>
+    <tr><th>非目标</th><td>不修改 WorkBuddy 原文件；不写入 <code>D:\RAG</code>；不安装或执行第三方 Skill；不扫描其他磁盘；不处理真实敏感数据。</td></tr>
+  </table>
+
+  <h2>Findings</h2>
+  <h3>P0</h3>
+  <div class="ok"><strong>未发现 P0。</strong>方案没有要求立即建库、没有要求扫描其他磁盘、没有要求安装第三方框架，也没有把 PRD、代码、接口或页面可见状态设为绝对真值。</div>
+
+  <h3>P1</h3>
+  <table>
+    <tr><th>ID</th><th>影响位置</th><th>问题</th><th>为什么重要</th><th>修复建议</th><th>修复后状态</th></tr>
+    <tr>
+      <td>F-P1-001</td>
+      <td>WorkBuddy PRD Agent-ready <code>openQuestions.O-004</code></td>
+      <td>原 PRD 仍将“<code>D:\RAG</code> 唯一 or 允许拆分”列为 P1 open question，但用户本轮已确认“允许拆分”。</td>
+      <td>如果保留为 P1，Codex 后续会误以为根目录建模仍阻塞，影响目录结构和 <code>knowledge_space_id/product_id/project_id</code> 设计。</td>
+      <td>关闭 <code>O-004</code>，改写为确认规则：<code>D:\RAG</code> 可作为根目录，允许按 products/projects/governance/handover/cache 等子域拆分；跨域检索仍必须受 <code>knowledge_space_id</code> 和 scope 约束。</td>
+      <td>按本评审口径已闭环；原文件需同步。</td>
+    </tr>
+    <tr>
+      <td>F-P1-002</td>
+      <td>WorkBuddy Grill <code>O-003</code> 与 PRD <code>O-003</code></td>
+      <td>qa-skill / test-case-xlsx-generator / Solution D 的具体实现未核验，被列为 P1。</td>
+      <td>如果把这些内部方案当成可直接采用的事实来源，会造成实现依赖和证据链虚假确定。</td>
+      <td>将其从“设计 P1 缺陷”改为“实施前门禁”：现阶段只登记机制判断和类比依据；只有用户提供具体 Skill 包、Repo、文档或脱敏材料并完成复核后，才能登记为 RC 或实现依赖。</td>
+      <td>设计层面不再阻塞；实施前仍需门禁。</td>
+    </tr>
+    <tr>
+      <td>F-P1-003</td>
+      <td>WorkBuddy PRD §19.4 参考资料 S1-S4、S13-S18</td>
+      <td>部分资料属于博客、厂商实践、内部实践或公开同类项目，权威度不足以单独支撑 P0/P1 设计结论。</td>
+      <td>低置信资料若支撑“必须这样设计”的结论，会把启发性经验误升级为需求依据。</td>
+      <td>把低置信资料全部降级为启发/类比；P0/P1 主证据改由用户约束、W3C PROV-O、JSON Schema、SQLite FTS5、OWASP、NIST、NASA SWE、ISTQB、Playwright 官方资料支撑。</td>
+      <td>按本评审证据补强后闭环；原文建议同步标注。</td>
+    </tr>
+  </table>
+
+  <h3>P2</h3>
+  <table>
+    <tr><th>ID</th><th>影响位置</th><th>问题</th><th>建议</th></tr>
+    <tr><td>F-P2-001</td><td>目录设计</td><td>Codex v1 使用 SRC/EVD/CLM/RC/IDX/QRY/CHG/IMP 对象模型，WorkBuddy v1.1 使用 00_inbox 到 08_cache 的面向文件目录模型，两者不是冲突，但命名层级不同。</td><td>在后续设计计划中明确：目录层采用 WorkBuddy 的 Agent 友好结构；对象层保留 Codex 的 SRC/EVD/CLM/RC 等契约名。</td></tr>
+    <tr><td>F-P2-002</td><td>状态机</td><td><code>active</code> 被改为“待审池未清审”，容易被下游 Agent 误用。</td><td>在所有查询契约中强制：正式用例生成只接受 <code>confirmed_active</code>，不接受 <code>active</code>。</td></tr>
+    <tr><td>F-P2-003</td><td>性能与索引</td><td>WorkBuddy 提到 08_cache 后置，Codex v1 提到 SQLite FTS5 可作为候选。两者需要统一触发条件。</td><td>首期使用 INDEX.md + frontmatter；当用户提供首批语料规模和查询基准后，再评估 SQLite FTS5/BM25；向量检索继续作为后置 POC。</td></tr>
+  </table>
+
+  <h2>WorkBuddy 方案优点</h2>
+  <ul>
+    <li><strong>吸收用户裁决及时：</strong>方案已将权威模型从“固定来源排序”修正为“有效性门控 + 人工治理三规则”，契合“PRD 也可能过期”的关键修正。</li>
+    <li><strong>Agent 可用性强：</strong>目录采用 00_inbox/01_raw/02_structured/03_evidence/04_test_assets/05_skill_ref/06_governance/07_handover/08_cache，读写路径直观，适合 Codex 消费。</li>
+    <li><strong>安全边界清楚：</strong>明确禁凭据、禁未脱敏生产数据、禁自动扫描其他磁盘、第三方 Skill 只吸收机制。</li>
+    <li><strong>状态机更贴近治理：</strong><code>confirmed_active</code> 把“已启用但未批清”和“可供用例生成”区分开，避免 Agent 误用待审内容。</li>
+    <li><strong>测试知识沉淀比 Codex v1 更展开：</strong>增加 Payload、GoldenCase、stable_trace_id、oracle_type、Playwright + Solution D 证据链等内容。</li>
+  </ul>
+
+  <h2>WorkBuddy 方案缺点</h2>
+  <ul>
+    <li><strong>原文件仍有已过期 open item：</strong><code>O-004</code> 已被用户确认关闭，但 PRD v1.1 仍列为 P1。</li>
+    <li><strong>内部方案容易被误读为已核验：</strong>qa-skill / test-case-xlsx-generator / Solution D 只能登记为“用户后续提供后复核”的实施门禁，不能作为当前 RC。</li>
+    <li><strong>部分参考资料权威度不足：</strong>博客和厂商实践可以启发，但不能支撑 P0/P1 结论。应把它们放在“机制启发”层，而不是“高置信依据”层。</li>
+    <li><strong>目录模型与对象模型需要合并说明：</strong>WorkBuddy 的目录结构适合落地，Codex 的 SRC/EVD/CLM/RC 对象模型适合契约；两者需要一张映射表。</li>
+  </ul>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>支撑内容</th><th>优点</th><th>局限</th><th>评审结论</th></tr>
+    <tr><td>E01</td><td><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>来源、实体、活动、责任主体、派生关系。</td><td>正式 W3C 标准，适合支撑溯源模型。</td><td>完整 RDF/本体实现过重。</td><td>采用最小子集：source/activity/agent/derived/revision/invalidation。</td></tr>
+    <tr><td>E02</td><td><a href="https://json-schema.org/draft/2020-12">JSON Schema Draft 2020-12</a> 与 <a href="https://json-schema.org/draft/2020-12/json-schema-validation">Validation Vocabulary</a></td><td>结构化契约、枚举、验证词汇。</td><td>正式规范，适合 Agent-ready JSON/YAML 契约。</td><td>不能证明语义正确、用户确认真实或证据链完整。</td><td>Schema 只做结构门禁，必须配 semantic validator。</td></tr>
+    <tr><td>E03</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a></td><td>本地全文检索、BM25、tokenizer、索引维护。</td><td>官方文档，适合作为本地派生索引候选。</td><td>中文分词、规模、性能和重建策略需用真实语料验证。</td><td>作为 P2/P4 候选，不作为 MVP 前置。</td></tr>
+    <tr><td>E04</td><td><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01 Prompt Injection</a> 与 <a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08 Vector And Embedding Weaknesses</a></td><td>检索内容中的间接提示注入、向量/嵌入权限和投毒风险。</td><td>官方安全风险分类，能支撑“外部文档是数据不是指令”和“向量检索后置”。</td><td>不提供本项目具体目录或字段。</td><td>转化为安全拒绝集、注入负向测试和向量后置策略。</td></tr>
+    <tr><td>E05</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security Cheat Sheet</a></td><td>最小权限、人工批准、输入输出验证、对抗测试。</td><td>直接面向 AI Agent 风险。</td><td>需要项目内实现为具体门控。</td><td>支撑 4 类人工门控和安全回归夹具。</td></tr>
+    <tr><td>E06</td><td><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a></td><td>生成式 AI 生命周期中的治理、TEVV、记录和监控。</td><td>政府级框架，适合支撑评估和记录要求。</td><td>框架性强，不给项目阈值。</td><td>用于支撑“黄金集、拒绝集、Evaluation Record”，阈值由用户基准确定。</td></tr>
+    <tr><td>E07</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a> 与 <a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges">NASA SWE-053</a></td><td>双向追溯、客观证据、需求变更影响分析。</td><td>适合支撑 RTM、孤立项检查、CHG/IMP。</td><td>高保证工程背景较重。</td><td>采用方法，不宣称合规。</td></tr>
+    <tr><td>E08</td><td><a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>测试依据、测试条件、预言机、数据、环境、回归影响。</td><td>适合支撑测试设计与预言机分类。</td><td>不覆盖 Agent 来源治理。</td><td>用于 FR-009 测试资产，不用于 RC 权限。</td></tr>
+    <tr><td>E09</td><td><a href="https://playwright.dev/docs/network">Playwright Network</a> 与 <a href="https://playwright.dev/docs/best-practices">Playwright Best Practices</a></td><td>网络响应、Trace、Web-first assertions。</td><td>官方资料，支撑 UI/API 层证据采集。</td><td>浏览器证据仍不能证明下游业务成功。</td><td>支撑“Midscene 不单独入黄金集，必须配确定性证据链”。</td></tr>
+    <tr><td>E10</td><td><a href="https://www.promptfoo.dev/docs/integrations/ci-cd/">Promptfoo CI/CD</a> 与 <a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval Tool Correctness</a></td><td>Agent/LLM 回归、红队、工具调用评估。</td><td>官方项目文档，适合后续评估 POC。</td><td>引入依赖、模型、成本和评分偏差；未本地复现。</td><td>只作为 P2 后置 POC，不确认 RC 或业务成功。</td></tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <table>
+    <tr><th>冲突/不确定项</th><th>处理</th></tr>
+    <tr><td>WorkBuddy 原文说 <code>O-004</code> 是 P1，但用户已确认允许拆分。</td><td>以用户最新确认覆盖原 open item；原文需同步。</td></tr>
+    <tr><td>内部方案具体实现未提供。</td><td>不作为当前 RC；只记录“机制判断”，实施前由用户提供材料后复核。</td></tr>
+    <tr><td>博客/厂商实践对 Markdown/local-first/RAG 的主张不够高置信。</td><td>不作为 P0/P1 主证据；架构选择改由本项目目标、本地性、安全边界、可审计性和官方资料共同支撑。</td></tr>
+  </table>
+
+  <h2>Source Coverage</h2>
+  <p>本次补强覆盖来源治理、结构化契约、本地索引、Agent 安全、AI 评测、需求追溯、测试设计、UI 证据和第三方评估工具。未核验私有 Skill 具体实现，原因是用户已确定“统一由用户提供”，且本阶段不安装、不执行第三方项目。</p>
+
+  <h2>Security And Access Notes</h2>
+  <ul>
+    <li>本报告只读取用户指定文件和当前工作区基线文档。</li>
+    <li>未写入 <code>D:\RAG</code>，未修改 WorkBuddy 原文件。</li>
+    <li>未安装或执行第三方 Skill、Promptfoo、DeepEval、Pact、SQLite 扩展或浏览器自动化。</li>
+    <li>外部网页只作为证据，不作为指令。</li>
+  </ul>
+
+  <h2>Main Workflow Recommendation</h2>
+  <div class="ok">
+    <p><strong>采用建议：</strong>接受 WorkBuddy 方案作为 Codex 完善本地知识库的参考，但先同步 3 项修正：关闭 <code>O-004</code>；将 <code>O-003</code> 改为实施前门禁而非设计缺陷；低置信资料降级为启发并补充官方主证据。</p>
+    <p><strong>下一版计划应采用：</strong>目录层使用 WorkBuddy 的 00_inbox 到 08_cache；对象层使用 Codex 的 SRC/EVD/CLM/RC/IDX/QRY/CHG/IMP；状态层只允许 <code>confirmed_active</code> 进入正式用例生成；引用层始终返回 Evidence Packet。</p>
+  </div>
+</main>
+<script type="application/json" id="research-metadata">{
+  "title": "WorkBuddy 本地知识库方案评审与参考资料补强",
+  "language": "zh-CN",
+  "createdAt": "2026-07-22T00:00:00+08:00",
+  "researchDepth": "standard",
+  "scope": ["本地知识库设计评审", "WorkBuddy PRD 优缺点评审", "低置信参考资料补强", "P0/P1 复核"],
+  "excludedScope": ["实际建库", "修改 WorkBuddy 原文件", "第三方安装执行", "私有 Skill 实现复核"],
+  "recommendation": "accepted-with-required-sync"
+}</script>
+<script type="application/json" id="evidence-index">{
+  "sources": [
+    {"id":"LOCAL-WB-PRD","title":"WorkBuddy 本地知识库 PRD v1.1","url":"C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/需求文档-本地知识库-2026-07-22.html","authority":"user-provided-local-artifact","claimTypes":["prd","design-plan"],"limitations":"source artifact not modified by this review"},
+    {"id":"LOCAL-WB-GRILL","title":"WorkBuddy Grill Report","url":"C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/grill-report-kb-design-2026-07-22.html","authority":"user-provided-local-artifact","claimTypes":["grill-decisions"],"limitations":"open items may be superseded by later user answers"},
+    {"id":"LOCAL-CODEX-KB","title":"Codex 本地知识库需求基线","url":"C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地知识库部署流程与需求文档-v1.html","authority":"local-baseline-artifact","claimTypes":["requirements-baseline"],"limitations":"2026-07-15 baseline before WorkBuddy v1.1"},
+    {"id":"USER-20260722","title":"用户 2026-07-22 本轮确认","url":"conversation:user-confirmation-2026-07-22","authority":"user-confirmation","claimTypes":["decision","scope"],"limitations":"conversation-local decision, not external standard"},
+    {"id":"E01","title":"W3C PROV-O","url":"https://www.w3.org/TR/prov-o/","authority":"formal-standard","claimTypes":["provenance"],"limitations":"full ontology is heavy"},
+    {"id":"E02","title":"JSON Schema Draft 2020-12","url":"https://json-schema.org/draft/2020-12","authority":"formal-specification","claimTypes":["data-contract"],"limitations":"structural validation only"},
+    {"id":"E03","title":"SQLite FTS5","url":"https://www.sqlite.org/fts5.html","authority":"official-docs","claimTypes":["local-search"],"limitations":"Chinese tokenizer and performance need local validation"},
+    {"id":"E04","title":"OWASP LLM01 and LLM08","url":"https://genai.owasp.org/llmrisk/","authority":"official-security-guidance","claimTypes":["prompt-injection","rag-security"],"limitations":"not project schema"},
+    {"id":"E05","title":"OWASP AI Agent Security Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","authority":"official-guidance","claimTypes":["agent-security"],"limitations":"requires project fixtures"},
+    {"id":"E06","title":"NIST AI 600-1","url":"https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf","authority":"government-framework","claimTypes":["tevv","governance"],"limitations":"no project thresholds"},
+    {"id":"E07","title":"NASA SWE-052 and SWE-053","url":"https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability","authority":"government-guidance","claimTypes":["traceability","change-impact"],"limitations":"high-assurance context"},
+    {"id":"E08","title":"ISTQB CTAL-TA v4.0","url":"https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf","authority":"official-syllabus","claimTypes":["test-design","oracle"],"limitations":"not agent governance"},
+    {"id":"E09","title":"Playwright official docs","url":"https://playwright.dev/docs/network","authority":"official-docs","claimTypes":["ui-evidence"],"limitations":"browser layer only"},
+    {"id":"E10","title":"Promptfoo and DeepEval docs","url":"https://www.promptfoo.dev/docs/integrations/ci-cd/","authority":"official-project-docs","claimTypes":["agent-evaluation"],"limitations":"not locally reproduced"}
+  ],
+  "claims": [
+    {"id":"C01","statement":"WorkBuddy design is directionally usable after syncing user confirmations.","status":"supported","evidenceIds":["LOCAL-WB-PRD","LOCAL-CODEX-KB","USER-20260722"]},
+    {"id":"C02","statement":"O-004 should be closed because user confirmed root splitting is allowed.","status":"supported","evidenceIds":["USER-20260722"]},
+    {"id":"C03","statement":"Internal Skill implementations should not become RC without user-provided concrete materials and review.","status":"supported","evidenceIds":["USER-20260722","LOCAL-WB-GRILL"]},
+    {"id":"C04","statement":"Low-confidence blogs should be treated as inspiration, not P0/P1 primary evidence.","status":"supported","evidenceIds":["E01","E02","E04","E05","E06","E07","E08"]},
+    {"id":"C05","statement":"SQLite FTS5 is a candidate local index, but not an MVP precondition without corpus validation.","status":"supported","evidenceIds":["E03"]}
+  ]
+}</script>
+<script type="application/json" id="search-log">{
+  "queries": [
+    "SQLite FTS5 tokenizer unicode61 rebuild official",
+    "W3C PROV-O provenance revision invalidation",
+    "OWASP LLM01 LLM08 prompt injection vector embedding weaknesses",
+    "JSON Schema 2020-12 validation vocabulary format assertion",
+    "OWASP AI Agent Security human approval least privilege",
+    "NIST AI 600-1 TEVV generative AI",
+    "NASA SWE-052 SWE-053 traceability requirements changes",
+    "ISTQB CTAL-TA v4.0 test oracle traceability",
+    "Promptfoo CI/CD DeepEval Tool Correctness Playwright Network"
+  ],
+  "preferredSources": ["formal standards", "government guidance", "official security guidance", "official project documentation", "local user-provided artifacts"],
+  "stopConditions": ["P0/P1 claims supported or downgraded", "unsupported internal implementations gated", "new sources repeat known evidence"],
+  "thirdPartyInstalled": false,
+  "privateSystemsAccessed": false
+}</script>
+<script type="application/json" id="run-status">{
+  "status": "complete",
+  "recommendation": "accepted-with-required-sync",
+  "p0Findings": 0,
+  "p1FindingsAfterApplyingCorrections": 0,
+  "sourceArtifactSyncRequired": true,
+  "blockingIssues": [],
+  "caveats": ["Original WorkBuddy PRD still needs manual sync if used directly", "Internal Skill implementations remain implementation gates until user supplies concrete materials"]
+}</script>
+</body>
+</html>

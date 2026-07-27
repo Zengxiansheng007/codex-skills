@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地知识库 PRD vNext - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库 PRD vNext</h1>
+  <div class="note">
+    <p><strong>生成边界：</strong>本文件是新的独立 PRD，不覆盖 WorkBuddy PRD、Codex 历史 PRD，不写入 <code>D:\RAG</code>。</p>
+    <p><strong>用户最新裁决：</strong>三份计划独立生成；仅 <code>confirmed_active</code> 可作为正式 RC；本次优先完成本地知识库搭建，并为 <code>ui-test</code>、<code>auto-testcase-generator</code>、Solution D 预留接口和产物格式。</p>
+  </div>
+
+  <h2>1. 文档路由</h2>
+  <table>
+    <tbody>
+      <tr><th>documentType</th><td>PRD / Agent-ready local knowledge base requirement</td></tr>
+      <tr><th>目标读者</th><td>用户、Codex、WorkBuddy、本地知识库开发者、测试设计治理者、下游 Agent Skill 维护者。</td></tr>
+      <tr><th>sourceBaseline</th><td>WorkBuddy《需求文档-本地知识库-2026-07-22.html》v1.1；Codex《本地知识库部署流程与需求文档-v1.html》；本轮 research 补强评审；本轮 Grill 用户确认。</td></tr>
+      <tr><th>包含</th><td>目标、范围、目录与对象模型、状态机、RC 规则、安全边界、下游接口预留、验收条件、RTM、开放问题。</td></tr>
+      <tr><th>不包含</th><td>实际创建 <code>D:\RAG</code>、导入真实资料、安装第三方 Skill、执行 UI 自动化、生成完整用例库。</td></tr>
+      <tr><th>状态</th><td>Draft vNext；已登记一个单文件验证通过的候选 PRD 地址，仍等待用户提供首个 <code>knowledge_space_id</code> 具体值、是否允许纳入首批材料清单、以及后续全量知识库读取授权。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 背景与问题</h2>
+  <p>本地知识库的目标不是“把资料堆进 RAG”，而是为 Agent 提供一个受控、可追溯、可拒绝、可人工裁决的本地证据底座。PRD、接口、代码、执行结果、截图、用户确认都可能随开发变化；因此任何材料都不能天然成为事实，必须经过来源登记、范围隔离、状态机、证据链和用户确认。</p>
+  <p>没有该底座时，测试用例生成和 UI 自动化会出现四类高风险：引用过期资料、跨项目混用事实、把视觉可见误判为业务成功、将敏感材料或未确认主张沉淀为长期记忆。</p>
+
+  <h2>3. 目标与成功指标</h2>
+  <table>
+    <thead><tr><th>ID</th><th>目标</th><th>成功指标</th></tr></thead>
+    <tbody>
+      <tr><td>G-KB-01</td><td>建立本地受控知识库结构</td><td>目录、schema、manifest、索引、证据和治理区职责清晰，派生索引可重建。</td></tr>
+      <tr><td>G-KB-02</td><td>保证正式输出只依赖用户确认事实</td><td>正式 RC 只能来自 <code>confirmed_active</code>；无 RC、冲突或低置信未确认时阻断正式用例生成。</td></tr>
+      <tr><td>G-KB-03</td><td>支持来源变化与冲突治理</td><td>新版本只追加，不静默覆盖；冲突生成候选，用户确认后才登记 RC。</td></tr>
+      <tr><td>G-KB-04</td><td>保护本地与敏感数据</td><td>不自动扫描磁盘；凭据、访问令牌、Cookie、未脱敏生产数据和敏感会话材料拒绝入库。</td></tr>
+      <tr><td>G-KB-05</td><td>为下游 Agent 预留稳定接口</td><td>输出 Evidence Packet、RC Packet、Change Impact Packet、Test Asset Manifest，供 <code>ui-test</code>、<code>auto-testcase-generator</code>、Solution D 只读使用。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 范围与非目标</h2>
+  <table>
+    <tbody>
+      <tr><th>本阶段范围</th><td>本地目录与 schema、准入与脱敏门禁、知识空间隔离、来源与证据建模、RC 状态机、检索引用契约、下游接口预留、MVP 验收。</td></tr>
+      <tr><th>后续范围</th><td>当语料规模、黄金查询失败率或人工查找成本达到阈值后，引入 SQLite FTS5 与 <code>08_cache</code> 性能化索引；向量检索 POC 放在更后阶段；Promptfoo/DeepEval 评测 POC、下游 UI 自动化和用例生成集成也属于后续范围。</td></tr>
+      <tr><th>明确非目标</th><td>本阶段不把向量库作为事实源；不让 Agent 自动裁决 RC；不让 <code>active</code> 作为正式依据；不读取未授权目录；不保存真实凭据和未脱敏生产材料。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Q2 展开：知识空间、产品、项目、环境如何区分</h2>
+  <p><code>knowledge_space_id</code> 是硬隔离边界，决定“哪些知识可以互相引用”。产品、项目、环境不是根边界，而是同一知识空间内的元数据过滤维度。用户已确认：首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围由用户提供；Codex 只负责检查所有材料是否带有一致的 <code>space</code>、<code>product</code>、<code>project</code>、<code>environment</code> 元数据。</p>
+  <table>
+    <thead><tr><th>概念</th><th>定义</th><th>例子</th><th>规则</th></tr></thead>
+    <tbody>
+      <tr><td>knowledge_space_id</td><td>知识库最外层事实边界</td><td><code>ks-ui-automation-test-design</code></td><td>必须由用户提供；跨 space 查询默认禁止；RC、证据、查询、用例资产都必须带 space。</td></tr>
+      <tr><td>product_id</td><td>长期产品或业务系统</td><td>测试平台、订单系统</td><td>用于跨项目复用，但不能越过 knowledge_space_id。</td></tr>
+      <tr><td>project_id</td><td>一次交付、版本、专项或客户项目</td><td>2026-07 UI 自动化改造</td><td>项目材料可被沉淀为产品规则，但 promote 必须用户确认。</td></tr>
+      <tr><td>environment</td><td>运行环境或证据来源环境</td><td>local、test、staging</td><td>非测试环境触达属于人工门控；环境证据不能自动覆盖业务 RC。</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <p><strong>为什么需要用户确认：</strong>Agent 无法知道“某份 PRD 是产品级长期规则，还是某个项目的一次性改动”。若 Agent 自行决定，可能把临时项目规则提升为产品 RC，或把不同产品同名模块混用。</p>
+    <p><strong>已确认规则：</strong>首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围由用户提供；Codex 只负责检查所有材料是否带有一致的 space、product、project、environment 元数据。若材料缺少这些字段，Codex 应生成待补充报告，而不是自行猜测归属。</p>
+  </div>
+
+  <h2>6. Q3 展开：首批材料清单与脱敏确认</h2>
+  <p>首批材料不是简单的“给一个目录”。必须是用户显式列出的文件清单，附带来源说明和敏感处理声明；Codex 只读取清单内文件。这样做的目的不是增加手续，而是防止误读未授权材料、误存生产数据、误把个人账号信息或会话信息写入长期知识库。</p>
+  <p><strong>当前验证材料：</strong>用户已提供 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code> 作为一个 PRD 文件地址；Codex 已完成单文件格式识别、敏感预检和内容摘要分析，报告为 <code>outputs\产研平台智能体交互评审lake单文件分析读取报告-2026-07-23.html</code>。该材料只能作为 <code>active-candidate</code> 候选来源，不自动进入 <code>confirmed_active</code> 或 RC；也不代表已授权读取 <code>D:\RAG</code> 全量知识库。</p>
+  <table>
+    <thead><tr><th>材料类别</th><th>允许条件</th><th>禁止或阻塞条件</th><th>进入状态</th></tr></thead>
+    <tbody>
+      <tr><td>PRD、设计说明、接口文档</td><td>用户提供路径、版本、适用范围、是否可入库</td><td>含账号、私有地址、未脱敏客户信息时阻塞</td><td><code>00_inbox</code> → <code>reviewing</code></td></tr>
+      <tr><td>代码片段、配置说明</td><td>只包含可公开给本地 Agent 的说明或脱敏示例</td><td><code>.env</code>、密钥、真实连接串、访问令牌拒绝</td><td>通过后生成来源和证据</td></tr>
+      <tr><td>截图、日志、接口响应</td><td>脱敏后可用于定位 UI/API/任务状态</td><td>含客户姓名、手机号、身份证号、订单详情、会话 Cookie 时拒绝</td><td>需 Reviewer 确认脱敏标签</td></tr>
+      <tr><td>用户确认规则</td><td>用户明确确认的业务裁决</td><td>Agent 推断不得登记为 RC</td><td>可进入 <code>confirmed_active</code> 或 RC 记录</td></tr>
+    </tbody>
+  </table>
+  <p>在材料清单未提供前，PRD、开发计划和测试计划可以完成，但部署 DoR 不能通过，不能开始真实入库。账号、密钥、Cookie、真实生产客户数据、未脱敏日志截图等不得入库；如出现在候选清单中，Codex 只能拒绝该项并生成不含敏感正文的拒绝报告。</p>
+
+  <h2>7. 目录与对象模型</h2>
+  <table>
+    <thead><tr><th>目录</th><th>职责</th><th>约束</th></tr></thead>
+    <tbody>
+      <tr><td><code>00_inbox</code></td><td>用户显式提供材料的待审入口</td><td>不自动扫描其他目录；敏感扫描只做标记，不能替代人工确认。</td></tr>
+      <tr><td><code>01_raw</code></td><td>通过准入的原始副本或脱敏副本</td><td>只追加版本，不就地覆盖。</td></tr>
+      <tr><td><code>02_structured</code></td><td>结构化知识单元、frontmatter、摘要</td><td>必须回链到 <code>01_raw</code> 和证据。</td></tr>
+      <tr><td><code>03_evidence</code></td><td>证据片段、定位、截图/接口/日志索引</td><td>证据可定位、可复核、已脱敏。</td></tr>
+      <tr><td><code>04_test_assets</code></td><td>黄金查询、测试预言机、用例/Payload 基线、下游产物 manifest</td><td>只接受 <code>confirmed_active</code> 支撑的正式资产。</td></tr>
+      <tr><td><code>05_skill_ref</code></td><td>参考 Skill 机制笔记</td><td>不安装、不执行第三方 Skill；只沉淀机制。</td></tr>
+      <tr><td><code>06_governance</code></td><td>RC、冲突、变更、审计、用户确认</td><td>RC 只能由用户确认。</td></tr>
+      <tr><td><code>07_handover</code></td><td>给 Codex/WorkBuddy/下游 Agent 的交接</td><td>必须含 sourceBaseline、openQuestions、evidenceIndex。</td></tr>
+      <tr><td><code>08_cache</code></td><td>可删除重建的检索缓存</td><td>不是事实源；MVP 仅保留目录和策略占位，先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 状态机与 RC 规则</h2>
+  <table>
+    <thead><tr><th>状态</th><th>含义</th><th>是否可作为正式依据</th></tr></thead>
+    <tbody>
+      <tr><td><code>raw</code></td><td>已保留来源或副本，未结构化</td><td>否</td></tr>
+      <tr><td><code>reviewing</code></td><td>待敏感、范围、来源和结构审查</td><td>否</td></tr>
+      <tr><td><code>active</code></td><td>非冲突、非低置信的启用候选，仍处于待审池</td><td>否</td></tr>
+      <tr><td><code>confirmed_active</code></td><td>用户按批清审或明确确认后的有效知识</td><td>是</td></tr>
+      <tr><td><code>uncertain</code></td><td>冲突、低置信、范围不清或证据不足</td><td>否</td></tr>
+      <tr><td><code>superseded</code></td><td>被新版本取代</td><td>否，除非作为历史证据引用</td></tr>
+      <tr><td><code>deprecated</code></td><td>用户确认废弃或冲突落败</td><td>否</td></tr>
+    </tbody>
+  </table>
+  <p><strong>硬规则：</strong>RC 只登记用户确认后的裁决或 <code>confirmed_active</code> 知识。Agent 的冲突判断、版本判断、低置信判断只能生成候选记录，不能自动改变 RC 有效状态。</p>
+
+  <h2>9. 功能需求</h2>
+  <table>
+    <thead><tr><th>ID</th><th>需求</th><th>验收标准</th><th>优先级</th></tr></thead>
+    <tbody>
+      <tr><td>FR-KB-001</td><td>系统必须只处理用户显式提供的材料清单和 knowledge_space_id。</td><td>未在清单内的路径不读取、不索引、不报告内容摘要。</td><td>P0</td></tr>
+      <tr><td>FR-KB-002</td><td>系统必须在入库前执行敏感标记与人工脱敏确认。</td><td>敏感样本被拒绝，拒绝报告不回显完整敏感值。</td><td>P0</td></tr>
+      <tr><td>FR-KB-003</td><td>系统必须保存来源、证据、主张、RC、变更和查询的结构化对象。</td><td>每个正式引用可回到来源文件、版本和定位。</td><td>P0</td></tr>
+      <tr><td>FR-KB-004</td><td>系统必须以 knowledge_space_id 作为检索硬过滤。</td><td>跨 space 查询无法召回其他空间内容。</td><td>P0</td></tr>
+      <tr><td>FR-KB-005</td><td>系统必须将 active 与 confirmed_active 分离。</td><td>正式用例生成只能读取 confirmed_active 或用户确认 RC。</td><td>P0</td></tr>
+      <tr><td>FR-KB-006</td><td>系统必须支持冲突、低置信、过期和版本替代关系。</td><td>冲突和低置信进入阻塞审批；新版本不覆盖旧版本。</td><td>P0</td></tr>
+      <tr><td>FR-KB-007</td><td>系统必须输出 Evidence Packet 给下游 Agent。</td><td>Packet 包含查询、space、RC、证据、来源、定位、风险状态。</td><td>P0</td></tr>
+      <tr><td>FR-KB-008</td><td>系统必须预留下游产物格式。</td><td>可输出 Test Asset Manifest、Change Impact Packet、Solution D Evidence Contract。</td><td>P1</td></tr>
+      <tr><td>FR-KB-009</td><td>系统必须先以 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON 支撑 MVP 检索与引用，并保留可重建检索缓存位置。</td><td><code>08_cache</code> 删除后可由来源与元数据重建；只有当语料规模、黄金查询失败率或人工查找成本达到阈值后，才引入 SQLite FTS5；向量索引放在更后阶段。</td><td>P1</td></tr>
+      <tr><td>FR-KB-010</td><td>系统必须提供审计与交接报告。</td><td>导入、拒绝、查询、确认、变更、下游交接均有记录。</td><td>P1</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10. 下游接口预留</h2>
+  <table>
+    <thead><tr><th>下游</th><th>本阶段提供什么</th><th>本阶段不做什么</th></tr></thead>
+    <tbody>
+      <tr><td><code>auto-testcase-generator</code></td><td>只读 Evidence Packet、RC Packet、Test Asset Manifest、oracle taxonomy、payload baseline 元数据。</td><td>不直接生成正式用例，不把 active 当用例依据。</td></tr>
+      <tr><td><code>ui-test</code></td><td>页面/接口/证据引用、业务 ID 提取字段、失败归因优先级、确定性证据链要求。</td><td>不执行浏览器测试，不创建 Playwright 脚本。</td></tr>
+      <tr><td>Solution D</td><td>Solution D Evidence Contract：trace、API、task、downstream、business_id、verdict、attribution。</td><td>不假设内部实现已存在，不把未提供接口写死为 RC。</td></tr>
+    </tbody>
+  </table>
+  <pre><code>{
+  "evidence_packet": {
+    "query_id": "QRY-0001",
+    "knowledge_space_id": "TBD_BY_USER",
+    "status": "confirmed | need-review | conflict | unknown",
+    "applicable_rc": [],
+    "evidence_refs": [],
+    "source_refs": [],
+    "blocked_reason": ""
+  },
+  "test_asset_manifest": {
+    "asset_id": "TA-0001",
+    "requires_status": "confirmed_active",
+    "linked_requirements": [],
+    "oracle_type": "ui | api | task | downstream | log | manual",
+    "solution_d_contract_ref": ""
+  }
+}</code></pre>
+
+  <h2>11. 非功能与安全需求</h2>
+  <table>
+    <thead><tr><th>ID</th><th>需求</th><th>验收</th></tr></thead>
+    <tbody>
+      <tr><td>NFR-KB-001</td><td>本地优先</td><td>MVP 不依赖外部模型服务、SaaS 或向量数据库。</td></tr>
+      <tr><td>NFR-KB-002</td><td>可追溯</td><td>每个 RC 和正式 Evidence Packet 均有来源、证据、确认和版本链。</td></tr>
+      <tr><td>NFR-KB-003</td><td>安全</td><td>不保存账号密码、密钥、访问令牌、Cookie、未脱敏生产数据或敏感会话材料。</td></tr>
+      <tr><td>NFR-KB-004</td><td>可恢复</td><td>来源、结构化对象和治理记录可备份；索引可重建。</td></tr>
+      <tr><td>NFR-KB-005</td><td>可维护</td><td>schema 版本化；变更生成影响记录；开放问题不被静默假设。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>12. 验收标准</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Given / When / Then</th></tr></thead>
+    <tbody>
+      <tr><td>AC-KB-001</td><td>Given 用户确认 RC，When 同一 space 查询，Then 返回 RC、来源、证据和定位。</td></tr>
+      <tr><td>AC-KB-002</td><td>Given 只有 active 材料，When 下游请求正式用例依据，Then 阻断并提示需用户批清。</td></tr>
+      <tr><td>AC-KB-003</td><td>Given 不同 knowledge_space_id，When 使用相同关键词查询，Then 结果不跨空间召回。</td></tr>
+      <tr><td>AC-KB-004</td><td>Given 材料含敏感凭据或未脱敏生产数据，When 尝试入库，Then 拒绝且不写入索引。</td></tr>
+      <tr><td>AC-KB-005</td><td>Given 已入库来源发生变化，When 用户重新提供新版本，Then 追加版本和变更影响，不自动修改 RC。</td></tr>
+      <tr><td>AC-KB-006</td><td>Given UI 证据来自 Midscene 视觉探索，When 试图进入黄金集，Then 必须补 Playwright 与 Solution D 确定性证据。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>13. RTM</h2>
+  <table>
+    <thead><tr><th>目标</th><th>需求</th><th>开发任务</th><th>测试项</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>G-KB-01</td><td>FR-KB-001/003/009</td><td>DEV-KB-001/002/006</td><td>TC-KB-001/002/010</td><td>目录树、schema 校验、重建报告</td></tr>
+      <tr><td>G-KB-02</td><td>FR-KB-005/007</td><td>DEV-KB-004/005</td><td>TC-KB-004/005/007</td><td>Evidence Packet、RC 审计</td></tr>
+      <tr><td>G-KB-03</td><td>FR-KB-006/010</td><td>DEV-KB-004/007</td><td>TC-KB-006/009</td><td>CONFLICT、CHG、审计报告</td></tr>
+      <tr><td>G-KB-04</td><td>FR-KB-001/002、NFR-KB-003</td><td>DEV-KB-003</td><td>TC-KB-003/008</td><td>拒绝报告、脱敏确认</td></tr>
+      <tr><td>G-KB-05</td><td>FR-KB-008</td><td>DEV-KB-008</td><td>TC-KB-011/012</td><td>Manifest、Solution D Contract 示例</td></tr>
+    </tbody>
+  </table>
+
+  <h2>14. 部署 DoR / MVP DoD</h2>
+  <p><strong>部署 DoR：</strong>用户提供首个 <code>knowledge_space_id</code>、首批候选材料清单、脱敏确认、至少 5 类黄金查询意图、允许文件类型、备份策略；P0 开放问题为 0。</p>
+  <p><strong>MVP DoD：</strong>受控目录与 schema 完成；材料准入和敏感拒绝通过；只读检索契约可输出 Evidence Packet；无 RC/冲突/active 均阻断正式用例；跨 space 隔离通过；所有报告无明显敏感信息。</p>
+
+  <h2>15. 开放问题</h2>
+  <table>
+    <thead><tr><th>ID</th><th>问题</th><th>阻塞范围</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>O-KB-001</td><td>原则已确认：由用户提供首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围；仍待具体值。</td><td>真实建库、隔离测试、RC 作用域</td><td>用户</td></tr>
+      <tr><td>O-KB-002</td><td>原则已确认：第一批候选材料由用户提供文件清单，Codex 只读取清单内文件；当前已提供并完成单文件验证的候选 PRD 地址为 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code>，仍需用户确认是否纳入首批材料清单和后续全量知识库读取范围。</td><td>入库演练、验收样本</td><td>用户</td></tr>
+      <tr><td>O-KB-003</td><td>下游内部 Skill 和 Solution D 的具体接口实现。</td><td>下游集成开发</td><td>用户提供后 Codex 复核</td></tr>
+      <tr><td>O-KB-004</td><td>原则已确认：MVP 先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON；当语料规模、黄金查询失败率或人工查找成本达到阈值后，再引入 SQLite FTS5；向量索引放在更后阶段。仍待首批语料和黄金查询数据确认具体触发阈值。</td><td>性能优化阶段</td><td>用户 + Codex</td></tr>
+      <tr><td>O-KB-005</td><td>原则已确认：用户提供 PRD 等参考资料，Codex 生成黄金查询和负向用例候选，用户审批后使用；当前 PRD 地址可作为后续候选生成样本，但其发现的文件类型规则冲突需用户裁决后才能形成正式黄金查询或 RC。</td><td>测试计划执行</td><td>用户 + Codex</td></tr>
+    </tbody>
+  </table>
+
+  <h2>16. 参考资料</h2>
+  <ul>
+    <li><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a>：来源、派生、修订、失效关系。</li>
+    <li><a href="https://json-schema.org/draft/2020-12">JSON Schema Draft 2020-12</a>：结构化契约。</li>
+    <li><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a>：本地全文索引后置候选。</li>
+    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a>：人工审批、最小权限和 Agent 安全。</li>
+    <li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a>：AI 评测、记录与治理。</li>
+    <li><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a>：双向追溯。</li>
+  </ul>
+</main>
+<script type="application/json" id="agent-ready">
+{
+  "documentType": "business-prd",
+  "sourceBaseline": {
+    "documents": [
+      "WorkBuddy PRD 2026-07-22 v1.1",
+      "Codex D:/RAG PRD v1",
+      "research reference and skill review 2026-07-22",
+      "grill confirmation 2026-07-22",
+      "single-file validated PRD candidate: C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake"
+    ],
+    "capturedAt": "2026-07-22"
+  },
+  "moduleUnderstanding": {
+    "moduleName": "Local Agent Knowledge Base",
+    "moduleBoundary": "Controlled local evidence and RC store for agent consumption",
+    "inScope": ["local schema", "ingest gate", "provenance", "RC governance", "read-only downstream contract"],
+    "outOfScope": ["actual D:/RAG creation in this document", "third-party skill execution", "UI automation execution"]
+  },
+  "businessObjects": ["KnowledgeSpace", "Source", "Evidence", "KnowledgeUnit", "RC", "Conflict", "ChangeImpact", "EvidencePacket", "TestAssetManifest"],
+  "stateModel": {
+    "states": ["raw", "reviewing", "active", "confirmed_active", "superseded", "uncertain", "deprecated"],
+    "formalUseRequires": "confirmed_active"
+  },
+  "upstreamDownstream": {
+    "upstreamInputs": ["user-provided file list", "user desensitization confirmation", "user RC decisions", "validated single-file PRD candidate C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake"],
+    "downstreamVerification": ["auto-testcase-generator", "ui-test", "Solution D"]
+  },
+  "evidenceContract": {
+    "evidenceIndexRequired": true,
+    "formalOutputRequires": "confirmed_active or user-confirmed RC",
+    "indexIsSourceOfTruth": false
+  },
+  "acceptanceCriteria": ["AC-KB-001", "AC-KB-002", "AC-KB-003", "AC-KB-004", "AC-KB-005", "AC-KB-006"],
+  "riskAndSafety": {
+    "allowedActions": ["design documents", "read approved source documents"],
+    "manualConfirmActions": ["knowledge_space_id concrete value", "first material list", "desensitization confirmation", "RC confirmation", "batch clear to confirmed_active", "golden query approval"],
+    "forbiddenActions": ["automatic disk scanning", "secret ingestion", "unredacted production data ingestion", "treat active as RC"]
+  },
+  "handoffTargets": {
+    "developmentPlan": ["FR-KB-001..010"],
+    "testPlan": ["AC-KB-001..006", "open questions"],
+    "testcaseGenerator": ["EvidencePacket", "TestAssetManifest"],
+    "uiTest": ["Solution D Evidence Contract"]
+  },
+  "validatedCandidateMaterials": [
+    {
+      "path": "C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake",
+      "analysisReport": "outputs/产研平台智能体交互评审lake单文件分析读取报告-2026-07-23.html",
+      "status": "active-candidate",
+      "rcEligible": false,
+      "fullKnowledgeBaseReadAuthorized": false
+    }
+  ],
+  "openQuestions": ["O-KB-001 concrete values pending", "O-KB-002 confirm whether validated PRD candidate is part of first material list and whether full KB read is authorized", "O-KB-003 internal skill implementation pending", "O-KB-004 concrete SQLite trigger thresholds pending corpus evidence", "O-KB-005 golden query approval pending"]
+}
+</script>
+</body>
+</html>

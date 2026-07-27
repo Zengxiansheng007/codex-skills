@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>入库产物结构与下游消费契约研究报告 - 2026-07-26</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1180px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    h3 { margin-top: 22px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    pre { background: #f4f7f9; border: 1px solid #d8e0e7; padding: 12px; overflow: auto; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warning { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .ok { color: #17663a; font-weight: 700; }
+    .caveat { color: #7a4b00; font-weight: 700; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>入库产物结构与下游消费契约研究报告</h1>
+  <p><strong>生成时间：</strong>2026-07-26；<strong>研究深度：</strong>standard；<strong>模式：</strong>skill-design / plan-support。</p>
+  <section class="summary">
+    <p><strong>结论：</strong>建议把“结构化入库 Skill”的产物设计成 <strong>一份候选材料包 + 一套可选下游只读包</strong>。第一版以 Markdown 为核心格式，语雀/lakebook 只作为目录分级来源和备用参考；Skill 只生成结构化入库产物和候选证据，不更新 RC、不替用户裁决。</p>
+    <p><strong>推荐状态：</strong><span class="caveat">caveated</span>。没有 P0/P1 证据缺口，但完整字段名、验证脚本和未来 Skill 名称属于本地实现约定，需要在开发阶段用 fixtures 与 <code>rag-schema</code> 固化。</p>
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <ul>
+    <li><strong>研究问题：</strong>入库后的知识如何形成稳定、可追溯、可验证、可被 <code>auto-testcase-generator</code>、<code>ui-test</code>、Solution D 和通用 Agent 消费的产物结构。</li>
+    <li><strong>范围内：</strong>入库产物目录、字段分层、状态门禁、证据包、RC 包、变更影响包、测试资产清单、Solution D 证据契约、相关 Skill 分工。</li>
+    <li><strong>范围外：</strong>不执行真实入库、不写 <code>D:/RAG</code>、不创建或修改真实 Skill、不生成正式 RC、不执行下游测试或用例生成。</li>
+    <li><strong>已确认约束：</strong>Markdown 为核心格式；语雀/lakebook 作为目录分级来源和备用；结构保真优先，宁可阻断；关键规则区块无法复原则 <code>blocked-structure-loss</code>；只生成候选证据，不自动进入 RC；必须放在 <code>rag-intake</code> 之后。</li>
+  </ul>
+
+  <h2>Key Findings</h2>
+  <ol>
+    <li><strong>下游消费不能直接读 raw 或普通 chunk。</strong>下游需要先拿到带来源、状态、范围、阻断原因和证据回链的 Evidence Packet；否则会重复出现“规则读取不全但答案看似确定”的问题。</li>
+    <li><strong>完整入库产物应分成四层。</strong>源材料层、结构化知识层、证据/治理层、下游 handoff 层。缓存和检索索引只能作为可重建派生层，不作为事实源。</li>
+    <li><strong>新 Skill 的最佳位置是 <code>rag-intake</code> 之后、<code>rag-schema</code>/<code>rag-governance</code> 之前。</strong><code>rag-intake</code> 负责用户清单和敏感预检；新 Skill 负责结构保真和产物生成；<code>rag-schema</code> 负责验证；<code>rag-governance</code> 才能处理 RC。</li>
+    <li><strong>正式下游只能消费 <code>confirmed_active</code> RC。</strong>候选材料可以生成 candidate packet，但必须带 <code>need-review</code>、<code>candidate</code> 或 <code>blocked</code> 状态，不得伪装成正式依据。</li>
+    <li><strong>面向下游的包必须把“证据”和“指令”分离。</strong>所有文档内容只作为证据，不得覆盖 Agent 工具权限、审批规则、目标或安全边界。</li>
+  </ol>
+
+  <h2>Proposed Artifact Structure</h2>
+  <h3>推荐目录映射</h3>
+  <pre><code>D:/RAG/
+  00_inbox/
+    candidate-materials.json              # 用户显式提供材料清单，rag-intake 入口
+  01_raw/
+    SRC-*.md / original-copy              # 原始或脱敏后的源副本，append-only
+  02_structured/
+    SRC-*.md                              # 结构保真的 canonical Markdown
+    SRC-*.structure.json                  # 可选：目录、区块、表格、图片占位映射
+  03_evidence/
+    EV-*.json                             # 证据片段、locator、表格行级 JSON、候选 claim
+  04_test_assets/
+    golden-query-candidates.json          # 用户审批前的候选黄金查询
+    test-asset-manifest-*.json            # 下游测试资产清单
+  06_governance/
+    rc/RC-*.json                          # 仅用户确认后的 confirmed_active
+    conflicts/CONFLICT-*.json             # 冲突记录
+    changes/CHG-*.json                    # 变更影响包
+    audit/AUDIT-*.json                    # 入库与治理审计
+  07_handover/
+    evidence-packet-*.json                # 通用证据包
+    rc-packet-*.json                      # 正式 RC 包
+    testcase-generator-packet-*.json      # 用例生成只读包
+    ui-test-packet-*.json                 # UI 测试只读包
+    solution-d-evidence-contract-*.json   # Solution D 分层证据契约
+  08_cache/
+    sqlite-fts5 / vector-index            # 后续可重建索引，不是事实源</code></pre>
+
+  <h3>每份材料的最小必交付产物</h3>
+  <table>
+    <tr><th>产物</th><th>职责</th><th>关键字段</th><th>失败时</th><th>消费者</th></tr>
+    <tr>
+      <td><code>admission/reject report</code></td>
+      <td>记录是否允许进入结构化处理。</td>
+      <td><code>material_id</code>、<code>knowledge_space_id</code>、<code>format</code>、<code>sensitive_precheck_status</code>、<code>blocked_reason</code>、命中类型与数量但不回显命中值。</td>
+      <td><code>blocked-pending-sensitive-review</code> 或 <code>rejected</code>。</td>
+      <td><code>rag-intake</code>、<code>rag-system</code></td>
+    </tr>
+    <tr>
+      <td><code>structured Markdown + frontmatter</code></td>
+      <td>人和 Agent 都能读的主结构产物。</td>
+      <td><code>schema_version</code>、<code>material_id</code>、<code>status</code>、<code>product/project/environment</code>、<code>source_role</code>、<code>precedence_rank</code>、<code>structure_fidelity_status</code>、<code>rc_eligible=false</code>。</td>
+      <td>关键规则区块丢失则 <code>blocked-structure-loss</code>。</td>
+      <td><code>rag-query</code>、通用 Agent、人审</td>
+    </tr>
+    <tr>
+      <td><code>structure map JSON</code></td>
+      <td>把目录、标题、表格、图片占位、区块顺序和来源定位机读化。</td>
+      <td><code>block_id</code>、<code>node_type</code>、<code>heading_path</code>、<code>parent_id</code>、<code>order</code>、<code>source_locator</code>、<code>loss_flags</code>、<code>critical_rule_block</code>。</td>
+      <td>非关键区块可局部阻断；关键区块必须阻断材料或区块。</td>
+      <td>新 <code>rag-structure-fidelity</code>、<code>rag-schema</code></td>
+    </tr>
+    <tr>
+      <td><code>evidence JSON</code></td>
+      <td>给查询、用例生成、UI 测试和 Solution D 的证据索引。</td>
+      <td><code>evidence_id</code>、<code>claim_id</code>、<code>block_id</code>、<code>source_id</code>、<code>locator</code>、<code>confidence</code>、<code>status</code>、<code>conflict_refs</code>、<code>usage_policy</code>。</td>
+      <td>无证据回链不得进入正式 downstream packet。</td>
+      <td><code>rag-query</code>、<code>auto-testcase-generator</code>、<code>ui-test</code></td>
+    </tr>
+    <tr>
+      <td><code>validation report</code></td>
+      <td>证明结构、JSON、状态枚举、负向 fixture 通过。</td>
+      <td>校验命令、通过/失败项、schema 版本、失败原因。</td>
+      <td>阻塞 handoff 或标记 <code>need-review</code>。</td>
+      <td><code>rag-schema</code>、人审</td>
+    </tr>
+  </table>
+
+  <h3>下游只读包结构</h3>
+  <table>
+    <tr><th>包</th><th>生成条件</th><th>必填字段</th><th>用途</th><th>禁止项</th></tr>
+    <tr>
+      <td><code>Evidence Packet</code></td>
+      <td>任何可查询材料；候选材料必须带 <code>need-review</code>。</td>
+      <td><code>packet_id</code>、<code>packet_type</code>、<code>knowledge_space_id</code>、<code>query_or_scope</code>、<code>status</code>、<code>source_refs</code>、<code>evidence_refs</code>、<code>conflict_refs</code>、<code>blocked_reason</code>、<code>usage_policy</code>。</td>
+      <td>通用问答、候选解释、人工复核。</td>
+      <td>无来源答案、跨 space 召回、把候选当 RC。</td>
+    </tr>
+    <tr>
+      <td><code>RC Packet</code></td>
+      <td>仅 <code>confirmed_active</code>，且有人审记录。</td>
+      <td><code>rc_id</code>、<code>confirmed_by</code>、<code>confirmed_at</code>、<code>scope</code>、<code>source_refs</code>、<code>evidence_refs</code>、<code>validity_window</code>、<code>supersedes</code>、<code>downstream_allowed</code>。</td>
+      <td>正式用例、正式 UI 自动化、正式 Solution D 证据链。</td>
+      <td>Agent 自动确认、无审计、无证据、范围不清。</td>
+    </tr>
+    <tr>
+      <td><code>Change Impact Packet</code></td>
+      <td>新版本、哈希变化、材料优先级变化或用户指定变更。</td>
+      <td><code>change_id</code>、<code>old_source</code>、<code>new_source</code>、<code>changed_blocks</code>、<code>impacted_rc</code>、<code>impacted_tests</code>、<code>review_required</code>。</td>
+      <td>增量用例、回归边界、RC 复核。</td>
+      <td>自动废弃旧 RC、自动改写正式测试资产。</td>
+    </tr>
+    <tr>
+      <td><code>Test Asset Manifest</code></td>
+      <td>准备给 <code>auto-testcase-generator</code> 或测试计划消费。</td>
+      <td><code>target_skill</code>、<code>requires_rc</code>、<code>allowed_source_status</code>、<code>module_scope</code>、<code>rule_refs</code>、<code>state_refs</code>、<code>permission_refs</code>、<code>open_questions</code>。</td>
+      <td>用例生成、覆盖矩阵、黄金查询候选。</td>
+      <td>绕过 RC、生成正式基线、包含真实凭据。</td>
+    </tr>
+    <tr>
+      <td><code>UI Test Packet</code></td>
+      <td>正式或候选 UI 测试输入。</td>
+      <td><code>entry_path</code>、<code>role_type</code>、<code>allowed_actions</code>、<code>manual_confirm_actions</code>、<code>forbidden_actions</code>、<code>observable_states</code>、<code>api_evidence</code>、<code>downstream_verification</code>。</td>
+      <td><code>ui-test</code> 生成 explore-steps 和证据策略。</td>
+      <td>实际账号密码、生产写操作、只靠截图证明业务成功。</td>
+    </tr>
+    <tr>
+      <td><code>Solution D Evidence Contract</code></td>
+      <td>需要证明 UI、API、任务、下游状态是否一致时。</td>
+      <td><code>ui_evidence</code>、<code>api_evidence</code>、<code>task_evidence</code>、<code>downstream_evidence</code>、<code>downgrade_reason</code>、<code>business_id_paths</code>。</td>
+      <td>区分“页面显示成功”和“业务真正成功”。</td>
+      <td>视觉证据单独作为最终成功结论。</td>
+    </tr>
+  </table>
+
+  <h3>建议新增或强化的 Skill 分工</h3>
+  <table>
+    <tr><th>Skill</th><th>职责</th><th>输入</th><th>输出</th><th>边界</th></tr>
+    <tr><td><code>rag-intake</code></td><td>材料清单、敏感预检、准入/拒绝。</td><td>用户显式文件清单。</td><td>admission/reject report、candidate status。</td><td>不抽取 RC，不做结构保真。</td></tr>
+    <tr><td><code>rag-structure-fidelity</code>（建议新增）</td><td>Markdown 主格式结构保真、目录/表格/图片占位/关键规则区块检查。</td><td>通过敏感预检的材料。</td><td>structured Markdown、frontmatter、structure map、evidence JSON 候选。</td><td>不更新 RC；关键规则区块丢失即阻断。</td></tr>
+    <tr><td><code>rag-schema</code></td><td>字段、状态、JSON、fixtures、负向样例校验。</td><td>结构化产物和 packet。</td><td>schema validation report。</td><td>不判断业务真伪。</td></tr>
+    <tr><td><code>rag-governance</code></td><td>RC、人审确认、冲突、版本治理。</td><td>候选证据、用户确认。</td><td>RC、CONFLICT、audit、change records。</td><td>只有用户可确认 RC。</td></tr>
+    <tr><td><code>rag-query</code></td><td>同 space 查询、证据回链、候选状态返回。</td><td>INDEX、manifest、structured、evidence、governance。</td><td>Evidence Packet。</td><td>不总结 blocked 材料，不跨 space。</td></tr>
+    <tr><td><code>rag-downstream-handoff</code></td><td>下游只读包。</td><td>Evidence/RC/Change/Test/Solution D 契约。</td><td>handoff packet。</td><td>不执行下游任务。</td></tr>
+    <tr><td><code>rag-change-impact</code></td><td>版本变化影响分析。</td><td>新旧材料、hash、RC、测试资产。</td><td>Change Impact Packet。</td><td>不自动修改 RC。</td></tr>
+  </table>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>支持点</th><th>优点</th><th>限制</th></tr>
+    <tr><td>E1</td><td><a href="https://www.w3.org/TR/prov-overview/">W3C PROV Overview</a></td><td>支持把来源、活动、实体、责任链作为证据模型。</td><td>正式标准族，适合 evidence/provenance 字段设计。</td><td>不是 RAG 专用，需要映射到本地简化 JSON。</td></tr>
+    <tr><td>E2</td><td><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications</a></td><td>支持把检索到的文档内容视为不可信输入，防止提示注入和错误输出。</td><td>直接覆盖 Agent/RAG 安全场景。</td><td>不给出本项目 packet 字段。</td></tr>
+    <tr><td>E3</td><td><a href="https://docs.haystack.deepset.ai/docs/metadata-filtering">Haystack Metadata Filtering</a></td><td>支持通过元数据过滤、路由和缩小检索范围。</td><td>官方文档，说明 metadata 对检索隔离有实际工程用途。</td><td>产品实现参考，不定义 RC 审批。</td></tr>
+    <tr><td>E4</td><td><a href="https://docs.llamaindex.ai/en/stable/module_guides/loading/ingestion_pipeline/">LlamaIndex Ingestion Pipeline</a></td><td>支持将文档摄取拆成 transformations、metadata extraction、存储等阶段。</td><td>官方 RAG 工程参考。</td><td>不覆盖本地敏感预检与用户 RC 审批。</td></tr>
+    <tr><td>E5</td><td><a href="https://sqlite.org/fts5.html">SQLite FTS5 Documentation</a></td><td>支持后续把全文索引作为可重建检索层。</td><td>官方 SQLite 文档，适合本地 MVP 后续演进。</td><td>FTS 只解决检索，不解决证据真伪或结构保真。</td></tr>
+    <tr><td>E6</td><td><a href="https://www.rfc-editor.org/info/rfc2119">RFC 2119</a> / <a href="https://www.rfc-editor.org/info/rfc8174">RFC 8174</a></td><td>支持用 MUST/SHOULD/MAY 等规范词固化下游契约。</td><td>正式 RFC，适合写 schema 与 Skill 规则。</td><td>只定义词义，不定义业务字段。</td></tr>
+    <tr><td>E7</td><td><code>C:/Users/lenovo/.codex/skills/rag-system/SKILL.md</code></td><td>本地 RAG 总路由、安全边界、只读 packet 和禁止自动 RC。</td><td>与当前环境直接匹配。</td><td>本地规则，需持续验证。</td></tr>
+    <tr><td>E8</td><td><code>C:/Users/lenovo/.codex/skills/rag-intake/SKILL.md</code></td><td>用户清单、敏感预检、准入/拒绝报告。</td><td>直接覆盖入库前置。</td><td>不负责结构保真。</td></tr>
+    <tr><td>E9</td><td><code>C:/Users/lenovo/.codex/skills/rag-schema/SKILL.md</code></td><td>结构先于内容置信度，packet schema-lite 和 fixtures 校验。</td><td>为本报告字段落地提供验证入口。</td><td>目前仍是 schema-lite。</td></tr>
+    <tr><td>E10</td><td><code>rag-governance</code>、<code>rag-query</code>、<code>rag-downstream-handoff</code>、<code>rag-change-impact</code></td><td>RC、查询、handoff、变更影响边界。</td><td>本地 Skill 分工完整。</td><td>需要新结构保真 Skill 补齐上游质量。</td></tr>
+    <tr><td>E11</td><td><code>auto-testcase-generator</code>、<code>ui-test</code>、<code>write-requirements-prd</code> 本地 schema</td><td>下游需要 source inventory、trace matrix、agent-ready evidence contract、UI/API/task/downstream 证据。</td><td>直接反映下游消费者需求。</td><td>字段要通过 handoff packet 统一映射。</td></tr>
+    <tr><td>E12</td><td><code>outputs/项目全量文档入库方案-research-2026-07-25.html</code></td><td>已有阶段 0-6 入库流程、下游 Evidence Packet、TITLE/DOC 分离、候选态边界。</td><td>本项目前序研究，P0/P1 已关闭。</td><td>本次需补完整 downstream artifact 字段。</td></tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <table>
+    <tr><th>问题</th><th>处理</th><th>剩余限制</th></tr>
+    <tr><td>外部 RAG 框架支持 metadata，但不定义本项目 RC 状态。</td><td>用本地 <code>rag-governance</code> 作为权威边界。</td><td>属于本地政策，不是公开标准。</td></tr>
+    <tr><td>PROV 模型比本地 MVP 复杂。</td><td>只映射最小字段：entity/source、activity/intake、agent/user-or-skill、locator。</td><td>后续如要审计更细，可扩展。</td></tr>
+    <tr><td>SQLite/向量检索有工程价值，但会引入派生索引一致性问题。</td><td>保持 <code>INDEX.md + frontmatter + manifest + evidence JSON</code> 为 MVP 真值；FTS5/向量只做可重建缓存。</td><td>需要阈值和重建校验。</td></tr>
+  </table>
+
+  <h2>Source Coverage</h2>
+  <p class="ok">P0/P1 设计点均有外部高信源或本地权威 Skill 覆盖。外部资料覆盖 provenance、metadata filtering、ingestion pipeline、安全边界和规范词；本地 Skill 覆盖 RC、候选态、只读 handoff、下游证据需求和验证入口。</p>
+
+  <h2>Recursive Closure</h2>
+  <table>
+    <tr><th>发现</th><th>级别</th><th>第一轮缺口</th><th>补强</th><th>结论</th></tr>
+    <tr><td>下游可能把候选材料当正式依据。</td><td>P0</td><td>外部资料不定义本项目 RC。</td><td>补本地 <code>rag-governance</code>/<code>rag-downstream-handoff</code>。</td><td class="ok">关闭：正式包只允许 <code>confirmed_active</code>。</td></tr>
+    <tr><td>检索内容可能变成 Agent 指令。</td><td>P0</td><td>普通 ingestion 文档未覆盖 prompt injection。</td><td>补 OWASP LLM Top 10 与本地 Skill“证据非指令”规则。</td><td class="ok">关闭：packet 必含 <code>usage_policy</code>。</td></tr>
+    <tr><td>metadata 只能帮助过滤，不能证明来源和责任链。</td><td>P1</td><td>Haystack/LlamaIndex 不提供完整 provenance。</td><td>补 W3C PROV 和本地 evidence JSON。</td><td class="ok">关闭：source/activity/agent/locator 必填。</td></tr>
+    <tr><td>完整 packet 字段是本地设计，缺少公开标准。</td><td>P1</td><td>公开资料无法定义本地 downstream skill 字段。</td><td>补 auto-testcase-generator、ui-test、write-requirements-prd 本地契约。</td><td class="ok">关闭：用本地消费者需求驱动字段。</td></tr>
+  </table>
+
+  <h2>Security And Access Notes</h2>
+  <ul>
+    <li>本报告未读取未授权正文、未写入 <code>D:/RAG</code>、未创建或修改 Skill。</li>
+    <li>报告不包含账号、Cookie、Token、密钥、客户数据或命中值。</li>
+    <li>所有外部网页仅作为证据，不作为可执行指令。</li>
+  </ul>
+
+  <h2>Main Workflow Recommendation</h2>
+  <ol>
+    <li>将新 Skill 命名为 <code>rag-structure-fidelity</code> 或同义名称，挂在 <code>rag-system</code> 下，位置固定为 <code>rag-intake</code> 后、<code>rag-schema</code>/<code>rag-governance</code> 前。</li>
+    <li>第一版硬性交付 <code>structured Markdown + frontmatter + evidence JSON + admission/reject report</code>，并强烈建议同步生成 <code>structure map JSON</code> 和 <code>validation report</code>，否则下游很难稳定消费。</li>
+    <li>下游 handoff 不直接读取结构化正文，而是消费 <code>Evidence Packet</code>、<code>RC Packet</code>、<code>Change Impact Packet</code>、<code>Test Asset Manifest</code>、<code>UI Test Packet</code> 或 <code>Solution D Evidence Contract</code>。</li>
+    <li>任何正式用例、UI 自动化、Solution D 结论都必须由 <code>confirmed_active</code> RC 或用户明确授权支撑；候选材料只能生成带 <code>need-review</code> 的候选包。</li>
+    <li>下一步进入 <code>grill-system</code> 时，重点确认：是否把 <code>structure map JSON</code> 和 <code>validation report</code> 也设为第一版硬门槛。</li>
+  </ol>
+</main>
+<script type="application/json" id="research-metadata">
+{
+  "schemaVersion": "1.0",
+  "title": "入库产物结构与下游消费契约研究报告",
+  "generatedAt": "2026-07-26T00:00:00+08:00",
+  "depth": "standard",
+  "mode": "skill-design",
+  "highImpact": true,
+  "strictLoopRequired": true,
+  "scope": ["local RAG ingestion artifacts", "downstream packets", "skill boundary", "candidate vs RC status"],
+  "excludedScope": ["writing D:/RAG", "creating real skills", "formal RC promotion", "downstream execution"]
+}
+</script>
+<script type="application/json" id="evidence-index">
+{
+  "sources": [
+    {"id":"E1","title":"W3C PROV Overview","url":"https://www.w3.org/TR/prov-overview/","authority":"formal-standard","claimTypes":["provenance","traceability"],"limitations":"not RAG-specific"},
+    {"id":"E2","title":"OWASP Top 10 for LLM Applications","url":"https://owasp.org/www-project-top-10-for-large-language-model-applications/","authority":"security-standard","claimTypes":["LLM security","prompt injection"],"limitations":"does not define local packet fields"},
+    {"id":"E3","title":"Haystack Metadata Filtering","url":"https://docs.haystack.deepset.ai/docs/metadata-filtering","authority":"official-docs","claimTypes":["metadata filtering","retrieval isolation"],"limitations":"framework-specific"},
+    {"id":"E4","title":"LlamaIndex Ingestion Pipeline","url":"https://docs.llamaindex.ai/en/stable/module_guides/loading/ingestion_pipeline/","authority":"official-docs","claimTypes":["ingestion pipeline","metadata extraction"],"limitations":"framework-specific"},
+    {"id":"E5","title":"SQLite FTS5 Documentation","url":"https://sqlite.org/fts5.html","authority":"official-docs","claimTypes":["local full text search"],"limitations":"search only, not governance"},
+    {"id":"E6","title":"RFC 2119 and RFC 8174","url":"https://www.rfc-editor.org/info/rfc2119","authority":"RFC","claimTypes":["normative keywords"],"limitations":"keyword semantics only"},
+    {"id":"E7","title":"Local rag-system skill","url":"local:C:/Users/lenovo/.codex/skills/rag-system/SKILL.md","authority":"local-project-skill","claimTypes":["routing","safety","RC boundary"],"limitations":"local rule"},
+    {"id":"E8","title":"Local rag-intake skill","url":"local:C:/Users/lenovo/.codex/skills/rag-intake/SKILL.md","authority":"local-project-skill","claimTypes":["admission","sensitive precheck"],"limitations":"no structure fidelity"},
+    {"id":"E9","title":"Local rag-schema skill","url":"local:C:/Users/lenovo/.codex/skills/rag-schema/SKILL.md","authority":"local-project-skill","claimTypes":["schema validation"],"limitations":"schema-lite"},
+    {"id":"E10","title":"Local governance/query/handoff/change skills","url":"local:C:/Users/lenovo/.codex/skills","authority":"local-project-skill","claimTypes":["RC","handoff","change impact"],"limitations":"requires validation"},
+    {"id":"E11","title":"Local downstream consumer skills","url":"local:C:/Users/lenovo/.codex/skills/auto-testcase-generator","authority":"local-project-skill","claimTypes":["testcase output","ui evidence","agent-ready schema"],"limitations":"needs unified mapping"},
+    {"id":"E12","title":"Existing full document intake research","url":"local:outputs/项目全量文档入库方案-research-2026-07-25.html","authority":"local-research-artifact","claimTypes":["ingestion phases","downstream packets"],"limitations":"needs field-level completion"}
+  ],
+  "claims": [
+    {"id":"C1","claim":"入库产物必须包含来源、活动、责任方和定位信息。","status":"supported","evidenceIds":["E1","E7","E9"]},
+    {"id":"C2","claim":"下游正式消费必须区分 candidate 与 confirmed_active RC。","status":"supported","evidenceIds":["E7","E10","E12"]},
+    {"id":"C3","claim":"文档内容必须作为证据而非 Agent 指令。","status":"supported","evidenceIds":["E2","E7","E11"]},
+    {"id":"C4","claim":"metadata 可用于检索隔离和路由，但需要本地治理字段补强。","status":"supported","evidenceIds":["E3","E4","E7","E10"]},
+    {"id":"C5","claim":"FTS5/向量索引应作为派生检索层，不作为事实源。","status":"supported","evidenceIds":["E5","E7","E9"]},
+    {"id":"C6","claim":"新结构保真 Skill 应位于 rag-intake 之后、rag-schema 和 rag-governance 之前。","status":"supported","evidenceIds":["E8","E9","E10","E12"]}
+  ]
+}
+</script>
+<script type="application/json" id="search-log">
+[
+  {"query":"W3C PROV Overview official provenance model","purpose":"provenance model"},
+  {"query":"OWASP Top 10 for Large Language Model Applications prompt injection","purpose":"retrieved content safety"},
+  {"query":"Haystack metadata filtering documentation official","purpose":"metadata filtering and retrieval isolation"},
+  {"query":"LlamaIndex ingestion pipeline metadata extraction official docs","purpose":"ingestion pipeline structure"},
+  {"query":"SQLite FTS5 official documentation","purpose":"later derived full text index"},
+  {"query":"RFC 2119 RFC 8174 key words official","purpose":"normative schema wording"},
+  {"query":"local rag-* skill review","purpose":"local RC and handoff boundaries"},
+  {"query":"local downstream skill schema review","purpose":"consumer field requirements"}
+]
+</script>
+<script type="application/json" id="run-status">
+{
+  "status": "complete",
+  "p0Open": 0,
+  "p1Open": 0,
+  "p0OpenCount": 0,
+  "p1OpenCount": 0,
+  "recommendationStatus": "caveated",
+  "notes": ["No P0/P1 evidence gaps remain. Caveat: field-level schema and validators must be implemented locally before long-lived skill changes."]
+}
+</script>
+<script type="application/json" id="critique-loop-log">
+{
+  "strictLoopRequired": true,
+  "rounds": [
+    {
+      "roundId": "R1",
+      "purpose": "Review external references for provenance, metadata filtering, ingestion pipeline and security coverage.",
+      "sourceIds": ["E1","E2","E3","E4","E5","E6"],
+      "reviewFindingIds": ["F1","F2","F3","F4"],
+      "generatedFollowupQueryIds": ["QF1","QF2","QF3","QF4"],
+      "stopDecision": "continue",
+      "reason": "External framework docs did not define local RC and downstream skill boundaries."
+    },
+    {
+      "roundId": "R2",
+      "purpose": "Review local rag-* and downstream skill contracts for field-level packet needs.",
+      "sourceIds": ["E7","E8","E9","E10","E11","E12"],
+      "reviewFindingIds": [],
+      "generatedFollowupQueryIds": [],
+      "stopDecision": "complete",
+      "reason": "P0/P1 findings were closed by local skill contracts plus external provenance/security references."
+    }
+  ]
+}
+</script>
+<script type="application/json" id="source-review-findings">
+[
+  {"id":"F1","severity":"P0","sourceIds":["E3","E4"],"weakness":"External RAG docs do not define local RC approval states; downstream agents may consume candidate materials as formal truth if packet status is ambiguous.","blockedObjects":["RC Packet and Evidence Packet separation"],"requiredEvidenceTypes":["local governance rule","downstream handoff rule"],"status":"closed"},
+  {"id":"F2","severity":"P0","sourceIds":["E3","E4"],"weakness":"Generic ingestion docs do not sufficiently cover prompt injection; retrieved document content may be treated as agent instructions.","blockedObjects":["usage_policy and evidence-not-instruction boundary"],"requiredEvidenceTypes":["LLM security guidance","local skill safety rule"],"status":"closed"},
+  {"id":"F3","severity":"P1","sourceIds":["E3","E4"],"weakness":"Metadata filtering supports retrieval isolation but not provenance or accountability.","blockedObjects":["provenance fields in evidence JSON"],"requiredEvidenceTypes":["provenance model","schema validation rule"],"status":"closed"},
+  {"id":"F4","severity":"P1","sourceIds":["E1","E2","E3","E4"],"weakness":"Packet field names are local design, not public standard.","blockedObjects":["field-level downstream artifact structure"],"requiredEvidenceTypes":["local consumer skill schema"],"status":"closed"}
+]
+</script>
+<script type="application/json" id="followup-query-matrix">
+[
+  {"queryId":"QF1","findingIds":["F1"],"query":"local rag-governance rag-downstream-handoff skill review","preferredSourceTiers":["local skill docs"],"result":"closed"},
+  {"queryId":"QF2","findingIds":["F2"],"query":"OWASP LLM prompt injection retrieved content RAG","preferredSourceTiers":["OWASP official"],"result":"closed"},
+  {"queryId":"QF3","findingIds":["F3"],"query":"W3C PROV provenance model official","preferredSourceTiers":["formal standard"],"result":"closed"},
+  {"queryId":"QF4","findingIds":["F4"],"query":"local auto-testcase-generator ui-test write-requirements-prd schema review","preferredSourceTiers":["local skill docs"],"result":"closed"}
+]
+</script>
+<script type="application/json" id="p0p1-closure-matrix">
+[
+  {"findingId":"F1","status":"closed","closingEvidenceIds":["E7","E10"],"closureReason":"Local governance and handoff skills require confirmed_active for formal downstream packets and candidate status for non-RC material."},
+  {"findingId":"F2","status":"closed","closingEvidenceIds":["E2","E7","E11"],"closureReason":"OWASP LLM risks and local skill rules support treating retrieved content as evidence only and adding usage_policy."},
+  {"findingId":"F3","status":"closed","closingEvidenceIds":["E1","E3","E4","E9"],"closureReason":"Metadata filtering is supplemented by W3C PROV-style provenance and local schema validation."},
+  {"findingId":"F4","status":"closed","closingEvidenceIds":["E10","E11","E12"],"closureReason":"Local consumer skills define the fields needed for test generation, UI test, Solution D, and change impact."}
+]
+</script>
+<script type="application/json" id="research-decision-gate">
+{
+  "schemaVersion": "1.0",
+  "depth": "standard",
+  "mode": "skill-design",
+  "recommendationStatus": "caveated",
+  "rerunResearchRequired": false,
+  "riskAcceptanceRequired": false,
+  "openCriticalFindings": [],
+  "coverageMatrix": [
+    {"objectType":"skill-design-decision","objectId":"SD-01-layered-artifact-structure","coverageStatus":"sufficient","evidenceIds":["E1","E3","E4","E7","E12"],"confidenceRationale":"Provenance, ingestion pipeline and local D:/RAG structure support source/structured/evidence/handoff layering.","limitations":["Exact filenames remain local convention."]},
+    {"objectType":"skill-design-decision","objectId":"SD-02-candidate-vs-rc-boundary","coverageStatus":"sufficient","evidenceIds":["E7","E10"],"confidenceRationale":"Local governance and handoff skills directly define RC and candidate status rules.","limitations":["Local policy, not external standard."]},
+    {"objectType":"skill-design-decision","objectId":"SD-03-untrusted-content-usage-policy","coverageStatus":"sufficient","evidenceIds":["E2","E7","E11"],"confidenceRationale":"OWASP LLM risks and local skill rules support evidence-not-instruction separation.","limitations":["Implementation must enforce in prompts and validators."]},
+    {"objectType":"skill-design-decision","objectId":"SD-04-new-rag-structure-fidelity-position","coverageStatus":"sufficient","evidenceIds":["E8","E9","E10","E12"],"confidenceRationale":"Existing skills leave a gap between sensitive precheck and governance; structure validation should run there.","limitations":["Skill name and implementation remain to be created."]},
+    {"objectType":"skill-design-decision","objectId":"SD-05-downstream-packet-set","coverageStatus":"sufficient","evidenceIds":["E10","E11","E12"],"confidenceRationale":"Local downstream consumers require evidence, trace matrix, UI/API/task/downstream contract and change impact fields.","limitations":["Need fixtures for each packet type."]},
+    {"objectType":"skill-design-decision","objectId":"SD-06-derived-index-not-source-of-truth","coverageStatus":"sufficient","evidenceIds":["E5","E7","E9"],"confidenceRationale":"SQLite FTS5 can support later search but local schema says cache is rebuildable and not source of truth.","limitations":["FTS/vector thresholds are outside this report."]}
+  ],
+  "grillFindingCoverage": [
+    {"findingId":"G-INTAKE-STRUCTURE-FIDELITY","severity":"P1","blockedDecision":"Whether the new ingestion capability can generate downstream-consumable artifacts without automatic RC promotion.","coverageStatus":"sufficient","evidenceIds":["E7","E8","E9","E10","E11","E12"],"rerunResearchRequired":false,"confidenceRationale":"User-confirmed grill constraints align with local Skill boundaries and previous research."}
+  ]
+}
+</script>
+</body>
+</html>

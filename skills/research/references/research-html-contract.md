@@ -11,9 +11,13 @@ Required data blocks:
 <script type="application/json" id="run-status">...</script>
 ```
 
-High-impact reports must also include:
+High-impact reports must also include the recursive closure blocks:
 
 ```html
+<script type="application/json" id="critique-loop-log">...</script>
+<script type="application/json" id="source-review-findings">...</script>
+<script type="application/json" id="followup-query-matrix">...</script>
+<script type="application/json" id="p0p1-closure-matrix">...</script>
 <script type="application/json" id="research-decision-gate">...</script>
 ```
 
@@ -36,7 +40,8 @@ Recommended top-level sections:
 5. Conflicts And Uncertainty
 6. Source Coverage
 7. Security And Access Notes
-8. Main Workflow Recommendation
+8. Recursive Closure
+9. Main Workflow Recommendation
 
 The main workflow must be able to parse the file and locate all evidence from the embedded JSON.
 

@@ -13,7 +13,7 @@ description: Analyze a local, ZIP, or staged GitHub Agent Skill for adoption, se
 - Redact credentials, access tokens, session data, private URLs, personal data, and private identifiers.
 - Do not report a Skill as safe because a scanner found nothing, or usable because its structure is valid.
 - Request explicit approval before R2 dependency installation, R3 sandbox execution, external/LLM scanning, private-source access, or any network access beyond user-approved source retrieval.
-- When producing redesign, refactor, adoption, or recommendation plans from external references, check high-confidence coverage through `research-decision-gate`. If P0/P1 coverage is missing, route to `research` before issuing a deterministic recommendation.
+- When producing redesign, refactor, adoption, or recommendation plans from external references, check high-confidence coverage through `research-decision-gate`. For high-impact reports, also require strict closure blocks: `critique-loop-log`, `source-review-findings`, `followup-query-matrix`, and `p0p1-closure-matrix`. If P0/P1 coverage or closure evidence is missing, route to `research` before issuing a deterministic recommendation.
 
 ## Workflow
 
@@ -31,7 +31,7 @@ description: Analyze a local, ZIP, or staged GitHub Agent Skill for adoption, se
 
 4. Read [the analysis contract](references/analysis-contract.md), [the design/runtime/logic guide](references/design-runtime-logic.md), [the risk decision guide](references/risk-and-decision.md), and [the execution adapter guide](references/execution-adapters.md) before making a recommendation.
 5. Inspect P0/P1 findings, artifact identity, declared capabilities, resource links, target-platform compatibility, decision, `designAnalysis`, `runtimeModel`, `logicDesign`, `resourceRoleMatrix`, `redesignBacklog`, and `evalRecommendations`.
-6. If redesign recommendations depend on reference skills, projects, products, standards, or literature, verify `research-decision-gate` coverage. If P0/P1 coverage is `insufficient` or `blocked`, return `rerun` or `review-required` and request `research` instead of inventing certainty.
+6. If redesign recommendations depend on reference skills, projects, products, standards, or literature, verify `research-decision-gate` coverage and high-impact strict closure blocks. If P0/P1 coverage is `insufficient`, `blocked`, or missing closure evidence, return `rerun` or `review-required` and request `research` instead of inventing certainty.
 7. Return one of `rejected`, `review-required`, `sandbox-only`, `accepted-with-constraints`, `accepted`, or `rerun`, with evidence paths, uncertainty, and prioritized repair or redesign actions.
 8. Optional follow-up gates:
    - GitHub retrieval: `python scripts/fetch_github_snapshot.py <repo> --ref <ref> --output-dir <dir> --report <html> --allow-network`

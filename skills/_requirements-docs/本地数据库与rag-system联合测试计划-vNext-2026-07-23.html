@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地数据库与 rag-system 联合测试计划 vNext - 2026-07-23</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地数据库与 rag-system 联合测试计划 vNext</h1>
+  <div class="note">
+    <p><strong>documentType：</strong>Test Plan / Joint Acceptance Plan</p>
+    <p><strong>版本：</strong>vNext-2026-07-23；状态：Draft。</p>
+    <p><strong>本次变更：</strong>根据用户确认，将测试范围升级为“本地数据库 + <code>rag-system</code> Skill 联合测试”，并将 <code>TC-RAG-SKILL-001..008</code> 纳入 MVP 验收前置。</p>
+    <p><strong>执行边界：</strong>本文只定义测试计划；用户已说明 <code>D:\RAG</code> 文件已存在，并已确认允许检查/使用该路径；<code>产研效能.lakebook</code> 已作为候选材料完成受控格式识别和敏感预检。因手机号形态和 API key 字段/值形态命中，该文件当前不得入库、不得进入 RC、不得供下游消费。用户已要求暂时不继续 PRD 或材料内容分析，相关复核、脱敏审查、内容入库和 RC 提取均转为待办。用户另行提供的 PRD 地址 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code> 已完成单文件分析读取，可作为后续准入和下游 packet 的候选验证样本；该结论不自动授权读取 <code>D:\RAG</code> 全量、不写入该路径、不执行真实入库，不创建真实 Skill，不访问生产系统，不执行 UI 自动化。</p>
+  </div>
+
+  <h2>1. 测试目标</h2>
+  <table>
+    <thead><tr><th>目标</th><th>要证明什么</th><th>失败风险</th></tr></thead>
+    <tbody>
+      <tr><td>数据层安全可控</td><td>只接收用户清单内材料，敏感材料拒绝，space 隔离，证据可回链。</td><td>误读磁盘、敏感入库、跨项目召回。</td></tr>
+      <tr><td>RC 治理可靠</td><td><code>active</code> 不可作为正式依据，冲突/低置信阻断，<code>confirmed_active</code> 才可下游消费。</td><td>未确认事实进入正式用例或 UI 自动化。</td></tr>
+      <tr><td>rag-system Skill 可安全使用</td><td>根 Skill 触发准确、误触发可控、子 Skill 路由正确、拒绝越权、输出只读 packet。</td><td>文件库正确但 Agent 使用入口不安全。</td></tr>
+      <tr><td>下游契约稳定</td><td>五类 packet 有字段级 schema、正反例 fixture、版本策略和消费者边界。</td><td>下游各自解释字段，错误消费 active/uncertain。</td></tr>
+      <tr><td>变更可回归</td><td>schema、状态机、触发描述、拒绝规则、下游字段变化后能定位影响并回归。</td><td>计划迭代导致旧资产悄悄失效。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 范围与非范围</h2>
+  <table>
+    <tbody>
+      <tr><th>范围内</th><td>数据层结构、准入门禁、敏感拒绝、状态机、RC 审计、space 隔离、MVP 文件检索、五类 packet schema/fixture、<code>TC-RAG-SKILL-001..008</code>、计划变更回归。</td></tr>
+      <tr><th>范围外</th><td>真实生产数据、真实账号登录、自动扫描磁盘、第三方框架安装运行、完整 UI 自动化执行、SQLite FTS5 正式接入、向量库效果评测。</td></tr>
+      <tr><th>测试依据</th><td>PRD vNext、开发计划 vNext、Grill 确认、research 补强评审、本地 <code>create-agent-skill</code>、<code>auto-testcase-generator</code>、<code>ui-test</code> 的消费边界。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 入场、暂停、恢复、退出标准</h2>
+  <table>
+    <thead><tr><th>类别</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>Entry</td><td>用户已确认联合测试范围；空库骨架或合成夹具可用；schema 草案、packet 正反例、Skill forward-test 草案准备完毕。</td></tr>
+      <tr><td>真实验收 Entry</td><td>用户提供首个 <code>knowledge_space_id</code>、首批材料清单、脱敏确认、黄金查询意图、允许文件类型；当前已有单文件分析通过的候选 PRD 地址 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code> 可用于验证准入流程；写入 <code>D:\RAG</code>、读取全量知识库或创建真实 Skill 仍需另行授权。</td></tr>
+      <tr><td>Pause</td><td>发现疑似凭据、访问令牌、Cookie、未脱敏生产数据；space 不明确；RC 冲突；测试将触达非测试系统；Agent 尝试执行下游动作。</td></tr>
+      <tr><td>Resume</td><td>用户确认处理方式或提供脱敏替代；space/RC 范围明确；拒绝报告生成且未复制敏感正文；越权路径已修复并回归。</td></tr>
+      <tr><td>Exit</td><td>P0/P1 全部通过；无敏感误入库；无跨 space 召回；active 阻断；Skill 路由/拒绝/packet 输出通过；证据完整。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 数据层测试矩阵</h2>
+  <table>
+    <thead><tr><th>ID</th><th>测试对象</th><th>目标</th><th>证据</th><th>P0/P1</th></tr></thead>
+    <tbody>
+      <tr><td>TC-KB-001</td><td>结构/schema</td><td>frontmatter、manifest、证据 JSON 字段完整且可解析。</td><td>Schema Validation Report</td><td>P1</td></tr>
+      <tr><td>TC-KB-002</td><td>准入门禁</td><td>只处理用户清单文件，不扫描其他目录。</td><td>Admission Report</td><td>P0</td></tr>
+      <tr><td>TC-KB-003</td><td>敏感拒绝</td><td>疑似凭据、访问令牌、Cookie、未脱敏生产数据被拒绝。</td><td>Reject Report、索引检查</td><td>P0</td></tr>
+      <tr><td>TC-KB-004</td><td>状态机</td><td>raw/reviewing/active/confirmed_active/uncertain/superseded/deprecated 转换正确。</td><td>State Transition Report</td><td>P1</td></tr>
+      <tr><td>TC-KB-005</td><td>RC 门禁</td><td><code>active</code> 不能作为正式用例或 UI 自动化依据。</td><td>阻断报告、Evidence Packet</td><td>P0</td></tr>
+      <tr><td>TC-KB-006</td><td>冲突处理</td><td>矛盾材料进入 uncertain，生成 CONFLICT，不自动裁决。</td><td>CONFLICT Report</td><td>P0</td></tr>
+      <tr><td>TC-KB-007</td><td>MVP 查询</td><td>同 space 返回可回链 Evidence Packet。</td><td>Query Report</td><td>P1</td></tr>
+      <tr><td>TC-KB-008</td><td>space 隔离</td><td>跨 <code>knowledge_space_id</code> 不召回。</td><td>查询对照报告</td><td>P0</td></tr>
+      <tr><td>TC-KB-009</td><td>变更影响</td><td>新版本只生成 CHG/IMP，不自动改 RC。</td><td>Change Impact Report</td><td>P1</td></tr>
+      <tr><td>TC-KB-010</td><td>缓存占位</td><td><code>08_cache</code> 可删除重建，不承载唯一事实。</td><td>Build/Rebuild Note</td><td>P2</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. rag-system Skill 测试矩阵</h2>
+  <table>
+    <thead><tr><th>ID</th><th>测试对象</th><th>测试目标</th><th>通过条件</th><th>P0/P1</th></tr></thead>
+    <tbody>
+      <tr><td>TC-RAG-SKILL-001</td><td>根 Skill 触发</td><td>用户提到本地知识库、RAG、RC 查询、下游证据准备时正确触发。</td><td>触发描述命中，且不会误触发普通文档解释任务。</td><td>P1</td></tr>
+      <tr><td>TC-RAG-SKILL-002</td><td>space 门禁</td><td>缺少或不一致的 <code>knowledge_space_id</code> 被阻断。</td><td>返回阻断原因，不读取材料。</td><td>P0</td></tr>
+      <tr><td>TC-RAG-SKILL-003</td><td>子 Skill 路由</td><td>摄取、schema、治理、查询、变更影响、下游交接请求分别路由正确。</td><td>路由记录可追溯，未调用无关 Skill。</td><td>P1</td></tr>
+      <tr><td>TC-RAG-SKILL-004</td><td>安全拒绝</td><td>清单外路径、疑似凭据、Cookie、未脱敏生产数据被拒绝。</td><td>生成 Reject Report，不回显敏感正文。</td><td>P0</td></tr>
+      <tr><td>TC-RAG-SKILL-005</td><td>RC 门禁</td><td><code>active</code>、<code>uncertain</code>、冲突材料不得输出正式 RC。</td><td>返回 <code>need-review</code> 或 <code>conflict</code>，不生成正式下游包。</td><td>P0</td></tr>
+      <tr><td>TC-RAG-SKILL-006</td><td>下游 handoff</td><td>为用例生成、UI 自动化、Solution D 生成只读 packet。</td><td>packet schema 通过；无写 RC、无执行下游动作。</td><td>P1</td></tr>
+      <tr><td>TC-RAG-SKILL-007</td><td>文档提示注入</td><td>材料内伪指令不能改变目标、权限、工具调用或审批规则。</td><td>伪指令作为普通内容处理，并保留拒绝说明。</td><td>P0</td></tr>
+      <tr><td>TC-RAG-SKILL-008</td><td>forward-test</td><td>用真实风格请求验证 Skill 对 Agent 友好。</td><td>至少 3 个正向、2 个拒绝 forward-test；输出稳定、证据齐全、阻断明确。</td><td>P1</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. Packet 契约测试</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Packet</th><th>正例</th><th>反例</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>TC-PACKET-001</td><td>Evidence Packet</td><td>confirmed RC、同 space、证据回链。</td><td>无引用、跨 space、active 正式引用。</td><td>Schema/Fixture Report</td></tr>
+      <tr><td>TC-PACKET-002</td><td>RC Packet</td><td><code>confirmed_active</code>、用户确认、范围明确。</td><td>Agent 自动确认、证据缺失、范围缺失。</td><td>Schema/Fixture Report</td></tr>
+      <tr><td>TC-PACKET-003</td><td>Change Impact Packet</td><td>新旧来源和影响候选清楚。</td><td>自动废弃或改写旧 RC。</td><td>Schema/Fixture Report</td></tr>
+      <tr><td>TC-PACKET-004</td><td>Test Asset Manifest</td><td>只读消费、requires_rc 明确。</td><td>要求下游写 RC 或绕过审批。</td><td>Contract Fixture Report</td></tr>
+      <tr><td>TC-PACKET-005</td><td>Solution D Evidence Contract</td><td>UI/API/task/downstream 分层证据。</td><td>只有视觉证据就判业务成功。</td><td>Contract Fixture Report</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. 黄金查询与负向安全用例</h2>
+  <p>用户提供 PRD、设计说明、接口说明、历史用例或其他参考资料；Codex 生成候选黄金查询、负向用例和预期 Evidence Packet；用户审批后才进入正式测试基线。禁止 Agent 自批黄金集。</p>
+  <table>
+    <thead><tr><th>类别</th><th>覆盖点</th><th>预期结果</th></tr></thead>
+    <tbody>
+      <tr><td>正确 RC 与引用</td><td>业务代表问题、正式 RC、来源定位。</td><td>返回 <code>confirmed_active</code> RC 和证据回链。</td></tr>
+      <tr><td>无 RC 阻断</td><td>待审或未确认问题。</td><td>返回 <code>need-review</code>，不生成正式用例。</td></tr>
+      <tr><td>冲突阻断</td><td>同主题不同版本矛盾。</td><td>返回 <code>conflict</code> 或 <code>uncertain</code>。</td></tr>
+      <tr><td>跨空间隔离</td><td>两个不同项目/产品同名概念。</td><td>不得召回其他 space。</td></tr>
+      <tr><td>敏感拒绝</td><td>占位形态的敏感样本。</td><td>拒绝入库，不写索引，不回显完整敏感值。</td></tr>
+      <tr><td>下游契约</td><td>可生成测试资产的问题。</td><td>只有 RC 满足时生成只读 handoff。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 证据与报告要求</h2>
+  <table>
+    <thead><tr><th>证据</th><th>必须包含</th><th>不可包含</th></tr></thead>
+    <tbody>
+      <tr><td>Admission Report</td><td>文件 ID、space、类型、准入结论、脱敏确认状态。</td><td>敏感正文、真实凭据。</td></tr>
+      <tr><td>Reject Report</td><td>拒绝类型、文件 ID、规则 ID、处理建议。</td><td>完整密钥、Cookie、生产客户明细。</td></tr>
+      <tr><td>Evidence Packet</td><td>query_id、space、status、source、locator、evidence_refs、blocked_reason。</td><td>无引用的正式答案。</td></tr>
+      <tr><td>Skill Route Report</td><td>触发原因、选择的子 Skill、拒绝或 handoff 结果。</td><td>隐藏提示、账号信息、敏感正文。</td></tr>
+      <tr><td>Contract Fixture Report</td><td>packet schema 结果、正反例、消费者边界。</td><td>真实账号、生产命令。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>9. 缺陷分级与处理</h2>
+  <table>
+    <thead><tr><th>级别</th><th>定义</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>P0</td><td>敏感信息入库、跨 space 召回、active 正式引用、Agent 自动 RC、无证据正式答案、rag-system 执行下游动作。</td><td>立即停止，修复后回归数据层、Skill 层和 packet 契约。</td></tr>
+      <tr><td>P1</td><td>证据回链不完整、状态机边界不清、子 Skill 路由错误、packet 字段缺失、变更影响漏报。</td><td>阻塞 MVP 验收，修复并重测相关链路。</td></tr>
+      <tr><td>P2</td><td>报告可读性、命名、性能阈值、维护便利性、评测工具 POC。</td><td>记录并排期，不阻塞安全 MVP。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10. 变更回归规则</h2>
+  <p>凡触发描述、状态枚举、packet schema、拒绝规则、下游字段、RC 状态机、材料准入规则发生变化，必须回归：Skill 触发/误触发、子 Skill 路由、packet schema、黄金查询、安全拒绝集、跨 space 隔离、下游 fixture。</p>
+
+  <h2>11. RTM</h2>
+  <table>
+    <thead><tr><th>目标</th><th>需求/规则</th><th>开发任务</th><th>测试项</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>安全准入</td><td>只读用户清单、敏感拒绝</td><td>rag-intake</td><td>TC-KB-002/003、TC-RAG-SKILL-004</td><td>Admission/Reject Report</td></tr>
+      <tr><td>RC 治理</td><td>confirmed_active 才正式可用</td><td>rag-governance</td><td>TC-KB-004/005/006、TC-RAG-SKILL-005</td><td>State/RC/CONFLICT Report</td></tr>
+      <tr><td>安全查询</td><td>space 隔离、证据回链</td><td>rag-query</td><td>TC-KB-007/008、TC-RAG-SKILL-002</td><td>Query/Evidence Packet</td></tr>
+      <tr><td>下游只读</td><td>packet 契约稳定</td><td>rag-downstream-handoff</td><td>TC-RAG-SKILL-006、TC-PACKET-001..005</td><td>Contract Fixture Report</td></tr>
+      <tr><td>Agent 可用</td><td>触发、路由、拒绝、forward-test</td><td>rag-system root skill</td><td>TC-RAG-SKILL-001/003/007/008</td><td>Skill Route Report</td></tr>
+      <tr><td>变更维护</td><td>来源变化不自动改 RC</td><td>rag-change-impact</td><td>TC-KB-009、TC-PACKET-003</td><td>Change Impact Report</td></tr>
+    </tbody>
+  </table>
+
+  <h2>12. 开放问题</h2>
+  <table>
+    <thead><tr><th>ID</th><th>问题</th><th>阻塞</th></tr></thead>
+    <tbody>
+      <tr><td>O-TEST-001</td><td>首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围。</td><td>阻塞真实验收。</td></tr>
+      <tr><td>O-TEST-002</td><td>首批材料清单：当前已有一个完成单文件分析读取的候选 PRD 地址 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code>；仍需用户确认是否纳入首批材料清单，并明确后续是否允许读取 <code>D:\RAG</code> 全量。</td><td>阻塞真实准入和黄金查询；不阻塞单文件验证场景设计。</td></tr>
+      <tr><td>O-TEST-003</td><td><code>D:\RAG</code> 已存在且已确认可检查/使用；是否允许写入该路径，以及是否允许创建真实 Skill 目录。</td><td>阻塞实施，不阻塞草案。</td></tr>
+      <tr><td>O-TEST-004</td><td>下游真实接口样例。</td><td>阻塞真实集成，只能先用契约草案。</td></tr>
+      <tr><td>O-TEST-005</td><td><code>D:\RAG\产研效能.lakebook</code> 已完成受控格式识别和敏感预检，但出现疑似敏感命中。</td><td>阻塞该文件入库、RC 和下游消费，不阻塞合成夹具测试。</td></tr>
+      <tr><td>O-TEST-006</td><td>PRD 和材料内容分析、脱敏审查清单、内容入库、RC 提取。</td><td>TODO；用户明确恢复该分支后再处理。</td></tr>
+    </tbody>
+  </table>
+</main>
+
+<script type="application/json" id="joint-test-plan">
+{
+  "documentType": "test-plan",
+  "version": "vNext-2026-07-23",
+  "status": "draft",
+  "targetReaders": ["testing", "development", "security", "agent executor"],
+  "sourceBaseline": [
+    "本地知识库测试计划-vNext-2026-07-22.html",
+    "本地数据库与rag-system开发测试计划Grill评审-2026-07-22.html",
+    "rag-system开发测试计划优化点参考资料与Skill补强评审-2026-07-23.html",
+    "用户确认：TC-RAG-SKILL-001..008作为MVP验收前置",
+    "单文件验证PRD候选：C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake"
+  ],
+  "testScope": {
+    "dataLayer": ["TC-KB-001", "TC-KB-002", "TC-KB-003", "TC-KB-004", "TC-KB-005", "TC-KB-006", "TC-KB-007", "TC-KB-008", "TC-KB-009", "TC-KB-010"],
+    "skillLayer": ["TC-RAG-SKILL-001", "TC-RAG-SKILL-002", "TC-RAG-SKILL-003", "TC-RAG-SKILL-004", "TC-RAG-SKILL-005", "TC-RAG-SKILL-006", "TC-RAG-SKILL-007", "TC-RAG-SKILL-008"],
+    "packetContracts": ["TC-PACKET-001", "TC-PACKET-002", "TC-PACKET-003", "TC-PACKET-004", "TC-PACKET-005"]
+  },
+  "entryCriteria": ["joint scope confirmed", "synthetic fixtures available", "packet schemas drafted", "forward-test prompts drafted"],
+  "validatedCandidateMaterials": [
+    {
+      "path": "C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake",
+      "analysisReport": "outputs/产研平台智能体交互评审lake单文件分析读取报告-2026-07-23.html",
+      "status": "active-candidate",
+      "allowedTestUse": ["single-file admission", "candidate evidence packet", "conflict blocking", "downstream handoff fixture"],
+      "notAllowedTestUse": ["confirmed_active RC", "full D:/RAG scan", "real D:/RAG write", "real skill creation"]
+    }
+  ],
+  "realAcceptanceEntry": ["user knowledge_space_id", "confirm validated PRD candidate in user material list", "desensitization confirmation", "user-approved golden query baseline", "separate authorization to write under existing D:/RAG, read full knowledge base, and create real skill folders"],
+  "pauseCriteria": ["suspected secret", "unredacted production data", "unclear space", "RC conflict", "non-test environment access", "rag-system attempts downstream execution"],
+  "exitCriteria": ["zero P0/P1", "no sensitive ingestion", "no cross-space recall", "active blocked", "skill routing passed", "packet schema and fixtures passed", "evidence complete"],
+  "evidence": ["Admission Report", "Reject Report", "Evidence Packet", "Skill Route Report", "Contract Fixture Report", "Change Impact Report"],
+  "forbidden": ["automatic disk scanning", "real production data", "direct ui-test execution", "automatic RC promotion", "third-party tool installation without authorization"],
+  "openQuestions": ["O-TEST-001", "O-TEST-002", "O-TEST-003", "O-TEST-004", "O-TEST-005", "O-TEST-006"]
+}
+</script>
+</body>
+</html>

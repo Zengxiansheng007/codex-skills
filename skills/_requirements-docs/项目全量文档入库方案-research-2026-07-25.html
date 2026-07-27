@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>项目全量文档入库方案调研报告 2026-07-25</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; max-width: 1120px; margin: 32px auto; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 10px; vertical-align: top; }
+    th { background: #f3f4f6; }
+    code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+    .ok { color: #166534; font-weight: 600; }
+    .warn { color: #92400e; font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>项目全量文档入库方案调研报告</h1>
+  <p><strong>日期：</strong>2026-07-25；<strong>范围：</strong>为 <code>D:/RAG</code> 本地知识库设计项目全量文档入库方案，覆盖 <code>.lakebook</code> 目录元数据、PRD/设计/接口/测试/说明文档的分批准入、敏感预检、候选态治理、RC 审批和下游 Agent 证据包。</p>
+
+  <h2>结论摘要</h2>
+  <p class="ok">建议采用“目录先入、正文分批、敏感先挡、用户审批后使用”的方案。</p>
+  <p>当前 <code>产研效能.lakebook</code> 已确认能读取目录元数据，但历史记录显示该材料仍处于 <code>blocked-pending-sensitive-review</code>，因此不能直接全量正文入库。全量入库应先建立目录索引和材料清单，再按分支、版本、材料类型逐批做敏感预检和结构化转换。</p>
+
+  <h2>推荐入库流程</h2>
+  <ol>
+    <li><strong>阶段 0：只读目录盘点。</strong>从 <code>tocYml</code> 提取 <code>TITLE</code> 与 <code>DOC</code> 节点，生成完整目录树、文档 ID、标题、父子关系、更新时间。不读取正文。</li>
+    <li><strong>阶段 1：用户确认纳入范围。</strong>按版本分组、模块分组和材料类型生成候选清单，例如 <code>V0.1.4版本</code>、<code>缺陷管理</code>、<code>流水线</code>、<code>总体设计</code>。用户勾选首批入库分支。</li>
+    <li><strong>阶段 2：敏感预检。</strong>只对用户确认分支的正文做扫描，阻断账号、密钥、Cookie、Token、真实生产客户数据、未经脱敏日志和截图。</li>
+    <li><strong>阶段 3：材料准入。</strong>通过预检的材料登记为 <code>active-candidate</code>，保留来源路径、hash、标题、版本、层级、时间、材料类型、product/project/environment 元数据。</li>
+    <li><strong>阶段 4：结构化入库。</strong>为每篇文档生成 frontmatter、Markdown 摘要、证据 JSON、来源定位和冲突候选。正文只转成可追溯片段，不直接作为 RC。</li>
+    <li><strong>阶段 5：冲突与版本治理。</strong>按“更新更晚、目录版本更高、用户指定优先级、同主题覆盖关系”记录冲突，但只有用户确认后的结论才可进入 <code>confirmed_active</code> RC。</li>
+    <li><strong>阶段 6：下游证据包。</strong>为 <code>auto-testcase-generator</code>、<code>ui-test</code>、Solution D 输出只读 Evidence Packet，包含来源、状态、置信度、冲突、可用范围和禁止使用说明。</li>
+  </ol>
+
+  <h2>证据与优缺点评审</h2>
+  <table>
+    <tr><th>ID</th><th>资料</th><th>支持点</th><th>优点</th><th>局限</th></tr>
+    <tr><td>E1</td><td><a href="https://genai.owasp.org/llm-top-10/">OWASP Top 10 for LLM Applications</a></td><td>RAG 系统需防提示注入、敏感信息泄露和过度信任外部内容。</td><td>安全权威来源，直接覆盖 LLM/RAG 风险。</td><td>偏安全风险框架，不给出本地文档入库细节。</td></tr>
+    <tr><td>E2</td><td><a href="https://airc.nist.gov/AI_RMF_Knowledge_Base">NIST AI Risk Management Framework</a></td><td>支持风险治理、可追溯、人工监督和影响评估。</td><td>权威治理框架，适合定义 P0/P1 门禁。</td><td>较宏观，需要转换为本项目工程流程。</td></tr>
+    <tr><td>E3</td><td><a href="https://microsoft.github.io/presidio/">Microsoft Presidio</a></td><td>PII 识别和脱敏可作为敏感预检参考。</td><td>成熟开源方案，覆盖多类 PII 检测与匿名化。</td><td>中文业务数据和企业内部字段需补充自定义规则。</td></tr>
+    <tr><td>E4</td><td><a href="https://docs.llamaindex.ai/en/stable/module_guides/loading/ingestion_pipeline/">LlamaIndex Ingestion Pipeline</a></td><td>支持加载、转换、索引的分层管线思路。</td><td>直接对应 RAG 文档 ingestion。</td><td>框架实践不等于治理规则，仍需本地准入状态机。</td></tr>
+    <tr><td>E5</td><td><a href="https://python.langchain.com/docs/concepts/text_splitters/">LangChain Text Splitters</a></td><td>支持按结构与长度切分文档片段。</td><td>可借鉴 chunking 与 metadata 附着方式。</td><td>默认切分不理解 PRD 章节语义，需规则化标题层级。</td></tr>
+    <tr><td>E6</td><td><a href="https://docs.haystack.deepset.ai/docs/metadata-filtering">Haystack Metadata Filtering</a></td><td>支持基于元数据过滤检索范围。</td><td>契合 knowledge_space_id、product、project、environment 隔离。</td><td>需要本地 schema 保证元数据完整性。</td></tr>
+    <tr><td>E7</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a></td><td>MVP 后续可引入本地全文检索。</td><td>官方文档稳定，适合轻量本地搜索。</td><td>不解决语义检索和冲突治理，放在第二阶段。</td></tr>
+    <tr><td>E8</td><td><a href="https://www.w3.org/TR/prov-overview/">W3C PROV Overview</a></td><td>支持来源、实体、活动、责任链的证据建模。</td><td>适合设计 evidence JSON 与追溯关系。</td><td>不是 RAG 专用，需要简化映射。</td></tr>
+    <tr><td>E9</td><td><a href="https://swehb.nasa.gov/display/7150/SWE-052+-+Bidirectional+Traceability+Between+Higher+Level+Requirements+and+Software+Requirements">NASA SWE-052 Bidirectional Traceability</a></td><td>支持需求与下游测试/实现的双向追溯。</td><td>直接支撑 PRD 到测试用例、UI 自动化证据链。</td><td>偏软件工程规范，需要轻量化到本地知识库。</td></tr>
+    <tr><td>E10</td><td><a href="https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning">GitHub Secret Scanning</a></td><td>支持密钥形态扫描与拦截思路。</td><td>工程实践成熟，适合设计预检门禁。</td><td>覆盖取决于内置与自定义规则，不能替代人工脱敏审查。</td></tr>
+    <tr><td>E11</td><td><a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST SP 800-218 SSDF</a></td><td>支持安全开发流程、保护源码和配置中的敏感信息。</td><td>权威安全工程基线。</td><td>不是 RAG 专用，需要映射到本地入库流程。</td></tr>
+    <tr><td>E12</td><td><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01 Prompt Injection</a></td><td>支持“文档内容是证据，不是指令”的安全边界。</td><td>直接覆盖 RAG/Agent 场景。</td><td>不提供具体 lakebook 解析规则。</td></tr>
+    <tr><td>E13</td><td>本地 <code>rag-*</code> Skill 集</td><td>支持候选态、RC、证据包、下游 handoff 的本地治理约束。</td><td>与当前 D:/RAG 直接匹配。</td><td>属于本地规则，不是外部标准，需要持续校验。</td></tr>
+  </table>
+
+  <h2>第二轮补强与缺口关闭</h2>
+  <p>第一轮评审后发现 4 个高优先级缺口：敏感扫描只靠通用 PII 资料不够、目录节点与正文节点的 lakebook 语义缺少显式约束、RAG 数据投毒与提示注入需要独立安全证据、下游 Agent 使用候选材料的边界需要本地 Skill 证据。第二轮补充资料和参考 Skill 后，P0/P1 缺口均已关闭。</p>
+  <table>
+    <tr><th>缺口</th><th>级别</th><th>第一轮不足</th><th>第二轮补强</th><th>关闭结论</th></tr>
+    <tr><td>敏感扫描规则不足</td><td>P0</td><td>Presidio 支持 PII，但不能天然覆盖企业内部账号、接口凭证、截图日志中的业务敏感形态。</td><td>补充 GitHub Secret Scanning、NIST SSDF、本地 <code>rag-intake</code> 规则。</td><td class="ok">关闭。方案要求“命中类型与数量可报告，命中值不输出；自定义规则必须覆盖企业字段”。</td></tr>
+    <tr><td>RAG 数据投毒与提示注入</td><td>P0</td><td>第一轮 OWASP 只作为总框架，未单独说明外部文档内容不能成为指令。</td><td>补充 OWASP LLM Prompt Injection 与本地 research 安全规则。</td><td class="ok">关闭。方案要求把所有文档内容视为证据，不作为 agent 指令执行。</td></tr>
+    <tr><td>目录节点误入正文知识片段</td><td>P1</td><td>第一轮把 <code>DOC</code> 节点当成完整目录，漏掉 <code>TITLE</code> 分组。</td><td>补充本地 lakebook 只读观察，明确 <code>TITLE</code> 为目录实体、<code>DOC</code> 为正文实体。</td><td class="ok">关闭。目录索引必须保存 node_type，TITLE 不生成正文 chunk。</td></tr>
+    <tr><td>下游 Agent 使用候选材料边界</td><td>P1</td><td>外部 RAG 框架资料不定义本项目 RC 审批和候选态限制。</td><td>补充本地 <code>rag-governance</code>、<code>rag-query</code>、<code>rag-downstream-handoff</code> Skill。</td><td class="ok">关闭。正式下游只能使用 confirmed_active RC；候选包必须标记 need-review。</td></tr>
+  </table>
+
+  <h2>参考 Skill 评审</h2>
+  <table>
+    <tr><th>Skill</th><th>可吸收点</th><th>缺点</th><th>入库方案处理</th></tr>
+    <tr><td><code>rag-system</code></td><td>定义 D:/RAG 是受控证据库，不允许自由扫盘和自动 RC。</td><td>本身不负责细粒度正文解析。</td><td>作为总路由和安全边界。</td></tr>
+    <tr><td><code>rag-intake</code></td><td>定义用户提供清单、敏感预检、准入报告。</td><td>当前规则需要补充 lakebook TITLE/DOC 目录语义。</td><td>用于阶段 2 与阶段 3，并新增目录节点类型约束。</td></tr>
+    <tr><td><code>rag-governance</code></td><td>只有用户能确认 RC，新版本只触发影响分析。</td><td>不能自动判断业务真值。</td><td>用于冲突记录和 RC 审批门禁。</td></tr>
+    <tr><td><code>rag-query</code></td><td>要求 knowledge_space_id 隔离并拒绝总结阻塞材料。</td><td>依赖上游结构化质量。</td><td>用于证据包查询，不直接读原始 lakebook 正文。</td></tr>
+    <tr><td><code>rag-downstream-handoff</code></td><td>为 auto-testcase-generator、ui-test、Solution D 输出只读包。</td><td>不执行下游测试，也不决定需求真伪。</td><td>用于候选包和正式 RC 包分流。</td></tr>
+  </table>
+
+  <h2>P0/P1 覆盖评审</h2>
+  <table>
+    <tr><th>风险</th><th>级别</th><th>结论</th><th>处理</th></tr>
+    <tr><td>全量正文中含密钥、Cookie、账号或真实生产数据</td><td>P0</td><td class="ok">已被 E1/E3 覆盖</td><td>入库前必须敏感预检；命中则阻塞，不输出命中值。</td></tr>
+    <tr><td>旧 PRD 与新 PRD 冲突导致错误测试用例</td><td>P0</td><td class="ok">已被 E2/E8/E9 覆盖</td><td>记录冲突和版本关系，禁止自动成为 RC。</td></tr>
+    <tr><td>目录分组 TITLE 被误当作正文文档</td><td>P1</td><td class="ok">已由本地 lakebook 观察闭环</td><td>schema 明确 <code>TITLE</code> 是分组，<code>DOC</code> 是文档。</td></tr>
+    <tr><td>跨知识空间混检导致下游引用错误</td><td>P1</td><td class="ok">已被 E6 覆盖</td><td>所有检索和证据包必须带 <code>knowledge_space_id</code> 过滤。</td></tr>
+    <tr><td>仅关键词检索找不到材料</td><td>P1</td><td class="ok">已被 E5/E7 覆盖</td><td>MVP 用 INDEX/frontmatter/manifest，阈值触发 FTS5。</td></tr>
+  </table>
+
+  <h2>建议目录与产物</h2>
+  <pre><code>D:/RAG/
+  00_inbox/
+    lakebook-toc/
+    candidate-materials.json
+  01_raw/
+    accepted/
+    blocked/
+  02_structured/
+    docs/
+    outlines/
+  03_evidence/
+    evidence-json/
+  04_test_assets/
+    golden-queries/
+    downstream-packets/
+  06_governance/
+    rc/
+    conflicts/
+    audits/
+    approvals/
+  07_handover/
+    agent-readme/
+  </code></pre>
+
+  <h2>用户需确认</h2>
+  <ul>
+    <li>是否先把 <code>lakebook</code> 全目录作为只读目录索引入库，但正文仍保持阻塞。</li>
+    <li>首批正文准入分支：建议从 <code>【流水线】优化需求及原型</code>、<code>初始化优化+成员管理</code>、<code>总体设计/概要设计</code> 中选一批。</li>
+    <li>是否允许对选定分支正文做敏感预检。命中只返回类型和数量，不返回原文。</li>
+    <li>是否将 <code>TITLE</code> 分组节点保留为目录实体，不生成正文知识片段。</li>
+    <li>是否按“用户审批后才 RC”继续执行，所有其他材料只进入 <code>active-candidate</code>。</li>
+  </ul>
+
+  <h2>主流程建议</h2>
+  <p class="ok">可以采用本方案作为下一步入库设计依据。推荐先执行“目录索引入库 + 首批分支清单生成”，再由用户选择分支进入正文敏感预检。</p>
+
+  <script type="application/json" id="research-metadata">{
+    "schemaVersion":"1.0",
+    "question":"如何将项目所有文档安全、可追溯地加入本地 D:/RAG 知识库",
+    "depth":"standard",
+    "createdAt":"2026-07-25T00:00:00+08:00",
+    "scope":["local RAG ingestion","lakebook metadata","sensitive precheck","RC governance","downstream agent packets"],
+    "excludedScope":["reading full document body without additional authorization","production system writes","automatic RC promotion"]
+  }</script>
+  <script type="application/json" id="evidence-index">{
+    "sources":[
+      {"id":"E1","title":"OWASP Top 10 for LLM Applications","url":"https://genai.owasp.org/llm-top-10/","authority":"security-standard","coverage":["prompt injection","sensitive information disclosure"]},
+      {"id":"E2","title":"NIST AI Risk Management Framework","url":"https://airc.nist.gov/AI_RMF_Knowledge_Base","authority":"government-framework","coverage":["risk governance","human oversight"]},
+      {"id":"E3","title":"Microsoft Presidio","url":"https://microsoft.github.io/presidio/","authority":"official-open-source-docs","coverage":["PII detection","anonymization"]},
+      {"id":"E4","title":"LlamaIndex Ingestion Pipeline","url":"https://docs.llamaindex.ai/en/stable/module_guides/loading/ingestion_pipeline/","authority":"official-framework-docs","coverage":["ingestion pipeline","transformations"]},
+      {"id":"E5","title":"LangChain Text Splitters","url":"https://python.langchain.com/docs/concepts/text_splitters/","authority":"official-framework-docs","coverage":["chunking","metadata preservation"]},
+      {"id":"E6","title":"Haystack Metadata Filtering","url":"https://docs.haystack.deepset.ai/docs/metadata-filtering","authority":"official-framework-docs","coverage":["metadata filters","retrieval scope"]},
+      {"id":"E7","title":"SQLite FTS5","url":"https://www.sqlite.org/fts5.html","authority":"official-database-docs","coverage":["local full text search"]},
+      {"id":"E8","title":"W3C PROV Overview","url":"https://www.w3.org/TR/prov-overview/","authority":"web-standard","coverage":["provenance","evidence graph"]},
+      {"id":"E9","title":"NASA SWE-052","url":"https://swehb.nasa.gov/display/7150/SWE-052+-+Bidirectional+Traceability+Between+Higher+Level+Requirements+and+Software+Requirements","authority":"engineering-guidance","coverage":["bidirectional traceability"]},
+      {"id":"E10","title":"GitHub Secret Scanning","url":"https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning","authority":"official-platform-docs","coverage":["secret detection","precheck gate"]},
+      {"id":"E11","title":"NIST SP 800-218 SSDF","url":"https://csrc.nist.gov/pubs/sp/800/218/final","authority":"government-standard","coverage":["secure development","sensitive configuration protection"]},
+      {"id":"E12","title":"OWASP LLM01 Prompt Injection","url":"https://genai.owasp.org/llmrisk/llm01-prompt-injection/","authority":"security-standard","coverage":["prompt injection","untrusted retrieved content"]},
+      {"id":"E13","title":"Local rag-* skills","url":"local:C:/Users/lenovo/.codex/skills/rag-system","authority":"local-project-skill","coverage":["candidate status","RC governance","downstream handoff"]}
+    ],
+    "claims":[
+      {"id":"C1","claim":"全量正文入库前必须先做敏感信息预检，命中密钥、Cookie、Token 或真实生产数据时阻塞。","status":"supported","evidenceIds":["E1","E3"]},
+      {"id":"C2","claim":"目录元数据、正文文档和证据片段应分阶段处理，避免把未验证材料直接作为正式 RC。","status":"supported","evidenceIds":["E2","E4","E8"]},
+      {"id":"C3","claim":"下游检索和证据包必须通过 knowledge_space_id、product、project、environment 等元数据隔离。","status":"supported","evidenceIds":["E6","E8"]},
+      {"id":"C4","claim":"MVP 可先使用结构化目录、frontmatter、manifest 与证据 JSON；语料规模或查询失败率达到阈值后再引入 SQLite FTS5。","status":"supported","evidenceIds":["E5","E7"]},
+      {"id":"C5","claim":"PRD 到测试用例、UI 自动化和 Solution D 需要保留双向追溯关系。","status":"supported","evidenceIds":["E8","E9"]},
+      {"id":"C6","claim":"敏感预检不能只依赖通用 PII；需要同时覆盖密钥、配置、Cookie、Token、账号和企业自定义字段。","status":"supported","evidenceIds":["E3","E10","E11","E13"]},
+      {"id":"C7","claim":"lakebook 的 TITLE 节点应作为目录实体处理，不能生成正文知识片段；DOC 节点才进入正文准入流程。","status":"supported","evidenceIds":["E13"]},
+      {"id":"C8","claim":"被检索到的文档内容必须作为证据而不是 agent 指令，防止提示注入影响入库和下游任务。","status":"supported","evidenceIds":["E1","E12"]}
+    ]
+  }</script>
+  <script type="application/json" id="search-log">[
+    {"query":"OWASP Top 10 for LLM Applications RAG sensitive information disclosure prompt injection","purpose":"security risks"},
+    {"query":"NIST AI RMF Generative AI Profile RAG data governance","purpose":"risk governance"},
+    {"query":"Microsoft Presidio PII detection anonymization documentation","purpose":"sensitive precheck"},
+    {"query":"LlamaIndex ingestion pipeline documentation","purpose":"RAG ingestion"},
+    {"query":"LangChain text splitters metadata documentation","purpose":"chunking"},
+    {"query":"Haystack metadata filtering documentation","purpose":"retrieval isolation"},
+    {"query":"SQLite FTS5 official documentation","purpose":"local search backend"},
+    {"query":"W3C PROV provenance official","purpose":"evidence traceability"},
+    {"query":"NASA SWE-052 bidirectional traceability","purpose":"PRD to test traceability"},
+    {"query":"GitHub Secret Scanning documentation","purpose":"second-round secret precheck gap"},
+    {"query":"NIST SP 800-218 SSDF official","purpose":"second-round secure handling gap"},
+    {"query":"OWASP LLM01 Prompt Injection retrieved content RAG","purpose":"second-round prompt injection gap"},
+    {"query":"local rag-* skill review","purpose":"second-round local governance and downstream boundary gap"}
+  ]</script>
+  <script type="application/json" id="run-status">{
+    "status":"complete",
+    "p0Open":0,
+    "p1Open":0,
+    "notes":["Second-round critique loop completed. Evidence supports a caveated implementation plan; local blocked material still needs user-authorized sensitive precheck before body ingestion."]
+  }</script>
+  <script type="application/json" id="research-decision-gate">{
+    "schemaVersion":"1.0",
+    "depth":"standard",
+    "mode":"plan-support",
+    "recommendationStatus":"caveated",
+    "rerunResearchRequired":false,
+    "riskAcceptanceRequired":false,
+    "openCriticalFindings":[],
+    "coverageMatrix":[
+      {"objectType":"recommendation","objectId":"R-INGEST-PHASED","coverageStatus":"sufficient","evidenceIds":["E1","E2","E3","E4"],"confidenceRationale":"Security and ingestion pipeline evidence support phased admission with precheck.","limitations":["Local corpus rules must enforce status gates."]},
+      {"objectType":"recommendation","objectId":"R-METADATA-FIRST","coverageStatus":"sufficient","evidenceIds":["E6","E8","E9"],"confidenceRationale":"Metadata filtering, provenance, and traceability support directory-first indexing.","limitations":["Lakebook TITLE/DOC semantics are based on local observation."]},
+      {"objectType":"recommendation","objectId":"R-FTS-LATER","coverageStatus":"sufficient","evidenceIds":["E5","E7"],"confidenceRationale":"FTS5 and chunking evidence support staged search backend evolution.","limitations":["Vector search is intentionally postponed."]},
+      {"objectType":"recommendation","objectId":"R-SECRET-PRECHECK-CUSTOM","coverageStatus":"sufficient","evidenceIds":["E3","E10","E11","E13"],"confidenceRationale":"PII, secret scanning, secure development, and local intake rules jointly cover the sensitive-data gate.","limitations":["Project-specific sensitive dictionaries still require user-provided examples or policy names."]},
+      {"objectType":"recommendation","objectId":"R-TITLE-DOC-SEPARATION","coverageStatus":"sufficient","evidenceIds":["E13"],"confidenceRationale":"Local lakebook observation and rag skill boundaries support preserving TITLE as directory entity and DOC as document entity.","limitations":["This is local-format evidence, not a public standard."]},
+      {"objectType":"recommendation","objectId":"R-UNTRUSTED-CONTENT","coverageStatus":"sufficient","evidenceIds":["E1","E12"],"confidenceRationale":"OWASP LLM evidence supports treating retrieved content as untrusted evidence rather than instructions.","limitations":["Implementation must enforce this in prompts and downstream packets."]}
+    ],
+    "grillFindingCoverage":[]
+  }</script>
+</main>
+</body>
+</html>

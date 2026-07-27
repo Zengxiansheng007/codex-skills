@@ -13,7 +13,7 @@ Default to HTML output when creating artifacts, unless the user explicitly reque
 
 Do not invent business facts. Mark unknowns, assumptions, and required confirmations explicitly.
 
-When producing or reviewing a high-impact PRD, development plan, test plan, Agent-ready requirement, or skill-change plan, consume available `research-decision-gate` evidence before finalizing deterministic recommendations. If P0/P1 coverage is `insufficient` or `blocked`, route back to `research`, mark the artifact `partial/blocked`, or ask for explicit risk acceptance.
+When producing or reviewing a high-impact PRD, development plan, test plan, Agent-ready requirement, or skill-change plan, consume available `research-decision-gate` evidence before finalizing deterministic recommendations. If the research report is high-impact, also verify `critique-loop-log`, `source-review-findings`, `followup-query-matrix`, and `p0p1-closure-matrix`. If P0/P1 coverage is `insufficient`, `blocked`, or strict closure evidence is missing, route back to `research`, mark the artifact `partial/blocked`, or ask for explicit risk acceptance.
 
 Default repair policy: prefer complete root-cause repair over minimal patching when the user asks to fix, adjust, review, or harden requirements, plans, Skills, or automation workflows. A task is not complete until direct fixes, related references, validation, reports, and known downstream impacts are handled or explicitly documented as out of scope. If the user explicitly asks for a minimal change, follow that constraint.
 
@@ -52,7 +52,7 @@ When the input mixes requirement, development, and testing content, first classi
    - baselines, source versions, deadlines, owners, and change impact;
    - open questions and assumptions.
 
-   If the artifact depends on external references, reference skills, products, standards, or literature, inspect the latest `research-decision-gate` first. If it is missing for a high-impact decision, call or request `research` before converting the decision into a requirement, plan, or acceptance criterion.
+   If the artifact depends on external references, reference skills, products, standards, or literature, inspect the latest `research-decision-gate` and strict closure blocks first. If they are missing for a high-impact decision, call or request `research` before converting the decision into a requirement, plan, or acceptance criterion.
 
 4. Structure the artifact:
    - document metadata and revision record;
@@ -95,7 +95,7 @@ When the input mixes requirement, development, and testing content, first classi
    - document type boundaries are respected;
    - no sensitive information included;
    - assumptions and open questions are visible.
-   - P0/P1 evidence gaps from `research-decision-gate` are closed, routed to `research`, or explicitly marked as accepted risk.
+   - P0/P1 evidence gaps from `research-decision-gate` and strict closure blocks are closed, routed to `research`, or explicitly marked as accepted risk.
 
 ## Reference Loading
 
@@ -133,7 +133,7 @@ Read `references/governance-diagnostics.md` when:
 - handling version baselines, change impact, output scoring, failure diagnosis, grill escalation, or Memory governance;
 - deciding whether an artifact can be promoted to downstream use or must be re-reviewed.
 
-Read the latest `research` report and its `research-decision-gate` JSON when:
+Read the latest `research` report, its `research-decision-gate` JSON, and high-impact strict closure blocks when:
 
 - writing requirements, development plans, test plans, or skill-change plans from researched references;
 - grill-system identified P0/P1 findings that affect the recommendation;
@@ -184,7 +184,7 @@ Also validate:
 - every referenced file in `references/` exists;
 - `agents/openai.yaml` reflects PRD, development plan, test plan, RTM, evidence, and change governance capabilities;
 - outputs contain no secrets, tokens, cookies, private keys, real credentials, or production-only account details;
-- high-impact artifacts do not ignore `research-decision-gate` P0/P1 gaps;
+- high-impact artifacts do not ignore `research-decision-gate` P0/P1 gaps or missing strict closure blocks;
 - forward-test cases cover sparse PRD, permission matrix, state machine, combined development/test plan, lightweight explanation, and sensitive input.
 - Agent-ready schema validation covers module understanding, business objects, upstream/downstream, evidence, safety, handoff targets, and governance references.
 

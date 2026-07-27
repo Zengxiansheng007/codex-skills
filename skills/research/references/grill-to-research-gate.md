@@ -26,7 +26,7 @@ Accept grill findings in this shape when available:
 3. Check current evidence coverage.
 4. If P0/P1 coverage is `insufficient`, generate follow-up queries and run research before producing the recommendation.
 5. If evidence is inaccessible or policy-blocked, return `blocked` or `partial` and list risk acceptance needs.
-6. Write `grillFindingCoverage` into `research-decision-gate`.
+6. Write `grillFindingCoverage` into `research-decision-gate` and require the recursive closure blocks when the resulting report is high-impact.
 
 ## Recommendation Rule
 

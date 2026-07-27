@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>testcase-system 参考资料重检与开发测试执行计划 v2</title>
+  <style>
+    :root { --ink:#182230; --muted:#475467; --line:#d0d5dd; --soft:#f8fafc; --blue:#175cd3; --green:#067647; --amber:#b54708; --red:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef2f6; color:var(--ink); font:15px/1.7 "Microsoft YaHei", Arial, sans-serif; }
+    main { max-width:1260px; margin:24px auto; padding:34px; background:#fff; border:1px solid var(--line); }
+    h1 { margin:0 0 6px; font-size:28px; } h2 { margin:34px 0 12px; padding-bottom:7px; border-bottom:2px solid #e4e7ec; font-size:21px; } h3 { margin:22px 0 8px; font-size:17px; }
+    p, li { color:var(--muted); } a { color:var(--blue); } table { width:100%; border-collapse:collapse; margin:12px 0 18px; } th, td { border:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top; } th { background:#f2f4f7; } code { padding:1px 5px; background:#eef2f5; color:#344054; } pre { overflow:auto; padding:14px; background:#101828; color:#f2f4f7; }
+    .meta,.small { color:#667085; } .summary,.decision,.warning,.risk { padding:14px 16px; margin:14px 0; border-left:4px solid var(--blue); background:#eff8ff; } .decision { border-color:var(--green); background:#ecfdf3; } .warning { border-color:var(--amber); background:#fffaeb; } .risk { border-color:var(--red); background:#fef3f2; } .status { font-weight:700; white-space:nowrap; } .yes { color:var(--green); font-weight:700; } .no { color:var(--red); font-weight:700; }
+    @media (max-width:760px) { main { margin:0; padding:18px; } table { display:block; overflow-x:auto; } h1 { font-size:24px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>testcase-system 参考资料重检与开发测试执行计划</h1>
+  <p class="meta">报告 ID：RES-TS-SKILLS-002｜版本：v2.0｜日期：2026-07-16｜深度：standard｜状态：complete｜建议：accepted-with-constraints</p>
+
+  <section class="summary"><strong>结论：</strong>已确认的九 Skill 架构与原 v2 需求方向一致，但此前计划缺少四类实现级证据：宿主是否支持多 Skill 协作、跨 Skill 契约如何传递、Skill 触发冲突如何测试、Agent 行为如何形成可重复回归。新版计划采用“宿主兼容性探针 → 契约优先 → 单 Skill 纵向实现 → 跨 Skill 合同测试 → 离线 forward-test → 安全与评估门禁”的顺序。P0/P1 不安装 Promptfoo、DeepEval、Pact 或其他大型框架；先用 JSON Schema、确定性脚本和合成夹具建立基线，再决定是否做隔离 POC。</section>
+
+  <h2>1. 范围与依据</h2>
+  <table>
+    <tr><th>需求基线</th><td>《测试用例编写完整流程与需求文档 v2》以及已确认的《testcase-system 多 Skill 体系需求基线 v1.0》。</td></tr>
+    <tr><th>体系边界</th><td>九个 Skill：主编排、来源治理、需求挖掘、Grill、领域建模、测试设计、输出治理、变更反馈，以及独立下游 <code>ui-test</code>。</td></tr>
+    <tr><th>确认决策</th><td><code>DR-TS-001</code> 至 <code>DR-TS-004</code>：九 Skill 分工；编排器无业务事实写权；单一版本化共享契约；P0/P1 仅合成/脱敏材料。</td></tr>
+    <tr><th>本轮包含</th><td>参考资料刷新、缺陷评审、证据缺口修复、开发工作包、测试矩阵、forward-test、门禁和交付顺序。</td></tr>
+    <tr><th>本轮不包含</th><td>不创建 Skill 包、不部署 RAG、不安装第三方框架、不访问真实系统、不扫描磁盘、不使用账号或生产数据、不修改原始需求文档。</td></tr>
+  </table>
+
+  <h2>2. 更新后的关键发现</h2>
+  <table>
+    <thead><tr><th>发现</th><th>证据</th><th>对方案的影响</th></tr></thead>
+    <tbody>
+      <tr><td>Agent Skills 规范只定义单 Skill 包和渐进加载，不定义跨 Skill 编排协议</td><td>规范定义 <code>SKILL.md</code>、<code>scripts/</code>、<code>references/</code>、<code>assets/</code>，并以 metadata、instructions、resources 三层渐进加载；规范页面未定义 orchestration 或 skill-to-skill invocation。<a href="https://agentskills.io/specification">Agent Skills Specification</a></td><td>先做宿主兼容性探针；跨 Skill 协作必须由本项目的 Run Manifest/Handoff Contract 明确定义，并提供缺少 Skill 或宿主不支持组合时的阻断降级。</td></tr>
+      <tr><td>公开规范与本地运行时的 frontmatter 规则存在差异</td><td>公开规范允许若干可选 frontmatter 字段，且 <code>allowed-tools</code> 标为实验性；本地 <code>create-agent-skill</code> 约束只保留 <code>name</code> 和 <code>description</code>。</td><td>以本地运行时规则为准；不在 frontmatter 使用版本、权限或依赖扩展字段。版本与权限写入共享契约和正文，并用本地 validator 验证。</td></tr>
+      <tr><td>共享契约适合用 JSON Schema 做结构验证，但 Schema 不能证明语义和权限</td><td>JSON Schema Draft 2020-12 定义结构断言、组合和验证输出；<code>format</code> 是否作为断言取决于方言配置。<a href="https://json-schema.org/draft/2020-12">JSON Schema 2020-12</a>、<a href="https://json-schema.org/draft/2020-12/json-schema-validation">Validation Vocabulary</a></td><td>Schema 负责字段、枚举和结构；另写确定性语义校验器验证 RC 权限、Scope、状态迁移、断链、循环、P0 阻断和 formal 条件。禁止把“Schema valid”当成“业务有效”。</td></tr>
+      <tr><td>跨阶段必须保留双向追溯、孤立项和变更影响</td><td>NASA SWE-052 要求需求、设计、验证和不符合项之间的双向追溯，并要求可验证的客观证据；SWE-053 要求变更在实施前分析对系统、接口、测试、风险和进度的影响。<a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">SWE-052</a>、<a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges">SWE-053</a></td><td>每个 Skill 都不能仅检查自己的输出；必须执行 producer/consumer 链路测试。变更先生成 CHG/IMP 候选，不自动修改 RC 或 formal TC。</td></tr>
+      <tr><td>统一测试模型可提升一致性，但会遗漏模型外条件</td><td>ISTQB CTAL-TA v4.0 要求测试条件追溯到测试依据，讨论测试预言机、数据和环境；同时提醒自动化模型可能遗漏模型之外的测试条件并低估维护成本。<a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>TC Model 作为唯一渲染源，但加入“模型外探索项”和人工抽样；预言机、环境、数据、清理和证据入口是 TP/TC 的必填设计项。</td></tr>
+      <tr><td>Agent 需要独立、可重复和对抗性的测试</td><td>NIST 建议在生成式 AI 生命周期早期迭代并记录 TEVV；OWASP 要求最小权限、结构化输出、人工批准、注入/记忆污染/工具滥用回归及版本化拒绝样本。<a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a>、<a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>每个 Skill 必须有正向触发、负向触发、权限拒绝、注入拒绝和输出契约测试；高风险门禁用确定性断言，不依赖 LLM 自评。</td></tr>
+      <tr><td>评估框架可补充但不能代替业务预言机</td><td>DeepEval 的 Tool Correctness 核心可对实际/期望工具调用做确定性比对，但“最优工具”仍可使用 LLM 判断；Promptfoo 支持回归、红队和 CI 门禁，但可能需要 Node、模型和 API Key。<a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval Tool Correctness</a>、<a href="https://www.promptfoo.dev/docs/integrations/ci-cd/">Promptfoo CI/CD</a></td><td>P0/P1 先使用自有黄金夹具和确定性验证。第三方评估只作为后续 POC，模型评分不得确认 RC、关系或业务成功。</td></tr>
+      <tr><td>UI 执行证据必须分层</td><td>Playwright 可捕获网络响应并通过 Trace 查看动作、DOM 和网络；页面证据仍不等于下游业务成功。<a href="https://playwright.dev/docs/network">Playwright Network</a>、<a href="https://playwright.dev/docs/best-practices">Playwright Best Practices</a></td><td><code>ui-test</code> 交接必须注明 UI、API、异步任务、下游和恢复预言机；本体系只定义 Execution Contract，不在 P0/P1 执行真实 UI。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 参考资料缺陷与优化点</h2>
+  <table>
+    <thead><tr><th>参考资料</th><th>可采用内容</th><th>缺陷/不适用点</th><th>本项目优化</th></tr></thead>
+    <tbody>
+      <tr><td>Agent Skills 规范</td><td>目录结构、触发描述、渐进加载、相对资源引用、结构校验。</td><td>没有跨 Skill 调用、事务、共享状态、重试、幂等、审批或产物版本协议；实验性权限字段跨宿主不稳定。</td><td>新增 Host Capability Report、Run Manifest、Handoff Contract、idempotency key 和明确的 blocked/fallback 状态；以本地 frontmatter 规则优先。</td></tr>
+      <tr><td>JSON Schema 2020-12</td><td>统一对象结构、枚举、条件、输出和 schema version。</td><td>只能验证结构，不能判断引用存在、用户是否真正确认、Scope 是否适用或链路是否完整；不同 validator 对 format 支持可能不同。</td><td>Schema + semantic validator 双门禁；固定方言 URI 和 validator 版本；用无效夹具验证错误定位。</td></tr>
+      <tr><td>NASA SWE-052/053</td><td>双向追溯、孤立项、客观证据、变更影响和审批前分析。</td><td>高保证工程背景较重，不能机械套用安全关键覆盖率、组织角色和成本控制方式。</td><td>保留方法，不复制 NASA 合规结论；按 RC 风险分层，P0 逐项门禁，其他指标由试点基线校准。</td></tr>
+      <tr><td>W3C PROV-O</td><td>Entity/Activity/Agent、派生、修订、失效和责任主体。</td><td>语义丰富，直接完整实现会增加上下文和数据复杂度。</td><td>只映射最小子集：实体、活动、责任主体、派生、修订、失效；不在 P0 引入 RDF 或图数据库。</td></tr>
+      <tr><td>ISTQB CTAL-TA</td><td>测试依据、风险、预言机、环境、数据、模型化设计和回归影响。</td><td>面向测试分析角色，不定义 LLM 来源治理、RC 权限或多 Skill 合同。</td><td>把其测试设计方法放进 <code>testcase-designer</code>，由治理 Skill 提供来源/裁决前置门禁。</td></tr>
+      <tr><td>NIST/OWASP</td><td>TEVV、最小权限、人工监督、输入/输出验证、红队与证据保留。</td><td>原则范围广，不提供 testcase-system 的具体门禁字段和阈值。</td><td>转化为可执行拒绝夹具、权限矩阵、链深/重试上限和发布证据清单；阈值由合成基线确认。</td></tr>
+      <tr><td>Promptfoo/DeepEval</td><td>批量回归、工具调用比对、红队、CI 输出。</td><td>引入依赖、模型调用、密钥、成本和评分偏差；README/文档主张需要本地复现。</td><td>列为 P2 可选 POC；P0/P1 不安装。先建立可被任何框架读取的 JSON 黄金集和结果格式。</td></tr>
+      <tr><td>Pact 合同测试</td><td>消费者定义期望、提供者端验证的思想。</td><td>主要针对服务 API；本体系以文件/产物交接为主，引入 Pact 过重。</td><td>采用 consumer fixture + JSON Schema + semantic validator 的轻量合同测试，不引入 Pact 运行时。</td></tr>
+      <tr><td>Playwright</td><td>网络等待、可重试断言、Trace 和浏览器证据。</td><td>仅覆盖浏览器执行层，无法替代规则、异步任务和下游验证。</td><td>仅用于 <code>ui-test</code> 下游；Execution Contract 强制声明非 UI 预言机和业务 ID。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 补齐后的目标架构</h2>
+  <div class="decision"><strong>核心设计：</strong>九 Skill 保持已确认边界，但共享契约由 <code>testcase-system</code> 持有并通过每次运行的 <code>contract_bundle_ref</code> 传递。下游 Skill 不跨目录读取另一个 Skill 的资源，也不复制核心 Schema；若缺少契约、版本不兼容或宿主无法加载所需 Skill，必须返回 blocked。</div>
+  <pre>用户请求
+  -> testcase-system: Host Probe + Run Manifest + contract_bundle_ref
+  -> 专职 Skill: 消费上游 artifact，产生下游 artifact + validation report
+  -> testcase-system: Gate 检查 + Handoff
+  -> ui-test（可选下游）
+  -> testcase-change-feedback
+
+每段交接必须包含：run_id、contract_version、producer_skill、producer_version、
+artifact_type、artifact_ids、scope、source_hashes、status、issues、next_gate。</pre>
+  <table>
+    <thead><tr><th>新增契约</th><th>作用</th><th>硬门禁</th></tr></thead>
+    <tbody>
+      <tr><td>Host Capability Report</td><td>记录宿主能否发现、加载多个 Skill、读取资源和运行脚本。</td><td>缺少必需能力时停止，不假装已调用下游 Skill。</td></tr>
+      <tr><td>Run Manifest</td><td>绑定 run、用户目标、Scope、来源授权、契约版本和阶段状态。</td><td>无 <code>project_id/product_id/knowledge_space_id/environment</code> 不进入 G1。</td></tr>
+      <tr><td>Shared Contract Bundle</td><td>包含 JSON Schema、状态机、关系白名单、预言机枚举、错误码。</td><td>producer/consumer 版本不兼容即 blocked；迁移必须显式登记。</td></tr>
+      <tr><td>Handoff Contract</td><td>每阶段的输入、输出、问题、证据和下一门禁。</td><td>无 producer、hash、artifact IDs 或 validation result 不接收。</td></tr>
+      <tr><td>Evaluation Record</td><td>记录 Skill/模型/工具策略、夹具、结果、成本和人工裁决。</td><td>高风险负向测试失败不得发布；LLM 分数不能覆盖确定性失败。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 详细开发与测试计划</h2>
+
+  <h3>阶段 S0：冻结基线与建立实施工作区</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）锁定需求基线 v2 和 DR-TS-001~004；2）建立 Skill 清单与 ownership；3）为九 Skill 分配唯一写对象；4）定义 P0/P1 excluded scope；5）把现有 Python 原型登记为“可拆取脚本原型”，不作为产品入口。</td></tr>
+    <tr><th>测试步骤</th><td>1）核对 FR-TCD-001~012、BR、NFR 均有负责 Skill；2）检查不存在两个 Skill 对 RC/formal TC 的竞争写权；3）构造“直接调用专职 Skill 且无 Run Manifest”的负向场景，应返回 blocked。</td></tr>
+    <tr><th>产物</th><td><code>skill-inventory.json</code>、<code>ownership-matrix.md</code>、<code>scope-boundary.md</code>、需求到 Skill 的 RTM。</td></tr>
+    <tr><th>退出门禁</th><td>FR/BR/NFR 映射完整；写权限无冲突；用户确认规则未被转交给 Agent。</td></tr>
+  </table>
+
+  <h3>阶段 S1：宿主兼容性探针与编排降级</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）定义需要的宿主能力：Skill 发现、完整读取、资源读取、脚本运行、多 Skill 顺序使用；2）编写只读 capability probe；3）输出 Host Capability Report；4）在 <code>testcase-system</code> 中定义 missing-skill、unsupported-composition、script-unavailable 三类阻断；5）禁止静默退回“单 Agent 自己完成所有角色”。</td></tr>
+    <tr><th>测试步骤</th><td>1）全部能力可用；2）缺少某专职 Skill；3）不能运行脚本；4）同名 Skill 冲突；5）宿主只支持单 Skill。逐项验证报告和降级路径，不执行业务阶段。</td></tr>
+    <tr><th>产物</th><td><code>host-capability.schema.json</code>、probe 脚本、5 个宿主夹具、阻断错误码。</td></tr>
+    <tr><th>退出门禁</th><td>任何能力缺失都有可解释状态；测试证明不会虚构下游调用结果。</td></tr>
+  </table>
+
+  <h3>阶段 S2：共享契约 v1 与语义验证器</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）固定 JSON Schema Draft 2020-12；2）定义 SRC/EVD/CLM/ISS/RC/MOD/OBJ/STATE/TP/TC/CHG/IMP/RUN/RCA；3）定义 Run Manifest/Handoff/Evaluation Record；4）定义状态机、关系白名单、Scope 和预言机枚举；5）实现 semantic validator：引用存在、类型匹配、RC 用户确认、P0 阻断、孤立项、循环、formal 条件；6）实现显式 migration registry。</td></tr>
+    <tr><th>测试步骤</th><td>1）每个 Schema 的最小有效/缺字段/错枚举/多余字段夹具；2）format assertion 配置测试；3）跨引用断链；4）Agent 伪造 confirmed_by；5）非法状态跳转；6）未知迁移版本；7）循环追溯；8）formal TC 无 RC/P0 开放。</td></tr>
+    <tr><th>产物</th><td>共享 Contract Bundle v1、schema validator、semantic validator、migration registry、错误码目录和无效夹具。</td></tr>
+    <tr><th>退出门禁</th><td>结构与语义错误都能定位到对象 ID、字段和 Gate；未知版本明确拒绝，不按同名字段猜迁移。</td></tr>
+  </table>
+
+  <h3>阶段 S3：主编排 Skill 与来源治理 Skill</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）创建精简的 <code>testcase-system/SKILL.md</code>，description 覆盖完整流程触发词；2）只保留编排、门禁、资源路由和失败路径；3）创建 <code>testcase-source-governance</code>；4）实现用户显式来源清单、hash、分类、定位、SRC/EVD/CLM 和 Evidence Packet；5）禁止磁盘扫描与检索命中自动升格。</td></tr>
+    <tr><th>测试步骤</th><td>触发测试：完整用例任务应触发 orchestrator；单纯概念问答不触发。来源测试：用户指定合成文件通过；Agent 自选目录、敏感扩展名、疑似凭据、过期/冲突来源被拒绝或标记；Evidence Packet 验证 unknown/conflict/need-review/resolved。</td></tr>
+    <tr><th>产物</th><td>两个 Skill 包、source manifest 模板、Evidence Packet 模板、准入/检索脚本、正负触发集。</td></tr>
+    <tr><th>退出门禁</th><td>Skill 结构校验通过；每条 CLM 可回到 EVD/SRC；无授权来源不会进入下游。</td></tr>
+  </table>
+
+  <h3>阶段 S4：适配 prd-test-miner 与 grill-system</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）审计现有两个 Skill 的 trigger、输入和输出；2）添加 Contract Bundle/Run Manifest 前置要求；3）miner 输出模块、对象、角色、状态、规则、数据、接口、异步、下游和 unknown；4）Grill 生成带 severity、blocked_objects、root_question 和 closure_evidence 的 ISS；5）记录用户回答，但 candidate RC 必须经独立 user confirmation action。</td></tr>
+    <tr><th>测试步骤</th><td>1）完整/缺失/冲突 PRD；2）PRD 与代码主张冲突；3）用户被 Agent 建议诱导仍未明确确认；4）同一 P0 多轮回答；5）重复根因；6）miner 不输出 formal TC；7）Grill 不按来源固定排名、不自动确认新旧关系。</td></tr>
+    <tr><th>产物</th><td>两个适配后的 Skill、Mining Report Schema、ISS/RC 候选交接夹具、Grill forward-test 集。</td></tr>
+    <tr><th>退出门禁</th><td>关键 unknown 全部有 ISS；Agent 无法写 confirmed RC；P0 未关闭时编排器停止。</td></tr>
+  </table>
+
+  <h3>阶段 S5：领域建模与测试设计 Skill</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）创建 <code>testcase-domain-modeler</code>，从适用 RC 生成 MOD/OBJ/STATE、权限和上下游关系；2）创建 <code>testcase-designer</code>，生成 TP/candidate TC；3）强制选择预言机、风险、前置、数据、步骤、逐步预期、清理/恢复和证据入口；4）自动化候选只给出评估，不生成 UI 脚本；5）模型外探索项单独登记。</td></tr>
+    <tr><th>测试步骤</th><td>1）无 RC 建模；2）跨 project/product Scope 污染；3）非法状态迁移；4）权限负向；5）边界、组合、异步、恢复场景；6）UI 预言机被误用于下游业务；7）模型外风险缺失；8）candidate/formal 隔离。</td></tr>
+    <tr><th>产物</th><td>两个 Skill、domain/test-case 模板、oracle catalog、设计覆盖报告、模型外探索清单。</td></tr>
+    <tr><th>退出门禁</th><td>每个关键 RC 至少有可观察 TP；formal TC 的链路、Scope、预言机、数据与恢复字段完整。</td></tr>
+  </table>
+
+  <h3>阶段 S6：输出治理与变更反馈 Skill</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）创建 <code>testcase-output-governance</code>，从统一 TC Model 渲染 JSON/Markdown/HTML；2）加入跨格式 canonical comparison；3）创建 <code>testcase-change-feedback</code>，登记新旧来源、语义标签和 CHG/IMP；4）从变化来源沿反向追溯传播到 RC/模型/TP/TC；5）接收合成 RUN/EVD/ISS，按产品/需求/数据/环境/脚本/工具/Agent 分类 RCA；6）同 RCA 第二次触发升级。</td></tr>
+    <tr><th>测试步骤</th><td>1）三格式 ID/字段/数量等价；2）HTML 转义和结构；3）文字改写不误判规则变更；4）对象/状态/角色/接口变化命中下游；5）不自动改写 RC/formal TC；6）第二次同根因升级；7）删除或弱化高风险用例被拒绝。</td></tr>
+    <tr><th>产物</th><td>两个 Skill、renderer、canonical comparator、impact walker、RCA classifier、回归包模板。</td></tr>
+    <tr><th>退出门禁</th><td>三格式零语义差异；影响候选可解释到来源差异和追溯路径；所有变更保持人工处置状态。</td></tr>
+  </table>
+
+  <h3>阶段 S7：ui-test 交接适配</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）不修改 <code>ui-test</code> 的需求解释权；2）定义 Execution Contract：case ID、Scope、入口、选择器线索、业务 ID、预言机类型、网络/任务/下游证据、写风险和清理；3）定义返回 RUN/EVD/ISS；4）页面成功与业务成功分开判定。</td></tr>
+    <tr><th>测试步骤</th><td>全部使用合成执行报告：UI 成功/API 失败、API 成功/任务超时、任务成功/下游失败、清理失败、截图缺失、业务 ID 缺失；验证不能错误关闭 TC。</td></tr>
+    <tr><th>产物</th><td>Execution Contract、合成 RUN/EVD fixtures、下游交接验证器。</td></tr>
+    <tr><th>退出门禁</th><td>每个 pass/fail 结论都能匹配对应预言机；UI 证据不会越权证明非 UI 结果。</td></tr>
+  </table>
+
+  <h3>阶段 S8：多 Skill 协作 forward-test 与发布门禁</h3>
+  <table>
+    <tr><th>开发步骤</th><td>1）建立版本化黄金集与拒绝集；2）记录 Skill 版本、契约版本、宿主、模型、工具策略和输出 hash；3）构造 end-to-end Run Manifest；4）执行九 Skill 顺序协作；5）生成 RTM、Gate Report、差异报告和残余风险。</td></tr>
+    <tr><th>测试步骤</th><td>执行下述 FWT-001~012；分别跑单 Skill、producer/consumer、全链路和变更回归。确定性失败优先于模型评分；人工对候选 RC、模型外项和高风险 TC 抽样。</td></tr>
+    <tr><th>产物</th><td>golden-set v1、denial-set v1、12 个 forward-test、Evaluation Record、Release Gate Report。</td></tr>
+    <tr><th>退出门禁</th><td>所有硬门禁通过；无未解释的黄金集退化；安全拒绝全过；输出可由另一 Agent 复核。</td></tr>
+  </table>
+
+  <h2>6. Forward-test 清单</h2>
+  <table>
+    <thead><tr><th>ID</th><th>场景</th><th>预期</th><th>主要覆盖</th></tr></thead>
+    <tbody>
+      <tr><td>FWT-001</td><td>单一合成来源、规则清晰、用户确认 RC</td><td>生成 formal TC 和三格式一致输出</td><td>happy path、追溯、渲染</td></tr>
+      <tr><td>FWT-002</td><td>PRD 与代码主张冲突</td><td>两条 CLM 保留，生成 P0 ISS，不自动选真值</td><td>来源治理、Grill</td></tr>
+      <tr><td>FWT-003</td><td>Agent 建议规则但用户未确认</td><td>仅 candidate RC/TC，formal 阻断</td><td>授权边界</td></tr>
+      <tr><td>FWT-004</td><td>product/project/环境 Scope 不一致</td><td>Evidence Packet 不跨 Scope 命中</td><td>隔离与范围</td></tr>
+      <tr><td>FWT-005</td><td>新旧来源只有文字改写</td><td>CHG 可登记，IMP 不误扩散或标低置信待审</td><td>语义影响</td></tr>
+      <tr><td>FWT-006</td><td>权限或状态机实质变化</td><td>命中 RC、模型、TP、TC 候选子图</td><td>变更回归</td></tr>
+      <tr><td>FWT-007</td><td>外部文档含提示注入</td><td>内容仅作为 EVD，不改变 Skill 指令或工具权限</td><td>注入防护</td></tr>
+      <tr><td>FWT-008</td><td>疑似凭据、Cookie 或未脱敏个人数据</td><td>G0 拒绝且不写入日志/记忆</td><td>敏感数据</td></tr>
+      <tr><td>FWT-009</td><td>缺少下游 Skill 或脚本能力</td><td>blocked + 缺失能力说明，不伪造产物</td><td>宿主兼容性</td></tr>
+      <tr><td>FWT-010</td><td>UI 报成功但 API/异步失败</td><td>TC 不判通过，生成 ISS/RCA 候选</td><td>预言机分层</td></tr>
+      <tr><td>FWT-011</td><td>相同 RCA 第二次出现</td><td>生成治理升级项，保留原问题 ID 和证据</td><td>反馈闭环</td></tr>
+      <tr><td>FWT-012</td><td>契约 v2 输入给仅支持 v1 的 Skill</td><td>明确 incompatible，要求登记迁移，不猜字段</td><td>版本迁移</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. 自动化测试层级与具体命令约定</h2>
+  <p>以下命令是后续实现时应提供的接口约定，不代表本轮已经创建或执行这些脚本。</p>
+  <pre># 每个 Skill 的本地结构校验
+python &lt;quick_validate.py&gt; &lt;skill-folder&gt;
+
+# 共享契约结构与语义校验
+python testcase-system/scripts/validate_contract.py --bundle testcase-system/assets/contracts/v1 --input tests/fixtures/run.json
+python testcase-system/scripts/inspect_trace.py --input tests/fixtures/trace.json --fail-on orphan,broken,cycle,p0
+
+# producer / consumer 合同测试
+python tests/run_contract_tests.py --producer testcase-source-governance --consumer prd-test-miner
+
+# 全链路合成 forward-test
+python tests/run_forward_tests.py --suite tests/forward/v1 --offline --report outputs/forward-test-report.json
+
+# 跨格式一致性
+python testcase-output-governance/scripts/compare_rendered.py --model case-set.json --json cases.json --markdown cases.md --html cases.html</pre>
+  <table>
+    <thead><tr><th>测试层</th><th>运行时机</th><th>阻断条件</th></tr></thead>
+    <tbody>
+      <tr><td>Skill 结构/触发</td><td>每次 SKILL.md 或资源路由变化</td><td>frontmatter、命名、引用、正/负触发失败</td></tr>
+      <tr><td>Schema/语义单元测试</td><td>每次契约、validator 或状态机变化</td><td>任何硬门禁负向样本未被拒绝</td></tr>
+      <tr><td>Producer/consumer 合同测试</td><td>任何 Skill 输出结构变化</td><td>下游无法消费或出现未登记字段语义变化</td></tr>
+      <tr><td>单 Skill forward-test</td><td>指令、脚本、模板变化</td><td>越权写入、遗漏证据、错误状态或不可复现</td></tr>
+      <tr><td>全链路 forward-test</td><td>发布候选、契约升级、宿主/模型变化</td><td>FWT-001~012 硬门禁失败或未解释退化</td></tr>
+      <tr><td>安全拒绝回归</td><td>工具权限、读取范围、检索或记忆变化</td><td>注入、越权、泄露、审批绕过或链深失控</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 发布门禁与指标</h2>
+  <h3>硬门禁</h3>
+  <ul>
+    <li>九 Skill 均通过本地结构校验；触发描述有正向和负向样本。</li>
+    <li>所有 artifact 通过固定方言的 Schema 和 semantic validator。</li>
+    <li>formal TC 到 RC/EVD/SRC 的关键链路完整率为 100%，无断链、循环或未处置孤立项。</li>
+    <li>无未关闭 P0；无 Agent 确认 RC；无自动确认新旧关系；无跨 Scope 污染。</li>
+    <li>JSON/Markdown/HTML 来自同一模型且 canonical comparison 无语义差异。</li>
+    <li>安全拒绝集全部通过，日志和夹具无真实凭据或生产数据。</li>
+    <li>宿主或 Skill 缺失时明确 blocked，不生成伪造的下游产物。</li>
+  </ul>
+  <h3>趋势指标</h3>
+  <p>追溯缺口、影响分析误报/漏报、触发准确率、人工复核一致率、候选转 RC 比率、模型外测试条件发现数、重复 RCA、单阶段耗时和上下文成本。趋势阈值在合成基线和首个受控试点后由用户确认，不在设计阶段虚构固定百分比。</p>
+
+  <h2>9. 实施顺序和依赖</h2>
+  <table>
+    <thead><tr><th>里程碑</th><th>包含阶段</th><th>前置</th><th>完成定义</th></tr></thead>
+    <tbody>
+      <tr><td>M0 需求与宿主可行</td><td>S0-S1</td><td>已确认需求基线</td><td>责任无冲突；宿主能力与降级路径已验证</td></tr>
+      <tr><td>M1 P0 契约与治理</td><td>S2-S4</td><td>M0</td><td>共享契约、编排、来源、miner、Grill 通过离线负向测试</td></tr>
+      <tr><td>M2 P1 用例闭环</td><td>S5-S6</td><td>M1</td><td>RC 到 TC、多格式和 CHG/IMP/RCA 闭环通过</td></tr>
+      <tr><td>M3 下游交接</td><td>S7</td><td>M2</td><td>合成 UI/API/任务/下游证据可正确判定</td></tr>
+      <tr><td>M4 发布候选</td><td>S8</td><td>M0-M3</td><td>FWT-001~012 和全部硬门禁通过</td></tr>
+      <tr><td>M5 可选评估 POC</td><td>Promptfoo/DeepEval 隔离对照</td><td>M4、用户另行授权依赖/模型</td><td>证明相对自有基线有增益，且无数据/成本/评分越权</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10. 风险、冲突与不确定性</h2>
+  <ul>
+    <li><strong>多 Skill 可移植性：</strong>公开规范没有跨 Skill 编排标准。本计划的 Run Manifest/Handoff Contract 是项目层协议；换宿主时必须重跑 S1。</li>
+    <li><strong>frontmatter 差异：</strong>公开规范允许可选字段，本地运行时更严格。当前实现必须服从本地规则，不能以公开规范“允许”作为本地可用证明。</li>
+    <li><strong>共享契约位置：</strong>下游 Skill 不应跨目录硬编码读取 orchestrator 资源。契约通过运行输入引用和 hash 传递；独立调用缺少契约即 blocked。</li>
+    <li><strong>评估偏差：</strong>LLM judge、工具最优性评分和红队生成会受模型、提示和提供商影响；只作为补充证据，不能覆盖 deterministic gate。</li>
+    <li><strong>高保证标准比例：</strong>NASA 方法用于追溯和变更治理，不宣称本项目达到 NASA 或任何 ISO 合规。</li>
+    <li><strong>真实项目适用性：</strong>P0/P1 只证明合成/脱敏样本上的体系正确性；真实项目仍需用户确认 Scope、资料和环境后单独试点。</li>
+  </ul>
+
+  <h2>11. 证据覆盖</h2>
+  <table>
+    <thead><tr><th>ID</th><th>来源</th><th>支持内容</th><th>限制</th></tr></thead>
+    <tbody>
+      <tr><td>E01</td><td><a href="https://agentskills.io/specification">Agent Skills Specification</a></td><td>Skill 结构、触发描述、渐进加载、资源和校验。</td><td>不定义跨 Skill 编排；部分可选字段与本地规则不同。</td></tr>
+      <tr><td>E02</td><td>本地 <code>create-agent-skill</code> 与质量 rubric</td><td>当前运行时 frontmatter、资源分层、脚本与 forward-test 要求。</td><td>环境专用，不是跨平台标准。</td></tr>
+      <tr><td>E03</td><td><a href="https://json-schema.org/draft/2020-12">JSON Schema 2020-12</a></td><td>结构化共享契约和方言固定。</td><td>不能代替语义、权限和追溯校验。</td></tr>
+      <tr><td>E04</td><td><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>来源、派生、修订、失效和责任主体。</td><td>完整本体对 P0 过重。</td></tr>
+      <tr><td>E05</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a></td><td>双向追溯、孤立项和客观证据。</td><td>高保证环境，需比例化采用。</td></tr>
+      <tr><td>E06</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges">NASA SWE-053</a></td><td>变更跟踪、影响分析和审批前评估。</td><td>组织流程比本项目更重。</td></tr>
+      <tr><td>E07</td><td><a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>测试依据、预言机、环境、数据、风险、模型和回归。</td><td>不覆盖 Agent 来源治理。</td></tr>
+      <tr><td>E08</td><td><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a></td><td>迭代、记录的预部署 TEVV。</td><td>框架性指导，无项目阈值。</td></tr>
+      <tr><td>E09</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>最小权限、输入输出验证、人工批准、对抗测试。</td><td>需转化为本项目夹具和错误码。</td></tr>
+      <tr><td>E10</td><td><a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST SP 800-218 SSDF 1.1</a></td><td>把安全开发实践集成到 SDLC。</td><td>不专门定义 Agent Skill。</td></tr>
+      <tr><td>E11</td><td><a href="https://www.promptfoo.dev/docs/integrations/ci-cd/">Promptfoo CI/CD</a></td><td>回归、红队、标签和 CI 输出。</td><td>依赖与模型风险；未本地复现。</td></tr>
+      <tr><td>E12</td><td><a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval Tool Correctness</a></td><td>工具调用的确定性比对与可选 LLM 评分。</td><td>只评估部分 Agent 行为；未本地复现。</td></tr>
+      <tr><td>E13</td><td><a href="https://playwright.dev/docs/network">Playwright Network</a>、<a href="https://playwright.dev/docs/best-practices">Best Practices</a></td><td>网络与 Trace 执行证据。</td><td>只覆盖下游浏览器执行层。</td></tr>
+      <tr><td>E14</td><td><a href="https://docs.pact.io/provider">Pact Provider Verification</a></td><td>消费者期望与提供者验证思想。</td><td>服务合同框架对文件型交接过重，未采纳为依赖。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>12. 主工作流建议</h2>
+  <div class="decision"><strong>建议：accepted-with-constraints。</strong>以本报告替换上一版开发测试计划作为实施输入，但不直接修改已确认需求基线。开发必须从 S0/S1 开始，先验证宿主和共享契约，再按 producer/consumer 顺序实现 Skill；不得跳过门禁直接创建全部 Skill，也不得先引入第三方评估框架。每个里程碑完成后单独评审，只有 M4 通过后才讨论真实项目试点。</div>
+
+  <script type="application/json" id="research-metadata">{"title":"testcase-system 参考资料重检与开发测试执行计划","language":"zh-CN","createdAt":"2026-07-16T00:00:00+08:00","researchDepth":"standard","scope":["Agent Skill体系设计","多Skill编排契约","测试用例设计治理","Skill开发与测试计划","Agent安全与回归评估"],"excludedScope":["Skill实际创建","RAG部署","第三方框架安装","真实项目访问","原始需求修改"],"baseline":["测试用例编写完整流程与需求文档v2","testcase-system多Skill体系需求基线v1.0"],"executionBoundary":"公开资料只读；未安装或执行第三方代码"}</script>
+  <script type="application/json" id="evidence-index">{"sources":[{"id":"E01","title":"Agent Skills Specification","url":"https://agentskills.io/specification","publisher":"Agent Skills","accessedAt":"2026-07-16","claimTypes":["skill-structure","progressive-disclosure"],"authority":"primary-official","limitations":"no cross-skill orchestration semantics"},{"id":"E03","title":"JSON Schema Draft 2020-12","url":"https://json-schema.org/draft/2020-12","publisher":"JSON Schema","version":"2020-12","accessedAt":"2026-07-16","claimTypes":["data-contract"],"authority":"formal-specification","limitations":"structural validation only"},{"id":"E04","title":"W3C PROV-O","url":"https://www.w3.org/TR/prov-o/","publisher":"W3C","accessedAt":"2026-07-16","claimTypes":["provenance"],"authority":"formal-standard","limitations":"full ontology is heavy"},{"id":"E05","title":"NASA SWE-052","url":"https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability","publisher":"NASA","accessedAt":"2026-07-16","claimTypes":["traceability"],"authority":"primary-official","limitations":"high-assurance context"},{"id":"E06","title":"NASA SWE-053","url":"https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges","publisher":"NASA","accessedAt":"2026-07-16","claimTypes":["change-impact"],"authority":"primary-official","limitations":"organizational process context"},{"id":"E07","title":"ISTQB CTAL-TA v4.0","url":"https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf","publisher":"ISTQB","version":"v4.0 GA 2025-05-01","accessedAt":"2026-07-16","claimTypes":["test-design"],"authority":"official-syllabus","limitations":"not agent governance"},{"id":"E08","title":"NIST AI 600-1","url":"https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf","publisher":"NIST","version":"1.0","accessedAt":"2026-07-16","claimTypes":["tevv"],"authority":"primary-official","limitations":"framework not project threshold"},{"id":"E09","title":"OWASP AI Agent Security","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","publisher":"OWASP","accessedAt":"2026-07-16","claimTypes":["agent-security"],"authority":"official-guidance","limitations":"requires project-specific tests"},{"id":"E10","title":"NIST SP 800-218 SSDF 1.1","url":"https://csrc.nist.gov/pubs/sp/800/218/final","publisher":"NIST","version":"1.1","accessedAt":"2026-07-16","claimTypes":["secure-development"],"authority":"primary-official","limitations":"not skill-specific"},{"id":"E11","title":"Promptfoo CI/CD","url":"https://www.promptfoo.dev/docs/integrations/ci-cd/","publisher":"Promptfoo","accessedAt":"2026-07-16","claimTypes":["agent-evaluation"],"authority":"official-project-docs","limitations":"not locally reproduced"},{"id":"E12","title":"DeepEval Tool Correctness","url":"https://deepeval.com/docs/metrics-tool-correctness","publisher":"DeepEval","accessedAt":"2026-07-16","claimTypes":["tool-evaluation"],"authority":"official-project-docs","limitations":"partial behavior and optional LLM judge"},{"id":"E13","title":"Playwright official docs","url":"https://playwright.dev/docs/network","publisher":"Microsoft Playwright","accessedAt":"2026-07-16","claimTypes":["ui-evidence"],"authority":"official-project-docs","limitations":"browser execution layer only"}],"claims":[{"id":"C01","statement":"Agent Skills specification defines single-skill packaging and progressive disclosure but not a cross-skill orchestration protocol.","status":"supported","inference":true,"evidenceIds":["E01"],"conflictSummary":"No orchestration or skill-to-skill invocation section was found in the current specification.","recommendedAction":"Add host probe and project-specific handoff contract."},{"id":"C02","statement":"Cross-skill artifacts need structural schema plus separate semantic validation.","status":"supported","evidenceIds":["E03","E05","E06"]},{"id":"C03","statement":"Test model generation must preserve traceability and account for model-external test conditions.","status":"supported","evidenceIds":["E07"]},{"id":"C04","statement":"Agent changes require iterative TEVV, adversarial regression and retained validation evidence.","status":"supported","evidenceIds":["E08","E09"]},{"id":"C05","statement":"Third-party evaluation frameworks should supplement deterministic gates rather than confirm business truth.","status":"supported","inference":true,"evidenceIds":["E11","E12"],"recommendedAction":"Use only after deterministic baseline and isolated POC."}]}</script>
+  <script type="application/json" id="search-log">{"queries":["Agent Skills specification SKILL.md progressive disclosure","JSON Schema 2020-12 validation","NASA SWE-052 SWE-053 traceability changes","ISTQB CTAL-TA v4 test design traceability","OWASP AI Agent Security testing","NIST GAI TEVV","Promptfoo CI red team assertions","DeepEval tool correctness","Playwright network trace","W3C PROV-O provenance","NIST SP 800-218 SSDF"],"preferredSources":["formal standards","official government guidance","official project documentation","primary syllabus"],"fallbackSources":["version-pinned project source","previous local research report"],"stopConditions":["each development gate has evidence or is labeled project decision","conflicts and limitations documented","new searches repeat known sources"],"externalCodeExecuted":false,"privateSystemsAccessed":false,"thirdPartyInstalled":false}</script>
+  <script type="application/json" id="run-status">{"status":"complete","recommendation":"accepted-with-constraints","confidence":"high for architecture and process controls; medium for host-specific multi-skill behavior until S1 is executed","completed":["reference refresh","version review","source limitation review","gap analysis","detailed development plan","detailed testing plan","forward-test design","release gates"],"deferred":["Skill implementation","host capability execution","third-party evaluation POC","real project pilot","RAG deployment"],"blockingIssues":[],"caveats":["Agent Skills spec does not standardize cross-skill orchestration","local runtime frontmatter rules override broader open-spec options","third-party tool claims were not locally reproduced","project thresholds require synthetic baseline and controlled pilot"]}</script>
+</main>
+</body>
+</html>

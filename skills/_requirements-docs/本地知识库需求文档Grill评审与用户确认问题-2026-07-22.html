@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地知识库需求文档 Grill 评审与用户确认问题 - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1120px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    .meta, .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .p0 { border-left: 4px solid #b42318; background: #fff4f2; padding: 12px 16px; margin: 14px 0; }
+    .p1 { border-left: 4px solid #b7791f; background: #fff8e6; padding: 12px 16px; margin: 14px 0; }
+    .p2 { border-left: 4px solid #2f80ed; background: #eef6ff; padding: 12px 16px; margin: 14px 0; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库需求文档 Grill 评审与用户确认问题</h1>
+  <div class="meta">
+    <p><strong>日期：</strong>2026-07-22</p>
+    <p><strong>评审对象：</strong>WorkBuddy 生成的本地知识库 PRD v1.1、Grill 报告、设计计划，以及 Codex 侧既有知识库需求、开发测试计划和本轮 research 补强报告。</p>
+    <p><strong>边界：</strong>本报告只做评审与确认问题提炼；未写入 <code>D:\RAG</code>，未修改 WorkBuddy 原始产物，未安装或执行第三方 Skill。</p>
+  </div>
+
+  <h2>一、Grill 总结</h2>
+  <p>需求文档的主方向是成立的：先把知识库作为 Agent 可消费的本地治理层，而不是直接做重型 RAG 平台；先用来源治理、状态机、证据链和人工确认挡住错误入库，再考虑检索增强和执行自动化。这与本轮 research 补强后的结论一致。</p>
+  <p>当前没有发现会推翻方案的 P0/P1 级参考资料缺陷；用户已确认生成新的 PRD、开发计划、测试计划三份独立草案。剩余 P0/P1 主要集中在真实实施前置项：首个知识空间具体值、第一批材料清单与脱敏确认、写入 <code>D:\RAG</code> 或创建真实 Skill 的授权、以及下游接口样例。</p>
+  <div class="note">
+    <p><strong>2026-07-22 用户最新答复：</strong>已确认生成新的 PRD、开发计划、测试计划三份独立文档；已确认首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围由用户提供，Codex 只校验元数据一致性；已确认第一批候选材料由用户提供文件清单，Codex 只读取清单内文件；已确认只有 <code>confirmed_active</code> 可作为正式 RC；本次优先完成本地知识库搭建，同时为 <code>ui-test</code>、<code>auto-testcase-generator</code>、Solution D 预留接口和产物格式；已确认黄金查询由用户提供 PRD 等参考资料、Codex 生成、用户审批后使用；已确认 MVP 先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON，当语料规模、黄金查询失败率或人工查找成本达到阈值后再引入 SQLite FTS5，向量索引放在更后阶段。知识空间正式值、首批具体清单、黄金查询审批仍待后续输入。</p>
+  </div>
+
+  <h2>二、强项</h2>
+  <table>
+    <thead>
+      <tr><th>强项</th><th>评审结论</th><th>证据</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>来源治理</td>
+        <td>PRD 不再把任一材料当作绝对真值，符合用户已确认的“材料统一由用户提供、RC 只能来自用户确认裁决”的原则。</td>
+        <td>WB-PRD, WB-GRILL, CODEX-KB</td>
+      </tr>
+      <tr>
+        <td>状态机</td>
+        <td>把待审、确认、冲突、过期和拒收入库区分开，适合支撑 Agent 的可解释调用和测试用例追溯。</td>
+        <td>WB-PRD, RESEARCH-NEW</td>
+      </tr>
+      <tr>
+        <td>Agent 友好结构</td>
+        <td>优先使用 Markdown、JSON、YAML、索引和证据块，能降低 Codex 与 WorkBuddy 的解析成本。</td>
+        <td>WB-PLAN, CODEX-TESTPLAN</td>
+      </tr>
+      <tr>
+        <td>安全边界</td>
+        <td>禁止自动扫描其他磁盘目录、禁止摄入凭据和未脱敏生产数据，能显著降低误入库和越权读取风险。</td>
+        <td>WB-PRD, OWASP-AGENT, OWASP-LLM</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>三、主要缺口与修正方向</h2>
+  <div class="p0">
+    <h3>P0-GR-01 同步授权边界已转为实施授权边界</h3>
+    <p><strong>问题：</strong>用户已确认生成新的 PRD、开发计划、测试计划三份独立草案，因此“是否生成 vNext 文档”不再阻塞；但真实写入 <code>D:\RAG</code>、创建 <code>.codex/skills/rag-system</code> 或同步到其他总需求文档仍需单独授权。</p>
+    <p><strong>建议：</strong>把当前三份 vNext 文档冻结为草案基线；实施前再逐项确认写入路径、Skill 创建范围和首批材料清单。</p>
+  </div>
+
+  <div class="p0">
+    <h3>P0-GR-02 首个知识空间边界未落定</h3>
+    <p><strong>问题：</strong>方案已经强调项目、产品、环境边界，但首个 <code>knowledge_space_id</code> 的命名、范围、排除项仍需用户裁定。没有硬边界，跨项目污染测试无法定义。</p>
+    <p><strong>建议：</strong>把 <code>knowledge_space_id</code> 定为强制根边界；产品、项目、环境作为元数据过滤维度。首个 ID、别名、范围说明、排除目录均由用户确认。</p>
+  </div>
+
+  <div class="p0">
+    <h3>P0-GR-03 第一批材料清单与脱敏证明未给出</h3>
+    <p><strong>问题：</strong>本地知识库的第一批材料必须来自用户显式提供，且需要用户确认已脱敏。没有清单就不能设计真实入库验收，也不能判断哪些内容允许进入待审池。</p>
+    <p><strong>建议：</strong>用户提供第一批候选材料清单、来源说明、敏感信息处理声明；Codex 仅做文件级读取和结构化评审，不自动扫描其他磁盘。</p>
+  </div>
+
+  <div class="p1">
+    <h3>P1-GR-04 active 与 confirmed_active 容易混淆</h3>
+    <p><strong>问题：</strong>用户已确认“后者才登记为 RC”。若文档中仍让 Agent 把 <code>active</code> 当成正式依据，会造成误用。</p>
+    <p><strong>建议：</strong>统一定义：<code>active</code> 只表示当前待审或可见材料状态；正式测试设计、PRD 挖掘和自动化引用只能使用 <code>confirmed_active</code> 的 RC。</p>
+  </div>
+
+  <div class="p1">
+    <h3>P1-GR-05 内部 Skill 与 Solution D 证据链仍是本地约束</h3>
+    <p><strong>问题：</strong>外部资料能补强方法论，但无法证明本地 <code>ui-test</code>、<code>auto-testcase-generator</code>、Solution D 的真实接口和产物格式。</p>
+    <p><strong>建议：</strong>在开发计划中把内部 Skill 读取、样例输入输出、失败归因报告和证据字段校验列为前置任务；未核验前不得把接口细节写死为 RC。</p>
+  </div>
+
+  <div class="p1">
+    <h3>P1-GR-06 检索后端上线门槛需要量化</h3>
+    <p><strong>问题：</strong>SQLite FTS5、向量索引和缓存层都有价值，但若在 MVP 直接引入，会增加维护复杂度和调试成本。</p>
+    <p><strong>建议：</strong>MVP 先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON；当语料规模、黄金查询失败率或人工查找成本达到阈值后，再引入 SQLite FTS5；向量索引放在更后阶段。</p>
+  </div>
+
+  <h2>四、需要用户确认的问题</h2>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>优先级</th><th>问题</th><th>推荐答复</th><th>阻塞范围</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>G-Q-001</td>
+        <td>P0</td>
+        <td>是否授权 Codex 将本轮 research 和 Grill 结论同步写入指定文档？</td>
+        <td>已确认生成新的 PRD、开发计划、测试计划三份独立草案；不覆盖 WorkBuddy 原文件，不写入 D:\RAG。</td>
+        <td>已解除草案生成阻塞；仍阻塞真实写库、真实 Skill 创建和同步到其他总需求文档。</td>
+      </tr>
+      <tr>
+        <td>G-Q-002</td>
+        <td>P0</td>
+        <td>首个 knowledge_space_id 的命名和范围由谁裁定？</td>
+        <td>由用户提供首个 ID、别名、范围说明和排除项；Agent 只记录并校验一致性。</td>
+        <td>阻塞目录结构、跨空间隔离测试、RC 作用域。</td>
+      </tr>
+      <tr>
+        <td>G-Q-003</td>
+        <td>P0</td>
+        <td>第一批候选材料清单和脱敏确认何时提供？</td>
+        <td>由用户提供显式文件清单和脱敏确认；未提供前只设计流程，不做入库。</td>
+        <td>阻塞入库演练、测试样本、DoD 验收。</td>
+      </tr>
+      <tr>
+        <td>G-Q-004</td>
+        <td>P1</td>
+        <td>是否统一规定只有 confirmed_active 可作为正式 RC？</td>
+        <td>是；active 不等于 RC，只能作为待审或当前可见材料状态。</td>
+        <td>阻塞状态机、测试用例生成门禁、追溯矩阵。</td>
+      </tr>
+      <tr>
+        <td>G-Q-005</td>
+        <td>P1</td>
+        <td>内部 Skill 与 Solution D 的接口证据何时纳入？</td>
+        <td>在开发前置阶段读取本地 Skill 文档和样例产物，用户确认后再登记接口约束。</td>
+        <td>阻塞执行链路字段、报告模板、回归测试夹具。</td>
+      </tr>
+      <tr>
+        <td>G-Q-006</td>
+        <td>P1</td>
+        <td>SQLite FTS5 与缓存层的引入阈值如何设定？</td>
+        <td>已确认：MVP 先使用 INDEX.md、frontmatter、manifest 和证据 JSON；当语料规模、黄金查询失败率或人工查找成本达到阈值后，再引入 SQLite FTS5；向量索引放在更后阶段。</td>
+        <td>影响开发计划分期和性能测试范围。</td>
+      </tr>
+      <tr>
+        <td>G-Q-007</td>
+        <td>P1</td>
+        <td>黄金查询和负向安全用例由谁提供？</td>
+        <td>用户提供 PRD 等参考资料；Codex 生成黄金查询和负向安全用例候选；用户审批后使用。</td>
+        <td>阻塞测试计划可执行性和验收标准。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>五、建议的下一步</h2>
+  <ol>
+    <li>将本地知识库 PRD vNext、本地数据库与 <code>rag-system</code> Skill 开发计划 vNext、联合测试计划 vNext 作为当前草案基线。</li>
+    <li>等待用户提供首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围，以及第一批允许读取的材料清单和脱敏确认。</li>
+    <li>真实写入 <code>D:\RAG</code> 或创建 <code>.codex/skills/rag-system</code> 前，单独确认实施授权。</li>
+    <li>继续保持规则：RC 仅来自用户确认后的 <code>confirmed_active</code>，Agent 判断最多进入待审或候选状态。</li>
+    <li>暂不继续评审 <code>产研效能</code> PRD/材料内容；相关敏感复核、脱敏审查清单复核、内容入库、RC 提取保持待办。</li>
+  </ol>
+
+  <h2>六、参考依据</h2>
+  <p>本评审吸收了本轮 research 补强报告中的资料结论，重点包括 W3C PROV-O 的来源与活动建模、JSON Schema Draft 2020-12 的结构校验、OWASP AI Agent 与 LLM 风险建议、NIST AI RMF GenAI Profile、NIST SSDF、NASA 双向追溯规范、ISTQB 测试分析指南、Playwright 网络与断言机制，以及 Promptfoo、DeepEval、Pact、SpecSmith、Midscene、Open Agent Skills 的适用性评审。</p>
+</main>
+
+<script type="application/json" id="grill-session">
+{
+  "sessionId": "grill-kb-prd-confirmation-2026-07-22",
+  "scenario": "requirements+design-review",
+  "status": "blocked",
+  "sourceInputs": [
+    {
+      "id": "WB-PRD",
+      "path": "C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/需求文档-本地知识库-2026-07-22.html",
+      "role": "primary-prd",
+      "status": "reviewed-readonly"
+    },
+    {
+      "id": "WB-GRILL",
+      "path": "C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/grill-report-kb-design-2026-07-22.html",
+      "role": "prior-grill-report",
+      "status": "reviewed-readonly"
+    },
+    {
+      "id": "WB-PLAN",
+      "path": "C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/local-knowledge-base-design-plan-2026-07-22.md",
+      "role": "design-plan",
+      "status": "reviewed-readonly"
+    },
+    {
+      "id": "CODEX-KB",
+      "path": "C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地知识库部署流程与需求文档-v1.html",
+      "role": "codex-baseline-prd",
+      "status": "reviewed-readonly"
+    },
+    {
+      "id": "CODEX-TESTPLAN",
+      "path": "C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/testcase-system-参考资料重检与开发测试执行计划-v2-2026-07-16.html",
+      "role": "codex-dev-test-plan",
+      "status": "reviewed-readonly"
+    },
+    {
+      "id": "RESEARCH-NEW",
+      "path": "C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地知识库需求开发测试计划参考资料与Skill补强评审-2026-07-22.html",
+      "role": "new-reference-and-skill-review",
+      "status": "validated"
+    }
+  ],
+  "questions": [
+    {
+      "id": "G-Q-001",
+      "question": "是否授权 Codex 将本轮 research 和 Grill 结论同步写入指定文档？",
+      "purpose": "确认写入目标和授权边界，避免擅自修改 WorkBuddy 原文件或总需求文档。",
+      "recommendedAnswer": "已确认：参考 WorkBuddy PRD 及 Codex 历史 PRD，生成新的 PRD、开发计划、测试计划三份独立文档。",
+      "blockingDecision": "不再阻塞独立 vNext 文档生成；仍不授权覆盖 WorkBuddy 原文件或写入 D:/RAG。",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "G-Q-002",
+      "question": "首个 knowledge_space_id 的命名和范围由谁裁定？",
+      "purpose": "建立知识库根边界，防止跨产品、跨项目或跨环境污染。",
+      "recommendedAnswer": "已确认原则：由用户提供首个 ID、别名、范围说明和排除项；Agent 只记录并校验一致性。",
+      "blockingDecision": "不阻塞规则写入；仍阻塞真实建库、RC 作用域、跨空间隔离测试和首批入库验收，直到用户提供具体值。",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "G-Q-003",
+      "question": "第一批候选材料清单和脱敏确认何时提供？",
+      "purpose": "确认入库材料来源与敏感信息处理状态，满足禁止自动扫描和禁止摄入敏感数据的边界。",
+      "recommendedAnswer": "已确认原则：由用户提供显式文件清单和脱敏确认；Codex 只读取清单内文件；未提供具体清单前只设计流程，不做入库。",
+      "blockingDecision": "不阻塞规则写入；仍阻塞入库演练、测试样本、DoD 验收和正式知识库初始化。",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "G-Q-004",
+      "question": "是否统一规定只有 confirmed_active 可作为正式 RC？",
+      "purpose": "消除 active 与 confirmed_active 的语义混淆，确保 RC 只来自用户确认裁决。",
+      "recommendedAnswer": "已确认：是；active 不等于 RC，只能作为待审或当前可见材料状态。",
+      "blockingDecision": "不再阻塞状态机规则写入；开发和测试计划必须按 confirmed_active 执行。",
+      "status": "confirmed",
+      "severity": "P1"
+    },
+    {
+      "id": "G-Q-005",
+      "question": "内部 Skill 与 Solution D 的接口证据何时纳入？",
+      "purpose": "避免外部资料替代本地工具和证据链的真实接口。",
+      "recommendedAnswer": "已确认：本次优先完成本地知识库搭建，但必须为 ui-test、auto-testcase-generator、Solution D 预留接口和产物格式。",
+      "blockingDecision": "不阻塞本地知识库 MVP；阻塞下游真实集成和内部接口 RC 登记。",
+      "status": "confirmed",
+      "severity": "P1"
+    },
+    {
+      "id": "G-Q-006",
+      "question": "SQLite FTS5 与缓存层的引入阈值如何设定？",
+      "purpose": "防止 MVP 过度工程化，同时保留可升级检索路径。",
+      "recommendedAnswer": "已确认：MVP 先使用 INDEX.md、frontmatter、manifest 和证据 JSON；当语料规模、黄金查询失败率或人工查找成本达到阈值后，再引入 SQLite FTS5；向量索引放在更后阶段。该方案有 SQLite FTS5 官方文档和 OWASP Agent/LLM 安全资料支撑。",
+      "blockingDecision": "不阻塞 MVP；后续 SQLite FTS5/向量阶段需基于语料规模、黄金查询失败率或人工查找成本重新确认。",
+      "status": "confirmed",
+      "severity": "P1"
+    },
+    {
+      "id": "G-Q-007",
+      "question": "黄金查询和负向安全用例由谁提供？",
+      "purpose": "让测试计划具备可执行验收标准，而不是停留在原则层面。",
+      "recommendedAnswer": "已确认流程：用户提供 PRD 等参考资料；Codex 生成黄金查询和负向安全用例候选；用户审批后使用。",
+      "blockingDecision": "不阻塞测试计划规则写入；仍阻塞正式验收基线，直到用户提供资料并审批候选集。",
+      "status": "confirmed",
+      "severity": "P1"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "G-D-001",
+      "decision": "不直接修改 WorkBuddy 原始产物或 D:/RAG。",
+      "basis": "用户当前要求是补强和评审，历史边界要求先确认再写入正式文档或知识库。",
+      "status": "applied"
+    },
+    {
+      "id": "G-D-002",
+      "decision": "把 unresolved 项归类为用户确认门控，而不是参考资料缺陷。",
+      "basis": "本轮 research 已补齐方法论和工具参考，剩余问题主要是授权、范围和本地材料供应。",
+      "status": "applied"
+    },
+    {
+      "id": "G-D-003",
+      "decision": "RC 规则建议收敛到 confirmed_active。",
+      "basis": "用户已明确“后者才登记为 RC”，Agent 判断不得自动升级为 RC。",
+      "status": "applied"
+    },
+    {
+      "id": "G-D-004",
+      "decision": "生成新的 PRD、开发计划、测试计划三份独立文档。",
+      "basis": "用户确认参考 WorkBuddy PRD 及 Codex 历史 PRD，三份计划独立生成。",
+      "status": "applied"
+    },
+    {
+      "id": "G-D-005",
+      "decision": "本地知识库 MVP 优先，下游 Skill 只预留接口和产物格式。",
+      "basis": "用户确认本次优先完成本地知识库搭建，同时保留 ui-test、auto-testcase-generator、Solution D 接口。",
+      "status": "applied"
+    }
+  ],
+  "evidenceIndex": [
+    {
+      "id": "E-G-001",
+      "source": "RESEARCH-NEW",
+      "claim": "本轮参考资料与参考 Skill 补强后，剩余 P0/P1 主要是本地授权和确认问题，不是资料缺口。",
+      "confidence": "high"
+    },
+    {
+      "id": "E-G-002",
+      "source": "WB-PRD",
+      "claim": "WorkBuddy PRD 已覆盖来源治理、人工确认、状态机、安全边界和 Agent 友好结构。",
+      "confidence": "high"
+    },
+    {
+      "id": "E-G-003",
+      "source": "CODEX-KB",
+      "claim": "Codex 基线强调 D:/RAG 初始化、入库流程、RC 治理、敏感信息排除和验证闭环。",
+      "confidence": "high"
+    },
+    {
+      "id": "E-G-004",
+      "source": "CODEX-TESTPLAN",
+      "claim": "开发测试计划需要把黄金查询、追溯矩阵、负向安全和执行证据纳入验收。",
+      "confidence": "medium"
+    }
+  ],
+  "openItems": [
+    {
+      "id": "OI-G-001",
+      "severity": "P0",
+      "description": "首个 knowledge_space_id、别名、纳入范围、排除范围的具体值仍待用户提供；原则已确认由用户提供，Codex 只做一致性检查。",
+      "owner": "user"
+    },
+    {
+      "id": "OI-G-002",
+      "severity": "P0",
+      "description": "第一批候选材料清单和脱敏确认仍待用户提供；D:/RAG/产研效能.lakebook 虽已作为候选材料完成受控预检，但因疑似敏感命中暂不得入库、不得进入 RC、不得下游消费。",
+      "owner": "user-before-material-ingestion"
+    },
+    {
+      "id": "OI-G-003",
+      "severity": "P0",
+      "description": "真实写入 D:/RAG 空库骨架、创建 .codex/skills/rag-system 及子 Skill 目录仍需单独实施授权。",
+      "owner": "user-before-implementation"
+    },
+    {
+      "id": "OI-G-004",
+      "severity": "P1",
+      "description": "内部 Skill、Solution D、ui-test、auto-testcase-generator 的真实接口样例需在正式集成前核验；当前 PRD 和计划只预留只读 packet 契约。",
+      "owner": "codex-after-user-provides-samples"
+    },
+    {
+      "id": "OI-G-005",
+      "severity": "TODO",
+      "description": "产研效能 PRD/材料内容评审、脱敏审查清单复核、内容入库、RC 提取已按用户最新指令暂停，后续仅在用户明确恢复该分支后处理。",
+      "owner": "todo-after-user-resumes-content-analysis"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "NA-G-001",
+      "action": "先冻结本地知识库 PRD vNext、本地数据库与 rag-system Skill 开发计划 vNext、联合测试计划 vNext 作为草案基线；不写入 D:/RAG，不创建真实 Skill。",
+      "priority": "P0"
+    },
+    {
+      "id": "NA-G-002",
+      "action": "等待用户提供首个 knowledge_space_id、别名、纳入范围、排除范围，以及第一批允许读取的材料清单后，再进入真实建库/验收样本准备。",
+      "priority": "P0"
+    },
+    {
+      "id": "NA-G-003",
+      "action": "如用户授权实施，再创建 D:/RAG 空库骨架和 .codex/skills/rag-system 草案；实施前必须回归敏感拒绝、space 隔离、RC 门禁和 packet 契约。",
+      "priority": "P0"
+    }
+  ]
+}
+</script>
+</body>
+</html>

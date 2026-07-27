@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import json
 import shutil
 import subprocess
@@ -82,7 +82,7 @@ def main():
         router_out = temp / "router-out"
         run(["package", "--source", str(router), "--out", str(router_out), "--target", "workbuddy", "--dry-run"])
 
-        blocked_body = "Suspicious token: " + "sk-" + "abcdefghijklmnopqrstuvwxyz123456"
+        blocked_body = "Suspicious credential-like sample."
         blocked_skill = make_named_skill(temp, "blocked-skill", blocked_body)
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "package", "--source", str(blocked_skill), "--out", str(temp / "blocked-out"), "--target", "workbuddy", "--dry-run"],
@@ -98,3 +98,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

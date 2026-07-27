@@ -4,6 +4,7 @@ import re
 import sys
 from pathlib import Path
 
+from research_process_loop import validate_process_loop
 
 VALID_STATUSES = {"accepted", "caveated", "rejected", "rerun", "partial", "blocked"}
 VALID_COVERAGE = {"sufficient", "caveated", "insufficient", "blocked"}
@@ -27,6 +28,10 @@ def require_fields(obj, fields, label):
         raise AssertionError(f"{label} missing required field(s): {', '.join(missing)}")
 
 
+def strict_required(metadata):
+    return bool(metadata.get("strictLoopRequired") or metadata.get("highImpact") or metadata.get("impactLevel") in {"high", "critical"})
+
+
 def main():
     if len(sys.argv) != 2:
         print("usage: validate_research_decision_gate.py path/to/report.html", file=sys.stderr)
@@ -35,14 +40,16 @@ def main():
     text = path.read_text(encoding="utf-8")
     run_status = extract_block(text, "run-status")
     metadata = extract_block(text, "research-metadata")
+    high_impact = strict_required(metadata)
     try:
         gate = extract_block(text, "research-decision-gate")
     except AssertionError:
-        high_impact = bool(metadata.get("highImpact") or metadata.get("impactLevel") in {"high", "critical"})
         if high_impact:
             raise
         print(f"ok: {path} (no research-decision-gate; optional for non-high-impact report)")
         return 0
+
+    validate_process_loop(text, required=high_impact)
 
     require_fields(
         gate,

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>rag-system 开发测试计划优化点参考资料与 Skill 补强评审 - 2026-07-23</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1180px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .warning { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>rag-system 开发测试计划优化点参考资料与 Skill 补强评审</h1>
+  <p>生成时间：2026-07-23；研究深度：standard；访问日期：2026-07-23。</p>
+  <section class="summary">
+    <p><strong>结论：</strong>针对上一轮 Grill 报告中的 3 个 P1 缺口和 2 个 P2 优化点，已完成参考资料与本地参考 Skill 补强评审。补强后，未发现仍需要外部资料或参考 Skill 支撑的 P0/P1 缺陷。剩余阻塞是实施授权与用户输入，不属于“参考资料不足”。</p>
+    <p><strong>推荐：</strong>将测试计划升级为“本地数据库 + rag-system Skill 联合测试计划”；把 packet schema、正反例 fixture、Skill forward-test、触发/误触发测试和计划变更回归纳入 MVP 验收前置。</p>
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <ul>
+    <li>评审对象：<code>本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html</code>、<code>本地知识库测试计划-vNext-2026-07-22.html</code>、<code>本地数据库与rag-system开发测试计划Grill评审-2026-07-22.html</code>。</li>
+    <li>重点缺口：Skill 测试矩阵、字段级契约、子 Skill 文件结构与校验、SQLite FTS5 引入阈值、计划变更回归。</li>
+    <li>排除范围：不创建 <code>D:\RAG</code>，不创建或安装 <code>.codex/skills/rag-system</code>，不执行第三方框架，不访问用户未提供材料。</li>
+    <li>状态口径：本报告只说明“参考资料/参考 Skill 是否足够支撑修补方案”；真实实施仍需用户另行授权。</li>
+  </ul>
+
+  <h2>Key Findings</h2>
+  <table>
+    <thead><tr><th>缺口</th><th>补充资料/Skill</th><th>补强后建议</th><th>剩余级别</th></tr></thead>
+    <tbody>
+      <tr><td>F-001：测试计划未单列 <code>rag-system</code> Skill 测试矩阵。</td><td><a href="https://www.promptfoo.dev/docs/guides/test-agent-skills/">Promptfoo Test Agent Skills</a>、<a href="https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/">Promptfoo Coding Agents</a>、本地 <code>create-agent-skill</code>。</td><td>新增触发、误触发、skill-used、子 Skill 路由、read-only sandbox、approval 观察、forward-test 和成本/延迟测试。MVP 不依赖 Promptfoo 运行，只吸收测试设计。</td><td>0 个 P0/P1；待实施。</td></tr>
+      <tr><td>F-002：下游 packet 缺少字段级 schema、正反例 fixture、版本兼容规则。</td><td><a href="https://json-schema.org/draft/2020-12/json-schema-validation">JSON Schema Validation</a>、<a href="https://spec.openapis.org/oas/latest.html">OpenAPI 3.2.0</a>、<a href="https://docs.pact.io/">Pact</a>、<a href="https://semver.org/">SemVer</a>、本地 <code>auto-testcase-generator</code> 与 <code>ui-test</code>。</td><td>五类 packet 增加 <code>schema_version</code>、<code>packet_type</code>、状态枚举、<code>additionalProperties:false</code>、正例、反例、消费者契约样例和兼容性规则。</td><td>0 个 P0/P1；待写入计划。</td></tr>
+      <tr><td>F-003：子 Skill 只有名称和职责，缺少最小文件结构与验证命令。</td><td><a href="https://openagentskills.dev/docs/specification">Open Agent Skills Specification</a>、<a href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills">GitHub Copilot Skills</a>、本地 <code>create-agent-skill</code> rubric。</td><td>每个 MVP 子 Skill 只保留 <code>SKILL.md</code>、必要 <code>references/</code>、必要 <code>scripts/</code>、fixtures；禁止教程化膨胀；创建前做结构校验、敏感扫描、forward-test。</td><td>0 个 P0/P1；待授权创建。</td></tr>
+      <tr><td>F-004：SQLite FTS5 阈值定性。</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a>、Promptfoo RAG 评测、DeepEval RAG 指标。</td><td>保留后置；首批语料后登记可调阈值：黄金查询失败率、人工查找耗时、语料条目量、重建一致性、中文查询失败类型。</td><td>P2，非 MVP 阻塞。</td></tr>
+      <tr><td>F-005：计划变更后缺少 Skill 级回归规则。</td><td>OWASP AI Agent、MCP Tools、Promptfoo Coding Agents、OpenAI Agents SDK guardrails/tracing。</td><td>任何触发描述、状态机、packet schema、下游字段、拒绝规则变更后，回归 Skill 触发/误触发、路由、审批拒绝、packet schema、黄金查询和安全拒绝集。</td><td>P2，建议纳入新版测试计划。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <thead><tr><th>ID</th><th>资料/Skill</th><th>优点</th><th>缺点/适配风险</th><th>采用方式</th></tr></thead>
+    <tbody>
+      <tr><td>S01</td><td><a href="https://openagentskills.dev/docs/specification">Open Agent Skills Specification</a></td><td>明确 Skill 至少包含 <code>SKILL.md</code>，可选 <code>scripts/</code>、<code>references/</code>、<code>assets/</code>，并强调渐进加载。</td><td>允许可选 frontmatter 字段，但本地 Codex 规则更严格。</td><td>作为通用结构参考；本地实现以 <code>create-agent-skill</code> 为准。</td></tr>
+      <tr><td>S02</td><td><a href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills">GitHub Copilot Skills</a></td><td>说明 Skill 目录、<code>SKILL.md</code>、脚本资源和安装预览；警告第三方 Skill 可能含隐藏指令或恶意脚本。</td><td>面向 Copilot，不等同 Codex runtime。</td><td>吸收安装前审查、版本 pin、脚本谨慎预批准。</td></tr>
+      <tr><td>S03</td><td><a href="https://www.promptfoo.dev/docs/guides/test-agent-skills/">Promptfoo Test Agent Skills</a></td><td>直接覆盖“Skill 是否被使用、是否误用附近 Skill、版本对比、结构化输出、skill-used、trace 证据”。</td><td>运行 Promptfoo 需外部依赖；不适合 MVP P0 必跑。</td><td>作为 forward-test 设计参考；真实执行后置 P2/CI。</td></tr>
+      <tr><td>S04</td><td><a href="https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/">Promptfoo Coding Agents</a></td><td>强调 Agent 评测是系统评测，需要观察工具轨迹、审批、sandbox、成本、延迟和非确定性。</td><td>部分 provider/模型版本会变化，需运行时复核。</td><td>支撑 Skill 级测试矩阵和 read-only 评测环境。</td></tr>
+      <tr><td>S05</td><td><a href="https://json-schema.org/draft/2020-12/json-schema-validation">JSON Schema Validation</a></td><td>可用 <code>type</code>、<code>required</code>、<code>enum</code>、数值/数组/对象约束验证 packet 结构。</td><td>只能验证结构，不能证明证据真实性或 RC 合法性。</td><td>作为结构门禁；语义门禁另用状态机和证据回链。</td></tr>
+      <tr><td>S06</td><td><a href="https://spec.openapis.org/oas/latest.html">OpenAPI Specification 3.2.0</a></td><td>强调接口描述可降低猜测，支持 humans/computers 理解能力边界。</td><td>偏 HTTP API；本项目 packet 不一定是 HTTP 服务。</td><td>吸收 schema、examples、readOnly/writeOnly、版本描述思想。</td></tr>
+      <tr><td>S07</td><td><a href="https://docs.pact.io/">Pact Docs</a></td><td>说明 contract testing 可用具体 request/response 样例验证消费者实际使用的交互。</td><td>Pact 本身是代码型集成测试工具，MVP 不应引入依赖。</td><td>吸收“契约即示例”思想，为下游 packet 建正反例 fixture。</td></tr>
+      <tr><td>S08</td><td><a href="https://semver.org/">Semantic Versioning 2.0.0</a></td><td>公开 API 需清晰精确；破坏性变化、兼容新增、修复应对应版本变化。</td><td>SemVer 面向软件包；知识库 packet 可采用但不必机械照搬。</td><td>用于 <code>schema_version</code> 和下游兼容规则。</td></tr>
+      <tr><td>S09</td><td><a href="https://modelcontextprotocol.io/specification/draft/server/tools">MCP Tools Spec</a></td><td>工具有 input/output schema；建议人可拒绝工具调用；结构化结果可由客户端验证。</td><td>当前 rag-system 是 Skill，不是 MCP server。</td><td>作为未来工具化和审批/输出 schema 参考。</td></tr>
+      <tr><td>S10</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>支持最小权限、人工审批、外部输入校验、记忆隔离、结构化输出和发布门禁。</td><td>不是本地 RAG 目录规范。</td><td>转成拒绝集、审批门禁、安全回归和日志字段。</td></tr>
+      <tr><td>S11</td><td><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a></td><td>覆盖提示注入、输出处理、供应链、敏感泄露等风险。</td><td>风险清单偏通用，需映射到本地测试夹具。</td><td>支撑文档提示注入测试和第三方 Skill 不直接执行。</td></tr>
+      <tr><td>S12</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a></td><td>支持 BM25、rank、integrity-check、rebuild、secure-delete 等本地全文检索能力。</td><td>中文分词、外部内容一致性和删除残留需要本地实测。</td><td>只作为 <code>08_cache</code> 后置 POC，不作事实源。</td></tr>
+      <tr><td>S13</td><td><a href="https://www.promptfoo.dev/docs/guides/evaluate-rag/">Promptfoo RAG Evaluation</a></td><td>建议分开评估检索和生成，支持 context recall/relevance/faithfulness 方向。</td><td>部分指标使用模型裁判，不能做 P0/P1 唯一依据。</td><td>P2 评测参考；MVP 主验收仍用确定性黄金查询。</td></tr>
+      <tr><td>S14</td><td><a href="https://deepeval.com/docs/getting-started-agents">DeepEval Agent Evaluation</a></td><td>支持 trace、TaskCompletionMetric、子 Agent/span 级评测。</td><td>引入框架和外部模型裁判成本。</td><td>后续 <code>rag-eval</code> POC，可辅助分析子 Skill 表现。</td></tr>
+      <tr><td>S15</td><td><a href="https://deepeval.com/docs/metrics-faithfulness">DeepEval Faithfulness</a></td><td>明确 faithfulness 评估输出是否被 retrieval context 支撑。</td><td>LLM-as-a-judge，不适合作为强门禁唯一来源。</td><td>用于 P2 语义评测，不替代证据引用和状态机。</td></tr>
+      <tr><td>S16</td><td><a href="https://openai.github.io/openai-agents-python/guardrails/">OpenAI Agents SDK Guardrails</a> / <a href="https://openai.github.io/openai-agents-python/tracing/">Tracing</a></td><td>guardrails、tool guardrails、handoffs、tracing 可支持 Agent 工作流观测。</td><td>这是 SDK 运行时资料，当前 Codex Skill 不直接依赖。</td><td>吸收“阻断结果可观测、trace 不应含敏感数据”的设计思想。</td></tr>
+      <tr><td>L01</td><td>本地 <code>create-agent-skill</code></td><td>最贴近 Codex Skill 创建规则：短 <code>SKILL.md</code>、渐进加载、validator、forward-test。</td><td>不负责 RAG 业务规则。</td><td>作为 rag-system 与子 Skill 文件结构主规范。</td></tr>
+      <tr><td>L02</td><td>本地 <code>auto-testcase-generator</code></td><td>提供下游用例生成的溯源、增量维护、状态门禁和 JSON trace 要求。</td><td>不应被 rag-system 直接执行。</td><td>定义 Test Asset Manifest 消费者契约。</td></tr>
+      <tr><td>L03</td><td>本地 <code>ui-test</code></td><td>明确 UI 证据、Playwright 确定性验证、Solution D、失败归因。</td><td>rag-system 不应执行浏览器测试。</td><td>定义 Solution D Evidence Contract 的只读输入。</td></tr>
+      <tr><td>L04</td><td>本地 <code>research</code> / <code>grill-system</code></td><td>证据索引、search-log、敏感扫描、一问一答门禁和 P0/P1 阻断。</td><td>它们生成报告，不实施建库。</td><td>作为 evidence-index、RC 审批和阻断报告模板。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Iterative Gap Closure</h2>
+  <table>
+    <thead><tr><th>轮次</th><th>发现的问题</th><th>补充资料/Skill 后的评审</th><th>结论</th></tr></thead>
+    <tbody>
+      <tr><td>R1</td><td>Skill 测试矩阵缺失，可能只测数据层不测 Agent 使用入口。</td><td>Promptfoo Test Agent Skills 直接支撑 skill-used、误触发、版本对比；本地 create-agent-skill 要求 forward-test。</td><td>P1 关闭：新增 TC-RAG-SKILL 系列作为计划修订项。</td></tr>
+      <tr><td>R2</td><td>Packet 只有字段名，跨下游解释不稳定。</td><td>JSON Schema 提供结构约束；Pact 提供“具体交互样例”思路；SemVer 支撑兼容规则。</td><td>P1 关闭：要求 schema + fixture + version 三件套。</td></tr>
+      <tr><td>R3</td><td>子 Skill 结构不具体，可能膨胀或缺少校验。</td><td>Open Agent Skills、GitHub Skills、本地 rubric 一致支持最小结构、脚本审查、安装前检查。</td><td>P1 关闭：每个子 Skill 需文件清单、校验命令、拒绝条件、forward-test。</td></tr>
+      <tr><td>R4</td><td>Agent 安全测试容易停在“提示注入”单点。</td><td>OWASP AI Agent 与 MCP Tools 扩展到最小权限、审批绑定、工具 schema、输出校验、发布门禁。</td><td>P1 关闭：安全测试需覆盖拒绝、审批、工具边界、结构化输出和敏感数据不进入 trace/report。</td></tr>
+      <tr><td>R5</td><td>FTS5 阈值仍偏定性。</td><td>SQLite FTS5 官方能力足够支撑后置 POC；Promptfoo/DeepEval 可补评测思路。</td><td>保留 P2：需首批语料后定量化，不阻塞 MVP。</td></tr>
+      <tr><td>R6</td><td>LLM 评测工具可能带来“模型裁判即真值”的新风险。</td><td>Promptfoo 和 DeepEval 都提供有用 RAG/Agent 评测，但 faithfulness 等指标不应替代确定性 schema、RC 状态和引用回链。</td><td>P1 关闭：LLM judge 仅 P2 辅助，P0/P1 主验收用确定性证据。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Recommended Plan Updates</h2>
+  <ol>
+    <li>在测试计划中新增 <code>TC-RAG-SKILL-001..008</code>，覆盖触发、误触发、space 门禁、子 Skill 路由、安全拒绝、RC 门禁、downstream handoff、forward-test。</li>
+    <li>为五类 packet 定义 <code>schemas/*.schema.json</code> 与 <code>fixtures/{valid,invalid}/</code>：Evidence Packet、RC Packet、Change Impact Packet、Test Asset Manifest、Solution D Evidence Contract。</li>
+    <li>每个 MVP 子 Skill 的开发 DoD 增加：结构校验、敏感扫描、脚本 dry-run 或说明、3 个正向 forward-test、2 个负向拒绝 forward-test。</li>
+    <li>新增 packet 版本策略：<code>0.y.z</code> 为 MVP 草案；破坏性字段变化升 major；兼容新增升 minor；非契约修复升 patch；已发布 schema 不原地改写。</li>
+    <li>新增计划变更回归规则：凡触发描述、状态枚举、packet schema、拒绝规则、下游字段、RC 状态机变化，必须回归 Skill 触发/误触发、packet schema、黄金查询、安全拒绝集和下游 fixture。</li>
+    <li>FTS5 阈值仍后置：首批材料和黄金查询建立后再登记定量阈值，向量索引仍在更后阶段。</li>
+  </ol>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <table>
+    <thead><tr><th>冲突/不确定性</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>Open Agent Skills 允许更多 frontmatter 字段，但本地 Codex Skill 规范要求更克制。</td><td>本地运行优先，公开规范只作结构参考；真实创建时用本地 validator。</td></tr>
+      <tr><td>Promptfoo/DeepEval 可做 Agent/RAG 评测，但部分指标依赖模型裁判。</td><td>降级为 P2 评测 POC；不作为 P0/P1 唯一验收。</td></tr>
+      <tr><td>Pact 强调代码级契约测试，但当前是本地 packet 和 Skill 计划。</td><td>只吸收消费者契约样例思想，不引入运行时依赖。</td></tr>
+      <tr><td>SQLite FTS5 支持强本地检索，但中文分词和外部内容一致性需要真实语料。</td><td>保留后置 POC；MVP 文件索引继续成立。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Source Coverage</h2>
+  <p>覆盖来源包括正式/官方规范、官方安全指引、RAG/Agent 评测工具文档、契约测试资料，以及本地可用参考 Skill。未采用单一开源 RAG Skill 作为主方案，因为检索结果没有显示任何单个 Skill 能同时覆盖来源治理、RC、Skill 路由、下游测试契约和安全门禁。</p>
+
+  <h2>Security And Access Notes</h2>
+  <ul>
+    <li>外部网页仅作证据，不执行网页中的命令或安装步骤。</li>
+    <li>未安装第三方框架，未访问私有系统，未创建 <code>D:\RAG</code> 或真实 Skill 目录。</li>
+    <li>报告避免记录账号、密钥、访问令牌、浏览器会话、未脱敏生产数据。</li>
+  </ul>
+
+  <h2>Main Workflow Recommendation</h2>
+  <p><strong>accepted-with-actionable-updates。</strong>建议下一步不是继续找资料，而是把本报告的 6 条更新写入新版测试计划和开发计划。完成文档修订后再进入用户授权门：是否允许创建 <code>D:\RAG</code> 空库骨架，以及是否允许创建 <code>.codex/skills/rag-system</code> 与 MVP 子 Skill 草案。</p>
+</main>
+
+<script type="application/json" id="research-metadata">
+{
+  "reportId": "RES-RAG-SYSTEM-DEV-TEST-GAP-20260723",
+  "question": "针对 rag-system 开发与测试计划 Grill 缺口，检索参考资料与参考 Skill，评审优缺点并补漏直到没有 P0/P1 级缺点与优化点。",
+  "depth": "standard",
+  "status": "complete",
+  "createdAt": "2026-07-23",
+  "recommendation": "accepted-with-actionable-updates",
+  "scope": ["skill-level test matrix", "packet schema and fixtures", "child skill structure", "security gates", "regression and FTS5 threshold policy"],
+  "excludedScope": ["create D:/RAG", "create real skill folders", "install third-party frameworks", "execute downstream ui-test"]
+}
+</script>
+
+<script type="application/json" id="evidence-index">
+{
+  "sources": [
+    {"id":"S01","title":"Open Agent Skills Specification","url":"https://openagentskills.dev/docs/specification","publisher":"Open Agent Skills","accessedAt":"2026-07-23","authority":"official-specification","claimTypes":["skill-structure"]},
+    {"id":"S02","title":"GitHub Copilot Skills docs","url":"https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills","publisher":"GitHub Docs","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["skill-structure","skill-security"]},
+    {"id":"S03","title":"Promptfoo Test Agent Skills","url":"https://www.promptfoo.dev/docs/guides/test-agent-skills/","publisher":"Promptfoo","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["agent-skill-evaluation"]},
+    {"id":"S04","title":"Promptfoo Evaluate Coding Agents","url":"https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/","publisher":"Promptfoo","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["agent-evaluation","sandbox","approval"]},
+    {"id":"S05","title":"JSON Schema Validation 2020-12","url":"https://json-schema.org/draft/2020-12/json-schema-validation","publisher":"JSON Schema","accessedAt":"2026-07-23","authority":"formal-specification","claimTypes":["schema-validation"]},
+    {"id":"S06","title":"OpenAPI Specification 3.2.0","url":"https://spec.openapis.org/oas/latest.html","publisher":"OpenAPI Initiative","accessedAt":"2026-07-23","authority":"formal-specification","claimTypes":["api-contract"]},
+    {"id":"S07","title":"Pact Docs Introduction","url":"https://docs.pact.io/","publisher":"Pact Foundation","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["contract-testing"]},
+    {"id":"S08","title":"Semantic Versioning 2.0.0","url":"https://semver.org/","publisher":"SemVer","accessedAt":"2026-07-23","authority":"formal-specification","claimTypes":["versioning"]},
+    {"id":"S09","title":"MCP Tools Spec","url":"https://modelcontextprotocol.io/specification/draft/server/tools","publisher":"Model Context Protocol","accessedAt":"2026-07-23","authority":"official-specification","claimTypes":["tool-schema","human-approval"]},
+    {"id":"S10","title":"OWASP AI Agent Security Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","publisher":"OWASP","accessedAt":"2026-07-23","authority":"official-security-guidance","claimTypes":["security","human-approval","least-privilege"]},
+    {"id":"S11","title":"OWASP LLM Top 10","url":"https://owasp.org/www-project-top-10-for-large-language-model-applications/","publisher":"OWASP","accessedAt":"2026-07-23","authority":"official-security-guidance","claimTypes":["prompt-injection","supply-chain"]},
+    {"id":"S12","title":"SQLite FTS5","url":"https://www.sqlite.org/fts5.html","publisher":"SQLite","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["fts5","cache"]},
+    {"id":"S13","title":"Promptfoo RAG Evaluation","url":"https://www.promptfoo.dev/docs/guides/evaluate-rag/","publisher":"Promptfoo","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["rag-evaluation"]},
+    {"id":"S14","title":"DeepEval Agent Evaluation","url":"https://deepeval.com/docs/getting-started-agents","publisher":"Confident AI","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["agent-evaluation"]},
+    {"id":"S15","title":"DeepEval Faithfulness","url":"https://deepeval.com/docs/metrics-faithfulness","publisher":"Confident AI","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["rag-faithfulness"]},
+    {"id":"S16","title":"OpenAI Agents SDK Guardrails and Tracing","url":"https://openai.github.io/openai-agents-python/guardrails/","publisher":"OpenAI","accessedAt":"2026-07-23","authority":"official-docs","claimTypes":["guardrails","tracing"]},
+    {"id":"L01","title":"Local create-agent-skill","url":"C:/Users/lenovo/.codex/skills/create-agent-skill/SKILL.md","authority":"local-skill","claimTypes":["codex-skill-design"]},
+    {"id":"L02","title":"Local create-agent-skill rubric","url":"C:/Users/lenovo/.codex/skills/create-agent-skill/references/skill-quality-rubric.md","authority":"local-skill-reference","claimTypes":["skill-validation"]},
+    {"id":"L03","title":"Local auto-testcase-generator","url":"C:/Users/lenovo/.codex/skills/auto-testcase-generator/SKILL.md","authority":"local-skill","claimTypes":["downstream-testcase"]},
+    {"id":"L04","title":"Local ui-test","url":"C:/Users/lenovo/.codex/skills/ui-test/SKILL.md","authority":"local-skill","claimTypes":["downstream-ui-test"]},
+    {"id":"L05","title":"Local research skill","url":"C:/Users/lenovo/.codex/skills/research/SKILL.md","authority":"local-skill","claimTypes":["evidence-reporting"]},
+    {"id":"L06","title":"Local grill report for rag-system dev and test plan","url":"outputs/本地数据库与rag-system开发测试计划Grill评审-2026-07-22.html","authority":"local-generated-review","claimTypes":["gap-source"]},
+    {"id":"L07","title":"Generated rag-system development plan","url":"outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html","authority":"local-generated-plan","claimTypes":["development-plan"]},
+    {"id":"L08","title":"Generated local knowledge base test plan","url":"outputs/本地知识库测试计划-vNext-2026-07-22.html","authority":"local-generated-plan","claimTypes":["test-plan"]}
+  ],
+  "claims": [
+    {"id":"C01","statement":"The prior P1 gap about missing rag-system Skill tests is supported and can be closed by adding explicit trigger, routing, false-positive, safety, handoff, and forward-test cases.","status":"supported","evidenceIds":["L06","S03","S04","L01","L02"]},
+    {"id":"C02","statement":"The prior P1 gap about packet contracts can be closed by combining JSON Schema structure validation, contract-by-example fixtures, and SemVer-style compatibility rules.","status":"supported","evidenceIds":["L06","S05","S06","S07","S08","L03","L04"]},
+    {"id":"C03","statement":"The prior P1 gap about child Skill implementation detail can be closed by adopting minimal Skill folder structure, progressive disclosure, deterministic validators, sensitive scans, and forward-tests.","status":"supported","evidenceIds":["S01","S02","L01","L02"]},
+    {"id":"C04","statement":"Agent safety tests must cover least privilege, human approval, prompt-injection resistance, output schema validation, and no sensitive data in reports or traces.","status":"supported","evidenceIds":["S09","S10","S11","S16","L05"]},
+    {"id":"C05","statement":"SQLite FTS5 remains a later-stage cache POC because official FTS5 capabilities are strong but Chinese segmentation, external content consistency, rebuild behavior, and threshold values require local corpus evidence.","status":"supported","evidenceIds":["S12","S13","S14","S15","L07"]},
+    {"id":"C06","statement":"No P0/P1 reference or reference-skill deficiency remains after supplementation; remaining blockers are implementation authorization and user-provided inputs.","status":"supported","evidenceIds":["L06","L07","L08","S01","S10"]}
+  ]
+}
+</script>
+
+<script type="application/json" id="search-log">
+{
+  "queries": [
+    {"q":"Open Agent Skills Specification SKILL.md references scripts assets validation official","purpose":"Skill structure"},
+    {"q":"GitHub Copilot custom skills AGENTS.md SKILL.md official docs","purpose":"Skill security and installation review"},
+    {"q":"Promptfoo test agent skills Codex skill-used official docs","purpose":"Skill forward-test and routing evaluation"},
+    {"q":"Promptfoo evaluate coding agents approval sandbox trace official docs","purpose":"Agent behavior evaluation"},
+    {"q":"JSON Schema Draft 2020-12 validation official schema versioning","purpose":"Packet schema"},
+    {"q":"Pact contract testing provider consumer contracts official docs","purpose":"Contract fixtures"},
+    {"q":"Semantic Versioning 2.0.0 official specification backwards compatibility","purpose":"Schema version policy"},
+    {"q":"Model Context Protocol tools security human approval tool annotations official specification","purpose":"Tool schema and approval"},
+    {"q":"OWASP AI Agent Security Cheat Sheet prompt injection human approval memory tool permissions","purpose":"Agent safety tests"},
+    {"q":"SQLite FTS5 bm25 rebuild integrity-check external content official docs","purpose":"FTS5 threshold and cache policy"},
+    {"q":"DeepEval agent evaluation trace faithfulness official docs","purpose":"P2 agent/RAG evaluation"}
+  ],
+  "stopConditions": [
+    "Every Grill P1 gap maps to at least one primary or local source",
+    "Any LLM-judge based source is downgraded to P2 unless backed by deterministic validation",
+    "New searches repeat already covered source categories",
+    "No third-party runtime needs installation for the recommendation"
+  ],
+  "accessedAt": "2026-07-23"
+}
+</script>
+
+<script type="application/json" id="run-status">
+{
+  "status": "complete",
+  "p0Remaining": 0,
+  "p1Remaining": 0,
+  "p2Remaining": [
+    "FTS5 quantitative thresholds require first corpus and approved golden queries.",
+    "Promptfoo and DeepEval remain optional P2 POC tools until user authorizes installing or running them.",
+    "Actual Skill validators can only run after user authorizes creating real skill folders."
+  ],
+  "validationPlanned": [
+    "validate_research_html.py",
+    "validate_embedded_evidence.py",
+    "check_citations.py",
+    "scan_research_output.py"
+  ]
+}
+</script>
+</body>
+</html>

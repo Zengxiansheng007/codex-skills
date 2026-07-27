@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地知识库开发计划 vNext - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库开发计划 vNext</h1>
+  <div class="note">
+    <p><strong>documentType：</strong>Development Plan</p>
+    <p><strong>目标：</strong>以本地文件和结构化元数据为源真值，分阶段实现 <code>D:\RAG</code> 知识库 MVP；本计划不执行部署，只定义开发任务、接口、门禁和验收。</p>
+    <p><strong>源基线：</strong>本地知识库 PRD vNext、WorkBuddy PRD v1.1、Codex 历史 PRD、本轮 research 与 Grill。</p>
+  </div>
+
+  <h2>1. 开发原则</h2>
+  <ul>
+    <li>先结构治理，后检索优化：MVP 先完成 schema、目录、准入、证据、RC、查询契约。</li>
+    <li>文件为源真值，索引为派生物：MVP 先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON；<code>08_cache</code> 可删除重建，不承载唯一事实。</li>
+    <li>只处理用户显式提供材料：不自动扫描其他磁盘目录。</li>
+    <li><code>confirmed_active</code> 是正式 RC 前置条件；<code>active</code> 只代表待审池。</li>
+    <li>下游 Skill 只读接入：本阶段预留接口，不执行 <code>ui-test</code>、<code>auto-testcase-generator</code>、Solution D。</li>
+  </ul>
+
+  <h2>2. 架构与模块边界</h2>
+  <table>
+    <thead><tr><th>模块</th><th>职责</th><th>输入</th><th>输出</th></tr></thead>
+    <tbody>
+      <tr><td>DEV-KB-001 目录与配置</td><td>创建计划目录、SCHEMA、manifest、索引目录占位</td><td>PRD、用户 space 决策</td><td>目录树、<code>SCHEMA.md</code>、<code>INDEX.md</code></td></tr>
+      <tr><td>DEV-KB-002 Schema 契约</td><td>定义 Source、Evidence、KnowledgeUnit、RC、Conflict、ChangeImpact、Query、Manifest</td><td>JSON Schema、PRD 对象模型</td><td>JSON/YAML schema 与语义校验规则</td></tr>
+      <tr><td>DEV-KB-003 准入与脱敏门禁</td><td>处理用户文件清单、类型/大小/敏感标记、Reviewer 确认</td><td>用户材料清单</td><td>Admission Report、Reject Report</td></tr>
+      <tr><td>DEV-KB-004 来源与证据抽取</td><td>保存原文/脱敏副本，生成定位、hash、证据片段</td><td>通过准入材料</td><td>SRC、EVD、KnowledgeUnit 草稿</td></tr>
+      <tr><td>DEV-KB-005 状态机与 RC 治理</td><td>实现 raw/reviewing/active/confirmed_active/uncertain/superseded/deprecated 转换</td><td>知识单元、用户确认</td><td>RC、CONFLICT、Audit</td></tr>
+      <tr><td>DEV-KB-006 本地检索接口</td><td>按 space 硬过滤，返回 Evidence Packet</td><td>INDEX、frontmatter、证据</td><td>Evidence Packet</td></tr>
+      <tr><td>DEV-KB-007 变更影响</td><td>新版本比较、supersedes、CHG、候选 IMP</td><td>新旧来源</td><td>Change Impact Packet</td></tr>
+      <tr><td>DEV-KB-008 下游接口预留</td><td>定义 Test Asset Manifest、Solution D Evidence Contract、handoff schema</td><td>PRD 和下游 Skill 约束</td><td>只读契约和样例夹具</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 分阶段计划</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>目标</th><th>任务</th><th>完成标准</th><th>回退/暂停</th></tr></thead>
+    <tbody>
+      <tr><td>PH-0 治理基线</td><td>冻结开发输入</td><td>确认 PRD vNext、space 规则、材料清单模板、状态机、RC 规则</td><td>部署 DoR 文档化；P0 开放问题归零或风险接受</td><td>缺少 space 或材料清单时暂停</td></tr>
+      <tr><td>PH-1 本地骨架</td><td>建立可审计文件结构</td><td>实现目录、manifest、schema 文件、示例数据、校验脚本</td><td>空库校验通过；索引目录可删除重建</td><td>不写入真实材料</td></tr>
+      <tr><td>PH-2 准入与证据</td><td>把用户材料转为可追溯证据</td><td>文件清单解析、敏感标记、Reviewer 确认、hash、locator、EVD</td><td>敏感拒绝报告和干净样本入库报告通过</td><td>发现敏感值时停止该文件导入</td></tr>
+      <tr><td>PH-3 状态机与 RC</td><td>防止未确认事实进入正式输出</td><td>状态迁移、冲突检测、低置信阻塞、批清 confirmed_active、RC 审计</td><td>active 无法被正式查询当作 RC；冲突无自动裁决路径</td><td>用户未确认时保持 need-review</td></tr>
+      <tr><td>PH-4 检索与 Evidence Packet</td><td>给 Agent 提供只读证据包</td><td>INDEX/frontmatter 搜索、space 过滤、证据回链、风险状态</td><td>五类黄金查询通过</td><td>无 RC 或冲突时返回阻断状态</td></tr>
+      <tr><td>PH-5 下游契约预留</td><td>让后续 Skill 可接入</td><td>Test Asset Manifest、Solution D Evidence Contract、handoff 示例</td><td>schema 校验通过；下游不可写 RC</td><td>内部 Skill 未提供时只保留接口草案</td></tr>
+      <tr><td>PH-6 检索优化候选</td><td>评估 SQLite FTS5/08_cache</td><td>语料规模统计、黄金查询失败率分析、人工查找成本记录、FTS5 POC、重建一致性</td><td>语料规模、黄金查询失败率或人工查找成本达到阈值后，才纳入 SQLite FTS5 正式开发</td><td>未达阈值继续使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON；向量索引放在更后阶段</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. Q6 展开：SQLite FTS5 与缓存层怎么判断是否引入</h2>
+  <p>已确认方案：MVP 先使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON；当语料规模、黄金查询失败率或人工查找成本达到阈值后，再引入 SQLite FTS5；向量索引放在更后阶段。SQLite FTS5 适合作为本地全文检索后端，但不应在 MVP 一开始就成为硬依赖。原因是当前最关键风险不是检索速度，而是事实治理：是否只读用户提供材料、是否防敏感、是否区分 active 和 confirmed_active、是否可追溯。</p>
+  <p><strong>小白版理解：</strong>可以把本地知识库想成一个“资料柜 + 目录卡 + 搜索机”。<code>01_raw/02_structured/03_evidence/06_governance</code> 是资料柜和目录卡，里面放的是可追溯的原文、证据、状态和用户确认；<code>08_cache</code> 像一台搜索机，只是帮你找得快。搜索机坏了可以重建，不能把搜索机里的结果当成事实本身。</p>
+  <p><strong>为什么不一开始就上 SQLite 或向量库：</strong>早期最容易出大错的不是“搜得慢”，而是“搜到的东西能不能用”。如果材料还没确认、RC 还没裁决、敏感信息还没挡住，检索越快只会越快地把错误传播给下游 Agent。因此 MVP 先把资料柜、目录卡和人工确认规则做好；等资料变多、查询变慢、黄金查询证明需要更强检索时，再把 SQLite FTS5 接到 <code>08_cache</code>。向量索引更适合后续语义召回 POC，不进入 MVP。</p>
+  <table>
+    <thead><tr><th>方案</th><th>优点</th><th>缺点</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td>纯文件 + INDEX/frontmatter + manifest + 证据 JSON</td><td>简单、可审计、易迁移、无额外依赖，最适合先把事实治理做稳</td><td>语料大后查询慢；复杂组合查询不舒服</td><td>MVP 确认采用</td></tr>
+      <tr><td>SQLite FTS5 / 08_cache</td><td>本地、成熟、支持 BM25、可重建、适合结构过滤</td><td>中文分词、索引更新、重建一致性需要验证</td><td>PH-6 POC 后引入</td></tr>
+      <tr><td>向量索引</td><td>语义召回强，适合同义表达和长文本</td><td>可解释性弱、误召回、嵌入泄露与版本重建复杂</td><td>后续 POC；不得作为事实源</td></tr>
+    </tbody>
+  </table>
+  <p><strong>阈值策略：</strong>是否引入 SQLite FTS5 不靠拍脑袋，而看三类信号：语料规模是否明显增长、黄金查询失败率是否暴露纯文件检索不足、人工查找成本是否已经影响效率。具体数值需要首批语料和黄金查询跑出基线后再定；达到阈值前继续使用 <code>INDEX.md</code>、frontmatter、manifest 和证据 JSON。向量索引需另行审批，且放在 SQLite FTS5 之后。</p>
+  <p><strong>高置信参考支撑：</strong>该方案有官方资料支撑。<a href="https://www.sqlite.org/fts5.html">SQLite FTS5 官方文档</a>说明 FTS5 支持本地全文检索、BM25 排序、tokenizer、integrity-check、rebuild 和外部内容表；这些能力支持把 SQLite 作为本地 <code>08_cache</code>。同一官方文档也说明外部内容索引需要维护一致性，因此它不应成为唯一事实源。<a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a> 与 <a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security Cheat Sheet</a> 支撑“检索命中不是事实、Agent 需要最小权限和人工审批”的安全边界。</p>
+
+  <h2>5. 下游接口和产物格式预留</h2>
+  <table>
+    <thead><tr><th>产物</th><th>字段</th><th>消费者</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>Evidence Packet</td><td>query_id、space、status、rc、evidence_refs、source_refs、blocked_reason</td><td>全部下游</td><td>MVP 必做</td></tr>
+      <tr><td>RC Packet</td><td>rc_id、knowledge_space_id、scope、statement、decision_by、confirmed_at、status</td><td>用例生成、UI 测试</td><td>MVP 必做</td></tr>
+      <tr><td>Change Impact Packet</td><td>change_id、old_source、new_source、semantic_delta、impacted_rc、impacted_assets</td><td>测试维护、回归</td><td>MVP/P1</td></tr>
+      <tr><td>Test Asset Manifest</td><td>asset_id、requires_rc、oracle_type、payload_ref、evidence_contract、owner_skill</td><td><code>auto-testcase-generator</code></td><td>P1 预留</td></tr>
+      <tr><td>Solution D Evidence Contract</td><td>trace、api、task、downstream、business_id、verdict、attribution</td><td><code>ui-test</code>、Solution D</td><td>P1 预留</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <p><strong>实施边界：</strong>本次优先完成本地知识库搭建，所以内部 Skill 的具体实现不作为开发前置。计划只保留稳定契约和样例，等用户提供真实 Skill 包、Repo 或产物样例后再核验细节。</p>
+  </div>
+
+  <h2>6. 开发质量门禁</h2>
+  <table>
+    <thead><tr><th>Gate</th><th>进入条件</th><th>退出条件</th></tr></thead>
+    <tbody>
+      <tr><td>Requirement Gate</td><td>PRD vNext 通过评审</td><td>space、材料、RC、敏感规则无 P0 未决</td></tr>
+      <tr><td>Schema Gate</td><td>对象模型冻结</td><td>结构校验 + 语义校验覆盖状态机、space、RC、证据回链</td></tr>
+      <tr><td>Security Gate</td><td>准入流程实现</td><td>敏感样本拒绝；拒绝报告不回显完整敏感值</td></tr>
+      <tr><td>Evidence Gate</td><td>Evidence Packet 输出</td><td>可回链来源；无 RC/冲突/active 阻断</td></tr>
+      <tr><td>Downstream Contract Gate</td><td>Manifest 和 Contract 示例完成</td><td>下游只读、不可写 RC、不可越过 space</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. 风险与回退</h2>
+  <table>
+    <thead><tr><th>风险</th><th>影响</th><th>缓解</th></tr></thead>
+    <tbody>
+      <tr><td>用户未提供首批材料</td><td>无法真实建库验收</td><td>仅完成空库骨架和样例夹具，不导入真实内容。</td></tr>
+      <tr><td>材料含敏感信息</td><td>泄露或污染知识库</td><td>拒绝该项，不复制敏感正文，只记录拒绝原因。</td></tr>
+      <tr><td>active 被误用</td><td>未确认事实进入正式用例</td><td>语义校验和下游契约都要求 <code>confirmed_active</code>。</td></tr>
+      <tr><td>SQLite/向量过早引入</td><td>复杂度上升、事实源混乱</td><td>PH-6 后置 POC；索引不得成为事实源。</td></tr>
+      <tr><td>内部 Skill 格式未知</td><td>下游集成返工</td><td>先定义稳定最小契约，真实接口待用户提供后适配。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 交付清单</h2>
+  <ul>
+    <li><code>SCHEMA.md</code> 与 JSON/YAML schema。</li>
+    <li><code>INDEX.md</code> 和 manifest 示例。</li>
+    <li>Admission Report、Reject Report、Evidence Packet、RC Packet、Change Impact Packet 模板。</li>
+    <li>Test Asset Manifest 与 Solution D Evidence Contract 示例。</li>
+    <li>校验脚本或校验说明：结构、语义、敏感扫描、证据回链、space 隔离。</li>
+    <li>MVP 验收报告。</li>
+  </ul>
+
+  <h2>9. 参考资料与参考 Skill 处置</h2>
+  <table>
+    <thead><tr><th>参考</th><th>采用点</th><th>限制</th><th>处置</th></tr></thead>
+    <tbody>
+      <tr><td>JSON Schema 2020-12</td><td>结构契约</td><td>不证明语义</td><td>配语义校验</td></tr>
+      <tr><td>W3C PROV-O</td><td>来源、派生、失效</td><td>完整 RDF/OWL 过重</td><td>吸收最小概念</td></tr>
+      <tr><td>SQLite FTS5</td><td>本地全文检索</td><td>中文和性能需实测</td><td>后置 POC</td></tr>
+      <tr><td>Q6 补充研究</td><td>FTS5 官方能力、rebuild/integrity-check、外部内容一致性、OWASP Agent 安全边界</td><td>阈值仍需首批语料和黄金查询验证</td><td>采用“08_cache 后置、非事实源”的方案</td></tr>
+      <tr><td>SpecSmith/Pact</td><td>契约、孤立项、覆盖校验</td><td>框架较重</td><td>吸收门禁思想</td></tr>
+      <tr><td>Promptfoo/DeepEval</td><td>Agent 输出回归与工具正确性</td><td>部分依赖 LLM judge</td><td>P2 评测 POC</td></tr>
+      <tr><td>Midscene</td><td>视觉探索</td><td>不能证明业务成功</td><td>只作探索，需 Playwright + Solution D</td></tr>
+    </tbody>
+  </table>
+</main>
+<script type="application/json" id="development-plan">
+{
+  "documentType": "development-plan",
+  "version": "vNext-2026-07-22",
+  "sourceBaseline": ["PRD vNext", "WorkBuddy PRD v1.1", "Codex historical PRD", "research review", "grill confirmations"],
+  "phases": ["PH-0", "PH-1", "PH-2", "PH-3", "PH-4", "PH-5", "PH-6"],
+  "interfaces": ["Evidence Packet", "RC Packet", "Change Impact Packet", "Test Asset Manifest", "Solution D Evidence Contract"],
+  "qualityGates": ["Requirement Gate", "Schema Gate", "Security Gate", "Evidence Gate", "Downstream Contract Gate"],
+  "mvpSearchBackend": "INDEX.md + frontmatter + manifest + evidence JSON",
+  "searchBackendUpgradePolicy": "Introduce SQLite FTS5 only after corpus size, golden-query failure rate, or manual lookup cost reaches an agreed threshold; vector search is later-stage only.",
+  "manualConfirmRequired": ["knowledge_space_id concrete value", "first material list", "desensitization confirmation", "RC decision", "batch clear to confirmed_active", "SQLite/vector phase approval", "golden query approval"],
+  "forbidden": ["automatic disk scanning", "secret ingestion", "unredacted production data", "automatic RC promotion"]
+}
+</script>
+</body>
+</html>

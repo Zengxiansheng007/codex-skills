@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地数据库与 rag-system 开发测试计划 Grill 评审 - 2026-07-22</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地数据库与 rag-system 开发测试计划 Grill 评审</h1>
+  <div class="note">
+    <p><strong>评审对象：</strong>本地数据库与 <code>rag-system</code> Skill 开发计划、本地知识库开发计划、本地知识库测试计划。</p>
+    <p><strong>评审路线：</strong><code>design-review</code> 为主，<code>pre-implementation</code> 与 <code>test-case-design</code> 为辅。</p>
+    <p><strong>结论：</strong>开发方向成立，但测试计划需要补齐 <code>rag-system</code> Skill 自身的测试面；真实执行仍受用户授权和首批输入阻塞。</p>
+  </div>
+
+  <h2>1. 总体判断</h2>
+  <table>
+    <thead><tr><th>维度</th><th>评审结论</th><th>级别</th></tr></thead>
+    <tbody>
+      <tr><td>架构方向</td><td>“本地数据库数据层 + <code>rag-system</code> 根 Skill + 子 Skill”的拆分合理，能避免巨型 Skill 和检索结果直接变事实。</td><td>通过</td></tr>
+      <tr><td>安全边界</td><td>计划明确禁止自动扫描磁盘、敏感材料入库、自动 RC、直接执行下游测试，边界符合用户确认。</td><td>通过</td></tr>
+      <tr><td>开发可执行性</td><td>阶段顺序合理；用户已说明 <code>D:\RAG</code> 文件已存在，但真实实施前仍缺少检查/使用该路径、创建 Skill 目录、首个 space 和材料清单授权。</td><td>P0 阻塞实施</td></tr>
+      <tr><td>测试充分性</td><td>测试计划覆盖数据层治理，但没有把 <code>rag-system</code> 根 Skill 和子 Skill 契约作为一等测试对象。</td><td>P1 缺口</td></tr>
+      <tr><td>下游契约</td><td>Evidence Packet、RC Packet、Change Impact Packet、Test Asset Manifest、Solution D Evidence Contract 已预留，但字段级 JSON Schema 和失败样例还不够具体。</td><td>P1 缺口</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 主要优点</h2>
+  <ol>
+    <li><strong>事实源与缓存分离：</strong>开发计划坚持 <code>INDEX.md</code>、frontmatter、manifest、证据 JSON 为 MVP 真值，<code>08_cache</code> 可删除重建，降低早期架构复杂度。</li>
+    <li><strong>RC 门禁清楚：</strong><code>active</code> 只代表待审，<code>confirmed_active</code> 才能作为正式 RC，能防止 PRD 或历史材料被误当绝对事实。</li>
+    <li><strong>上下游边界克制：</strong><code>rag-system</code> 输出只读包，不执行 <code>ui-test</code>、不生成正式测试用例、不绕过用户审批。</li>
+    <li><strong>阶段顺序稳：</strong>先治理、schema、状态机、证据包，再考虑 SQLite FTS5 和向量检索，符合当前 MVP 风险优先级。</li>
+  </ol>
+
+  <h2>3. 缺陷与优化点</h2>
+  <table>
+    <thead><tr><th>ID</th><th>问题</th><th>影响</th><th>建议</th><th>级别</th></tr></thead>
+    <tbody>
+      <tr><td>F-001</td><td>测试计划仍以“本地知识库数据层”为中心，未单列 <code>rag-system</code> Skill 测试矩阵。</td><td>后续即使数据层测试通过，也不能证明根 Skill 会正确路由、拒绝、渐进加载、调用子 Skill 或聚合 Evidence Packet。</td><td>新增 <code>TC-RAG-SKILL-001..008</code>：触发识别、space 检查、子 Skill 路由、越权拒绝、提示注入拒绝、下游 handoff、错误聚合、forward-test。</td><td>P1</td></tr>
+      <tr><td>F-002</td><td>下游契约只有字段名，缺少字段级 JSON Schema、正反例 fixture、版本号和兼容性规则。</td><td><code>auto-testcase-generator</code>、<code>ui-test</code>、Solution D 可能各自解释字段，导致集成返工或错误消费 active/uncertain。</td><td>为五类包建立 <code>schema_version</code>、必填字段、状态枚举、失败包样例和只读约束。</td><td>P1</td></tr>
+      <tr><td>F-003</td><td>开发计划列出子 Skill，但未定义每个子 Skill 的最小文件结构和验证命令。</td><td>后续创建 Skill 时可能膨胀成教程型文档，或缺少引用资源、脚本和 forward-test。</td><td>每个 MVP 子 Skill 明确 <code>SKILL.md</code>、<code>references/</code>、<code>scripts/</code>、fixtures、拒绝条件和质量校验命令。</td><td>P1</td></tr>
+      <tr><td>F-004</td><td>SQLite FTS5 引入阈值仍是定性描述。</td><td>不会阻塞 MVP，但后续可能围绕“什么时候该升级检索”反复争论。</td><td>首批语料跑完后，把阈值登记为可调参数，如黄金查询失败率、人工查找分钟数、语料条目量。</td><td>P2</td></tr>
+      <tr><td>F-005</td><td>测试计划没有显式写出“测试计划自身版本变更后如何回归 rag-system Skill”。</td><td>计划迭代时容易只回归数据层，遗漏 Skill 触发描述、路由和下游包兼容性。</td><td>新增计划变更回归：Skill 触发、子 Skill 路由、packet schema、拒绝条件、黄金查询全量回归。</td><td>P2</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 建议补充的测试矩阵</h2>
+  <table>
+    <thead><tr><th>ID</th><th>测试对象</th><th>测试目标</th><th>通过条件</th></tr></thead>
+    <tbody>
+      <tr><td>TC-RAG-SKILL-001</td><td>根 Skill 触发</td><td>用户提到本地知识库/RAG/RC 查询/下游证据准备时正确触发。</td><td>触发描述命中，且不会误触发无关文档任务。</td></tr>
+      <tr><td>TC-RAG-SKILL-002</td><td>space 门禁</td><td>缺少或不一致的 <code>knowledge_space_id</code> 被阻断。</td><td>返回阻断原因，不读取材料。</td></tr>
+      <tr><td>TC-RAG-SKILL-003</td><td>子 Skill 路由</td><td>摄取、schema、治理、查询、变更影响、下游交接请求分别路由到正确子 Skill。</td><td>路由记录可追溯，未调用无关 Skill。</td></tr>
+      <tr><td>TC-RAG-SKILL-004</td><td>安全拒绝</td><td>清单外路径、疑似凭据、Cookie、未脱敏生产数据被拒绝。</td><td>生成 Reject Report，不回显敏感正文。</td></tr>
+      <tr><td>TC-RAG-SKILL-005</td><td>RC 门禁</td><td><code>active</code>、<code>uncertain</code>、冲突材料不得输出正式 RC。</td><td>返回 <code>need-review</code> 或 <code>conflict</code>。</td></tr>
+      <tr><td>TC-RAG-SKILL-006</td><td>下游 handoff</td><td>为用例生成/UI 自动化/Solution D 生成只读 packet。</td><td>packet schema 通过；无写 RC 或执行下游动作。</td></tr>
+      <tr><td>TC-RAG-SKILL-007</td><td>文档提示注入</td><td>材料中的伪指令不能改变系统目标、权限或工具调用。</td><td>将其作为普通证据内容处理，并保留拒绝说明。</td></tr>
+      <tr><td>TC-RAG-SKILL-008</td><td>forward-test</td><td>用 3 到 5 个真实风格请求验证 Skill 对 Agent 友好。</td><td>输出稳定、短路径、证据齐全、阻断明确。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 最高优先级确认问题</h2>
+  <div class="warn">
+    <p><strong>Question：</strong>是否同意把测试计划从“本地知识库数据层测试计划”升级为“本地数据库 + rag-system Skill 联合测试计划”，并将 <code>TC-RAG-SKILL-001..008</code> 作为 MVP 验收前置？</p>
+    <p><strong>Why it matters：</strong>开发计划已经把 <code>rag-system</code> 定义为真实 RAG 系统入口；如果测试计划不覆盖 Skill 行为，MVP 可能只证明文件库正确，却不能证明 Agent 能安全使用它。</p>
+    <p><strong>Recommended answer：</strong>同意。数据层测试继续保留，同时新增 Skill 测试矩阵；正式创建目录或 Skill 文件仍需另行授权。</p>
+    <p><strong>User response：</strong>已确认，2026-07-23。</p>
+    <p><strong>If unresolved：</strong>阻塞进入实际 Skill 开发与 MVP 验收；不阻塞继续完善文档草案。</p>
+  </div>
+
+  <h2>6. 下一步</h2>
+  <ol>
+    <li>用户已确认升级测试计划范围。</li>
+    <li>用户已授权仅在 <code>outputs</code> 下生成新版开发计划和联合测试计划草案；已生成，不直接修改既有总需求文档。</li>
+    <li>用户已说明 <code>D:\RAG</code> 文件已存在，并已确认允许检查/使用该路径；只读检查显示顶层存在 <code>产研效能.lakebook</code>。</li>
+    <li>用户已确认 <code>产研效能.lakebook</code> 可作为首批候选材料或现有知识库容器纳入检查；已生成准入检查报告，但未读取正文、未入库、未进入 RC。</li>
+    <li>用户已确认允许对 <code>产研效能.lakebook</code> 做受控格式识别和敏感预检；结果显示其为 USTAR 容器，含 82 个 JSON 成员，但敏感预检出现手机号形态和 API key 字段/值形态命中，当前状态为 <code>blocked-pending-sensitive-review</code>。</li>
+    <li>用户要求暂时不继续对 PRD、<code>产研效能.lakebook</code> 等内容做深度分析；相关敏感复核、脱敏审查、内容入库、RC 提取均转为待办。</li>
+    <li>当前 Grill 继续聚焦需求边界、开发计划和联合测试计划；后续如进入实施，再单独确认是否允许创建 <code>.codex/skills/rag-system</code>。</li>
+  </ol>
+</main>
+
+<script type="application/json" id="grill-session">
+{
+  "sessionId": "grill-rag-dev-test-plan-20260722",
+  "scenario": "design-review",
+  "status": "blocked",
+  "sourceInputs": [
+    {"type": "development-plan", "pathOrLabel": "outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html", "freshness": "current"},
+    {"type": "development-plan", "pathOrLabel": "outputs/本地知识库开发计划-vNext-2026-07-22.html", "freshness": "current"},
+    {"type": "test-plan", "pathOrLabel": "outputs/本地知识库测试计划-vNext-2026-07-22.html", "freshness": "current"},
+    {"type": "research-review", "pathOrLabel": "outputs/rag-system-skill参考资料与参考Skill补强评审-2026-07-22.html", "freshness": "current"}
+  ],
+  "questions": [
+    {
+      "id": "Q-001",
+      "question": "是否同意把测试计划从本地知识库数据层测试计划升级为本地数据库 + rag-system Skill 联合测试计划，并将 TC-RAG-SKILL-001..008 作为 MVP 验收前置？",
+      "purpose": "Decide whether implementation readiness must verify the Skill behavior as well as the data-layer behavior.",
+      "evidence": ["E-001", "E-002", "E-003"],
+      "recommendedAnswer": "同意。保留原数据层测试，并新增 root Skill、子 Skill 路由、安全拒绝、RC 门禁、downstream handoff 和 forward-test 覆盖。",
+      "blockingDecision": "test plan scope for rag-system MVP",
+      "userResponse": "确认",
+      "status": "confirmed",
+      "severity": "P1"
+    },
+    {
+      "id": "Q-002",
+      "question": "是否授权 Codex 基于 Q-001 重新生成新版开发计划和新版联合测试计划草案，且仅写入 outputs，不创建 D:/RAG、不创建 .codex/skills/rag-system、不导入真实材料？",
+      "purpose": "Decide whether Codex may produce revised planning artifacts without crossing into implementation.",
+      "evidence": ["E-004", "E-005"],
+      "recommendedAnswer": "确认，仅生成 outputs 下文档草案，实施另行授权。",
+      "blockingDecision": "documentation regeneration boundary",
+      "userResponse": "确认",
+      "status": "confirmed",
+      "severity": "P1"
+    },
+    {
+      "id": "Q-003",
+      "question": "是否允许 Codex 检查并使用已存在的 D:/RAG 作为本地知识库目标路径？",
+      "purpose": "Decide whether the existing local target path may be inspected and used as the knowledge base root.",
+      "evidence": ["E-006"],
+      "recommendedAnswer": "确认。只做授权范围内的最小检查和后续受控使用，不自动读取文件正文、不扫描其他目录、不写入未授权结构。",
+      "blockingDecision": "D:/RAG target path authorization",
+      "userResponse": "确认",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "Q-004",
+      "question": "D:/RAG/产研效能.lakebook 是否作为首批用户提供材料或现有知识库容器纳入检查？",
+      "purpose": "Decide whether the visible lakebook file can be treated as a candidate first-batch material for controlled inspection.",
+      "evidence": ["E-006", "E-007"],
+      "recommendedAnswer": "确认。先登记为候选材料并做准入级检查；完整读取、解包、敏感扫描和入库仍需单独授权。",
+      "blockingDecision": "first material candidate authorization",
+      "userResponse": "确认",
+      "status": "confirmed",
+      "severity": "P0"
+    },
+    {
+      "id": "Q-005",
+      "question": "是否允许对 D:/RAG/产研效能.lakebook 做受控格式识别和敏感预检？",
+      "purpose": "Decide whether Codex may inspect archive structure and scan content in memory for sensitive patterns without outputting matched values.",
+      "evidence": ["E-007", "E-008"],
+      "recommendedAnswer": "确认。只输出统计和风险等级，不输出正文或命中值，不入库。",
+      "blockingDecision": "controlled format identification and sensitive precheck",
+      "userResponse": "确认",
+      "status": "confirmed",
+      "severity": "P0"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-001",
+      "title": "Upgrade test plan to local database plus rag-system Skill joint test plan",
+      "sourceQuestion": "Q-001",
+      "decision": "confirmed",
+      "consequence": "The next test plan revision must include TC-RAG-SKILL-001..008 as MVP acceptance scope, while real D:/RAG and .codex/skills creation still require separate authorization."
+    },
+    {
+      "id": "D-002",
+      "title": "Regenerate revised planning artifacts only under outputs",
+      "sourceQuestion": "Q-002",
+      "decision": "confirmed",
+      "consequence": "Codex may generate revised development and joint test plan drafts in outputs; implementation directories and real material ingestion remain blocked until separate authorization."
+    },
+    {
+      "id": "D-003",
+      "title": "D:/RAG already exists but is not yet authorized for inspection or use",
+      "sourceQuestion": "user-follow-up-20260723",
+      "decision": "superseded",
+      "consequence": "Superseded by D-004 after user authorized inspection/use of the existing D:/RAG path."
+    },
+    {
+      "id": "D-004",
+      "title": "Use existing D:/RAG as the authorized local knowledge base target path",
+      "sourceQuestion": "Q-003",
+      "decision": "confirmed",
+      "consequence": "Codex may treat D:/RAG as the target path for planning and controlled follow-up work; file-body reads, material inclusion, structure writes, and skill creation still require explicit scope or authorization."
+    },
+    {
+      "id": "D-005",
+      "title": "Register D:/RAG/产研效能.lakebook as a first candidate material for controlled inspection",
+      "sourceQuestion": "Q-004",
+      "decision": "confirmed",
+      "consequence": "The lakebook file may be tracked as a candidate first-batch material; it is not yet ingested, not RC-eligible, and not downstream-consumable."
+    },
+    {
+      "id": "D-006",
+      "title": "Block lakebook ingestion pending sensitive review",
+      "sourceQuestion": "Q-005",
+      "decision": "confirmed",
+      "consequence": "The lakebook is identified as a USTAR archive with 82 JSON members, but it remains blocked from ingestion, RC, and downstream use until sensitive hits are reviewed or remediated."
+    },
+    {
+      "id": "D-007",
+      "title": "Pause PRD and material-content analysis as TODO",
+      "sourceQuestion": "user-follow-up-20260723-pause-content-analysis",
+      "decision": "confirmed",
+      "consequence": "PRD/content analysis, lakebook sensitive review, redacted sensitive-review checklist, content ingestion, RC extraction, and downstream consumption are moved to TODO. The active grill scope is requirements boundary plus development and joint test plan readiness."
+    }
+  ],
+  "evidenceIndex": [
+    {"id": "E-001", "type": "document", "pathOrUrl": "outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html", "claim": "The development plan defines rag-system as root coordinator skill with child skills and downstream read-only contracts."},
+    {"id": "E-002", "type": "document", "pathOrUrl": "outputs/本地知识库测试计划-vNext-2026-07-22.html", "claim": "The test plan covers data-layer governance, RC gating, space isolation, downstream contracts, and agent safety, but does not list rag-system root and child skill tests as separate first-class cases."},
+    {"id": "E-003", "type": "document", "pathOrUrl": "outputs/rag-system-skill参考资料与参考Skill补强评审-2026-07-22.html", "claim": "The research review recommends root coordinator plus child skills and forward-test oriented validation."},
+    {"id": "E-004", "type": "document", "pathOrUrl": "outputs/本地数据库与rag-system-skill开发计划-vNext-2026-07-23.html", "claim": "The revised development plan adds packet schema/fixture work, child Skill DoD, forward-tests, and implementation authorization boundaries."},
+    {"id": "E-005", "type": "document", "pathOrUrl": "outputs/本地数据库与rag-system联合测试计划-vNext-2026-07-23.html", "claim": "The revised joint test plan includes TC-RAG-SKILL-001..008, data-layer tests, packet contract tests, evidence requirements, and regression rules."},
+    {"id": "E-006", "type": "filesystem-observation", "pathOrUrl": "D:/RAG", "claim": "A read-only top-level check of D:/RAG showed one visible item: 产研效能.lakebook."},
+    {"id": "E-007", "type": "admission-report", "pathOrUrl": "outputs/产研效能lakebook首批材料准入检查-2026-07-23.html", "claim": "The lakebook file was accepted for controlled inspection only; full body read, unpacking, writing, ingestion, RC eligibility, and downstream consumption remain unauthorized."},
+    {"id": "E-008", "type": "sensitive-precheck-report", "pathOrUrl": "outputs/产研效能lakebook受控格式识别与敏感预检-2026-07-23.html", "claim": "The lakebook is a USTAR archive with 82 JSON entries and is blocked pending review due to API key shaped hits and phone-number shaped hits."},
+    {"id": "E-009", "type": "redacted-sensitive-review-checklist", "pathOrUrl": "outputs/产研效能lakebook脱敏审查清单-2026-07-23.html", "claim": "A no-values redacted review checklist exists as an evidence artifact, but it must not be refined, used for ingestion, or used for RC extraction until the user resumes the content-analysis branch."}
+  ],
+  "openItems": [
+    {"id": "O-004", "severity": "P0", "owner": "user-before-implementation", "question": "Authorize any real creation of .codex/skills/rag-system before implementation starts."},
+    {"id": "O-005", "severity": "P0", "owner": "todo-user-before-material-ingestion", "question": "TODO: Review or remediate sensitive precheck hits before D:/RAG/产研效能.lakebook can be ingested, RC-eligible, or downstream-consumable."},
+    {"id": "O-006", "severity": "P1", "owner": "todo-after-user-resumes-content-analysis", "question": "TODO: A no-values redacted sensitive-review checklist already exists; review, refine, or use it only after the user explicitly resumes the 产研效能 material-analysis branch."},
+    {"id": "O-007", "severity": "P1", "owner": "todo-after-user-provides-prd-scope", "question": "TODO: Resume PRD and material content analysis only after the user explicitly restarts that branch."}
+  ],
+  "nextActions": [
+    {"type": "skill", "target": "write-requirements-prd", "reason": "After user confirms Q-001, regenerate the test plan and optionally the development plan with the new Skill-level validation matrix."},
+    {"type": "skill", "target": "create-agent-skill", "reason": "After separate implementation authorization, design or create rag-system and child Skill files with validators and forward-tests."}
+  ]
+}
+</script>
+</body>
+</html>

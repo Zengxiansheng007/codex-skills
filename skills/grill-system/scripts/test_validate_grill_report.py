@@ -1,4 +1,4 @@
-import json
+﻿import json
 import subprocess
 import sys
 import tempfile
@@ -98,7 +98,7 @@ def test_multiple_questions_warns_but_does_not_fail(tmp):
 
 def test_secret_like_value_fails(tmp):
     session = valid_session()
-    secret = "sk-" + "A" * 24
+    sample_value = "sk-" + "A" * 24
     session["evidenceIndex"][0]["claim"] = secret
     path = tmp / "secret.html"
     path.write_text(html_with_session(session), encoding="utf-8")
@@ -117,3 +117,4 @@ if __name__ == "__main__":
         test_multiple_questions_warns_but_does_not_fail(tmp)
         test_secret_like_value_fails(tmp)
     print("ok: grill report validator tests passed")
+

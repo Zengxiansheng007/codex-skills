@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>测试用例编写完整流程与需求文档 v2.0</title>
+  <style>
+    :root { --ink:#182230; --muted:#475467; --line:#d0d5dd; --soft:#f8fafc; --blue:#175cd3; --green:#067647; --amber:#b54708; --red:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef2f6; color:var(--ink); font:15px/1.7 "Microsoft YaHei", Arial, sans-serif; }
+    main { max-width:1180px; margin:24px auto; padding:34px; background:#fff; border:1px solid var(--line); }
+    h1 { margin:0 0 6px; font-size:28px; } h2 { margin:34px 0 12px; padding-bottom:7px; border-bottom:2px solid #e4e7ec; font-size:21px; }
+    h3 { margin:22px 0 8px; font-size:17px; } p, li { color:var(--muted); } a { color:var(--blue); }
+    table { width:100%; border-collapse:collapse; margin:12px 0 18px; } th, td { border:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top; }
+    th { background:#f2f4f7; } code { padding:1px 5px; background:#eef2f5; color:#344054; }
+    .meta { margin:0; color:#667085; } .summary, .decision, .warning { padding:14px 16px; margin:14px 0; border-left:4px solid var(--blue); background:#eff8ff; }
+    .decision { border-color:var(--green); background:#ecfdf3; } .warning { border-color:var(--amber); background:#fffaeb; }
+    .p0 { color:var(--red); font-weight:700; } .status { white-space:nowrap; font-weight:700; } .small { font-size:13px; color:#667085; }
+    pre { overflow:auto; padding:14px; background:#101828; color:#f2f4f7; line-height:1.55; }
+    @media (max-width:760px) { main { margin:0; padding:18px; } table { display:block; overflow-x:auto; } h1 { font-size:24px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>测试用例编写完整流程与需求文档</h1>
+  <p class="meta">文档 ID：PRD-TCD-002｜版本：v2.0｜日期：2026-07-15｜状态：review-ready｜类型：test-case-design-governance-prd</p>
+  <section class="summary"><strong>目标：</strong>把 PRD、设计、代码、运行证据和用户说明中的“来源主张”，经过检索、澄清、用户确认、领域建模和测试预言机设计，转化为可追溯的正式测试用例，并继续连接 UI 自动化执行与证据反馈。任何来源都不是永久真值；只有适用范围明确且由用户确认的 <code>RC</code> 才能支撑正式用例。</section>
+
+  <h2>1. 文档边界</h2>
+  <table>
+    <tr><th>目标读者</th><td>需求分析 Agent、测试设计 Agent、测试人员、UI 自动化 Agent、最终裁决用户。</td></tr>
+    <tr><th>基线来源</th><td>现有《测试用例设计需求文档》v1.0、《测试用例设计完整流程与治理实施计划》v1.0、知识库 Grill 已确认决策、测试与 UI 自动化参考资料调研评审。</td></tr>
+    <tr><th>包含</th><td>来源治理、知识检索、需求挖掘、Grill、规则确认、领域模型、测试点与用例、统一模型、多格式输出、自动化候选、执行反馈、变更与根因治理。</td></tr>
+    <tr><th>不包含</th><td>具体项目的详细测试用例、浏览器脚本、生产执行、凭据配置、知识库实际部署、第三方框架安装。</td></tr>
+    <tr><th>下游交接</th><td><code>auto-testcase-generator</code> 负责生成/维护用例；<code>ui-test</code> 负责探索、确定性验证、证据和执行质量报告。</td></tr>
+  </table>
+  <div class="decision"><strong>命名纠正：</strong>旧文档曾把 <code>RC</code> 同时用于规则裁决和根因族，存在歧义。自本版起，<code>RC</code> 仅表示用户确认规则（Rule Confirmation）；失败根因统一使用 <code>RCA</code>。旧数据迁移时必须显式映射，禁止按字段名猜测。</div>
+
+  <h2>2. 核心对象与可信模型</h2>
+  <table>
+    <thead><tr><th>对象</th><th>含义</th><th>最低要求</th></tr></thead>
+    <tbody>
+      <tr><td><code>SRC</code></td><td>版本化来源文件或运行来源</td><td>唯一 ID、hash、类型、版本/时间、范围、状态、原始定位。</td></tr>
+      <tr><td><code>EVD</code></td><td>可定位证据片段</td><td>关联 SRC、章节/页面/DOM/API 定位、原文片段、提取批次。</td></tr>
+      <tr><td><code>CLM</code></td><td>从来源提取的主张</td><td>主张内容、适用范围、支持/冲突证据、状态；不得自动视为事实。</td></tr>
+      <tr><td><code>RC</code></td><td>用户明确提出或确认的规则</td><td>规则内容、适用知识空间/版本/环境、来源主张、确认时间、状态与关系。</td></tr>
+      <tr><td><code>MOD/OBJ/STATE</code></td><td>模块、业务对象和状态模型</td><td>唯一 ID、定义、关系、来源与未决项。</td></tr>
+      <tr><td><code>TP/TC</code></td><td>测试点与测试用例</td><td>追溯 RC、预言机、前置、数据、步骤、预期、风险和状态。</td></tr>
+      <tr><td><code>CHG/IMP</code></td><td>来源变化与候选影响</td><td>新旧版本、语义差异、受影响对象、证据、人工处理状态。</td></tr>
+      <tr><td><code>RUN/EVD</code></td><td>执行记录与执行证据</td><td>环境、构建、步骤、结果、截图/trace/API/下游证据。</td></tr>
+      <tr><td><code>ISS/RCA</code></td><td>问题与根因族</td><td>问题状态、严重度、阻断对象、根因证据、重复次数和纠正动作。</td></tr>
+    </tbody>
+  </table>
+  <p><strong>可信原则：</strong><code>SRC → EVD → CLM</code> 只证明“某来源表达过什么”；<code>RC</code> 才证明“用户确认当前应按什么规则测试”。PRD、设计、代码、页面行为和接口响应可以互相支持或冲突，但 Agent 不得以固定排名自动裁决。</p>
+
+  <h2>3. 完整编写流程与门禁</h2>
+  <table>
+    <thead><tr><th>门禁</th><th>活动</th><th>产物</th><th>通过条件</th><th>失败去向</th></tr></thead>
+    <tbody>
+      <tr><td>G0 输入准入</td><td>接收用户明确指定的需求、设计、代码、页面、接口和既有用例。</td><td>SRC 候选清单</td><td>授权、范围、版本、敏感性和可访问性已记录。</td><td>拒绝或请求补充，不继续解析。</td></tr>
+      <tr><td>G1 来源基线</td><td>计算版本/hash，登记范围和新旧关系候选；不强制来源总排名。</td><td>SRC、EVD、CLM</td><td>每项主张可回到原始位置；冲突和过期均显式标记。</td><td>ISS-SOURCE。</td></tr>
+      <tr><td>G2 知识检索</td><td>按 <code>knowledge_space_id</code> 检索适用 RC 和证据。</td><td>Evidence Packet</td><td>返回引用、版本、范围、命中状态、冲突和查询轨迹。</td><td><code>unknown/conflict/need-review</code>。</td></tr>
+      <tr><td>G3 需求挖掘</td><td>识别模块、对象、角色、状态、业务规则、数据约束、接口、异步和下游。</td><td>模块理解、CLM、缺口清单</td><td>关键流程、异常、边界和未决问题均有 ID。</td><td>ISS-MINING。</td></tr>
+      <tr><td>G4 Grill 与裁决</td><td>逐项挑战矛盾、模糊、不可测或高风险主张，由用户确认规则。</td><td>RC、ISS 更新</td><td>P0 问题已关闭；RC 的内容、范围和关系由用户明确确认。</td><td>保留候选测试点，禁止正式用例。</td></tr>
+      <tr><td>G5 设计就绪</td><td>检查规则、范围、角色、状态、上下游、预言机和证据入口。</td><td>Readiness Report</td><td>正式用例所需 RC 齐备，无冲突阻断。</td><td>打回对应根因阶段。</td></tr>
+      <tr><td>G6 领域建模</td><td>形成术语、对象、状态机、权限、业务 ID 和上下游模型。</td><td>MOD/OBJ/STATE 模型</td><td>模型与 RC 双向追溯；未知项不被模型补写。</td><td>ISS-DOMAIN。</td></tr>
+      <tr><td>G7 测试设计</td><td>按规则和风险生成测试点，选择预言机，组合正常、异常、边界、权限、状态与恢复场景。</td><td>TP、候选 TC</td><td>每个关键 RC 至少有正向与必要反向覆盖；每个预期可观察。</td><td>ISS-DESIGN。</td></tr>
+      <tr><td>G8 统一用例模型</td><td>把用例写入单一结构化模型，再生成 Markdown、HTML、JSON。</td><td>TC Model</td><td>ID、追溯、步骤、预期、数据和状态一致；无孤立项。</td><td>ISS-SCHEMA/TRACE。</td></tr>
+      <tr><td>G9 输出一致性</td><td>校验三种输出内容、数量、ID 和追溯关系。</td><td>渲染件与验证报告</td><td>三种输出来自同一模型且差异为零。</td><td>重新渲染，禁止手工分别修改。</td></tr>
+      <tr><td>G10 自动化候选</td><td>评估稳定入口、确定性预言机、数据可控、证据可得和写操作风险。</td><td>Automation Candidate</td><td>满足候选门槛并标明 Playwright/Hybrid 方向。</td><td>保留手工用例。</td></tr>
+      <tr><td>G11 执行移交</td><td>将用例、定位线索、业务 ID、网络/任务/下游校验点交给 ui-test。</td><td>Explore Steps / Execution Contract</td><td>视觉探索与确定性验证职责分开，证据要求完整。</td><td>ISS-HANDOFF。</td></tr>
+      <tr><td>G12 反馈闭环</td><td>汇总 RUN/EVD/ISS，区分产品失败、环境失败、脚本失败和 Agent 失败。</td><td>报告、RCA、CHG/IMP</td><td>失败有证据、归因和回流对象；重复根因触发升级。</td><td>打回来源、RC、模型、用例或执行层。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 测试预言机与用例结构</h2>
+  <h3>4.1 预言机分类</h3>
+  <table>
+    <thead><tr><th>类别</th><th>验证对象</th><th>典型证据</th></tr></thead>
+    <tbody>
+      <tr><td>业务规则</td><td>是否符合适用 RC</td><td>规则 ID、计算结果、状态变化。</td></tr>
+      <tr><td>权限与数据范围</td><td>角色能否看见/操作正确数据</td><td>菜单、按钮、接口状态、数据集合差异。</td></tr>
+      <tr><td>状态机</td><td>迁移、拒绝、回退、幂等</td><td>迁移前后状态、事件、审计记录。</td></tr>
+      <tr><td>数据契约</td><td>字段、格式、边界、持久化</td><td>UI、API、数据库允许的只读证据。</td></tr>
+      <tr><td>异步与下游</td><td>任务、事件、下游业务结果</td><td>任务状态、业务 ID、网络响应、下游页面/API。</td></tr>
+      <tr><td>视觉与交互</td><td>页面可见状态和操作反馈</td><td>截图、DOM、可访问性树；不得单独证明下游成功。</td></tr>
+      <tr><td>恢复与安全</td><td>失败回滚、重试、重复提交和危险写操作</td><td>状态不变/恢复、审计、明确的安全边界。</td></tr>
+    </tbody>
+  </table>
+  <h3>4.2 正式用例必填字段</h3>
+  <p><code>test_case_id</code>、标题、目标、优先级、适用范围、前置条件、测试数据、步骤、逐步预期、最终预言机、RC 追溯、来源证据、清理/恢复、自动化适配、状态、变更记录。缺少适用 RC 时只能标记为 <code>candidate</code>，不得标记为 <code>formal</code>。</p>
+
+  <h2>5. 功能需求</h2>
+  <table>
+    <thead><tr><th>ID</th><th>需求</th><th>验证方式</th></tr></thead>
+    <tbody>
+      <tr><td>FR-TCD-001</td><td>系统必须建立版本化来源基线，保留定位、范围、状态和冲突，不实施固定真值排名。</td><td>变更来源后仍可查询旧版本和差异。</td></tr>
+      <tr><td>FR-TCD-002</td><td>知识检索必须返回 Evidence Packet，包括 RC、引用、版本、范围、冲突和查询轨迹。</td><td>结构校验与五类真实查询。</td></tr>
+      <tr><td>FR-TCD-003</td><td>需求挖掘必须覆盖模块、对象、角色、状态、规则、数据、接口、异步、下游和未知项。</td><td>挖掘清单与孤立项检查。</td></tr>
+      <tr><td>FR-TCD-004</td><td>只有用户明确提出或确认的规则可登记为 RC；Agent 只能提出候选关系。</td><td>无用户确认时状态保持 candidate。</td></tr>
+      <tr><td>FR-TCD-005</td><td>无适用 RC、RC 冲突或 P0 未关闭时，不得生成或更新正式用例。</td><td>门禁负向测试。</td></tr>
+      <tr><td>FR-TCD-006</td><td>领域模型、测试点和用例必须双向追溯到 RC 与证据。</td><td>RTM 与孤立项验证。</td></tr>
+      <tr><td>FR-TCD-007</td><td>测试设计必须显式选择预言机，覆盖正常、异常、边界、权限、状态、异步和恢复风险。</td><td>覆盖与预言机审查。</td></tr>
+      <tr><td>FR-TCD-008</td><td>HTML、Markdown、JSON 必须由同一模型生成，并保持 ID、内容和数量一致。</td><td>跨输出差异校验。</td></tr>
+      <tr><td>FR-TCD-009</td><td>来源变化必须先生成 CHG 和候选 IMP，不得自动改写 RC 或正式用例。</td><td>增量变更回归。</td></tr>
+      <tr><td>FR-TCD-010</td><td>自动化候选必须有稳定入口、确定性预言机、可控数据、证据入口和安全边界。</td><td>候选门槛校验。</td></tr>
+      <tr><td>FR-TCD-011</td><td>执行反馈必须区分产品、需求、数据、环境、脚本、工具和 Agent 根因。</td><td>RCA 分类样例与回流检查。</td></tr>
+      <tr><td>FR-TCD-012</td><td>相同 RCA 第二次出现时必须升级治理问题并要求系统性纠正。</td><td>重复失败模拟。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. 业务规则与非功能需求</h2>
+  <table>
+    <thead><tr><th>ID</th><th>规则</th></tr></thead>
+    <tbody>
+      <tr><td>BR-TCD-001</td><td>检索命中不等于事实；只有范围匹配且状态有效的 RC 可支撑正式测试预期。</td></tr>
+      <tr><td>BR-TCD-002</td><td>新旧关系限于 <code>supersedes</code>、<code>coexists_with</code>、<code>withdrawn_by</code>、<code>corrected_by</code>、<code>conflicts_with</code>；用户确认后才生效。</td></tr>
+      <tr><td>BR-TCD-003</td><td>页面提示、Toast 或按钮变化不能单独证明 API、异步任务和下游业务成功。</td></tr>
+      <tr><td>BR-TCD-004</td><td>不得为了让执行通过而弱化断言、删除高风险场景或静默修改预期。</td></tr>
+      <tr><td>BR-TCD-005</td><td>问题 ID 在打回和重做中保持不变；状态按 open、clarifying、decided、verified、closed 流转。</td></tr>
+    </tbody>
+  </table>
+  <table>
+    <thead><tr><th>ID</th><th>非功能要求</th><th>目标</th></tr></thead>
+    <tbody>
+      <tr><td>NFR-TCD-001</td><td>可追溯性</td><td>正式用例到 RC、证据和执行结果的关键链路覆盖率 100%。</td></tr>
+      <tr><td>NFR-TCD-002</td><td>可审计性</td><td>用户确认、状态变化、自动生成与人工修改均留痕。</td></tr>
+      <tr><td>NFR-TCD-003</td><td>一致性</td><td>三种输出来自同一模型，稳定 ID 不因排序或措辞变化而重建。</td></tr>
+      <tr><td>NFR-TCD-004</td><td>安全</td><td>不得持久化账号、Cookie、Token、密钥或未脱敏生产数据。</td></tr>
+      <tr><td>NFR-TCD-005</td><td>可靠性</td><td>失败必须可定位到门禁和对象；验证器失败时不得宣称完成。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. 验收标准、DoR 与 DoD</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Given / When / Then</th></tr></thead>
+    <tbody>
+      <tr><td>AC-TCD-001</td><td>Given 两份来源表述冲突，When 建立基线，Then 两个 CLM 均保留且系统不自动选择真值。</td></tr>
+      <tr><td>AC-TCD-002</td><td>Given 用户未确认规则，When Agent 生成测试内容，Then 只能输出带引用候选测试点，不能输出正式 TC。</td></tr>
+      <tr><td>AC-TCD-003</td><td>Given 用户确认 RC，When 通过 G5-G8，Then 每个正式 TC 可追溯到适用 RC 和 EVD。</td></tr>
+      <tr><td>AC-TCD-004</td><td>Given 来源 hash 变化，When 重新导入，Then 新建 SRC/CHG/IMP，既有 RC 和正式 TC 不被自动修改。</td></tr>
+      <tr><td>AC-TCD-005</td><td>Given 同一统一模型，When 渲染三种格式，Then TC 数量、ID、预期和追溯一致。</td></tr>
+      <tr><td>AC-TCD-006</td><td>Given 页面显示提交成功但 API/任务失败，When 执行，Then 用例不得判定业务成功。</td></tr>
+      <tr><td>AC-TCD-007</td><td>Given 同类 RCA 第二次出现，When 关闭问题，Then 系统阻止普通关闭并创建升级项。</td></tr>
+      <tr><td>AC-TCD-008</td><td>Given 自动化候选缺少确定性证据，When 评审，Then 保留手工用例并标记不可自动化原因。</td></tr>
+    </tbody>
+  </table>
+  <p><strong>DoR：</strong>已确定 <code>knowledge_space_id</code>、目标模块、版本/环境、授权来源、用户确认入口、关键业务 ID、风险边界；P0 未决项为零。</p>
+  <p><strong>DoD：</strong>G0-G12 产物可审计；正式用例追溯完整；三种输出一致；变更不静默覆盖；自动化移交含确定性证据；验证报告无 P0/P1/P2 结构问题。</p>
+
+  <h2>8. 需求追溯矩阵</h2>
+  <table>
+    <thead><tr><th>目标</th><th>需求</th><th>验收</th><th>责任门禁</th></tr></thead>
+    <tbody>
+      <tr><td>来源不冒充真值</td><td>FR-001、004、005；BR-001、002</td><td>AC-001、002、004</td><td>G1、G2、G4、G5</td></tr>
+      <tr><td>可测且可追溯</td><td>FR-003、006、007</td><td>AC-003、006</td><td>G3、G6、G7、G8</td></tr>
+      <tr><td>单一模型多输出</td><td>FR-008；NFR-003</td><td>AC-005</td><td>G8、G9</td></tr>
+      <tr><td>自动化与证据闭环</td><td>FR-010、011、012；BR-003</td><td>AC-006、007、008</td><td>G10、G11、G12</td></tr>
+    </tbody>
+  </table>
+
+  <h2>9. 实施优先级与未决项</h2>
+  <table>
+    <thead><tr><th>优先级</th><th>工作</th><th>完成判据</th></tr></thead>
+    <tbody>
+      <tr><td class="p0">P0</td><td>统一稳定 ID 与 SRC/EVD/CLM/RC/TC/CHG/IMP/RCA schema。</td><td>跨流程对象可双向追溯，RC/RCA 无歧义。</td></tr>
+      <tr><td class="p0">P0</td><td>实现语义化变更影响和正式用例就绪验证器。</td><td>变更不会依赖纯文本标题匹配；门禁可机读失败。</td></tr>
+      <tr><td class="p0">P0</td><td>落实测试预言机分类及 UI/网络/任务/下游证据契约。</td><td>关键业务结果不只靠视觉反馈判定。</td></tr>
+      <tr><td>P1</td><td>建立 Agent 黄金回归集，覆盖事实性、反谄媚、格式稳定和工具计划遵循。</td><td>关键工作流升级前后可对比。</td></tr>
+      <tr><td>P1</td><td>提供首个真实项目的知识空间、来源、RC 和代表性测试范围。</td><td>可运行端到端试点。</td></tr>
+    </tbody>
+  </table>
+  <div class="warning"><strong>当前状态：</strong>本文件完成需求梳理，不代表工具链已经端到端实现。稳定追溯、语义影响、就绪验证器、真实项目基线和 Agent 黄金回归仍是实施前置。</div>
+</main>
+<script type="application/json" id="agent-ready-contract">
+{
+  "documentType": "test-case-design-governance-prd",
+  "sourceBaseline": ["PRD-TCD-001 v1.0", "test-design-governance-plan v1.0", "D-RAG grill decisions 2026-07-15", "research review 2026-07-15"],
+  "moduleUnderstanding": "Multi-source claims are transformed into formal test cases only through scoped user-confirmed rules and readiness gates.",
+  "businessObjects": ["SRC", "EVD", "CLM", "RC", "MOD", "OBJ", "STATE", "TP", "TC", "CHG", "IMP", "RUN", "ISS", "RCA"],
+  "upstreamDownstream": {"upstream":["user-selected sources", "local knowledge base"], "downstream":["auto-testcase-generator", "ui-test", "execution reports"]},
+  "evidenceContract": {"formalCaseRequires":["active scoped RC", "source evidence", "explicit oracle"], "uiOnlySuccessIsInsufficient":true},
+  "acceptanceCriteria": ["AC-TCD-001", "AC-TCD-002", "AC-TCD-003", "AC-TCD-004", "AC-TCD-005", "AC-TCD-006", "AC-TCD-007", "AC-TCD-008"],
+  "riskAndSafety": ["no automatic truth ranking", "no formal cases without RC", "no secret or unredacted production data persistence", "no production writes"],
+  "handoffTargets": ["auto-testcase-generator", "ui-test", "development-and-test-plan"],
+  "openQuestions": ["first pilot knowledge_space_id", "first real project baseline", "performance targets", "golden regression corpus"]
+}
+</script>
+</body>
+</html>

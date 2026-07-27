@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>测试用例编写需求的开发与测试方案调研评审</title>
+  <style>
+    :root { --ink:#182230; --muted:#475467; --line:#d0d5dd; --soft:#f8fafc; --blue:#175cd3; --green:#067647; --amber:#b54708; --red:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef2f6; color:var(--ink); font:15px/1.7 "Microsoft YaHei", Arial, sans-serif; }
+    main { max-width:1220px; margin:24px auto; padding:34px; background:#fff; border:1px solid var(--line); }
+    h1 { margin:0 0 6px; font-size:28px; } h2 { margin:34px 0 12px; padding-bottom:7px; border-bottom:2px solid #e4e7ec; font-size:21px; } h3 { margin:22px 0 8px; font-size:17px; }
+    p, li { color:var(--muted); } a { color:var(--blue); } table { width:100%; border-collapse:collapse; margin:12px 0 18px; } th, td { border:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top; } th { background:#f2f4f7; } code { padding:1px 5px; background:#eef2f5; color:#344054; } .meta,.small { color:#667085; } .summary,.decision,.warning { padding:14px 16px; margin:14px 0; border-left:4px solid var(--blue); background:#eff8ff; } .decision { border-color:var(--green); background:#ecfdf3; } .warning { border-color:var(--amber); background:#fffaeb; } .risk { border-color:var(--red); background:#fef3f2; } .status { font-weight:700; white-space:nowrap; } .yes { color:var(--green); font-weight:700; } .no { color:var(--red); font-weight:700; } @media (max-width:760px) { main { margin:0; padding:18px; } table { display:block; overflow-x:auto; } h1 { font-size:24px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>测试用例编写需求的开发与测试方案调研评审</h1>
+  <p class="meta">报告 ID：RES-TCD-DEVTEST-001｜日期：2026-07-16｜深度：standard｜状态：complete｜性质：调研输入，不修改总需求文档</p>
+
+  <section class="summary"><strong>结论：</strong>现有方案的治理方向是正确的，尤其是“不把 PRD 当作绝对真值”“RC 必须由用户确认”“变更先做影响候选、后做人工裁决”。下一步不应先接入大型框架，而应以可验证的结构化数据链为先：<code>SRC/EVD/CLM → RC → MOD/OBJ/STATE → TP/TC → RUN/EVD → ISS/RCA</code>，并为每一段加入模式校验、双向追溯、版本化回归集和可审计的发布门禁。建议按七个阶段建设，每阶段先完成自动化验证再进入下一阶段。</section>
+
+  <h2>1. 范围、假设与边界</h2>
+  <table>
+    <tr><th>问题</th><td>为“测试用例编写与治理”需求形成开发架构、测试策略和分阶段计划；评审现有参考资料和既有方案的缺陷与优化点。</td></tr>
+    <tr><th>输入依据</th><td>当前《测试用例编写完整流程与需求文档 v2》、2026-07-15 的开源 Skill 调研评审、已确认的来源治理和 RC 决策。</td></tr>
+    <tr><th>不在本次范围</th><td>不部署知识库、不安装第三方项目、不扫描其他磁盘、不访问私有系统、不写入总需求文档、不自动确认 RC。</td></tr>
+    <tr><th>关键授权边界</th><td>用户统一提供来源并确认 RC 及新旧关系；Agent 只能提出 <code>candidate</code>、冲突和影响候选；正式用例只能引用适用且有效的 RC。</td></tr>
+    <tr><th>建议技术边界</th><td><code>D:\RAG</code> 仅作为未来显式授权的本地知识库存放根目录；本报告不对其中任何文件进行读写，也不要求存放账号、Cookie、Token、密钥或未脱敏生产数据。</td></tr>
+  </table>
+
+  <h2>2. 研究发现与设计判断</h2>
+  <table>
+    <thead><tr><th>发现</th><th>证据与判断</th><th>对本需求的落地要求</th></tr></thead>
+    <tbody>
+      <tr><td>追溯必须双向且持续维护</td><td>NASA 将需求到设计、代码、验证和不符合项的双向追溯作为生命周期活动，并指出无父项或无下游验证的孤立项必须被识别和处理。<a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a></td><td>发布门禁同时检查“RC 无 TP/TC”“TC 无 RC”“执行失败无 ISS/RCA”“变更无 IMP”，而不是只统计用例数量。</td></tr>
+      <tr><td>变更要先评估影响，再裁决</td><td>NASA 的变更管理要求在批准和实施前评估架构、接口、设计、代码、测试、成本和风险等影响。<a href="https://swehb.nasa.gov/spaces/SWEHBVB/pages/32604509/SWE-053%2B-%2BManage%2BRequirements%2BChanges">NASA SWE-053</a></td><td><code>CHG</code> 只登记新旧来源差异；<code>IMP</code> 是候选子图；只有用户确认关系后才更新 RC 或使正式用例失效/待回归。</td></tr>
+      <tr><td>来源、活动与责任人需要一并记录</td><td>W3C PROV-O 以实体、活动、责任主体及派生/修订/失效关系描述可机读溯源。<a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>每一次导入、提取、人工确认、渲染和执行都保留输入版本、输出 ID、操作者或 Agent、时间和工具版本；不以“最后文本”覆盖历史。</td></tr>
+      <tr><td>模型化测试设计有收益也有盲区</td><td>ISTQB 提出模型元素可增强测试条件追溯并支持多格式输出，同时警示自动化设计可能遗漏模型之外的测试条件、低估维护成本。<a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>统一 TC Model 生成 HTML/Markdown/JSON，但保留“模型外探索项”和人工审查采样；渲染结果不可作为独立编辑源。</td></tr>
+      <tr><td>UI 成功不是业务成功</td><td>Playwright 可监听请求/响应并等待目标响应，断言会重试直到满足条件或超时；Trace Viewer 可回放 DOM、网络和动作。<a href="https://playwright.dev/docs/network">网络验证</a>、<a href="https://playwright.dev/docs/test-assertions">断言</a>、<a href="https://playwright.dev/docs/best-practices">追踪实践</a></td><td>测试预言机分为 UI、接口契约、状态机、异步任务、下游业务和恢复安全六类。提交、Toast 或跳转只可证明 UI 层，不能单独关闭业务验证。</td></tr>
+      <tr><td>Agent 本身要持续 TEVV</td><td>NIST 将可重复的测试、评估、验证和确认（TEVV）置于 AI 生命周期；OWASP 要求对检索内容、记忆、工具调用和高影响操作进行输入验证、最小权限、人工监督和对抗测试。<a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF 1.0</a>、<a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>建立版本化黄金回归集、拒绝/不确定集、注入样本和结构契约测试；检索命中、模型置信度或自评都不能替代 RC 与确定性验证。</td></tr>
+      <tr><td>服务间验证需要独立契约层</td><td>Pact 的 Provider Verification 由消费者定义其对提供者的假设，并在提供者端验证。<a href="https://docs.pact.io/implementation_guides/javascript/docs/provider">Pact Provider Verification</a></td><td>当测试用例涉及 API 或下游时，加入请求/响应结构、错误语义、幂等和异步终态的契约测试；不把浏览器录制当作接口契约。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. 对既有资料与方案的缺陷评审</h2>
+  <p>下表不否定既有结论。前一轮资料已正确识别“PRD 真值假设、覆盖不可验证、文本匹配式增量、预言机薄弱、根因闭环不足”等核心风险；本轮补足的是把这些原则变成可开发、可测试、可发布的工程控制。</p>
+  <table>
+    <thead><tr><th>缺口</th><th>风险</th><th>优化点</th><th>验收方式</th></tr></thead>
+    <tbody>
+      <tr><td>对象虽已定义，缺少可演进的数据契约</td><td>字段含义漂移、旧数据迁移猜测、不同输出不一致。</td><td>为每个对象定义 JSON Schema、<code>schema_version</code>、稳定 ID、不可变审计字段和显式迁移表；禁止按同名字段推断迁移。</td><td>schema 单测、旧版样本迁移测试、反向兼容或明确拒绝测试。</td></tr>
+      <tr><td>RC 人工确认已明确，裁决工作流尚未产品化</td><td>候选主张被误升格，或确认范围无法复现。</td><td>RC 记录必须包含确认人、确认时间、适用知识空间/版本/环境、来源主张、关系类型和失效条件；状态机只允许受控迁移。</td><td>无确认人或范围的 RC 被拒绝；candidate 不能进入 formal TC 的负向测试。</td></tr>
+      <tr><td>影响分析只有原则，缺少“语义差异”判定层</td><td>仅凭关键词造成漏回归或过度回归。</td><td>CHG 保存段落/字段级差异与人工语义标签（对象、状态、角色、约束、接口、下游）；IMP 以图遍历产生候选并要求人工处置。</td><td>同义改写、状态迁移变化、权限变化、接口字段变化四类金样本；测量漏报和误报。</td></tr>
+      <tr><td>覆盖指标没有明确分母、分层和阻断阈值</td><td>“覆盖率高”但关键 RC、风险或预言机没有覆盖。</td><td>分别计算有效 RC 覆盖、风险覆盖、预言机覆盖、执行证据覆盖、孤立率；P0 RC 采用逐条门禁，其他阈值从基线校准，不预设虚假精确数字。</td><td>构造缺失 RC/TP/TC/RUN 链路的负向数据集；报表必须定位缺口 ID。</td></tr>
+      <tr><td>环境、测试数据与清理契约不完整</td><td>用例不可重复，或测试写入污染共享环境。</td><td>定义环境能力清单、专用测试账号的授权流程、合成数据/夹具、数据生命周期、清理/恢复和幂等策略；生产数据默认不入库。</td><td>并发重复运行、失败重试、清理失败、脱敏扫描和跨环境隔离测试。</td></tr>
+      <tr><td>Agent 质量评估尚未形成发布基线</td><td>提示词、模型或检索变更悄悄降低事实性和稳定性。</td><td>建立四类黄金集：追溯、冲突/不确定、变更影响、测试预言机；另建注入与敏感数据拒绝集。生成者与评审者尽量分离，人工抽样校准。</td><td>每次变更比较结构正确性、事实支持率、人工一致率、拒绝正确率、耗时和成本；超出基线即阻断或降级。</td></tr>
+      <tr><td>执行证据未规定最小充分集</td><td>截图或 Toast 被当成全链路通过证据。</td><td>按预言机类型规定最小证据：UI 需截图/DOM；接口需请求响应摘要；异步需终态和关联 ID；下游需可定位的业务结果；失败需 Trace/日志指针和 RCA。</td><td>刻意制造“UI 成功但 API/任务失败”的样本，验证不能误报通过。</td></tr>
+      <tr><td>安全边界有原则，缺少可测的拒绝行为</td><td>外部文档可注入指令，敏感信息进入检索、日志或输出。</td><td>来源内容一律视为数据；设置允许目录、文件类型、大小、脱敏规则、隔离命名空间、保留期、删除流程和工具最小权限。</td><td>提示注入、含 Token 的 .env、真实个人信息、超大文件、越界路径五类拒绝测试，并验证日志无泄露。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 推荐开发架构与发布门禁</h2>
+  <div class="decision"><strong>建议采用“结构化核心 + 可替换 Agent/渲染器 + 确定性验证”的架构。</strong>知识库检索和大模型用于发现候选、归类和提出问题；规则确认、状态迁移、模式校验、追溯校验、差异计算和发布门禁使用确定性程序。这样未来替换 RAG、模型或 UI 执行器不会改变已确认事实和正式用例。</div>
+  <table>
+    <thead><tr><th>层</th><th>职责</th><th>不可省略的控制</th><th>测试重点</th></tr></thead>
+    <tbody>
+      <tr><td>来源与证据层</td><td>SRC、EVD、CLM 的登记、哈希、定位、版本和数据分级。</td><td>用户指定来源；只增不改的版本记录；内容与指令隔离。</td><td>重复导入、篡改检测、定位失效、脱敏与拒绝。</td></tr>
+      <tr><td>治理与裁决层</td><td>ISS、Grill、RC、关系和状态机。</td><td>仅用户可确认 RC；关系由用户确认；P0 未关闭禁止 formal。</td><td>状态迁移、权限、冲突阻断、审计完整性。</td></tr>
+      <tr><td>领域与追溯层</td><td>MOD/OBJ/STATE、TP、TC、CHG、IMP 的图关系。</td><td>稳定 ID；双向链接；孤立项和循环链接检查。</td><td>图完整性、变更影响、范围过滤、回归选择。</td></tr>
+      <tr><td>生成与渲染层</td><td>统一 TC Model 生成 JSON、Markdown、HTML、执行交接包。</td><td>单一事实源；输出只读渲染；模板版本可追溯。</td><td>快照、跨格式等价、字段遗漏、确定性排序。</td></tr>
+      <tr><td>执行与证据层</td><td>UI 探索、Playwright 确定性验证、网络/任务/下游证据、RUN、RCA。</td><td>预言机分类；风险操作保护；失败不伪称通过。</td><td>单元、契约、集成、E2E、恢复、证据完整性。</td></tr>
+      <tr><td>评估与安全层</td><td>黄金集、对抗样本、质量指标、数据和工具策略。</td><td>变更回归；最小权限；预算/重试/链深限制；人工抽检。</td><td>事实性、拒绝、注入、泄露、稳定性、成本和延迟。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. 分阶段开发与测试计划</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>开发交付</th><th>测试计划</th><th>退出门禁</th></tr></thead>
+    <tbody>
+      <tr><td class="status">P0：范围与基线</td><td>冻结术语、对象清单、ID 规则、状态机、角色权限、数据分级、目录边界与 ADR；建立样本项目和非敏感合成资料。</td><td>术语冲突审查；角色授权矩阵；目录越界、敏感文件、未经授权来源的拒绝测试；手工走通“candidate 不能成为 RC”。</td><td>用户确认 RC 的唯一授权边界；P0 负向用例全部通过；无真实凭据或生产数据进入样本集。</td></tr>
+      <tr><td class="status">P1：结构化核心</td><td>实现所有核心对象 Schema、稳定 ID 生成、版本/哈希、审计事件、显式迁移框架、图存储或关系存储接口。</td><td>单元：Schema、ID、状态机、哈希；属性测试：重复导入幂等；迁移：旧版成功、未知版明确拒绝；图校验：孤立项/循环/重复链接。</td><td>100% 核心对象通过 Schema；审计链可从任一 TC 回溯至 RC、EVD、SRC；迁移无字段猜测。</td></tr>
+      <tr><td class="status">P2：导入、检索与挖掘</td><td>用户显式导入、证据分段、CLM 提取、按知识空间检索的 Evidence Packet、Uncertain/Conflict/Need-review 状态。</td><td>集成：版本、范围、冲突和引用均返回；对照集：相关/不相关/过期/冲突来源；安全：提示注入文本只作为证据、不改变流程。</td><td>每条 CLM 可定位；检索无命中时明确 unknown；没有 RC 的结果不得生成 formal TC。</td></tr>
+      <tr><td class="status">P3：Grill、确认与领域模型</td><td>问题队列、Grill 问答、人工 RC 登记、关系确认、MOD/OBJ/STATE 建模和可视化追溯矩阵。</td><td>状态迁移与审批测试；P0 阻断；关系集合白名单；同一规则在不同知识空间/环境中的范围隔离；人工审查样本回放。</td><td>所有 formal 范围内 RC 都有确认人、适用范围和来源；未关闭 P0 为零；模型项与 RC 双向可达。</td></tr>
+      <tr><td class="status">P4：测试设计与多格式输出</td><td>TP/TC 生成、预言机分类、风险标签、数据/清理要求、自动化候选评分、统一 JSON 到 HTML/Markdown 渲染器。</td><td>组合测试：正常、异常、边界、权限、状态、异步、恢复；渲染快照；跨格式 ID/数量/字段等价；正式/候选隔离；人工抽样评审。</td><td>正式 TC 100% 链接到适用 RC；无孤立 TP/TC；三种输出差异为零；每个关键 RC 有可观察预言机。</td></tr>
+      <tr><td class="status">P5：变更与回归选择</td><td>CHG 差异、语义标签、IMP 候选图、人工处置、用例失效/待回归/保留状态和回归包。</td><td>金样本：文字改写、规则变化、权限变化、状态迁移、接口契约变化；比对漏报/误报；验证不能自动覆盖 RC 或删除 TC。</td><td>影响输出可解释到差异和路径；高风险影响均有人工处置；回归包可重复生成。</td></tr>
+      <tr><td class="status">P6：执行交接与证据闭环</td><td>Execution Contract、Playwright/Hybrid 交接、网络和异步证据捕获、RUN/ISS/RCA、重复根因升级。</td><td>分层测试：单元、API 契约、集成、E2E；故障注入：UI 成功/API 失败、任务超时、下游失败、清理失败；Trace 和证据最小集检查。</td><td>通过结论均有匹配预言机证据；失败均能定位到阶段和对象；同 RCA 第二次出现触发治理升级。</td></tr>
+      <tr><td class="status">P7：Agent 评估与试运行</td><td>黄金集、提示/模型/检索版本记录、对抗集、质量看板、预算限制、人工抽检和发布记录。</td><td>回归：事实支持、结构合法、计划遵循、工具参数、拒绝正确、反谄媚；安全：注入、记忆污染、越权、数据泄露；性能：P50/P95、成本、重试与链深。</td><td>相对已批准基线无未解释退化；安全拒绝集全过；人工抽检达到预先确认的阈值；试运行仅使用隔离环境与合成数据。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. 测试策略与最小测试资产</h2>
+  <table>
+    <thead><tr><th>测试层</th><th>目标</th><th>最小资产</th><th>自动化位置</th></tr></thead>
+    <tbody>
+      <tr><td>Schema / 单元</td><td>对象、ID、状态机、渲染和评分的确定性正确。</td><td>正常、边界、非法状态、未知版本、重复 ID、循环图样本。</td><td>每次提交。</td></tr>
+      <tr><td>契约</td><td>导入/检索/渲染/执行接口以及下游 API 的结构与错误语义稳定。</td><td>JSON Schema、请求响应夹具、provider/consumer 合约、幂等样本。</td><td>每次提交及依赖升级。</td></tr>
+      <tr><td>集成</td><td>跨层追溯、影响分析、权限和审计联动正确。</td><td>小型合成项目：冲突来源、确认 RC、状态机、异步任务和变更版本。</td><td>每次合并。</td></tr>
+      <tr><td>E2E / UI</td><td>用户从导入到正式用例与执行交接的关键路径可完成。</td><td>隔离环境、可重置数据、稳定选择器、Trace、网络/任务证据。</td><td>合并前冒烟；夜间全量。</td></tr>
+      <tr><td>黄金回归</td><td>Agent 在事实性、冲突处理、覆盖和输出稳定性上不退化。</td><td>标注期望、允许不确定答案、反例和人工裁决记录的版本化数据集。</td><td>提示、模型、检索、工具或策略变更前后。</td></tr>
+      <tr><td>安全与隐私</td><td>来源注入、越权读取、敏感数据持久化/输出和资源耗尽被阻断。</td><td>恶意文档、伪造指令、.env/Token 模式、路径越界、超大输入、递归工具调用样本。</td><td>合并前安全门禁与每次策略变更。</td></tr>
+      <tr><td>韧性与恢复</td><td>失败重试、幂等、部分写入、渲染失败和执行中断可控可诊断。</td><td>故障注入脚本、断点恢复夹具、清理/回滚检查表。</td><td>发布候选与重大架构变更。</td></tr>
+    </tbody>
+  </table>
+
+  <h3>建议的发布判定</h3>
+  <p>采用“硬门禁 + 趋势指标”而不是一次性强制排名。硬门禁包括：Schema 合法、无未关闭 P0、formal TC 有适用 RC、关键链路无孤立项、必需证据存在、安全拒绝通过、无未解释黄金集退化。趋势指标包括追溯完整率、影响分析误报/漏报、人工复核一致率、证据完整率、执行稳定性、耗时和成本。阈值应在 P0-P2 的合成基线上由用户确认，随后按版本比较；它们不应成为自动确认 RC 的替代品。</p>
+
+  <h2>7. 优先级、依赖与待确认决策</h2>
+  <table>
+    <thead><tr><th>优先级</th><th>必须先做</th><th>原因</th></tr></thead>
+    <tbody>
+      <tr><td>P0</td><td>对象 Schema、审计与状态机；RC 授权控制；追溯/孤立项校验；合成黄金集；敏感数据与目录边界。</td><td>这是“可相信、可回滚、可测试”的地基，缺失时后续生成和 UI 自动化只会放大不确定性。</td></tr>
+      <tr><td>P1</td><td>Evidence Packet、Grill 工作流、领域模型、统一 TC Model、多格式渲染、CHG/IMP。</td><td>形成从来源到正式用例、再到增量回归的完整设计闭环。</td></tr>
+      <tr><td>P2</td><td>UI/Playwright 执行交接、契约测试、执行证据与 RCA、评估看板。</td><td>把“设计正确”扩展为“可重复验证”，并避免 UI 假阳性。</td></tr>
+      <tr><td>P3</td><td>第三方评测/执行框架的隔离 POC 和 A/B 对照。</td><td>只有已有基线、黄金集和安全边界后，才能客观比较 Promptfoo、DeepEval、Midscene、Explorbot 等工具的增益。</td></tr>
+    </tbody>
+  </table>
+  <div class="warning"><strong>需在进入开发前确认的四项：</strong>1）第一个试点的项目/产品边界和知识空间命名；2）RC 确认与变更关系的记录载体；3）合成测试数据与隔离环境的可用性；4）P0 门禁和黄金集人工复核的负责人。若这些尚未确定，可先完成 P0 的数据契约和离线合成样本，不接入真实资料。</div>
+
+  <h2>8. 证据质量、冲突与限制</h2>
+  <ul>
+    <li>NASA、W3C、ISTQB、NIST、OWASP、Playwright 和 Pact 是针对不同主张选择的原始或官方资料；它们共同支持原则，但不直接规定本项目的字段名、阈值或技术选型。</li>
+    <li>NASA 的要求来自高保证软件环境，因此本报告借鉴其追溯和变更方法，不把其安全关键覆盖目标机械套用到一般业务系统。</li>
+    <li>NIST AI RMF 1.0 的资源页提示框架正在修订；本报告固定引用 1.0 PDF，并将其作为 TEVV 和治理方法而非合规认证结论。</li>
+    <li>前一轮开源 Skill 调研的结论仍有效：候选项目适合局部借鉴或隔离 POC，不应用来替换来源治理、RC 人工裁决和确定性证据链。本轮未安装或运行任何第三方代码。</li>
+  </ul>
+
+  <h2>9. 主工作流建议</h2>
+  <div class="decision"><strong>建议判定：accepted-with-constraints。</strong>把本报告作为后续开发方案和测试计划的参考输入，先启动 P0/P1 的离线、合成数据验证。只有在用户确认试点范围、数据边界和 P0 门禁负责人后，才将其中已确认的内容提炼进入长期需求或实施文档。不要先部署 RAG 或接入大型第三方框架。</div>
+
+  <h2>10. 参考资料</h2>
+  <table>
+    <thead><tr><th>ID</th><th>资料</th><th>用途</th><th>质量与限制</th></tr></thead>
+    <tbody>
+      <tr><td>E01</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a></td><td>双向追溯、孤立项、需求到验证。</td><td>高权威；领域更高保证，需比例化采用。</td></tr>
+      <tr><td>E02</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVB/pages/32604509/SWE-053%2B-%2BManage%2BRequirements%2BChanges">NASA SWE-053</a></td><td>变更前影响分析与全链路更新。</td><td>高权威；以流程原则为主。</td></tr>
+      <tr><td>E03</td><td><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>版本、派生、活动和责任主体建模。</td><td>规范性数据模型；需映射为项目 Schema。</td></tr>
+      <tr><td>E04</td><td><a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>风险、模型化测试、多格式输出和自动化设计风险。</td><td>专业纲要；不是项目级实现说明。</td></tr>
+      <tr><td>E05</td><td><a href="https://playwright.dev/docs/network">Playwright Network</a>、<a href="https://playwright.dev/docs/test-assertions">Assertions</a>、<a href="https://playwright.dev/docs/best-practices">Best Practices</a></td><td>网络预言机、可等待断言与可回放证据。</td><td>官方工具文档；仅覆盖浏览器执行层。</td></tr>
+      <tr><td>E06</td><td><a href="https://docs.pact.io/implementation_guides/javascript/docs/provider">Pact Provider Verification</a></td><td>消费者驱动接口契约验证。</td><td>官方文档；不替代端到端业务验证。</td></tr>
+      <tr><td>E07</td><td><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF 1.0</a></td><td>持续 TEVV、指标和治理。</td><td>高权威但自愿性框架，1.0 正在修订。</td></tr>
+      <tr><td>E08</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a>、<a href="https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html">Prompt Injection Prevention</a></td><td>检索内容、记忆、工具权限、对抗测试和敏感数据控制。</td><td>高质量实践指南；应结合本地威胁建模。</td></tr>
+      <tr><td>E09</td><td>前一轮本地报告《测试用例设计与 UI 自动化参考资料及开源 Skill 调研评审》（2026-07-15）</td><td>开源 Skill 的固定版本审查和局部吸收建议。</td><td>本地二级证据；本轮未重新安装或执行候选项目。</td></tr>
+    </tbody>
+  </table>
+
+  <script type="application/json" id="research-metadata">{"title":"测试用例编写需求的开发与测试方案调研评审","language":"zh-CN","createdAt":"2026-07-16T00:00:00+08:00","researchDepth":"standard","scope":["测试用例设计治理的开发计划","分层测试计划","参考资料缺陷评审","Agent与知识库安全门禁"],"excludedScope":["知识库部署","第三方代码安装或执行","总需求文档修改","真实生产数据处理"],"outputKind":"research-only-html"}</script>
+  <script type="application/json" id="evidence-index">{"sources":[{"id":"E01","title":"NASA SWE-052 Bidirectional Traceability","url":"https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability","publisher":"NASA","accessedAt":"2026-07-16","claimTypes":["traceability"],"authority":"primary-official","limitations":"high-assurance context"},{"id":"E02","title":"NASA SWE-053 Manage Requirements Changes","url":"https://swehb.nasa.gov/spaces/SWEHBVB/pages/32604509/SWE-053%2B-%2BManage%2BRequirements%2BChanges","publisher":"NASA","accessedAt":"2026-07-16","claimTypes":["change-impact"],"authority":"primary-official","limitations":"process guidance"},{"id":"E03","title":"W3C PROV-O","url":"https://www.w3.org/TR/prov-o/","publisher":"W3C","accessedAt":"2026-07-16","claimTypes":["provenance-model"],"authority":"formal-standard","limitations":"requires project mapping"},{"id":"E04","title":"ISTQB CTAL-TA v4.0","url":"https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf","publisher":"ISTQB","version":"v4.0 GA","accessedAt":"2026-07-16","claimTypes":["test-design"],"authority":"official-syllabus","limitations":"not implementation specification"},{"id":"E05","title":"Playwright official testing documentation","url":"https://playwright.dev/docs/network","publisher":"Microsoft Playwright","accessedAt":"2026-07-16","claimTypes":["ui-execution-evidence"],"authority":"official-docs","limitations":"browser layer only"},{"id":"E06","title":"Pact Provider Verification","url":"https://docs.pact.io/implementation_guides/javascript/docs/provider","publisher":"Pact","accessedAt":"2026-07-16","claimTypes":["api-contract"],"authority":"official-docs","limitations":"not end-to-end validation"},{"id":"E07","title":"NIST AI RMF 1.0","url":"https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf","publisher":"NIST","version":"1.0","accessedAt":"2026-07-16","claimTypes":["agent-evaluation"],"authority":"primary-official","limitations":"framework under revision"},{"id":"E08","title":"OWASP AI Agent Security","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","publisher":"OWASP","accessedAt":"2026-07-16","claimTypes":["agent-security"],"authority":"official-guidance","limitations":"requires threat-model adaptation"}],"claims":[{"id":"C01","statement":"双向追溯与孤立项检查应成为发布门禁。","status":"supported","evidenceIds":["E01"]},{"id":"C02","statement":"变更应先进行影响分析，再经人工裁决更新正式对象。","status":"supported","evidenceIds":["E02","E03"]},{"id":"C03","statement":"统一模型渲染多格式输出需要补充模型外测试条件和维护风险控制。","status":"supported","evidenceIds":["E04"]},{"id":"C04","statement":"UI 可见状态不能单独证明 API、异步任务或下游业务成功。","status":"supported","evidenceIds":["E05","E06"]},{"id":"C05","statement":"Agent 需要持续 TEVV、最小权限、外部输入隔离和对抗测试。","status":"supported","evidenceIds":["E07","E08"]}]}</script>
+  <script type="application/json" id="search-log">{"queries":["NASA SWE-052 bidirectional traceability requirements software tests","ISTQB CTAL Test Analyst v4 test model traceability automation risks","Playwright network assertions trace viewer","Pact provider verification consumer driven contract testing","NASA SWE-053 requirements change impact analysis","W3C PROV-O entities activities agents revisions","NIST AI RMF 1.0 TEVV","OWASP AI agent security prompt injection data exposure"],"preferredSources":["formal standards","official handbooks","official product documentation"],"fallbackSources":["previous pinned GitHub skill review"],"stopConditions":["key development and testing claims supported","known conflicts documented","new searches repeat available sources"],"externalCodeExecuted":false,"privateSystemsAccessed":false}</script>
+  <script type="application/json" id="run-status">{"status":"complete","recommendation":"accepted-with-constraints","confidence":"high for lifecycle controls; medium for project-specific thresholds pending pilot baseline","completed":["official-source research","existing-plan gap review","phased development plan","layered test plan","security boundary review"],"deferred":["trial project selection","schema implementation","golden-set annotation","RAG deployment","third-party framework POC"],"blockingIssues":[],"caveats":["no third-party software was installed or executed","no private data or systems were accessed","metrics and thresholds require user-approved pilot baseline"]}</script>
+</main>
+</body>
+</html>

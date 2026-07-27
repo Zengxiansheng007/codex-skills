@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本地知识库需求/开发/测试计划参考资料与 Skill 补强评审</title>
+  <style>
+    body { margin: 0; color: #17202a; background: #f5f7fa; font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; }
+    main { max-width: 1200px; margin: 24px auto; background: #fff; border: 1px solid #d8e0e7; padding: 32px; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 2px solid #d8e0e7; padding-bottom: 6px; margin-top: 32px; }
+    h3 { margin-top: 24px; color: #1f5f99; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border: 1px solid #d8e0e7; padding: 8px 10px; vertical-align: top; text-align: left; font-size: 13px; }
+    th { background: #edf2f6; }
+    code { background: #eef2f5; padding: 1px 5px; }
+    .summary { background: #eaf2fa; border-left: 4px solid #1f5f99; padding: 14px 16px; }
+    .ok { background: #eafaf1; border-left: 4px solid #1e7d46; padding: 14px 16px; }
+    .warn { background: #fff7e6; border-left: 4px solid #8a5a00; padding: 14px 16px; }
+    .bad { background: #fdecec; border-left: 4px solid #a33; padding: 14px 16px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地知识库需求/开发/测试计划参考资料与 Skill 补强评审</h1>
+  <p>报告 ID：RES-KB-REF-SKILL-20260722｜日期：2026-07-22｜深度：standard｜状态：complete｜建议：accepted-with-required-sync</p>
+  <section class="summary">
+    <strong>结论：</strong>针对本地知识库的需求文档、开发计划、测试计划，现有方案的主方向可以采用，但必须把“低置信资料”和“内部 Skill 未提供实现”从 P0/P1 依据层降级到“启发/实施前门禁”。补强后，需求/开发/测试三层均有高置信参考资料或明确的用户决策支撑；设计层面无未关闭 P0/P1 缺陷。若要进入实际建库或改写 WorkBuddy/Codex 原文档，仍需用户另行确认。
+  </section>
+
+  <h2>Scope And Assumptions</h2>
+  <table>
+    <tr><th>评审对象</th><td>WorkBuddy 设计计划、WorkBuddy research 报告、WorkBuddy PRD v1.1、WorkBuddy Grill 报告；Codex 本地知识库 PRD v1；Codex testcase-system 开发测试执行计划 v2。</td></tr>
+    <tr><th>目标</th><td>补全需求文档、开发计划、测试计划所需的参考资料与参考 Skill；评审每个参考资料/Skill 的优缺点；对缺点继续补充资料，直到没有 P0/P1 证据缺陷。</td></tr>
+    <tr><th>排除范围</th><td>不实际建库；不写入 <code>D:\RAG</code>；不修改 WorkBuddy 原文件；不安装或执行第三方框架；不扫描其他磁盘；不处理真实账号、凭据、Cookie 或未脱敏生产数据。</td></tr>
+    <tr><th>用户最新确认</th><td>允许根目录拆分；材料必须先待审；Agent 判断可记录但需用户确认后才进入 RC；允许保留原始副本；优先 Markdown/JSON/YAML 等 Agent 友好结构。</td></tr>
+  </table>
+
+  <h2>Key Findings</h2>
+  <table>
+    <tr><th>ID</th><th>发现</th><th>原缺陷级别</th><th>补强资料/Skill</th><th>闭环结论</th></tr>
+    <tr>
+      <td>KF-01</td>
+      <td>需求文档的“来源治理、RC、冲突、版本关系”不能只靠博客或厂商实践支撑。</td>
+      <td>P1</td>
+      <td>补强 <a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a>、<a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a>、<a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges">NASA SWE-053</a>、用户确认。</td>
+      <td>闭环。博客降级为启发，P0/P1 主依据由标准/官方资料和用户决策支撑。</td>
+    </tr>
+    <tr>
+      <td>KF-02</td>
+      <td>开发计划中的跨 Skill 协作、契约、语义校验不能假设宿主天然支持。</td>
+      <td>P1</td>
+      <td>补强 <a href="https://openagentskills.dev/docs/specification">Open Agent Skills Specification</a>、<a href="https://json-schema.org/draft/2020-12">JSON Schema 2020-12</a>、<a href="https://json-schema.org/draft/2020-12/json-schema-validation">Validation Vocabulary</a>、Codex 本地 Skill 规则。</td>
+      <td>闭环。开发计划必须保留 Host Capability Report、Run Manifest、Handoff Contract、semantic validator。</td>
+    </tr>
+    <tr>
+      <td>KF-03</td>
+      <td>测试计划中 UI 可见、LLM 评分、工具评测都不能替代业务预言机。</td>
+      <td>P1</td>
+      <td>补强 <a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a>、<a href="https://playwright.dev/docs/best-practices">Playwright Best Practices</a>、<a href="https://playwright.dev/docs/api/class-tracing">Playwright Tracing</a>、<a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval Tool Correctness</a>。</td>
+      <td>闭环。UI/LLM 证据只作分层证据，正式通过仍需业务预言机和确定性证据链。</td>
+    </tr>
+    <tr>
+      <td>KF-04</td>
+      <td>安全与人工门控不能只由方案自定义，需要可复核安全资料支撑。</td>
+      <td>P1</td>
+      <td>补强 <a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a>、<a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a>、<a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST SSDF 1.1</a>、<a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a>。</td>
+      <td>闭环。禁入、待审、人工确认、对抗测试和证据保留均有高置信支撑。</td>
+    </tr>
+    <tr>
+      <td>KF-05</td>
+      <td>qa-skill、test-case-xlsx-generator、Solution D 的具体实现未由用户提供，不能作为当前 RC 或实现依赖。</td>
+      <td>P1</td>
+      <td>补强类比资料：OWASP HITL、SpecSmith、Promptfoo、DeepEval、Playwright、Pact、Explorbot/Midscene 官方资料；同时明确“具体实现待用户提供”。</td>
+      <td>闭环为实施前门禁，不再作为设计 P1 缺陷。</td>
+    </tr>
+  </table>
+
+  <h2>Evidence Table</h2>
+  <table>
+    <tr><th>ID</th><th>来源</th><th>适用层</th><th>优点</th><th>缺点/限制</th><th>采用方式</th></tr>
+    <tr><td>E01</td><td><a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a></td><td>需求</td><td>W3C 推荐标准，适合支撑来源、责任主体、派生关系。</td><td>完整 OWL/RDF 对本项目过重。</td><td>只吸收 Entity/Activity/Agent、derived/revision/invalidation 最小子集。</td></tr>
+    <tr><td>E02</td><td><a href="https://json-schema.org/draft/2020-12">JSON Schema 2020-12</a> / <a href="https://json-schema.org/draft/2020-12/json-schema-validation">Validation Vocabulary</a></td><td>开发</td><td>正式结构化契约规范，适合 Agent-ready JSON/YAML。</td><td>只能验证结构，不能证明语义、权限、RC 用户确认或链路完整。</td><td>Schema + semantic validator 双门禁。</td></tr>
+    <tr><td>E03</td><td><a href="https://www.sqlite.org/fts5.html">SQLite FTS5</a></td><td>开发</td><td>官方本地全文检索资料，支持 BM25、tokenizer、索引维护。</td><td>中文分词、规模、性能需用首批语料验证。</td><td>作为后置索引候选，不作为 MVP 前置。</td></tr>
+    <tr><td>E04</td><td><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html">OWASP AI Agent Security</a></td><td>需求/开发/测试</td><td>明确人类审批、最小权限、结构化日志、对抗测试、拒绝集。</td><td>需要转化为项目字段、门禁和测试夹具。</td><td>支撑人工门控、安全拒绝集和审计。</td></tr>
+    <tr><td>E05</td><td><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP LLM Top 10</a></td><td>需求/测试</td><td>覆盖提示注入、敏感信息泄露、供应链、过度自治、向量/嵌入弱点。</td><td>是风险分类，不是实现方案。</td><td>转化为禁入、注入、越权、向量后置的负向测试。</td></tr>
+    <tr><td>E06</td><td><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST AI 600-1</a></td><td>测试</td><td>适合支撑 AI 系统 TEVV、记录、监控和生命周期治理。</td><td>不给本项目阈值。</td><td>用于 Evaluation Record、黄金集、拒绝集，阈值由用户语料和试点确定。</td></tr>
+    <tr><td>E07</td><td><a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST SSDF 1.1</a></td><td>开发</td><td>安全开发框架，强调 SDLC 中记录安全要求、风险、设计决策和组件来源。</td><td>不是 Agent Skill 专属规范。</td><td>支撑开发计划的安全门禁、组件/依赖和变更记录。</td></tr>
+    <tr><td>E08</td><td><a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability">NASA SWE-052</a> / <a href="https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695435/SWE-053%2B-%2BManage%2BRequirements%2BChanges">SWE-053</a></td><td>需求/测试</td><td>双向追溯、客观证据、变更影响分析很适合 RTM 与 CHG/IMP。</td><td>高保证环境较重。</td><td>采用方法，不宣称 NASA 合规。</td></tr>
+    <tr><td>E09</td><td><a href="https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf">ISTQB CTAL-TA v4.0</a></td><td>测试</td><td>支撑测试依据、预言机、测试数据、环境、风险和回归。</td><td>不覆盖 Agent 来源治理。</td><td>用于测试计划和 oracle taxonomy。</td></tr>
+    <tr><td>E10</td><td><a href="https://playwright.dev/docs/best-practices">Playwright Best Practices</a> / <a href="https://playwright.dev/docs/api/class-tracing">Tracing</a></td><td>测试</td><td>官方资料，支持 trace、DOM 快照、网络请求和断言证据。</td><td>浏览器层证据不能证明下游业务成功。</td><td>作为 UI/API 证据链一层，必须配业务 ID/下游验证。</td></tr>
+    <tr><td>E11</td><td><a href="https://www.promptfoo.dev/docs/configuration/expected-outputs/">Promptfoo Assertions</a> / <a href="https://www.promptfoo.dev/docs/guides/llm-as-a-judge/">LLM as Judge</a></td><td>测试/参考 Skill</td><td>支持 factuality、llm-rubric、JSON、相似度、RAG faithfulness、CI。</td><td>LLM judge 有偏差，需校准；可能引入模型和依赖。</td><td>P2 POC；不确认 RC 或业务成功。</td></tr>
+    <tr><td>E12</td><td><a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval Tool Correctness</a> / <a href="https://deepeval.com/guides/guides-ai-agent-evaluation-metrics">Agent Metrics</a></td><td>测试/参考 Skill</td><td>工具正确性有确定性部分，计划遵循、任务完成、trace 适合 Agent 评测。</td><td>部分指标仍依赖 LLM judge，未本地复现。</td><td>P2 POC；先用自有黄金夹具和确定性校验。</td></tr>
+    <tr><td>E13</td><td><a href="https://midscenejs.com/">Midscene.js</a> / <a href="https://www.midscenejs.com/introduction">Introduction</a></td><td>测试/参考 Skill</td><td>视觉驱动，适合页面探索、canvas、跨平台界面。</td><td>截图可见不能证明业务成功。</td><td>仅作探索素材，不能单独进入黄金集。</td></tr>
+    <tr><td>E14</td><td><a href="https://pypi.org/project/specsmith/0.13.0/">SpecSmith</a></td><td>开发/测试/参考 Skill</td><td>YAML-first、sync、validate --strict、孤立项、重复 ID、覆盖校验。</td><td>治理体系偏重，不能直接替代本地知识库。</td><td>吸收门禁思想，不安装执行。</td></tr>
+    <tr><td>E15</td><td><a href="https://docs.pact.io/">Pact Docs</a> / <a href="https://docs.pact.io/getting_started/verifying_pacts">Verifying Pacts</a></td><td>开发/测试</td><td>消费者/提供者契约和 provider verification 思想成熟。</td><td>服务 API 框架对文件型 Agent artifact 过重。</td><td>吸收 contract-by-example 思想，使用轻量 fixture + schema + semantic validator。</td></tr>
+    <tr><td>E16</td><td><a href="https://openagentskills.dev/docs/specification">Open Agent Skills Specification</a></td><td>开发/参考 Skill</td><td>说明 Skill 结构、渐进加载、资源目录和校验。</td><td>不定义跨 Skill 编排、共享状态或审批协议。</td><td>保留为 Skill 包结构参考；跨 Skill 契约由本项目自定义。</td></tr>
+  </table>
+
+  <h2>Reference Skill Review</h2>
+  <table>
+    <tr><th>参考 Skill/工具</th><th>可吸收优点</th><th>缺点/P0-P1 风险</th><th>补强后处置</th></tr>
+    <tr><td>qa-skill</td><td>Uncertain、人工裁决、失败自学习。</td><td>具体实现未由用户提供，不能核验。</td><td>只吸收机制；登记为实施前门禁，不作为 RC。</td></tr>
+    <tr><td>test-case-xlsx-generator</td><td>Payload 基线、结构化用例、增量更新。</td><td>内部原版未提供，公开同类质量不一。</td><td>只吸收 Payload/基线思想；用 ISTQB/NASA/SpecSmith 补强追溯与覆盖。</td></tr>
+    <tr><td>Solution D</td><td>确定性证据链理念。</td><td>内部方案未提供，无法核验实现。</td><td>用 Playwright、DeepEval trace、Pact 契约思想补强；具体落地前等用户提供。</td></tr>
+    <tr><td>SpecSmith</td><td>严格校验、孤立项、重复 ID、覆盖、YAML-first。</td><td>项目治理体系较重。</td><td>吸收门禁，不引入运行时依赖。</td></tr>
+    <tr><td>Promptfoo</td><td>事实性、反谄媚、输出稳定、红队、CI。</td><td>LLM judge 和依赖会引入不确定性。</td><td>P2 隔离 POC；P0/P1 不依赖。</td></tr>
+    <tr><td>DeepEval</td><td>Tool Correctness、Plan Adherence、trace、agent metrics。</td><td>部分评分仍由 LLM 判断，且未本地复现。</td><td>P2 隔离 POC；先确定性黄金集。</td></tr>
+    <tr><td>Midscene</td><td>视觉探索、自然语言操作、复杂 UI 定位。</td><td>视觉成功不能证明业务成功。</td><td>只作探索素材；必须配 Playwright + 业务证据链。</td></tr>
+    <tr><td>Pact</td><td>consumer/provider 契约验证、contract-by-example。</td><td>对文件型 Agent artifact 过重。</td><td>吸收思想，不引入 Pact 运行时。</td></tr>
+  </table>
+
+  <h2>Iteration Log</h2>
+  <table>
+    <tr><th>轮次</th><th>发现缺陷</th><th>补强动作</th><th>剩余 P0/P1</th></tr>
+    <tr><td>R0</td><td>博客/厂商实践支撑过强；内部 Skill 未提供；UI/LLM 证据边界需官方支撑。</td><td>标出 P1 缺口。</td><td>3 个 P1</td></tr>
+    <tr><td>R1</td><td>需求治理缺少标准主证据。</td><td>补 W3C PROV-O、NASA SWE-052/053、用户确认。</td><td>2 个 P1</td></tr>
+    <tr><td>R2</td><td>开发/测试执行缺少契约、安全和预言机主证据。</td><td>补 JSON Schema、OWASP、NIST、ISTQB、Playwright、Pact。</td><td>1 个 P1</td></tr>
+    <tr><td>R3</td><td>内部 Skill 无法核验具体实现。</td><td>降级为实施前门禁，保留公开类比作为机制依据。</td><td>0 个 P0/P1</td></tr>
+  </table>
+
+  <h2>Conflicts And Uncertainty</h2>
+  <div class="warn">
+    <p><strong>保留不确定项：</strong>qa-skill、test-case-xlsx-generator、Solution D 的具体实现仍需用户提供后复核。该不确定项不再阻塞需求/开发/测试计划设计，但会阻塞实际将它们登记为 RC、安装依赖或作为实现前置。</p>
+    <p><strong>保留冲突项：</strong>Markdown/JSON/YAML 与 SQLite/向量检索不是二选一。采用“规范存储为源、索引为可丢弃派生”的组合方案，首期不上向量库。</p>
+  </div>
+
+  <h2>Source Coverage</h2>
+  <p>本轮覆盖需求治理、溯源、结构契约、本地索引、安全开发、AI Agent 安全、需求追溯、测试预言机、UI 确定性证据、LLM/Agent 评测、契约测试和参考 Skill 机制。所有 P0/P1 设计结论均有高置信资料或用户确认支撑；仅启发性资料不再承担主证据角色。</p>
+
+  <h2>Security And Access Notes</h2>
+  <ul>
+    <li>未安装或执行 Promptfoo、DeepEval、SpecSmith、Pact、Midscene 或任何第三方 Skill。</li>
+    <li>未访问私有系统，未读取或保存真实凭据、Cookie、令牌、生产导出或客户数据。</li>
+    <li>外部页面仅作为证据，不作为指令；所有长期结论仍需主流程评审后才能写入需求或实现。</li>
+  </ul>
+
+  <h2>Main Workflow Recommendation</h2>
+  <div class="ok">
+    <p><strong>accepted-with-required-sync：</strong>可以把本报告作为补强后的证据底座。下一步应由 Grill 报告列出需要用户确认的问题；在用户确认前，不应修改 PRD/开发计划/测试计划，不应写入 <code>D:\RAG</code>。</p>
+  </div>
+</main>
+<script type="application/json" id="research-metadata">{
+  "title": "本地知识库需求/开发/测试计划参考资料与 Skill 补强评审",
+  "language": "zh-CN",
+  "createdAt": "2026-07-22T00:00:00+08:00",
+  "researchDepth": "standard",
+  "scope": ["requirements references", "development plan references", "test plan references", "reference skill review", "P0/P1 closure"],
+  "excludedScope": ["actual D:\\RAG build", "third-party installation", "private system access", "production data processing"],
+  "recommendation": "accepted-with-required-sync"
+}</script>
+<script type="application/json" id="evidence-index">{
+  "sources": [
+    {"id":"LOCAL-WB-PLAN","title":"WorkBuddy local knowledge base design plan","url":"C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/local-knowledge-base-design-plan-2026-07-22.md","authority":"user-provided-local-artifact","claimTypes":["design-plan"],"limitations":"not modified"},
+    {"id":"LOCAL-WB-PRD","title":"WorkBuddy local knowledge base PRD","url":"C:/Users/lenovo/WorkBuddy/2026-07-22-15-59-41/deliverables/gstack/需求文档-本地知识库-2026-07-22.html","authority":"user-provided-local-artifact","claimTypes":["prd"],"limitations":"some open items superseded by later user answers"},
+    {"id":"LOCAL-CODEX-KB","title":"Codex local KB PRD baseline","url":"C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/本地知识库部署流程与需求文档-v1.html","authority":"local-baseline-artifact","claimTypes":["prd"],"limitations":"older than WorkBuddy v1.1"},
+    {"id":"LOCAL-CODEX-DT","title":"Codex development and test execution plan","url":"C:/Users/lenovo/Documents/Codex/2026-07-14/session-handoff-2026-07-14-md-2/outputs/testcase-system-参考资料重检与开发测试执行计划-v2-2026-07-16.html","authority":"local-baseline-artifact","claimTypes":["development-plan","test-plan"],"limitations":"focused on testcase-system"},
+    {"id":"E01","title":"W3C PROV-O","url":"https://www.w3.org/TR/prov-o/","authority":"formal-standard","claimTypes":["provenance"],"limitations":"full ontology is heavy"},
+    {"id":"E02","title":"JSON Schema Draft 2020-12","url":"https://json-schema.org/draft/2020-12","authority":"formal-specification","claimTypes":["data-contract"],"limitations":"structural validation only"},
+    {"id":"E03","title":"SQLite FTS5","url":"https://www.sqlite.org/fts5.html","authority":"official-docs","claimTypes":["local-search"],"limitations":"Chinese tokenizer and performance require local validation"},
+    {"id":"E04","title":"OWASP AI Agent Security Cheat Sheet","url":"https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html","authority":"official-security-guidance","claimTypes":["agent-security"],"limitations":"requires project-specific gates"},
+    {"id":"E05","title":"OWASP LLM Top 10","url":"https://owasp.org/www-project-top-10-for-large-language-model-applications/","authority":"official-security-guidance","claimTypes":["llm-security"],"limitations":"risk taxonomy not implementation"},
+    {"id":"E06","title":"NIST AI 600-1","url":"https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf","authority":"government-framework","claimTypes":["tevv","governance"],"limitations":"no project thresholds"},
+    {"id":"E07","title":"NIST SSDF 1.1","url":"https://csrc.nist.gov/pubs/sp/800/218/final","authority":"government-guidance","claimTypes":["secure-development"],"limitations":"not agent-specific"},
+    {"id":"E08","title":"NASA SWE-052 and SWE-053","url":"https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695427/SWE-052%2B-%2BBidirectional%2BTraceability","authority":"government-guidance","claimTypes":["traceability","change-impact"],"limitations":"high-assurance context"},
+    {"id":"E09","title":"ISTQB CTAL-TA v4.0","url":"https://www.istqb.org/wp-content/uploads/sdm-uploads/ISTQB-CTAL-TA-Syllabus-v4.0-EN.pdf","authority":"official-syllabus","claimTypes":["test-design"],"limitations":"not agent governance"},
+    {"id":"E10","title":"Playwright official docs","url":"https://playwright.dev/docs/best-practices","authority":"official-docs","claimTypes":["ui-evidence"],"limitations":"browser layer only"},
+    {"id":"E11","title":"Promptfoo docs","url":"https://www.promptfoo.dev/docs/configuration/expected-outputs/","authority":"official-project-docs","claimTypes":["llm-evaluation"],"limitations":"judge calibration required"},
+    {"id":"E12","title":"DeepEval docs","url":"https://deepeval.com/docs/metrics-tool-correctness","authority":"official-project-docs","claimTypes":["agent-evaluation"],"limitations":"some metrics use LLM judge"},
+    {"id":"E13","title":"Midscene.js docs","url":"https://midscenejs.com/","authority":"official-project-docs","claimTypes":["visual-ui-testing"],"limitations":"visual evidence is not business proof"},
+    {"id":"E14","title":"SpecSmith PyPI","url":"https://pypi.org/project/specsmith/0.13.0/","authority":"package-registry","claimTypes":["governance-tool"],"limitations":"heavy governance framework"},
+    {"id":"E15","title":"Pact docs","url":"https://docs.pact.io/","authority":"official-project-docs","claimTypes":["contract-testing"],"limitations":"API-service oriented"},
+    {"id":"E16","title":"Open Agent Skills Specification","url":"https://openagentskills.dev/docs/specification","authority":"official-docs","claimTypes":["skill-structure"],"limitations":"no cross-skill orchestration protocol"}
+  ],
+  "claims": [
+    {"id":"C01","statement":"Requirement governance claims are now supported by standards and user decisions rather than blogs alone.","status":"supported","evidenceIds":["E01","E08","LOCAL-WB-PRD"]},
+    {"id":"C02","statement":"Development plan should use JSON Schema for structure and semantic validators for RC, scope, transitions and trace links.","status":"supported","evidenceIds":["E02","E16","LOCAL-CODEX-DT"]},
+    {"id":"C03","statement":"Testing plan must separate UI evidence, agent eval metrics, contract checks and business oracles.","status":"supported","evidenceIds":["E09","E10","E11","E12","E15"]},
+    {"id":"C04","statement":"Agent safety gates and sensitive intake rules require OWASP and NIST backed controls.","status":"supported","evidenceIds":["E04","E05","E06","E07"]},
+    {"id":"C05","statement":"Internal skills are implementation gates until user supplies concrete packages or repos.","status":"supported","evidenceIds":["LOCAL-WB-PLAN","LOCAL-WB-PRD"]}
+  ]
+}</script>
+<script type="application/json" id="search-log">{
+  "queries": [
+    "Open Agent Skills specification progressive disclosure",
+    "JSON Schema Draft 2020-12 validation vocabulary",
+    "W3C PROV-O provenance ontology",
+    "SQLite FTS5 official BM25 tokenizer",
+    "OWASP AI Agent Security human approval least privilege",
+    "OWASP LLM Top 10 prompt injection sensitive information vector embedding",
+    "NIST AI 600-1 TEVV generative AI",
+    "NIST SP 800-218 SSDF secure development",
+    "NASA SWE-052 bidirectional traceability SWE-053 requirements changes",
+    "ISTQB CTAL-TA test oracle traceability",
+    "Playwright tracing best practices network evidence",
+    "Promptfoo factuality llm-rubric CI",
+    "DeepEval Tool Correctness Plan Adherence",
+    "SpecSmith validate strict orphan coverage",
+    "Pact contract testing provider verification"
+  ],
+  "preferredSources": ["formal standards", "official government guidance", "official security guidance", "official project docs", "package registries", "local user artifacts"],
+  "fallbackSources": ["technical blogs as inspiration only"],
+  "stopConditions": ["all P0/P1 claims have primary or official evidence or are downgraded to implementation gate", "new searches repeat known sources"],
+  "thirdPartyInstalled": false,
+  "privateSystemsAccessed": false
+}</script>
+<script type="application/json" id="run-status">{
+  "status": "complete",
+  "recommendation": "accepted-with-required-sync",
+  "initialP0Findings": 0,
+  "initialP1Findings": 3,
+  "remainingP0Findings": 0,
+  "remainingP1Findings": 0,
+  "sourceArtifactSyncRequired": true,
+  "caveats": ["Internal skill implementations require user-provided materials before RC or implementation dependency", "No third-party tools were installed or executed"]
+}</script>
+</body>
+</html>

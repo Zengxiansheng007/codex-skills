@@ -5,6 +5,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+def json_block(block_id, payload):
+    return (
+        f'<script type="application/json" id="{block_id}">'
+        + json.dumps(payload, ensure_ascii=False)
+        + "</script>"
+    )
+
+
 def main():
     root = Path(__file__).resolve().parents[1]
     template = (root / "assets" / "research-report-template.html").read_text(encoding="utf-8")
@@ -14,6 +22,8 @@ def main():
         "scope": "Forward-test sample only.",
         "depth": "light",
         "generatedAt": now,
+        "highImpact": False,
+        "strictLoopRequired": False,
     }
     evidence = {
         "claims": [
@@ -69,18 +79,18 @@ def main():
         )
         .replace("{{conflicts}}", "<p>No conflicts in this sample.</p>")
         .replace("{{coverage}}", "<p>One local sample source.</p>")
+        .replace("{{recursiveClosure}}", "<p>Strict closure is not required for this light sample.</p>")
         .replace("{{security}}", "<p>No external private data used.</p>")
         .replace("{{recommendation}}", "<p>accepted</p>")
         .replace("{{researchMetadataJson}}", json.dumps(metadata, ensure_ascii=False))
         .replace("{{evidenceIndexJson}}", json.dumps(evidence, ensure_ascii=False))
         .replace("{{searchLogJson}}", json.dumps(search_log, ensure_ascii=False))
         .replace("{{runStatusJson}}", json.dumps(run_status, ensure_ascii=False))
-        .replace(
-            "{{researchDecisionGateJsonBlock}}",
-            '<script type="application/json" id="research-decision-gate">'
-            + json.dumps(decision_gate, ensure_ascii=False)
-            + "</script>",
-        )
+        .replace("{{critiqueLoopJsonBlock}}", "")
+        .replace("{{sourceReviewFindingsJsonBlock}}", "")
+        .replace("{{followupQueryMatrixJsonBlock}}", "")
+        .replace("{{p0p1ClosureMatrixJsonBlock}}", "")
+        .replace("{{researchDecisionGateJsonBlock}}", json_block("research-decision-gate", decision_gate))
     )
     if len(sys.argv) > 1:
         out_dir = Path(sys.argv[1]).resolve()

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>本地数据库与 rag-system Skill 开发计划 vNext - 2026-07-23</title>
+  <style>
+    body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.65; margin: 32px; color: #1f2933; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1, h2, h3 { color: #102a43; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+    th, td { border: 1px solid #d9e2ec; padding: 8px 10px; vertical-align: top; }
+    th { background: #f0f4f8; }
+    code { background: #f0f4f8; padding: 1px 4px; border-radius: 4px; }
+    .note { background: #f4f7fb; border-left: 4px solid #486581; padding: 12px 16px; margin: 16px 0; }
+    .warn { background: #fff8e6; border-left: 4px solid #b7791f; padding: 12px 16px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>本地数据库与 rag-system Skill 开发计划 vNext</h1>
+  <div class="note">
+    <p><strong>documentType：</strong>Development Plan / Agent Skill Architecture Plan</p>
+    <p><strong>版本：</strong>vNext-2026-07-23；状态：Draft，等待用户后续实施授权。</p>
+    <p><strong>本次变更：</strong>纳入用户已确认的“本地数据库 + <code>rag-system</code> Skill 联合测试计划”和 <code>TC-RAG-SKILL-001..008</code> MVP 验收前置；补入 packet schema/fixture、子 Skill DoD、forward-test 与计划变更回归规则。</p>
+    <p><strong>安全边界：</strong>本文只生成开发计划草案；用户已说明 <code>D:\RAG</code> 文件已存在，并已确认允许检查/使用该路径；只读顶层检查显示存在 <code>产研效能.lakebook</code>，且用户已确认该文件可作为首批候选材料或现有知识库容器纳入检查。当前已完成受控格式识别和敏感预检：该文件为 USTAR 容器，含 82 个 JSON 成员，但因手机号形态和 API key 字段/值形态命中，状态为 <code>blocked-pending-sensitive-review</code>。用户已要求暂时不继续 PRD 或材料内容分析，相关敏感复核、脱敏审查、内容入库和 RC 提取均转为待办。另有用户提供的验证用 PRD 地址 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code> 已完成单文件读取分析，可作为后续准入/检索/下游 packet 的候选验证样本，但不自动授权全量知识库读取、<code>D:\RAG</code> 写入或 RC 登记。本文不写入 <code>D:\RAG</code>，不创建或修改 <code>.codex/skills/rag-system</code>，不导入真实材料。</p>
+  </div>
+
+  <h2>1. 目标与范围</h2>
+  <table>
+    <thead><tr><th>项</th><th>定义</th><th>开发含义</th></tr></thead>
+    <tbody>
+      <tr><td>本地数据库</td><td><code>D:\RAG</code> 是用户已说明存在并已确认可检查/使用的本地受控证据数据库路径；当前 <code>产研效能.lakebook</code> 已登记为候选材料但因敏感预检命中被阻断；<code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code> 已作为单文件 PRD 候选完成读取分析。</td><td>MVP 源真值为 <code>INDEX.md</code>、frontmatter、manifest、证据 JSON；缓存不是事实源。</td></tr>
+      <tr><td>rag-system</td><td>根协调 Skill，负责路由、门禁、上下文加载、子 Skill 调度和只读输出聚合。</td><td>不承担全部细节，不自动 RC，不执行下游 UI 测试或正式用例生成。</td></tr>
+      <tr><td>MVP 子 Skill</td><td><code>rag-intake</code>、<code>rag-schema</code>、<code>rag-governance</code>、<code>rag-query</code>、<code>rag-change-impact</code>、<code>rag-downstream-handoff</code>。</td><td>每个子 Skill 单一职责，复杂 schema 和 fixture 下放 references 或 assets，重复校验放 scripts。</td></tr>
+      <tr><td>后置能力</td><td><code>rag-eval</code>、<code>rag-cache</code>、SQLite FTS5、向量索引。</td><td>FTS5 等首批语料和黄金查询形成阈值后再 POC；向量更后。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. 非目标与禁止项</h2>
+  <ul>
+    <li>不自动扫描磁盘，不读取用户清单外文件。</li>
+    <li>不保存账号、密码、API Key、访问令牌、浏览器 Cookie、未脱敏生产客户数据、未脱敏日志或截图。</li>
+    <li>不把 PRD、历史记录或检索命中直接登记为 RC。</li>
+    <li>不把 <code>active</code> 当正式依据；正式 RC 必须为 <code>confirmed_active</code> 或用户明确确认。</li>
+    <li>不从 <code>rag-system</code> MVP 直接执行 <code>ui-test</code>、生成正式测试用例、写入下游系统或触达生产环境。</li>
+  </ul>
+
+  <h2>3. 架构与模块边界</h2>
+  <table>
+    <thead><tr><th>层级</th><th>模块</th><th>职责</th><th>输出</th></tr></thead>
+    <tbody>
+      <tr><td>数据层</td><td><code>00_inbox</code> 到 <code>07_handover</code></td><td>来源登记、证据片段、知识单元、RC、冲突、变更影响、下游交接。</td><td>Source、Evidence、KnowledgeUnit、RC、Conflict、ChangeImpact、Handoff。</td></tr>
+      <tr><td>缓存层</td><td><code>08_cache</code></td><td>MVP 只保留策略占位；后续支持 SQLite FTS5 可重建索引。</td><td>Cache Build Report，不作为事实源。</td></tr>
+      <tr><td>根 Skill</td><td><code>rag-system</code></td><td>任务分类、space 门禁、材料边界检查、状态机门禁、子 Skill 路由、结果聚合。</td><td>Evidence Packet、阻断原因、下游 handoff target。</td></tr>
+      <tr><td>子 Skill</td><td>MVP 6 个子 Skill</td><td>按单一职责执行摄取、schema、治理、查询、变更影响、下游交接。</td><td>Admission/Reject/Validation/RC/Change/Contract 报告。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. 子 Skill 最小开发契约</h2>
+  <table>
+    <thead><tr><th>子 Skill</th><th>职责</th><th>最小文件结构</th><th>开发 DoD</th></tr></thead>
+    <tbody>
+      <tr><td><code>rag-intake</code></td><td>材料清单准入、space 元数据检查、敏感拒绝。</td><td><code>SKILL.md</code>、<code>references/admission-policy.md</code>、<code>scripts/validate_admission_manifest.*</code>、fixtures。</td><td>清单外路径阻断；疑似敏感材料生成 Reject Report；3 个正向、2 个拒绝 forward-test。</td></tr>
+      <tr><td><code>rag-schema</code></td><td>frontmatter、manifest、packet schema 校验。</td><td><code>SKILL.md</code>、<code>references/schema-contract.md</code>、<code>schemas/</code>、<code>scripts/validate_packet_schema.*</code>、fixtures。</td><td>五类 packet 正反例可校验；schema 版本策略写明；无未声明字段进入正式 packet。</td></tr>
+      <tr><td><code>rag-governance</code></td><td>状态机、RC、冲突、低置信、批清审计。</td><td><code>SKILL.md</code>、<code>references/state-and-rc-policy.md</code>、<code>scripts/validate_rc_state.*</code>、fixtures。</td><td><code>active</code>、<code>uncertain</code>、冲突材料无法输出正式 RC；用户确认动作可审计。</td></tr>
+      <tr><td><code>rag-query</code></td><td>MVP 文件索引查询、space 硬过滤、证据回链。</td><td><code>SKILL.md</code>、<code>references/query-policy.md</code>、<code>scripts/validate_evidence_packet.*</code>、fixtures。</td><td>同 space 查询有引用；跨 space 不召回；无 RC 返回阻断而非编造答案。</td></tr>
+      <tr><td><code>rag-change-impact</code></td><td>来源新旧版本、CHG/IMP、受影响 RC 与资产候选。</td><td><code>SKILL.md</code>、<code>references/change-impact-policy.md</code>、<code>scripts/validate_change_impact.*</code>、fixtures。</td><td>新来源不自动改旧 RC；只生成影响候选；需用户确认后进入 RC。</td></tr>
+      <tr><td><code>rag-downstream-handoff</code></td><td>转换为测试用例、UI 自动化、Solution D 可用只读契约。</td><td><code>SKILL.md</code>、<code>references/downstream-contracts.md</code>、<code>schemas/</code>、fixtures。</td><td>Test Asset Manifest 与 Solution D Evidence Contract schema 通过；不执行下游动作。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Packet 契约与版本策略</h2>
+  <table>
+    <thead><tr><th>Packet</th><th>必备字段</th><th>正反例 fixture</th><th>消费者</th></tr></thead>
+    <tbody>
+      <tr><td>Evidence Packet</td><td><code>schema_version</code>、<code>packet_type</code>、<code>query_id</code>、<code>knowledge_space_id</code>、<code>status</code>、<code>evidence_refs</code>、<code>source_refs</code>、<code>blocked_reason</code>。</td><td>正例：confirmed RC；反例：无引用、跨 space、active 被正式引用。</td><td><code>rag-query</code>、用例生成、UI 自动化。</td></tr>
+      <tr><td>RC Packet</td><td><code>rc_id</code>、<code>scope</code>、<code>statement</code>、<code>status</code>、<code>decision_by</code>、<code>confirmed_at</code>、<code>evidence_refs</code>。</td><td>正例：confirmed_active；反例：agent 自动确认、证据缺失、范围缺失。</td><td>测试设计、回归维护。</td></tr>
+      <tr><td>Change Impact Packet</td><td><code>change_id</code>、<code>old_source</code>、<code>new_source</code>、<code>semantic_delta</code>、<code>impacted_rc</code>、<code>impacted_assets</code>、<code>requires_user_review</code>。</td><td>正例：旧 RC 不改写；反例：自动废弃 RC。</td><td>回归维护、影响分析。</td></tr>
+      <tr><td>Test Asset Manifest</td><td><code>asset_id</code>、<code>requires_rc</code>、<code>oracle_type</code>、<code>payload_ref</code>、<code>evidence_contract</code>、<code>owner_skill</code>。</td><td>正例：只读消费；反例：要求下游写 RC 或绕过审批。</td><td><code>auto-testcase-generator</code>。</td></tr>
+      <tr><td>Solution D Evidence Contract</td><td><code>trace</code>、<code>api</code>、<code>task</code>、<code>downstream</code>、<code>business_id</code>、<code>verdict</code>、<code>attribution</code>。</td><td>正例：UI/API/task/downstream 分层；反例：只有视觉证据即判业务成功。</td><td><code>ui-test</code>、Solution D。</td></tr>
+    </tbody>
+  </table>
+  <p><strong>版本策略：</strong><code>0.y.z</code> 为 MVP 草案；破坏性字段变化升 major，兼容新增升 minor，非契约修复升 patch；已发布 schema 不原地改写，必须保留迁移说明。</p>
+
+  <h2>6. 分阶段开发计划</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>目标</th><th>主要任务</th><th>完成标准</th><th>暂停/回退</th></tr></thead>
+    <tbody>
+      <tr><td>PH-RAG-0</td><td>计划基线冻结</td><td>确认本 vNext 开发计划、联合测试计划、授权边界、首个 space 信息待用户提供。</td><td>文档校验通过；P0 实施授权项单列。</td><td>未授权时只保留草案。</td></tr>
+      <tr><td>PH-RAG-1</td><td>本地数据库骨架草案</td><td>设计目录、manifest、frontmatter、证据 JSON、INDEX、SCHEMA。</td><td>空库骨架设计可由脚本校验；不导入真实材料。</td><td>缺少 <code>knowledge_space_id</code> 时不创建真实目录。</td></tr>
+      <tr><td>PH-RAG-2</td><td>Packet schema 与 fixture</td><td>定义五类 packet schema、状态枚举、正反例 fixture、版本策略。</td><td>schema JSON 可解析；正反例 fixture 通过/失败符合预期。</td><td>字段含义不明时标记待确认。</td></tr>
+      <tr><td>PH-RAG-3</td><td>根 Skill 草案</td><td>设计 <code>rag-system/SKILL.md</code> 触发、路由、拒绝、子 Skill 选择、输出聚合。</td><td>通过 Skill rubric；触发/误触发 forward-test 草案完整。</td><td>不写真实 <code>.codex/skills</code>。</td></tr>
+      <tr><td>PH-RAG-4</td><td>MVP 子 Skill 草案</td><td>为 6 个子 Skill 设计最小文件结构、references、scripts、fixtures、拒绝条件。</td><td>每个子 Skill 都有输入、输出、DoD、验证命令和 forward-test。</td><td>发现巨型 Skill 倾向时拆分。</td></tr>
+      <tr><td>PH-RAG-5</td><td>合成端到端流程</td><td>用合成材料串联 intake → schema → governance → query → downstream handoff。</td><td>无 RC 阻断、active 阻断、confirmed_active 正向通过、下游只读。</td><td>任何敏感样本只使用占位形态。</td></tr>
+      <tr><td>PH-RAG-6</td><td>联合验收准备</td><td>接入 <code>TC-RAG-SKILL-001..008</code>、TC-KB 数据层测试、packet 契约测试。</td><td>联合测试计划 ready；Evidence/Reject/Contract 报告模板齐全。</td><td>缺少用户黄金查询时只跑结构和负向样例。</td></tr>
+      <tr><td>PH-RAG-7</td><td>后置检索 POC 条件</td><td>记录语料规模、黄金查询失败率、人工查找耗时、中文查询失败类型。</td><td>达到阈值后另行评估 SQLite FTS5；向量索引另行审批。</td><td>未达阈值继续文件索引。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. 质量门禁</h2>
+  <table>
+    <thead><tr><th>Gate</th><th>必须证明</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>Requirement Gate</td><td>scope、space、材料边界、RC 状态、敏感规则清楚。</td><td>PRD vNext、Grill 决策、用户确认记录。</td></tr>
+      <tr><td>Skill Design Gate</td><td>根 Skill 触发准确，子 Skill 单一职责，渐进加载，非目标明确。</td><td>Skill 草案、rubric、forward-test。</td></tr>
+      <tr><td>Schema Gate</td><td>五类 packet schema、正反例 fixture、版本策略通过。</td><td>Schema Validation Report。</td></tr>
+      <tr><td>Security Gate</td><td>清单外不读、敏感拒绝、不自动 RC、不触达生产、不执行下游。</td><td>Reject Report、安全扫描、拒绝 forward-test。</td></tr>
+      <tr><td>Downstream Gate</td><td>Test Asset Manifest 与 Solution D Evidence Contract 只读可消费。</td><td>Contract Fixture Report。</td></tr>
+      <tr><td>Regression Gate</td><td>触发描述、状态枚举、packet schema、拒绝规则、下游字段变更后全量回归。</td><td>联合测试报告。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. 开放问题与授权边界</h2>
+  <table>
+    <thead><tr><th>ID</th><th>问题</th><th>级别</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>O-RAG-001</td><td><code>D:\RAG</code> 已存在且已授权检查/使用；是否允许后续在该路径写入空库骨架仍需单独确认。</td><td>P0 写入授权</td><td>未确认前不写入。</td></tr>
+      <tr><td>O-RAG-002</td><td>是否允许真实创建 <code>.codex/skills/rag-system</code> 及 MVP 子 Skill 目录？</td><td>P0 实施授权</td><td>未确认前只保留计划。</td></tr>
+      <tr><td>O-RAG-003</td><td>首个 <code>knowledge_space_id</code>、别名、纳入范围、排除范围。</td><td>P0 输入</td><td>由用户提供；Codex 只检查一致性。</td></tr>
+      <tr><td>O-RAG-004</td><td>首批材料清单：当前已有一个完成单文件分析的候选 PRD 地址 <code>C:\Users\lenovo\Downloads\产研平台智能体交互评审.lake</code>；仍需用户确认它是否纳入首批材料清单，以及是否授权读取后续全量知识库。</td><td>P0 输入</td><td>只读取用户列出的文件；单文件通过不等于全量读取授权。</td></tr>
+      <tr><td>O-RAG-005</td><td>下游真实接口样例。</td><td>P1 集成</td><td>拿到样例后适配 packet schema。</td></tr>
+      <tr><td>O-RAG-006</td><td><code>D:\RAG\产研效能.lakebook</code> 已完成受控格式识别和敏感预检，但出现疑似敏感命中。</td><td>P0 敏感复核</td><td>复核/脱敏前不得入库、不得进入 RC、不得下游消费。</td></tr>
+      <tr><td>O-RAG-007</td><td>PRD 和材料内容分析、脱敏审查清单、内容入库、RC 提取。</td><td>TODO</td><td>用户明确恢复该分支后再处理。</td></tr>
+    </tbody>
+  </table>
+</main>
+
+<script type="application/json" id="development-plan">
+{
+  "documentType": "development-plan",
+  "version": "vNext-2026-07-23",
+  "status": "draft",
+  "targetReaders": ["product", "development", "testing", "security", "agent executor"],
+  "sourceBaseline": [
+    "本地数据库与rag-system-skill开发计划-vNext-2026-07-22.html",
+    "本地知识库测试计划-vNext-2026-07-22.html",
+    "本地数据库与rag-system开发测试计划Grill评审-2026-07-22.html",
+    "rag-system开发测试计划优化点参考资料与Skill补强评审-2026-07-23.html",
+    "用户确认：联合测试计划与TC-RAG-SKILL-001..008作为MVP验收前置",
+    "单文件验证PRD候选：C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake"
+  ],
+  "moduleUnderstanding": {
+    "dataLayer": "D:/RAG exists and is authorized for target-path inspection/use; 产研效能.lakebook is registered as a candidate material but blocked pending sensitive review; C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake is a single-file validated PRD candidate",
+    "rootSkill": "rag-system",
+    "mvpChildSkills": ["rag-intake", "rag-schema", "rag-governance", "rag-query", "rag-change-impact", "rag-downstream-handoff"],
+    "laterChildSkills": ["rag-eval", "rag-cache"],
+    "mvpSearchBackend": "INDEX.md + frontmatter + manifest + evidence JSON",
+    "laterSearch": "SQLite FTS5 after agreed thresholds; vector search later"
+  },
+  "packetContracts": ["Evidence Packet", "RC Packet", "Change Impact Packet", "Test Asset Manifest", "Solution D Evidence Contract"],
+  "qualityGates": ["Requirement Gate", "Skill Design Gate", "Schema Gate", "Security Gate", "Downstream Gate", "Regression Gate"],
+  "validatedCandidateMaterials": [
+    {
+      "path": "C:/Users/lenovo/Downloads/产研平台智能体交互评审.lake",
+      "analysisReport": "outputs/产研平台智能体交互评审lake单文件分析读取报告-2026-07-23.html",
+      "status": "active-candidate",
+      "useForImplementationVerification": true,
+      "authorizesFullKnowledgeBaseRead": false
+    }
+  ],
+  "manualConfirmRequired": ["write skeleton under existing D:/RAG", "review/remediate sensitive hits before ingesting D:/RAG/产研效能.lakebook", "resume PRD/material content analysis", "create .codex/skills/rag-system", "first knowledge_space_id", "confirm validated PRD candidate in first material list", "authorize full knowledge base read if needed", "batch clear to confirmed_active", "SQLite/vector approval"],
+  "forbidden": ["automatic disk scanning", "secret ingestion", "unredacted production data", "automatic RC promotion", "executing ui-test from rag-system MVP"],
+  "openQuestions": ["O-RAG-001", "O-RAG-002", "O-RAG-003", "O-RAG-004", "O-RAG-005", "O-RAG-006", "O-RAG-007"]
+}
+</script>
+</body>
+</html>

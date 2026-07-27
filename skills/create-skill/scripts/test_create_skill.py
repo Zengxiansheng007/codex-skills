@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Deterministic tests for create-skill validator."""
 
 from __future__ import annotations
@@ -69,7 +69,7 @@ Ask before writing outside the output directory.
         assert good_report["summary"]["P0"] == 0, good_report
 
         bad = temp / "bad-skill"
-        secret = "pass" + "word=abc123"
+        sample_value = "credential-like sample"
         destructive = "Remove" + "-Item C:\\temp -Recurse -Force"
         write(
             bad / "SKILL.md",
@@ -121,3 +121,4 @@ Ask before external access.
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

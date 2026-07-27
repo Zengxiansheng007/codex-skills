@@ -26,9 +26,10 @@ Research is complete only after collected evidence has been reviewed for strengt
    - reproducibility or local observability;
    - conflicts, stale facts, and inaccessible sources;
    - missing perspectives, negative evidence, and excluded sources.
-4. Create `reviewFindings` for every gap.
-5. For P0/P1 findings, generate targeted `followupQueries` and preferred source tiers.
-6. Repeat collection and review until:
+4. Create `reviewFindings` and `source-review-findings` entries for every gap.
+5. For P0/P1 findings, generate targeted `followupQueries` and populate `followup-query-matrix`.
+6. Record how each P0/P1 finding closes, blocks, or transfers risk in `p0p1-closure-matrix`.
+7. Repeat collection and review until:
    - P0/P1 gaps are closed;
    - access, budget, or policy blocks further research;
    - the user explicitly accepts the risk.
