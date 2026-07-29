@@ -1,0 +1,154 @@
+{
+  "sha": "6a364ecc37790e9bc664f853780d9f74970841f0",
+  "node_id": "C_kwDOQuNIjdoAKDZhMzY0ZWNjMzc3OTBlOWJjNjY0Zjg1Mzc4MGQ5Zjc0OTcwODQxZjA",
+  "commit": {
+    "author": {
+      "name": "Leyang",
+      "email": "quanruzhuoxiu@gmail.com",
+      "date": "2026-06-08T07:52:46Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-06-08T07:52:46Z"
+    },
+    "message": "Merge pull request #37 from web-infra-dev/docs/assert-message-flag\n\ndocs: document assert --message flag across automation skills",
+    "tree": {
+      "sha": "f4b916ceac0132d1991ca3f1f7870c6008a7d408",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene-skills/git/trees/f4b916ceac0132d1991ca3f1f7870c6008a7d408"
+    },
+    "url": "https://api.github.com/repos/web-infra-dev/midscene-skills/git/commits/6a364ecc37790e9bc664f853780d9f74970841f0",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqJnTOCRC1aQ7uu5UhlAAAWfcQAKXc5fhw/FHKd3QlT7ze5Pci\nVbrS7D2ARQogcU01Ercyh/EDro+3pGvGV2rWM69egnHV9/jvJHJ2KfNJDq+CBJ9F\n0iCKnxojDa/JhagqyCNT9Kgfyvkz71HsvJuNpsRm7qH0jQmlRKk/6wpvUWghQjP0\nPhdvGSJ3DdSmCzQqYN2URtk/VAK0KysrL33Im6dX2McP8Jr3D4HcS3LQcZn6aKUl\ndwNcqx7njZXGEpETLlHf3freRyWp+CZTeWIfud2dvpV5rOPdVS8nxWxEXB+vKeei\nTGlnASIxZxZuy3ujIlZrOCqXKCmCOWxJOHgjq8J/gog97pWoNbCqi2T9y3GwcepC\nhKLo0rqrDe95VEQHi3DjAmznQ116Dop3DEsjA5kprsXiDA3yLdENBIQISXIDOkpI\n39+J2Pxz/LXJN7T3Hj9woTAXlWlEF9MGrV7nQ0lAypX3yttBz+82eFgOc6qUSTmn\ndsnEq2j6SFsOINKRkRKW3GYBEwHuW6A68h1EhWA6VBCeHSvvmpbwzFpEMGd+lCMH\nEcejipmJs8hd2SBV6L7L39yZRVV3gfTDe1i36R0ZxCBSqgiO1cK95ZloTjKTnHfm\nGt+WTHQgJ5IldfE4tLuDtR+SL38s+vxJbweYdj5oxp6fEvErB27kOIrTx/hY6/aw\n4Y98kG79lLe7yGY8Nu+3\n=sOp4\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree f4b916ceac0132d1991ca3f1f7870c6008a7d408\nparent 45d15462aed4c623374247a3e9838941477f390e\nparent 22bee34586f42897336bceb1ae5749aad7b2551b\nauthor Leyang <quanruzhuoxiu@gmail.com> 1780905166 +0800\ncommitter GitHub <noreply@github.com> 1780905166 +0800\n\nMerge pull request #37 from web-infra-dev/docs/assert-message-flag\n\ndocs: document assert --message flag across automation skills",
+      "verified_at": "2026-06-08T07:52:47Z"
+    }
+  },
+  "url": "https://api.github.com/repos/web-infra-dev/midscene-skills/commits/6a364ecc37790e9bc664f853780d9f74970841f0",
+  "html_url": "https://github.com/web-infra-dev/midscene-skills/commit/6a364ecc37790e9bc664f853780d9f74970841f0",
+  "comments_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/commits/6a364ecc37790e9bc664f853780d9f74970841f0/comments",
+  "author": {
+    "login": "quanru",
+    "id": 11739753,
+    "node_id": "MDQ6VXNlcjExNzM5NzUz",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11739753?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/quanru",
+    "html_url": "https://github.com/quanru",
+    "followers_url": "https://api.github.com/users/quanru/followers",
+    "following_url": "https://api.github.com/users/quanru/following{/other_user}",
+    "gists_url": "https://api.github.com/users/quanru/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/quanru/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/quanru/subscriptions",
+    "organizations_url": "https://api.github.com/users/quanru/orgs",
+    "repos_url": "https://api.github.com/users/quanru/repos",
+    "events_url": "https://api.github.com/users/quanru/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/quanru/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "45d15462aed4c623374247a3e9838941477f390e",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene-skills/commits/45d15462aed4c623374247a3e9838941477f390e",
+      "html_url": "https://github.com/web-infra-dev/midscene-skills/commit/45d15462aed4c623374247a3e9838941477f390e"
+    },
+    {
+      "sha": "22bee34586f42897336bceb1ae5749aad7b2551b",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene-skills/commits/22bee34586f42897336bceb1ae5749aad7b2551b",
+      "html_url": "https://github.com/web-infra-dev/midscene-skills/commit/22bee34586f42897336bceb1ae5749aad7b2551b"
+    }
+  ],
+  "stats": {
+    "total": 40,
+    "additions": 40,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "cb3eec9a69e8f89e4ff475cea1d53532de406a37",
+      "filename": "skills/android-automation/SKILL.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/web-infra-dev/midscene-skills/blob/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fandroid-automation%2FSKILL.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-skills/raw/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fandroid-automation%2FSKILL.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/contents/skills%2Fandroid-automation%2FSKILL.md?ref=6a364ecc37790e9bc664f853780d9f74970841f0",
+      "patch": "@@ -148,6 +148,14 @@ npx -y @midscene/android@1 assert --device-id emulator-5554 --prompt \"the app sh\n npx -y @midscene/android@1 assert --device-id emulator-5554 --use-scrcpy --prompt \"the app shows a successful login message\"\n ```\n \n+By default a failed assertion throws an AI-generated reason. Pass `--message` to throw a custom error message instead, which is useful for surfacing the intended outcome in QA and CI logs.\n+\n+```bash\n+npx -y @midscene/android@1 assert \\\n+  --prompt \"the order confirmation screen is visible\" \\\n+  --message \"the order should be confirmed after tapping Pay\"\n+```\n+\n When the assertion needs to compare against a reference image (icon, logo, screenshot), pass `--image` for the URL/path and `--image-name` for its display name. Each `--image` may be an http(s) link, a `data:` URI, or a local file path. Repeat both flags in matching order when you need to attach more than one image. Add `--convertHttpImage2Base64 true` when the model cannot reach the URL directly. Requires `@midscene/android@1.9.0+`.\n \n ```bash"
+    },
+    {
+      "sha": "ab0490b21834f5277be06a724086459012c2650f",
+      "filename": "skills/browser/SKILL.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/web-infra-dev/midscene-skills/blob/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fbrowser%2FSKILL.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-skills/raw/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fbrowser%2FSKILL.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/contents/skills%2Fbrowser%2FSKILL.md?ref=6a364ecc37790e9bc664f853780d9f74970841f0",
+      "patch": "@@ -200,6 +200,14 @@ npx -y @midscene/web@1 assert --cdp ws://127.0.0.1:9222/devtools/browser --promp\n npx -y @midscene/web@1 --bridge assert --prompt \"the profile page shows the user's avatar\"\n ```\n \n+By default a failed assertion throws an AI-generated reason. Pass `--message` to throw a custom error message instead, which is useful for surfacing the intended outcome in QA and CI logs.\n+\n+```bash\n+npx -y @midscene/web@1 assert \\\n+  --prompt \"the checkout page shows an order confirmation\" \\\n+  --message \"the order should be confirmed after clicking Pay\"\n+```\n+\n When the assertion needs to compare against a reference image (icon, logo, screenshot), pass `--image` for the URL/path and `--image-name` for its display name. Each `--image` may be an http(s) link, a `data:` URI, or a local file path. Repeat both flags in matching order when you need to attach more than one image. Add `--convertHttpImage2Base64 true` when the model cannot reach the URL directly. Requires `@midscene/web@1.9.0+`.\n \n ```bash"
+    },
+    {
+      "sha": "102613fafc799292f62b29452494df9a459bda93",
+      "filename": "skills/computer-automation/SKILL.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/web-infra-dev/midscene-skills/blob/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fcomputer-automation%2FSKILL.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-skills/raw/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fcomputer-automation%2FSKILL.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/contents/skills%2Fcomputer-automation%2FSKILL.md?ref=6a364ecc37790e9bc664f853780d9f74970841f0",
+      "patch": "@@ -170,6 +170,14 @@ npx -y @midscene/computer@1 assert --prompt \"the active window shows a saved con\n npx -y @midscene/computer@1 assert --displayId 1 --prompt \"the file picker is open\"\n ```\n \n+By default a failed assertion throws an AI-generated reason. Pass `--message` to throw a custom error message instead, which is useful for surfacing the intended outcome in QA and CI logs.\n+\n+```bash\n+npx -y @midscene/computer@1 assert \\\n+  --prompt \"the export completed dialog is visible\" \\\n+  --message \"the export should finish after clicking Save\"\n+```\n+\n When the assertion needs to compare against a reference image (icon, logo, screenshot), pass `--image` for the URL/path and `--image-name` for its display name. Each `--image` may be an http(s) link, a `data:` URI, or a local file path. Repeat both flags in matching order when you need to attach more than one image. Add `--convertHttpImage2Base64 true` when the model cannot reach the URL directly. Requires `@midscene/computer@1.9.0+`.\n \n ```bash"
+    },
+    {
+      "sha": "925125e54c675db6f5cbcda672ff57690bc692a4",
+      "filename": "skills/harmony-automation/SKILL.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/web-infra-dev/midscene-skills/blob/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fharmony-automation%2FSKILL.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-skills/raw/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fharmony-automation%2FSKILL.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/contents/skills%2Fharmony-automation%2FSKILL.md?ref=6a364ecc37790e9bc664f853780d9f74970841f0",
+      "patch": "@@ -150,6 +150,14 @@ npx -y @midscene/harmony@1 assert --prompt \"the settings screen shows Wi-Fi and\n npx -y @midscene/harmony@1 assert --deviceId 0123456789ABCDEF --prompt \"the app shows a successful login message\"\n ```\n \n+By default a failed assertion throws an AI-generated reason. Pass `--message` to throw a custom error message instead, which is useful for surfacing the intended outcome in QA and CI logs.\n+\n+```bash\n+npx -y @midscene/harmony@1 assert \\\n+  --prompt \"the order confirmation screen is visible\" \\\n+  --message \"the order should be confirmed after tapping Pay\"\n+```\n+\n When the assertion needs to compare against a reference image (icon, logo, screenshot), pass `--image` for the URL/path and `--image-name` for its display name. Each `--image` may be an http(s) link, a `data:` URI, or a local file path. Repeat both flags in matching order when you need to attach more than one image. Add `--convertHttpImage2Base64 true` when the model cannot reach the URL directly. Requires `@midscene/harmony@1.9.0+`.\n \n ```bash"
+    },
+    {
+      "sha": "fd1455f769f075c649c086c619ecdf2efd0041af",
+      "filename": "skills/ios-automation/SKILL.md",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/web-infra-dev/midscene-skills/blob/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fios-automation%2FSKILL.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-skills/raw/6a364ecc37790e9bc664f853780d9f74970841f0/skills%2Fios-automation%2FSKILL.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-skills/contents/skills%2Fios-automation%2FSKILL.md?ref=6a364ecc37790e9bc664f853780d9f74970841f0",
+      "patch": "@@ -138,6 +138,14 @@ npx -y @midscene/ios@1 assert --prompt \"there is a login button visible\"\n npx -y @midscene/ios@1 assert --prompt \"the settings screen shows Wi-Fi and Bluetooth options\"\n ```\n \n+By default a failed assertion throws an AI-generated reason. Pass `--message` to throw a custom error message instead, which is useful for surfacing the intended outcome in QA and CI logs.\n+\n+```bash\n+npx -y @midscene/ios@1 assert \\\n+  --prompt \"the order confirmation screen is visible\" \\\n+  --message \"the order should be confirmed after tapping Pay\"\n+```\n+\n When the assertion needs to compare against a reference image (icon, logo, screenshot), pass `--image` for the URL/path and `--image-name` for its display name. Each `--image` may be an http(s) link, a `data:` URI, or a local file path. Repeat both flags in matching order when you need to attach more than one image. Add `--convertHttpImage2Base64 true` when the model cannot reach the URL directly. Requires `@midscene/ios@1.9.0+`.\n \n ```bash"
+    }
+  ]
+}

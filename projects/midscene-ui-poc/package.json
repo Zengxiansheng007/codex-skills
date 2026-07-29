@@ -1,0 +1,23 @@
+{
+  "name": "midscene-ui-poc",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Codex orchestrated Midscene.js Web UI testing POC",
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "midscene:connectivity": "midscene ./cases/00-connectivity.yaml --headed --keep-window --summary ./reports/connectivity-summary.json",
+    "midscene:all": "midscene --config ./midscene.config.yaml --summary ./reports/yaml-summary.json",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "redact:reports": "tsx ./scripts/redact-reports.ts"
+  },
+  "devDependencies": {
+    "@midscene/cli": "^1.10.2",
+    "@midscene/web": "^1.10.2",
+    "@playwright/test": "^1.61.1",
+    "dotenv": "^17.4.2",
+    "playwright": "^1.61.1",
+    "tsx": "^4.22.5"
+  }
+}

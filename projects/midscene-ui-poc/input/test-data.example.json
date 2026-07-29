@@ -1,0 +1,10 @@
+{
+  "readonlyData": [],
+  "creatableData": [],
+  "cleanupRequired": [],
+  "notes": [
+    "POC should prefer read-only checks.",
+    "Write operations need explicit human confirmation and cleanup strategy."
+  ]
+}
+

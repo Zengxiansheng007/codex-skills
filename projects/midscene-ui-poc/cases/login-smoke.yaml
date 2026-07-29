@@ -1,0 +1,22 @@
+web:
+  url: ${TEST_BASE_URL}
+  bridgeMode: currentTab
+
+agent:
+  testId: TC-LOGIN-001
+  groupName: 登录模块冒烟测试
+  groupDescription: 验证普通用户登录后首页关键元素展示
+  generateReport: true
+  aiActContext: >
+    不执行删除、支付、审批通过、批量提交等高风险操作。
+    如果出现公告弹窗，先关闭后继续。
+
+tasks:
+  - name: 登录成功后检查首页
+    flow:
+      - aiAssert: 当前页面处于已登录状态，或者能看到登录入口
+      - ai: 如果当前未登录，则使用测试账号和密码完成登录
+      - sleep: 2000
+      - aiAssert: 页面已经进入首页或业务主页面，能看到用户头像、用户名或主导航
+      - aiAssert: 页面没有显示浏览器错误页、服务端 500 错误或明显白屏
+

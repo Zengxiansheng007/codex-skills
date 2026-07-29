@@ -1,0 +1,8 @@
+setup: ./cases/00-login.yaml
+files:
+  - ./cases/login-smoke.yaml
+shareBrowserContext: true
+concurrent: 1
+continueOnError: true
+retry: 2
+

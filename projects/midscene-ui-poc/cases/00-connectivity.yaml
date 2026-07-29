@@ -1,0 +1,10 @@
+web:
+  url: ${TEST_BASE_URL}
+  bridgeMode: newTabWithUrl
+
+tasks:
+  - name: connectivity-check
+    flow:
+      - aiAssert: 当前页面已经正常打开，没有显示浏览器错误页、网络错误页或证书错误页
+      - aiAssert: 页面上能看到主要导航、页面标题、登录入口或业务内容之一
+

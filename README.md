@@ -7,6 +7,7 @@ Portable Codex skill packages staged from the local Codex environment.
 - `skills/<skill-name>/`: user-level Codex skills.
 - `skills/<skill-name>/DEPLOYMENT_AND_USAGE.md`: per-skill deployment and usage guide for another machine.
 - `skills/_requirements-docs/`: related PRD, research, development plan, test plan, and review documents.
+- `projects/midscene-ui-poc/`: portable Midscene project bundle with its own deployment and usage notes.
 - `PUBLISH_AUDIT.md`: packaging scope and safety notes.
 
 ## Safety Notes

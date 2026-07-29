@@ -1,0 +1,11 @@
+{
+  "note": "Copy to a secure local file if needed. Do not commit real credentials.",
+  "accounts": [
+    {
+      "role": "normal_user",
+      "usernameEnv": "TEST_ACCOUNT_USER",
+      "passwordEnv": "TEST_ACCOUNT_PASSWORD"
+    }
+  ]
+}
+

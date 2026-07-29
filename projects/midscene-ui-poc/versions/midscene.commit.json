@@ -1,0 +1,353 @@
+{
+  "sha": "31a516f12e83f6af8986f250afcd631aa504c137",
+  "node_id": "C_kwDOMZ43X9oAKDMxYTUxNmYxMmU4M2Y2YWY4OTg2ZjI1MGFmY2Q2MzFhYTUwNGMxMzc",
+  "commit": {
+    "author": {
+      "name": "github-actions[bot]",
+      "email": "github-actions[bot]@users.noreply.github.com",
+      "date": "2026-07-03T03:33:18Z"
+    },
+    "committer": {
+      "name": "github-actions[bot]",
+      "email": "github-actions[bot]@users.noreply.github.com",
+      "date": "2026-07-03T03:33:18Z"
+    },
+    "message": "release: v1.10.2",
+    "tree": {
+      "sha": "c03907d3d4029f88f25d14dffd5842e4f0d0c512",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene/git/trees/c03907d3d4029f88f25d14dffd5842e4f0d0c512"
+    },
+    "url": "https://api.github.com/repos/web-infra-dev/midscene/git/commits/31a516f12e83f6af8986f250afcd631aa504c137",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "url": "https://api.github.com/repos/web-infra-dev/midscene/commits/31a516f12e83f6af8986f250afcd631aa504c137",
+  "html_url": "https://github.com/web-infra-dev/midscene/commit/31a516f12e83f6af8986f250afcd631aa504c137",
+  "comments_url": "https://api.github.com/repos/web-infra-dev/midscene/commits/31a516f12e83f6af8986f250afcd631aa504c137/comments",
+  "author": {
+    "login": "github-actions[bot]",
+    "id": 41898282,
+    "node_id": "MDM6Qm90NDE4OTgyODI=",
+    "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+    "html_url": "https://github.com/apps/github-actions",
+    "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+    "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+    "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+    "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+    "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+    "type": "Bot",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "github-actions[bot]",
+    "id": 41898282,
+    "node_id": "MDM6Qm90NDE4OTgyODI=",
+    "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+    "html_url": "https://github.com/apps/github-actions",
+    "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+    "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+    "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+    "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+    "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+    "type": "Bot",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "2faf99e85f7fc622d68f3c64f1d0cb18c77d2380",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene/commits/2faf99e85f7fc622d68f3c64f1d0cb18c77d2380",
+      "html_url": "https://github.com/web-infra-dev/midscene/commit/2faf99e85f7fc622d68f3c64f1d0cb18c77d2380"
+    }
+  ],
+  "stats": {
+    "total": 44,
+    "additions": 22,
+    "deletions": 22
+  },
+  "files": [
+    {
+      "sha": "8050db0350101b27194467923e50730f2503679e",
+      "filename": "apps/chrome-extension/static/manifest.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/apps%2Fchrome-extension%2Fstatic%2Fmanifest.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/apps%2Fchrome-extension%2Fstatic%2Fmanifest.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/apps%2Fchrome-extension%2Fstatic%2Fmanifest.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"Midscene.js\",\n   \"description\": \"Open-source SDK for automating web pages using natural language through AI.\",\n-  \"version\": \"1.76\",\n+  \"version\": \"1.77\",\n   \"manifest_version\": 3,\n   \"permissions\": [\n     \"activeTab\","
+    },
+    {
+      "sha": "37bb2671caed3cf2bb62d67a6a059dd76ea93b1e",
+      "filename": "package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/package.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/package.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/package.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"midscene\",\n   \"private\": true,\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"scripts\": {\n     \"dev\": \"node scripts/dev-prepare.js && nx run-many --target=build:watch --exclude=android-playground,chrome-extension,@midscene/report,doc --verbose --parallel=6\",\n     \"build\": \"nx run-many --target=build --exclude=doc --verbose\","
+    },
+    {
+      "sha": "6dfd3e9e5762bddc5e8cfb8561bb1fc40d56708a",
+      "filename": "packages/android-playground/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fandroid-playground%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fandroid-playground%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fandroid-playground%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/android-playground\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "646ba0e3935740b3367b957bd678dba9141a6927",
+      "filename": "packages/android/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fandroid%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fandroid%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fandroid%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/android\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "efcf668642822b50ae9ec880d8bd51c2ac2aaf14",
+      "filename": "packages/cli/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcli%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcli%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcli%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@midscene/cli\",\n   \"description\": \"An AI-powered automation SDK can control the page, perform assertions, and extract data in JSON format using natural language. See https://midscenejs.com/ for details.\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\",\n   \"main\": \"./dist/lib/index.js\","
+    },
+    {
+      "sha": "f3f7ee1b898c7160c4cb41efd80ffa2041cd15cd",
+      "filename": "packages/computer-linux/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-linux%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-linux%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcomputer-linux%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/computer-linux\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"description\": \"Midscene.js Computer Desktop Automation for Linux\",\n   \"license\": \"MIT\",\n   \"repository\": {"
+    },
+    {
+      "sha": "b4a7bec23591a42f8ab0e8ab6f72f4b3fdeebf24",
+      "filename": "packages/computer-mac/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-mac%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-mac%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcomputer-mac%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/computer-mac\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"description\": \"Midscene.js Computer Desktop Automation for macOS\",\n   \"license\": \"MIT\",\n   \"repository\": {"
+    },
+    {
+      "sha": "bd34cf6b3dd8283ea3a45201cd55fe9d8ebc8330",
+      "filename": "packages/computer-playground/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-playground%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-playground%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcomputer-playground%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/computer-playground\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "3d0bac10646cd38bd3799a55108eca4b6282cab0",
+      "filename": "packages/computer-win/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-win%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer-win%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcomputer-win%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/computer-win\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"description\": \"Midscene.js Computer Desktop Automation for Windows\",\n   \"license\": \"MIT\",\n   \"repository\": {"
+    },
+    {
+      "sha": "08e70a6b120f68bd61052909c48c0bc64ee12f51",
+      "filename": "packages/computer/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcomputer%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcomputer%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/computer\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"description\": \"Midscene.js Computer Desktop Automation\",\n   \"license\": \"MIT\",\n   \"repository\": {"
+    },
+    {
+      "sha": "d51b8668c6794d83fa2d773e7376ae1839dff71d",
+      "filename": "packages/core/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcore%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fcore%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fcore%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@midscene/core\",\n   \"description\": \"Automate browser actions, extract data, and perform assertions using AI. It offers JavaScript SDK, Chrome extension, and support for scripting in YAML. See https://midscenejs.com/ for details.\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\",\n   \"main\": \"./dist/lib/index.js\","
+    },
+    {
+      "sha": "73474cacd4f47777aa1c5ccd9a20c0f7ce6d0af8",
+      "filename": "packages/harmony-playground/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fharmony-playground%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fharmony-playground%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fharmony-playground%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/harmony-playground\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "1dc516b5f928e65b0f9b91e4828492e42c453806",
+      "filename": "packages/harmony/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fharmony%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fharmony%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fharmony%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/harmony\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "abc72de1f45c39b2e793133d6209bfca2eb2f904",
+      "filename": "packages/ios-playground/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fios-playground%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fios-playground%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fios-playground%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/ios-playground\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "5d41fd8cf5f2e1e3181ef55caa522f00e43ff816",
+      "filename": "packages/ios/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fios%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fios%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fios%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/ios\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "e9662db2e9f18f90477652d8338acc7484219875",
+      "filename": "packages/playground-app/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fplayground-app%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fplayground-app%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fplayground-app%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@midscene/playground-app\",\n   \"private\": true,\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"description\": \"Reusable React shell for Midscene playground applications\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\","
+    },
+    {
+      "sha": "9855fe55fd7b6f3da79201833b5dedfae25aacff",
+      "filename": "packages/playground/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fplayground%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fplayground%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fplayground%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/playground\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "720a90f4a5d1c41a4b8e1063f38e84328c421a2f",
+      "filename": "packages/recorder/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Frecorder%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Frecorder%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Frecorder%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@midscene/recorder\",\n   \"private\": true,\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    },
+    {
+      "sha": "046dbaf3fbd6cec70367e78d23ff9f1e69655a4e",
+      "filename": "packages/shared/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fshared%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fshared%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fshared%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/shared\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\",\n   \"types\": \"./dist/types/index.d.ts\","
+    },
+    {
+      "sha": "43c7548d272b1e32c19f310049c1729c2115c5ab",
+      "filename": "packages/visualizer/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fvisualizer%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fvisualizer%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fvisualizer%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@midscene/visualizer\",\n   \"private\": true,\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\",\n   \"types\": \"./dist/types/index.d.ts\","
+    },
+    {
+      "sha": "0755787ef50040e4d338c9f1faab7bbede09ad04",
+      "filename": "packages/web-integration/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fweb-integration%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fweb-integration%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fweb-integration%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -8,7 +8,7 @@\n     \"Browser use\",\n     \"Android use\"\n   ],\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": \"https://github.com/web-infra-dev/midscene\",\n   \"homepage\": \"https://midscenejs.com/\",\n   \"main\": \"./dist/lib/index.js\","
+    },
+    {
+      "sha": "4bf7dfb75a5ff32ddcd4d0c48ade1564f01b2a9b",
+      "filename": "packages/webdriver/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/web-infra-dev/midscene/blob/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fwebdriver%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene/raw/31a516f12e83f6af8986f250afcd631aa504c137/packages%2Fwebdriver%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene/contents/packages%2Fwebdriver%2Fpackage.json?ref=31a516f12e83f6af8986f250afcd631aa504c137",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@midscene/webdriver\",\n-  \"version\": \"1.10.1\",\n+  \"version\": \"1.10.2\",\n   \"repository\": {\n     \"type\": \"git\",\n     \"url\": \"https://github.com/web-infra-dev/midscene.git\","
+    }
+  ]
+}

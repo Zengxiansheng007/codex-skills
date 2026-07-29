@@ -1,0 +1,20 @@
+web:
+  url: ${TEST_BASE_URL}
+  bridgeMode: newTabWithUrl
+
+agent:
+  testId: TC-SETUP-LOGIN
+  groupName: 登录态准备
+  groupDescription: 为后续 YAML 用例准备可复用登录态
+  generateReport: true
+  aiActContext: >
+    只允许登录和只读导航。不要执行删除、支付、审批通过、批量提交等高风险操作。
+    如果出现公告弹窗或隐私提示，先关闭或同意后继续。
+
+tasks:
+  - name: login-setup
+    flow:
+      - aiAssert: 当前页面已打开，能看到登录入口、用户名输入框或业务首页
+      - ai: 如果当前未登录，则使用环境变量中的测试账号和密码完成登录；如果已经登录，则保持当前登录态
+      - aiAssert: 页面处于已登录状态，能看到用户名、用户头像、首页或业务导航
+

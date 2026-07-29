@@ -1,0 +1,149 @@
+{
+  "sha": "8e31381808f466a34bef2e1f300efc954379728f",
+  "node_id": "C_kwDOMd1yrNoAKDhlMzEzODE4MDhmNDY2YTM0YmVmMmUxZjMwMGVmYzk1NDM3OTcyOGY",
+  "commit": {
+    "author": {
+      "name": "Leyang",
+      "email": "quanruzhuoxiu@gmail.com",
+      "date": "2026-04-24T03:20:11Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-04-24T03:20:11Z"
+    },
+    "message": "feat(computer): add rdp demo (#95)",
+    "tree": {
+      "sha": "d3f17ac0a40a7b4c221363596e4eb08377f990ce",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene-example/git/trees/d3f17ac0a40a7b4c221363596e4eb08377f990ce"
+    },
+    "url": "https://api.github.com/repos/web-infra-dev/midscene-example/git/commits/8e31381808f466a34bef2e1f300efc954379728f",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJp6uFrCRC1aQ7uu5UhlAAAaFYQAC84FQl6F4CuVJyy6BdxNsz4\nKcmp+6SF8I8DvhndtIGf2Ob56QL/5jLwPqLDgwXFpcFkMfBoJzafgCqK5JhnfmgG\nJnYKOTOSYt3CzZ9sAYFu69cg3lrSPLjolksUOOAhwEJfU2fbIMb6CnqcGXXz2J0g\nJ0rwC/hViBnRpJ1t/hyXD1p61RfqUZCEKGzB41E4gkEQBiYwg5J++49+63tAFkCu\nTApp8jw+zlJo89c/c2uPWKMVOpp4PQLOn+jlo6Pv94xMIHWBAsf/fqiVuW1RqCZE\njyu/R905BS8903YLcPOqRowGxYyrnezi3jF3FqOryDFKx24qOh7D4R69X8qfm3sV\nuTls5yoVN3aXXtGUHUqbw54h/sX+xVd2i1wzjkoMUXI6fqt44WWVxouQiEem3eff\numP0zeuwxyf2DqdVsO7oYt6OnvI7fkz1bxILwmHZfQmU/9NvqzzSo7yq5+kmeKXL\nEwqzKguE8nsul0i3AX7lQN2SibLgLQxwI2ezqtQQfBT/aFe3vGHmc3E0/0OgPMIq\nGzKoxmBDe8Wd7MZHziJi0V0QF2hQ+4p46Zv3w5PFA11vQW3Hwgbk6vLQoRN0yuw0\ncvTxl9Raw9URr1ck904JmuniRFBrKHUCAbLTsp90MrN0S40nnbPDN6m8KnYhhTyr\nnK73pvbmJkkVjoYnoaP0\n=n9EV\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree d3f17ac0a40a7b4c221363596e4eb08377f990ce\nparent 42b15e74514cb3416bca7366de44b93c9cb8ff38\nauthor Leyang <quanruzhuoxiu@gmail.com> 1777000811 +0800\ncommitter GitHub <noreply@github.com> 1777000811 +0800\n\nfeat(computer): add rdp demo (#95)",
+      "verified_at": "2026-04-24T03:20:11Z"
+    }
+  },
+  "url": "https://api.github.com/repos/web-infra-dev/midscene-example/commits/8e31381808f466a34bef2e1f300efc954379728f",
+  "html_url": "https://github.com/web-infra-dev/midscene-example/commit/8e31381808f466a34bef2e1f300efc954379728f",
+  "comments_url": "https://api.github.com/repos/web-infra-dev/midscene-example/commits/8e31381808f466a34bef2e1f300efc954379728f/comments",
+  "author": {
+    "login": "quanru",
+    "id": 11739753,
+    "node_id": "MDQ6VXNlcjExNzM5NzUz",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11739753?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/quanru",
+    "html_url": "https://github.com/quanru",
+    "followers_url": "https://api.github.com/users/quanru/followers",
+    "following_url": "https://api.github.com/users/quanru/following{/other_user}",
+    "gists_url": "https://api.github.com/users/quanru/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/quanru/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/quanru/subscriptions",
+    "organizations_url": "https://api.github.com/users/quanru/orgs",
+    "repos_url": "https://api.github.com/users/quanru/repos",
+    "events_url": "https://api.github.com/users/quanru/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/quanru/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "42b15e74514cb3416bca7366de44b93c9cb8ff38",
+      "url": "https://api.github.com/repos/web-infra-dev/midscene-example/commits/42b15e74514cb3416bca7366de44b93c9cb8ff38",
+      "html_url": "https://github.com/web-infra-dev/midscene-example/commit/42b15e74514cb3416bca7366de44b93c9cb8ff38"
+    }
+  ],
+  "stats": {
+    "total": 183,
+    "additions": 183,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "ac9f8fde9ccf2b5f1ac03405a5acb0ed089d8988",
+      "filename": ".gitignore",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/web-infra-dev/midscene-example/blob/8e31381808f466a34bef2e1f300efc954379728f/.gitignore",
+      "raw_url": "https://github.com/web-infra-dev/midscene-example/raw/8e31381808f466a34bef2e1f300efc954379728f/.gitignore",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-example/contents/.gitignore?ref=8e31381808f466a34bef2e1f300efc954379728f",
+      "patch": "@@ -16,6 +16,7 @@ test-results/\n .env\n \n output/\n+docs/\n \n .DS_Store\n "
+    },
+    {
+      "sha": "a5a422587701a9dd32b49c7561578484e74c2dbd",
+      "filename": "README.md",
+      "status": "modified",
+      "additions": 7,
+      "deletions": 0,
+      "changes": 7,
+      "blob_url": "https://github.com/web-infra-dev/midscene-example/blob/8e31381808f466a34bef2e1f300efc954379728f/README.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-example/raw/8e31381808f466a34bef2e1f300efc954379728f/README.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-example/contents/README.md?ref=8e31381808f466a34bef2e1f300efc954379728f",
+      "patch": "@@ -18,6 +18,13 @@ Here are some examples you can refer to:\n - [Vitest Demo](./android/vitest-demo/): Integrate Midscene with Android and Vitest.\n - [YAML Scripts Demo](./android/yaml-scripts-demo/): Automate Android with scripts in YAML. This is the easiest way to integrate Midscene with your existing Android project.\n \n+### Computer\n+- [JavaScript SDK Demo](./computer/javascript-sdk-demo/): Integrate Midscene with your local desktop through `@midscene/computer`.\n+- [Vitest Demo](./computer/vitest-demo/): Integrate Midscene with `@midscene/computer` and Vitest.\n+- [Electron Demo](./computer/electron-demo/): Use Midscene with an Electron app.\n+- [YAML Scripts Demo](./computer/yaml-scripts-demo/): Automate desktop tasks with scripts in YAML.\n+- [RDP Demo](./computer/rdp-demo/): Control a remote Windows desktop directly over the RDP protocol.\n+\n ## Connectivity Test\n \n - [Connectivity Test](./connectivity-test/): Use this folder to test the connectivity of the LLM Service."
+    },
+    {
+      "sha": "dfd741af0c173852126a9a47fb29bd7247ca6d28",
+      "filename": "computer/rdp-demo/README.md",
+      "status": "added",
+      "additions": 55,
+      "deletions": 0,
+      "changes": 55,
+      "blob_url": "https://github.com/web-infra-dev/midscene-example/blob/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2FREADME.md",
+      "raw_url": "https://github.com/web-infra-dev/midscene-example/raw/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2FREADME.md",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-example/contents/computer%2Frdp-demo%2FREADME.md?ref=8e31381808f466a34bef2e1f300efc954379728f",
+      "patch": "@@ -0,0 +1,55 @@\n+# Computer RDP Demo\n+\n+This demo shows how to use `@midscene/computer` to control a remote Windows desktop directly over the RDP protocol.\n+\n+## Steps\n+\n+### Preparation\n+\n+Create `.env` file with the same Midscene model variables used by other examples:\n+\n+```shell\n+MIDSCENE_MODEL_BASE_URL=\"https://.../compatible-mode/v1\"\n+MIDSCENE_MODEL_API_KEY=\"REPLACE_WITH_ROTATED_LOCAL_SECRET\"\n+MIDSCENE_MODEL_NAME=\"qwen3-vl-plus\"\n+MIDSCENE_MODEL_FAMILY=\"qwen3-vl\"\n+```\n+\n+Then open [demo.ts](./demo.ts) and update the placeholder values in the `rdpTarget` object:\n+\n+```ts\n+const rdpTarget = {\n+  host: 'REPLACE_WITH_YOUR_RDP_HOST',\n+  port: 3389,\n+  username: 'Admin',\n+  password: 'REPLACE_WITH_YOUR_RDP_PASSWORD',\n+  ignoreCertificate: true,\n+  adminSession: false,\n+  domain: undefined,\n+  securityProtocol: 'auto',\n+};\n+```\n+\n+The demo validates the RDP target values before creating the agent. If you leave a placeholder unchanged, it will throw immediately.\n+\n+If you want to use another model, refer to:\n+https://midscenejs.com/model-common-config.html\n+\n+### Run demo\n+\n+```bash\n+npm install\n+\n+npm run test\n+```\n+\n+The demo will connect to the remote Windows desktop, wait for the remote framebuffer to become visible if the first frame is blank, open the Settings app, continue into the Windows Update page, read the visible page title and status summary back into structured JSON, and print the generated report path.\n+\n+## Notes\n+\n+- This demo uses protocol-level RDP control. Midscene sees the remote Windows framebuffer directly instead of controlling a local RDP client window.\n+\n+## Reference\n+\n+- https://midscenejs.com/computer-introduction.html\n+- https://midscenejs.com/computer-api-reference.html"
+    },
+    {
+      "sha": "2920fa24752096cb19feae5f7544b5bfc4d7c81d",
+      "filename": "computer/rdp-demo/demo.ts",
+      "status": "added",
+      "additions": 103,
+      "deletions": 0,
+      "changes": 103,
+      "blob_url": "https://github.com/web-infra-dev/midscene-example/blob/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2Fdemo.ts",
+      "raw_url": "https://github.com/web-infra-dev/midscene-example/raw/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2Fdemo.ts",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-example/contents/computer%2Frdp-demo%2Fdemo.ts?ref=8e31381808f466a34bef2e1f300efc954379728f",
+      "patch": "@@ -0,0 +1,103 @@\n+import {\n+  agentForRDPComputer,\n+  type RDPComputerAgentOpt,\n+} from '@midscene/computer';\n+import 'dotenv/config';\n+\n+const rdpTarget = {\n+  host: 'REPLACE_WITH_YOUR_RDP_HOST',\n+  port: 3389,\n+  username: 'Admin',\n+  password: 'REPLACE_WITH_YOUR_RDP_PASSWORD',\n+  ignoreCertificate: true,\n+  adminSession: false,\n+  domain: undefined,\n+  securityProtocol: 'auto',\n+} satisfies RDPComputerAgentOpt;\n+\n+function validateDemoConfig() {\n+  for (const [key, value] of Object.entries({\n+    host: rdpTarget.host,\n+    password: rdpTarget.password,\n+  })) {\n+    const trimmed = value?.trim();\n+    if (!trimmed || trimmed.startsWith('REPLACE_WITH_')) {\n+      throw new Error(\n+        `Please update rdpTarget.${key} in computer/rdp-demo/demo.ts before running the demo.`,\n+      );\n+    }\n+  }\n+}\n+\n+async function waitForRemoteDesktopReady(\n+  agent: Awaited<ReturnType<typeof agentForRDPComputer>>,\n+  maxAttempts = 10,\n+  delayMs = 3_000,\n+) {\n+  let lastError: unknown;\n+\n+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {\n+    try {\n+      await agent.aiAssert(\n+        'The remote screenshot is not a blank white screen. Some visible Windows UI such as the taskbar, desktop icons, the Start menu, or an application window is present.',\n+      );\n+      return;\n+    } catch (error) {\n+      lastError = error;\n+      if (attempt === maxAttempts) {\n+        break;\n+      }\n+      await new Promise((resolve) => setTimeout(resolve, delayMs));\n+    }\n+  }\n+\n+  throw new Error(\n+    `The remote desktop never became visible after ${maxAttempts} attempts.`,\n+    { cause: lastError },\n+  );\n+}\n+\n+async function main() {\n+  validateDemoConfig();\n+\n+  const agent = await agentForRDPComputer({\n+    ...rdpTarget,\n+    aiActionContext:\n+      'You are controlling a remote Windows desktop directly through the RDP protocol. Every screenshot and action comes from the remote machine itself.',\n+    generateReport: true,\n+  });\n+\n+  try {\n+    await waitForRemoteDesktopReady(agent);\n+\n+    await agent.aiAct(\n+      'Click the Windows Start button, open the Settings app, then navigate to the Windows Update page. Stop only after the Windows Update page is clearly visible in the remote screenshot.',\n+    );\n+\n+    await agent.aiAssert(\n+      'The Windows Update page inside the Settings app is open and visible in the remote screenshot.',\n+    );\n+\n+    const windowsUpdateSummary = await agent.aiQuery<{\n+      pageTitle: string;\n+      statusSummary: string;\n+    }>(\n+      '{pageTitle: string, statusSummary: string}, read the visible Windows Update page and return its main page title and the short status summary shown near the top of the page.',\n+    );\n+\n+    console.log('Connected to remote desktop:', rdpTarget.host);\n+    console.log('Windows Update page title:', windowsUpdateSummary.pageTitle);\n+    console.log('Windows Update status:', windowsUpdateSummary.statusSummary);\n+  } finally {\n+    await agent.destroy();\n+  }\n+\n+  if (agent.reportFile) {\n+    console.log('Report saved to:', agent.reportFile);\n+  }\n+}\n+\n+main().catch((error) => {\n+  console.error(error);\n+  process.exitCode = 1;\n+});"
+    },
+    {
+      "sha": "9420cd93c6ec19ed03bb0de56cd1dd4956910205",
+      "filename": "computer/rdp-demo/package.json",
+      "status": "added",
+      "additions": 17,
+      "deletions": 0,
+      "changes": 17,
+      "blob_url": "https://github.com/web-infra-dev/midscene-example/blob/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2Fpackage.json",
+      "raw_url": "https://github.com/web-infra-dev/midscene-example/raw/8e31381808f466a34bef2e1f300efc954379728f/computer%2Frdp-demo%2Fpackage.json",
+      "contents_url": "https://api.github.com/repos/web-infra-dev/midscene-example/contents/computer%2Frdp-demo%2Fpackage.json?ref=8e31381808f466a34bef2e1f300efc954379728f",
+      "patch": "@@ -0,0 +1,17 @@\n+{\n+  \"name\": \"computer-rdp-demo\",\n+  \"private\": true,\n+  \"version\": \"1.0.0\",\n+  \"description\": \"Demo for controlling a remote Windows desktop over RDP with Midscene\",\n+  \"type\": \"module\",\n+  \"scripts\": {\n+    \"test\": \"tsx demo.ts\"\n+  },\n+  \"author\": \"\",\n+  \"license\": \"MIT\",\n+  \"devDependencies\": {\n+    \"@midscene/computer\": \"latest\",\n+    \"dotenv\": \"^16.4.5\",\n+    \"tsx\": \"4.20.1\"\n+  }\n+}"
+    }
+  ]
+}
