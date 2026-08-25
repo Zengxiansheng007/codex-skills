@@ -1,0 +1,63 @@
+{
+  "checkpoint_id": "CLICK_001",
+  "schema_version": "2.2.0",
+  "stage": "CLICK",
+  "name": "单个点击动作",
+  "status": "passed",
+  "risk_level": "R0",
+  "source_baseline": {
+    "prd_version": "v2.2",
+    "figma_version": "2026-07-30",
+    "design_version": "v2.2",
+    "api_version": "2026.07",
+    "code_branch": "main",
+    "environment_ref": "test-env-01",
+    "captured_at": "2026-07-30T13:00:00+08:00"
+  },
+  "execution_context": {
+    "base_url": "https://example.test",
+    "route": "/module/page",
+    "role_account_type": "tester",
+    "environment_ref": "test-env-01",
+    "browser_profile": "chromium",
+    "viewport": {"width": 1440, "height": 900},
+    "run_mode": "read-only",
+    "allowed_actions": ["click"],
+    "forbidden_actions": ["delete"],
+    "test_data_ref": "TD-CLICK-01",
+    "auth_ref": "auth-state-cp1",
+    "cleanup_scope": "none"
+  },
+  "depends_on": [],
+  "validate": {
+    "ui": ["button clicked"],
+    "api": ["not triggered"],
+    "task": ["not triggered"],
+    "downstream": ["not triggered"],
+    "schema": ["n/a"]
+  },
+  "evidence": {
+    "artifacts": [
+      {"type": "screenshot", "path": "reports/click/01-click.png"}
+    ],
+    "summary": "invalid stage should fail"
+  },
+  "governance": {
+    "owner": "qa-lead",
+    "reviewer": "codex",
+    "approved_by": "qa-lead",
+    "decision": "approved",
+    "decision_reason": "this sample is intentionally invalid"
+  },
+  "promotion_gate": {
+    "candidate_type": "manual",
+    "pass_count": 0,
+    "required_pass_count": 1,
+    "confidence": 0.2,
+    "blocked_reasons": ["invalid stage"]
+  },
+  "staleness_policy": {
+    "dependency_categories": ["route"],
+    "validation_result": "stale"
+  }
+}

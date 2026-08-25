@@ -1,0 +1,558 @@
+[
+  {
+    "checkpoint_id": "CP0_governance_baseline",
+    "schema_version": "2.2.0",
+    "stage": "CP0",
+    "name": "治理与准入基线",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/intake",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "inspect"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP0-01",
+      "auth_ref": "auth-state-cp0",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [],
+    "steps": [
+      {
+        "id": "01",
+        "name": "确认来源基线",
+        "action": "inspect source baseline metadata",
+        "verification": "baseline versions are visible",
+        "evidence_refs": ["reports/cp0/01-baseline.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["source baseline visible"],
+      "api": ["not triggered"],
+      "task": ["not triggered"],
+      "downstream": ["not triggered"],
+      "schema": ["required governance fields present"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp0/01-baseline.png"},
+        {"type": "json", "path": "reports/cp0/01-baseline.json"}
+      ],
+      "summary": "governance baseline captured"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "baseline and scope are clear"
+    },
+    "promotion_gate": {
+      "candidate_type": "manual",
+      "pass_count": 1,
+      "required_pass_count": 1,
+      "confidence": 0.96,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["PRD", "design", "environment"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP1_login_state",
+    "schema_version": "2.2.0",
+    "stage": "CP1",
+    "name": "登录态",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/login",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "type", "click"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP1-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP0_governance_baseline", "dependency_type": "baseline", "impact": "source change may invalidate login scope"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "输入账号密码",
+        "action": "fill login form",
+        "verification": "account field and password field are filled",
+        "evidence_refs": ["reports/cp1/01-login-form.png"]
+      },
+      {
+        "id": "02",
+        "name": "确认登录成功",
+        "action": "submit login form",
+        "verification": "route and selected state indicate login success",
+        "evidence_refs": ["reports/cp1/02-login-success.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["login button disabled until fields are complete"],
+      "api": ["authentication succeeds"],
+      "task": ["session established"],
+      "downstream": ["workspace route reachable"],
+      "schema": ["auth_ref present"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp1/01-login-form.png"},
+        {"type": "screenshot", "path": "reports/cp1/02-login-success.png"},
+        {"type": "json", "path": "reports/cp1/auth-state.json"}
+      ],
+      "summary": "login state established"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "session established for downstream checkpoints"
+    },
+    "promotion_gate": {
+      "candidate_type": "playwright",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.93,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["auth", "environment"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP2_project_switch",
+    "schema_version": "2.2.0",
+    "stage": "CP2",
+    "name": "项目/空间切换",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/workspace",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "click", "select"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP2-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP1_login_state", "dependency_type": "state", "impact": "login state required"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "展开项目列表",
+        "action": "open project switcher",
+        "verification": "target project list is visible",
+        "evidence_refs": ["reports/cp2/01-project-list.png"]
+      },
+      {
+        "id": "02",
+        "name": "切换到目标项目",
+        "action": "select target project",
+        "verification": "selected project name visible in workspace header",
+        "evidence_refs": ["reports/cp2/02-project-selected.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["target project name visible"],
+      "api": ["workspace context accepted"],
+      "task": ["workspace session updated"],
+      "downstream": ["module entry becomes reachable"],
+      "schema": ["route and project match baseline"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp2/01-project-list.png"},
+        {"type": "screenshot", "path": "reports/cp2/02-project-selected.png"}
+      ],
+      "summary": "project switch successful"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "project context stable"
+    },
+    "promotion_gate": {
+      "candidate_type": "playwright",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.92,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["auth", "route", "workspace"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP3_module_entry",
+    "schema_version": "2.2.0",
+    "stage": "CP3",
+    "name": "模块入口导航",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/module",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "click", "inspect"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP3-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP2_project_switch", "dependency_type": "route", "impact": "target module depends on selected project"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "进入模块入口",
+        "action": "navigate to target module",
+        "verification": "route and menu selection align",
+        "evidence_refs": ["reports/cp3/01-module-entry.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["target menu item selected"],
+      "api": ["not triggered"],
+      "task": ["module context updated"],
+      "downstream": ["page title or breadcrumb matches"],
+      "schema": ["module entry matches CP3"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp3/01-module-entry.png"}
+      ],
+      "summary": "module entry navigation successful"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "module entry reached"
+    },
+    "promotion_gate": {
+      "candidate_type": "playwright",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.91,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["route", "menu"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP4_page_or_modal_open",
+    "schema_version": "2.2.0",
+    "stage": "CP4",
+    "name": "页面/弹窗打开",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/module/page",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "click", "inspect"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP4-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP3_module_entry", "dependency_type": "navigation", "impact": "page or modal open depends on module entry"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "打开目标页面或弹窗",
+        "action": "open target page or modal",
+        "verification": "target controls become visible",
+        "evidence_refs": ["reports/cp4/01-page-open.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["target title visible", "key controls visible"],
+      "api": ["not triggered"],
+      "task": ["not triggered"],
+      "downstream": ["page ready for form interaction"],
+      "schema": ["required fields are renderable"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp4/01-page-open.png"}
+      ],
+      "summary": "page or modal opened"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "interaction surface ready"
+    },
+    "promotion_gate": {
+      "candidate_type": "playwright",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.90,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["route", "page"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP5_form_fill",
+    "schema_version": "2.2.0",
+    "stage": "CP5",
+    "name": "表单字段识别与填写",
+    "status": "passed",
+    "risk_level": "R0",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/module/form",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "read-only",
+      "allowed_actions": ["open", "click", "type", "select", "inspect"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP5-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "none"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP4_page_or_modal_open", "dependency_type": "surface", "impact": "form fields depend on opened page/modal"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "识别字段",
+        "action": "locate visible labels and inputs",
+        "verification": "labels map to fields",
+        "evidence_refs": ["reports/cp5/01-fields.png"]
+      },
+      {
+        "id": "02",
+        "name": "填写字段",
+        "action": "fill form values",
+        "verification": "typed values are visible in inputs",
+        "evidence_refs": ["reports/cp5/02-filled.png"]
+      }
+    ],
+    "validate": {
+      "ui": ["required fields visible", "typed values persist"],
+      "api": ["not triggered"],
+      "task": ["not triggered"],
+      "downstream": ["ready for submit checkpoint"],
+      "schema": ["field labels and values align"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp5/01-fields.png"},
+        {"type": "screenshot", "path": "reports/cp5/02-filled.png"}
+      ],
+      "summary": "form fields recognized and filled"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved",
+      "decision_reason": "form values are verifiable"
+    },
+    "promotion_gate": {
+      "candidate_type": "playwright",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.92,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["fields", "labels", "layout"],
+      "validation_result": "fresh"
+    }
+  },
+  {
+    "checkpoint_id": "CP6_submit_verify",
+    "schema_version": "2.2.0",
+    "stage": "CP6",
+    "name": "提交与结果验证",
+    "status": "passed",
+    "risk_level": "R1",
+    "source_baseline": {
+      "prd_version": "v2.2",
+      "figma_version": "2026-07-30",
+      "design_version": "v2.2",
+      "api_version": "2026.07",
+      "code_branch": "main",
+      "environment_ref": "test-env-01",
+      "captured_at": "2026-07-30T13:00:00+08:00"
+    },
+    "execution_context": {
+      "base_url": "https://example.test",
+      "route": "/module/submit",
+      "role_account_type": "tester",
+      "environment_ref": "test-env-01",
+      "browser_profile": "chromium",
+      "viewport": {"width": 1440, "height": 900},
+      "run_mode": "gated-write",
+      "allowed_actions": ["open", "click", "type", "select", "submit"],
+      "forbidden_actions": ["delete", "publish", "deploy"],
+      "test_data_ref": "TD-CP6-01",
+      "auth_ref": "auth-state-cp1",
+      "cleanup_scope": "test-prefix"
+    },
+    "depends_on": [
+      {"checkpoint_id": "CP5_form_fill", "dependency_type": "data", "impact": "submit depends on filled values"}
+    ],
+    "steps": [
+      {
+        "id": "01",
+        "name": "提交表单",
+        "action": "submit approved action",
+        "verification": "submission response or visible success state appears",
+        "evidence_refs": ["reports/cp6/01-submit.png"]
+      },
+      {
+        "id": "02",
+        "name": "验证结果",
+        "action": "check UI/API/downstream result",
+        "verification": "success state and business id are present",
+        "evidence_refs": ["reports/cp6/02-verify.png", "reports/cp6/submit.json"]
+      }
+    ],
+    "validate": {
+      "ui": ["success toast or success state visible"],
+      "api": ["submit response 2xx"],
+      "task": ["status reaches success"],
+      "downstream": ["record visible in target detail or query page"],
+      "schema": ["business id can be extracted"]
+    },
+    "evidence": {
+      "artifacts": [
+        {"type": "screenshot", "path": "reports/cp6/01-submit.png"},
+        {"type": "screenshot", "path": "reports/cp6/02-verify.png"},
+        {"type": "json", "path": "reports/cp6/submit.json"}
+      ],
+      "summary": "submit and verification completed"
+    },
+    "cleanup_policy": {
+      "required_for_write": true,
+      "scope": "test-prefix",
+      "verification": "cleanup evidence must be attached"
+    },
+    "governance": {
+      "owner": "qa-lead",
+      "reviewer": "codex",
+      "approved_by": "qa-lead",
+      "decision": "approved-with-caveats",
+      "decision_reason": "write checkpoint only allowed in gated test environment"
+    },
+    "promotion_gate": {
+      "candidate_type": "hybrid",
+      "pass_count": 2,
+      "required_pass_count": 2,
+      "confidence": 0.89,
+      "blocked_reasons": []
+    },
+    "staleness_policy": {
+      "dependency_categories": ["task", "downstream", "submit-response"],
+      "validation_result": "fresh"
+    }
+  }
+]

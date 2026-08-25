@@ -1,0 +1,2 @@
+name: ui-test-verify
+description: Playwright deterministic verification and fallback.

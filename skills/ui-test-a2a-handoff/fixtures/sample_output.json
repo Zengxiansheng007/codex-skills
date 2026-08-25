@@ -1,0 +1,98 @@
+{
+  "handoff_packet": {
+    "handoff_id": "handoff_c6e83c10503b",
+    "source_packet_id": "pkt_2_0_001",
+    "parent_packet_id": "pkt_2_0_001",
+    "handoff_stage": "handoff",
+    "decision_status": "draft",
+    "failure_history": [
+      {
+        "evidence": "reports/05_fill_form.png",
+        "layer": "ai_recognition",
+        "reason": "PRD地址字段定位失败",
+        "step_id": "05"
+      }
+    ],
+    "retry_history": [
+      {
+        "prompt_id": "midscene_001",
+        "result": "failed",
+        "revision": "initial prompt"
+      }
+    ],
+    "required_fix_points": [
+      {
+        "id": "fix_01",
+        "text": "PRD 地址优先使用 placeholder 定位"
+      },
+      {
+        "id": "fix_02",
+        "text": "保留失败历史，不要覆盖"
+      }
+    ],
+    "artifact_refs": [
+      {
+        "path": "reports/01_login.png",
+        "type": "screenshot_path"
+      },
+      {
+        "path": "reports/01_login.zip",
+        "type": "trace_path"
+      },
+      {
+        "packet_id": "pkt_2_0_001",
+        "type": "packet_id"
+      }
+    ],
+    "next_action": "revise_prompt"
+  },
+  "prompt_packet": {
+    "prompt_id": "prompt_725c8cf1ba43",
+    "source_packet_id": "pkt_2_0_001",
+    "objective": "继续修正 Midscene 请求，使创建产品需求链路稳定可复用",
+    "prompt_goal": "继续修正 Midscene 请求，使创建产品需求链路稳定可复用",
+    "constraints": {
+      "read_only": true,
+      "no_browser_execution": true,
+      "preserve_history": true,
+      "keep_artifact_refs_short": true
+    },
+    "allowed_actions": [
+      "revise_prompt",
+      "rerun_midscene",
+      "fallback_playwright",
+      "review"
+    ],
+    "forbidden_actions": [
+      "remote_transport",
+      "write_business_state",
+      "embed_long_prose"
+    ],
+    "expected_verification": [
+      "Codex can resume from prompt_packet without rereading full upstream prose",
+      "prompt changes are localized",
+      "artifact_refs remain stable and short"
+    ],
+    "revision_notes": []
+  },
+  "artifact_refs": [
+    {
+      "path": "reports/01_login.png",
+      "type": "screenshot_path"
+    },
+    {
+      "path": "reports/01_login.zip",
+      "type": "trace_path"
+    },
+    {
+      "packet_id": "pkt_2_0_001",
+      "type": "packet_id"
+    }
+  ],
+  "summary": {
+    "source_packet_id": "pkt_2_0_001",
+    "handoff_id": "handoff_c6e83c10503b",
+    "prompt_id": "prompt_725c8cf1ba43",
+    "next_action": "revise_prompt"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.2.0",
+  "title": "Checkpoint Schema",
+  "allowed_stages": ["CP0", "CP1", "CP2", "CP3", "CP4", "CP5", "CP6"],
+  "allowed_status": ["passed", "failed", "degraded", "blocked"],
+  "allowed_risk_level": ["R0", "R1", "R2", "R3"],
+  "top_level_required": [
+    "checkpoint_id",
+    "schema_version",
+    "stage",
+    "name",
+    "status",
+    "risk_level",
+    "source_baseline",
+    "execution_context",
+    "depends_on",
+    "validate",
+    "evidence",
+    "governance",
+    "promotion_gate",
+    "staleness_policy"
+  ],
+  "source_baseline_required": [
+    "prd_version",
+    "figma_version",
+    "design_version",
+    "api_version",
+    "code_branch",
+    "environment_ref",
+    "captured_at"
+  ],
+  "execution_context_required": [
+    "base_url",
+    "route",
+    "role_account_type",
+    "environment_ref",
+    "browser_profile",
+    "viewport",
+    "run_mode",
+    "allowed_actions",
+    "forbidden_actions",
+    "test_data_ref",
+    "auth_ref",
+    "cleanup_scope"
+  ],
+  "validate_required": ["ui", "api", "task", "downstream", "schema"],
+  "evidence_required": ["artifacts", "summary"],
+  "governance_required": ["owner", "reviewer", "approved_by", "decision", "decision_reason"],
+  "promotion_gate_required": ["candidate_type", "pass_count", "required_pass_count", "confidence", "blocked_reasons"],
+  "staleness_policy_required": ["dependency_categories", "validation_result"],
+  "cleanup_policy_required": ["required_for_write", "scope", "verification"],
+  "failure_attribution_required": ["layer", "failure_type", "root_cause_id", "confidence", "evidence_refs", "impact_scope", "action_taken", "next_step"]
+}

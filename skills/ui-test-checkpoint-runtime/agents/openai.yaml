@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI-Test Checkpoint Runtime"
+  short_description: "R0/R1 read-only cross-session UI recovery"
+  default_prompt: "Use $ui-test-checkpoint-runtime to validate and plan an R0/R1 checkpoint recovery in dry-run mode."

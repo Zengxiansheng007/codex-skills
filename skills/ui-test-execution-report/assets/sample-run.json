@@ -1,0 +1,303 @@
+{
+  "report": {
+    "report_id": "sample-midscene-report-bops-announcement-20260813-001",
+    "run_id": "run-20260813-200000-TC-BOPS-ANNOUNCEMENT-CREATE-001",
+    "case_id": "TC-BOPS-ANNOUNCEMENT-CREATE-001",
+    "case_name": "创建公告",
+    "status": "passed",
+    "execution_date": "2026-08-13",
+    "started_at": "2026-08-13T20:00:00+08:00",
+    "ended_at": "2026-08-13T20:01:42+08:00",
+    "executor": "Midscene + Playwright",
+    "environment": "test",
+    "summary": "创建公告主流程通过；UI、接口、业务 ID 和提交后列表可见性断言均通过。"
+  },
+  "grouping": {
+    "project_group": "天津项目组",
+    "project": "运维管理平台",
+    "module": "运管配置 / 消息管理 / 公告管理",
+    "project_group_slug": "tianjin-project-group",
+    "project_slug": "bops-ops-management-platform",
+    "module_slug": "ops-config-message-announcement"
+  },
+  "safety": {
+    "allowed_actions": "登录测试环境、进入公告管理、点击创建、填写测试公告、提交一次测试公告、采集 UI/API/trace/log 证据。",
+    "forbidden_actions": "生产环境执行、删除公告、审批公告、发布公告、修改权限、保存 cookie/token/密码。",
+    "account_type": "测试环境公告管理员账号。报告不展示密码。",
+    "model_boundary": "仅允许发送可见 UI 截图和脱敏页面文本给 Midscene。",
+    "redaction": "authorization、cookie、set-cookie、token、密码、生产数据禁止展示。"
+  },
+  "run_result": {
+    "schema_version": "ui-test.run-result.v2",
+    "run_id": "run-20260813-200000-TC-BOPS-ANNOUNCEMENT-CREATE-001",
+    "case_id": "TC-BOPS-ANNOUNCEMENT-CREATE-001",
+    "branch_id": "main",
+    "priority": "P0",
+    "scope": {
+      "project_group": "tianjin",
+      "product": "ops-platform",
+      "system": "bops-ops-platform",
+      "module_path": ["operations-config", "message-management", "announcement-management"],
+      "function": "create",
+      "environment": "test"
+    },
+    "overall_status": "passed",
+    "release_status": "in_sync",
+    "step_results": [
+      {"step_id": "S01", "section": "setup", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S01-LOGIN-001"]},
+      {"step_id": "S02", "section": "setup", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S02-HOME-001", "API-S02-LOGIN-001"]},
+      {"step_id": "S03", "section": "setup", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S03-MODULE-001", "API-S03-MENU-001"]},
+      {"step_id": "S04", "section": "feature", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S04-FORM-001"]},
+      {"step_id": "S05", "section": "feature", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S05-BEFORE-SUBMIT-001", "API-S05-SUBMIT-001"]},
+      {"step_id": "S06", "section": "assertions", "status": "passed", "required": true, "tool": "playwright", "evidence_refs": ["SS-S06-AFTER-SUBMIT-001", "API-S06-QUERY-001"]}
+    ],
+    "evidence_refs": ["SS-S01-LOGIN-001", "SS-S02-HOME-001", "API-S02-LOGIN-001", "SS-S03-MODULE-001", "API-S03-MENU-001", "SS-S04-FORM-001", "SS-S05-BEFORE-SUBMIT-001", "API-S05-SUBMIT-001", "SS-S06-AFTER-SUBMIT-001", "API-S06-QUERY-001"],
+    "conflicts": [],
+    "findings": [],
+    "write_state": "write_succeeded_verified",
+    "submit_count": 1,
+    "retained_test_data": [{"object_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "cleanup_status": "not_planned_this_release"}],
+    "cleanup_status": "not_planned_this_release",
+    "business_cleanup_attempted": false,
+    "run_result_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "steps": [
+    {
+      "step_id": "S01",
+      "action": "打开登录页",
+      "expected_result": "展示账号、密码、登录按钮",
+      "actual_result": "登录页正常展示",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S01-PAGE-001",
+        "attachment_id": "SS-S01-LOGIN-001",
+        "type": "page_screenshot",
+        "path": "assets/screenshots/S01-ui-screenshot-001.png",
+        "captured_at": "2026-08-13T20:00:08+08:00",
+        "visible_state_summary": "登录页正常展示，账号、密码、登录按钮可见。",
+        "redaction_applied": true,
+        "svg_kind": "login"
+      }
+    },
+    {
+      "step_id": "S02",
+      "action": "输入测试账号并登录",
+      "expected_result": "进入运维管理平台首页",
+      "actual_result": "首页顶部导航可见",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S02-HOME-001",
+        "attachment_id": "SS-S02-HOME-001",
+        "type": "page_screenshot",
+        "path": "assets/screenshots/S02-ui-home-001.png",
+        "captured_at": "2026-08-13T20:00:22+08:00",
+        "visible_state_summary": "首页顶部导航、侧边栏和主内容区可见。",
+        "redaction_applied": true,
+        "svg_kind": "home"
+      },
+      "api_assertion": {
+        "api_assertion_id": "API-S02-LOGIN-001",
+        "method": "POST",
+        "url_template": "/api/auth/login",
+        "http_status": 200,
+        "business_code": "0",
+        "duration_ms": 530,
+        "assertion_status": "passed",
+        "raw_ref": "attachments/api-redacted/S02-login-response-001.json",
+        "redaction_applied": true,
+        "jsonpath_assertions": [
+          {"path": "$.code", "operator": "equals", "expected": "0", "actual": "0", "status": "passed"}
+        ]
+      }
+    },
+    {
+      "step_id": "S03",
+      "action": "进入公告管理",
+      "expected_result": "公告管理页面可见，创建按钮可见",
+      "actual_result": "菜单高亮，创建按钮可见",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S03-MODULE-001",
+        "attachment_id": "SS-S03-MODULE-001",
+        "type": "page_screenshot",
+        "path": "assets/screenshots/S03-ui-module-001.png",
+        "captured_at": "2026-08-13T20:00:36+08:00",
+        "visible_state_summary": "公告管理菜单高亮，创建按钮可见。",
+        "redaction_applied": true,
+        "svg_kind": "module"
+      },
+      "api_assertion": {
+        "api_assertion_id": "API-S03-MENU-001",
+        "method": "GET",
+        "url_template": "/api/menu/tree",
+        "http_status": 200,
+        "business_code": "0",
+        "duration_ms": 410,
+        "assertion_status": "passed",
+        "raw_ref": "attachments/api-redacted/S03-menu-response-001.json",
+        "redaction_applied": true,
+        "jsonpath_assertions": [
+          {"path": "$.data.modules[*].name", "operator": "contains", "expected": "公告管理", "actual": "公告管理", "status": "passed"}
+        ]
+      }
+    },
+    {
+      "step_id": "S04",
+      "action": "点击创建并填写公告表单",
+      "expected_result": "字段填写完成，天津市选择完成，失效日期为 2026-08-14",
+      "actual_result": "表单状态符合预期",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S04-FORM-001",
+        "attachment_id": "SS-S04-FORM-001",
+        "type": "form_state",
+        "path": "assets/screenshots/S04-ui-form-filled-001.png",
+        "captured_at": "2026-08-13T20:00:58+08:00",
+        "visible_state_summary": "公告表单填写完成，管理权力归属和服务范围均为天津市。",
+        "redaction_applied": true,
+        "svg_kind": "form",
+        "form_values": {
+          "title": "0813全体+全省系统公告123",
+          "permission_scope": "天津市",
+          "service_scope": "天津市",
+          "valid_from": "2026-08-13",
+          "valid_to": "2026-08-14"
+        }
+      }
+    },
+    {
+      "step_id": "S05",
+      "action": "提交前截图并点击确认",
+      "expected_result": "提交接口成功返回业务 ID",
+      "actual_result": "返回 ANN-SAMPLE-20260813-001",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S05-BEFORE-SUBMIT-001",
+        "attachment_id": "SS-S05-BEFORE-SUBMIT-001",
+        "type": "form_state_before_submit",
+        "path": "assets/screenshots/S05-ui-before-submit-001.png",
+        "captured_at": "2026-08-13T20:01:10+08:00",
+        "visible_state_summary": "提交前确认页展示标题、范围、失效日期和确认按钮。",
+        "redaction_applied": true,
+        "svg_kind": "before-submit",
+        "form_values": {
+          "title": "0813全体+全省系统公告123",
+          "valid_from": "2026-08-13",
+          "valid_to": "2026-08-14"
+        }
+      },
+      "api_assertion": {
+        "api_assertion_id": "API-S05-SUBMIT-001",
+        "method": "POST",
+        "url_template": "/api/announcement/create",
+        "http_status": 200,
+        "business_code": "0",
+        "duration_ms": 840,
+        "assertion_status": "passed",
+        "raw_ref": "attachments/api-redacted/S05-submit-response-001.json",
+        "redaction_applied": true,
+        "request_summary": {
+          "title": "0813全体+全省系统公告123",
+          "authority": "天津市",
+          "scope": "天津市",
+          "validFrom": "2026-08-13",
+          "validTo": "2026-08-14"
+        },
+        "response_summary": {
+          "success": true,
+          "announcementId": "ANN-SAMPLE-20260813-001"
+        },
+        "jsonpath_assertions": [
+          {"path": "$.success", "operator": "equals", "expected": true, "actual": true, "status": "passed"},
+          {"path": "$.data.announcementId", "operator": "exists", "expected": "non-empty", "actual": "ANN-SAMPLE-20260813-001", "status": "passed"}
+        ]
+      }
+    },
+    {
+      "step_id": "S06",
+      "action": "提交后断言",
+      "expected_result": "成功提示或列表中可见本次公告标题",
+      "actual_result": "成功提示可见，列表首行标题匹配",
+      "status": "passed",
+      "ui_changing": true,
+      "ui_evidence": {
+        "evidence_id": "EV-S06-AFTER-SUBMIT-001",
+        "attachment_id": "SS-S06-AFTER-SUBMIT-001",
+        "type": "ui_assertion",
+        "path": "assets/screenshots/S06-ui-after-submit-001.png",
+        "captured_at": "2026-08-13T20:01:36+08:00",
+        "visible_state_summary": "创建成功提示和公告列表标题可见。",
+        "redaction_applied": true,
+        "svg_kind": "after-submit",
+        "ui_assertions": [
+          {"name": "创建成功提示可见", "status": "passed"},
+          {"name": "列表首行标题匹配", "status": "passed"}
+        ]
+      },
+      "api_assertion": {
+        "api_assertion_id": "API-S06-QUERY-001",
+        "method": "GET",
+        "url_template": "/api/announcement/list",
+        "http_status": 200,
+        "business_code": "0",
+        "duration_ms": 610,
+        "assertion_status": "passed",
+        "raw_ref": "attachments/api-redacted/S06-query-response-001.json",
+        "redaction_applied": true,
+        "jsonpath_assertions": [
+          {"path": "$.data.records[0].title", "operator": "equals", "expected": "0813全体+全省系统公告123", "actual": "0813全体+全省系统公告123", "status": "passed"}
+        ]
+      },
+      "warning_ref": "WARN-S06-CONSOLE-001"
+    }
+  ],
+  "failures": [
+    {
+      "failure_id": "WARN-S06-CONSOLE-001",
+      "step_id": "S06",
+      "layer": "script",
+      "category": "third-party-warning",
+      "root_cause_status": "inferred",
+      "summary": "第三方埋点脚本加载超时，但公告创建接口、列表查询和 UI 断言均通过。",
+      "impact": "不阻塞主流程",
+      "next_step": "连续 3 次出现再转为 flaky 风险。"
+    }
+  ],
+  "midscene": {
+    "run_id": "midscene-sample-run-20260813-001",
+    "native_report": "traces/midscene-report.html",
+    "execution_dump": "traces/midscene-execution-dump.json",
+    "summary": "Midscene 仅作为视觉探索证据；最终通过由 Playwright DOM 断言、接口断言和提交后列表断言共同支撑。"
+  },
+  "playwright": {
+    "script": "bops_announcement_create.playwright.mjs",
+    "result_json": "traces/playwright-report.json",
+    "trace": "traces/playwright-trace.zip",
+    "fallback": false,
+    "weak_locators": []
+  },
+  "score": {
+    "total": 98,
+    "items": [
+      {"name": "步骤状态完整", "score": 15, "max": 15},
+      {"name": "UI 截图完整", "score": 15, "max": 15},
+      {"name": "接口断言完整", "score": 20, "max": 20},
+      {"name": "确定性断言完整", "score": 15, "max": 15},
+      {"name": "失败归因清晰", "score": 13, "max": 15},
+      {"name": "脱敏与安全边界", "score": 10, "max": 10},
+      {"name": "可复跑信息", "score": 5, "max": 5},
+      {"name": "晋级建议", "score": 5, "max": 5}
+    ]
+  },
+  "promotion": {
+    "playwright": "promote",
+    "checkpoint": "promote",
+    "memory": "promote",
+    "reason": "主流程完整通过；步骤、截图、接口、Playwright 确定性断言、提交后业务可见性证据齐全。"
+  }
+}

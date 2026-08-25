@@ -1,0 +1,91 @@
+{
+  "cycleId": "DS-UI-EXEC-REPORT-20260813-001",
+  "roundNumber": 1,
+  "sequenceIndex": 1,
+  "sentAt": "2026-08-13T00:00:00+08:00",
+  "receivedAt": "",
+  "originalGoal": "按照最新确认的 A 方案调整需求文档和锚定需求，并基于锚定需求开发 UI 自动化执行报告 Skill。",
+  "approvedScope": [
+    "将报告最新需求锚定为：截图缩略图与 JSON/接口详情必须直接嵌入第 4 章步骤表对应单元格。",
+    "第 5 章降级为附件索引，仅用于治理与反查。",
+    "第 6 章可保留接口汇总索引，但接口 JSON 详情的人读主入口必须在步骤表内。",
+    "在当前工作区创建可验证的 ui-test-execution-report Skill 源码副本。",
+    "提供报告生成脚本、输入 schema、样例输入、验证脚本和测试。",
+    "更新已有需求文档，确保 FR/AC 与 A 方案一致。"
+  ],
+  "nonGoals": [
+    "不直接写入或覆盖全局 Codex Skill 目录。",
+    "不执行真实业务 UI 测试、生产写入、删除、审批、发布或权限变更。",
+    "不把账号密码、cookie、token、生产数据写入 Skill、样例、报告或最终回复。",
+    "不把私有截图或内部业务材料发送给外部模型。"
+  ],
+  "frAc": [
+    {
+      "fr": "FR-REPORT-018",
+      "ac": ["AC-016", "AC-017"],
+      "summary": "HTML 报告必须在步骤表内嵌 UI 截图与 JSON/接口详情。"
+    },
+    {
+      "fr": "FR-REPORT-019",
+      "ac": ["AC-018"],
+      "summary": "独立证据章节必须降级为附件索引。"
+    },
+    {
+      "fr": "FR-SKILL-001",
+      "ac": ["AC-SKILL-001"],
+      "summary": "Skill 能从标准 run JSON 生成 HTML、evidence-index.json、execution-summary.json。"
+    },
+    {
+      "fr": "FR-SKILL-002",
+      "ac": ["AC-SKILL-002"],
+      "summary": "生成器必须通过 deterministic validation 和样例测试。"
+    }
+  ],
+  "confirmedDecisions": [
+    "用户确认 A：全部嵌入步骤表，第 5 章改成附件索引。",
+    "人读主报告为 HTML，Markdown 仅作为可选 Agent brief。",
+    "JSON 详情可以折叠，但必须在 HTML 当前单元格中可读。"
+  ],
+  "authorityOrder": [
+    "用户最新确认的 A 方案",
+    "midscene-ui自动化执行报告格式需求-v1.2.md v1.2.2",
+    "development-system 边界与锚定规则",
+    "本地 ui-test/ui-test-evidence 报告与证据规则",
+    "公开参考方案：Playwright reporter/TestInfo attachments、Allure steps/attachments、HTML details/summary"
+  ],
+  "allowedActions": [
+    "读取本地需求、样例报告和已安装 Skill 说明。",
+    "在当前工作区创建或修改工作区 Skill 源码、副本、脚本、样例和验证文件。",
+    "运行本地只读或写入当前工作区的验证脚本和样例测试。",
+    "使用公开资料或本地资料作为参考方案来源。"
+  ],
+  "forbiddenActions": [
+    "未经用户再次确认写入全局 Codex Skill 目录。",
+    "调用 live Claude/Midscene 发送私有文件、私有截图或内部业务数据。",
+    "安装依赖、部署、发布、删除、迁移或执行生产写操作。",
+    "在报告或 Skill 中嵌入真实凭据、token、cookie、生产数据。"
+  ],
+  "manualConfirmActions": [
+    "部署到 C:\\Users\\lenovo\\.codex\\skills。",
+    "live Claude Code 执行真实开发修改。",
+    "Midscene 或浏览器访问真实业务测试环境。",
+    "任何外部网络写入或插件安装。"
+  ],
+  "sourceBaseline": [
+    "C:\\Users\\lenovo\\Documents\\Codex\\2026-08-12\\ch\\outputs\\midscene-ui自动化执行报告格式需求-v1.2.md",
+    "C:\\Users\\lenovo\\Documents\\Codex\\2026-08-12\\ch\\outputs\\ui-automation-report-center\\human-html\\tianjin-project-group\\bops-ops-management-platform\\ops-config-message-announcement\\2026-08-13\\run-20260813-200000-TC-BOPS-ANNOUNCEMENT-CREATE-001\\report.html",
+    "C:\\Users\\lenovo\\.codex\\skills\\development-system\\SKILL.md",
+    "C:\\Users\\lenovo\\.codex\\skills\\create-skill\\SKILL.md",
+    "C:\\Users\\lenovo\\.codex\\skills\\ui-test-evidence\\SKILL.md",
+    "C:\\Users\\lenovo\\.codex\\skills\\ui-test\\references\\reporting-and-promotion.md"
+  ],
+  "currentIterationObjective": "创建并验证工作区 ui-test-execution-report Skill，生成符合 A 方案的报告样例。",
+  "expectedFeedbackSchema": "local-validation-summary",
+  "stopConditions": [
+    "需求与 A 方案冲突。",
+    "生成器无法在本地样例上通过验证。",
+    "需要写入全局 Skill 或调用 live Claude/Midscene，但尚未获得确切范围审批。",
+    "发现敏感信息或无法脱敏的样例数据。"
+  ],
+  "nextState": "continue"
+}

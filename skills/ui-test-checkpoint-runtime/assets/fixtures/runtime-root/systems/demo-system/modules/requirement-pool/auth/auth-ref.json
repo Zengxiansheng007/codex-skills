@@ -1,0 +1,22 @@
+{
+  "schema_version": "checkpoint-runtime.auth-ref.v1",
+  "auth_ref_id": "auth-demo-tester-default",
+  "system_id": "demo-system",
+  "role_account_type": "tester",
+  "auth_mode": "runtime-input",
+  "runtime_env_keys": ["CHECKPOINT_RUNTIME_AUTH_REF"],
+  "created_at": "2026-08-13T10:30:00+08:00",
+  "expires_at": "2099-01-01T00:00:00Z",
+  "contains_secret": true,
+  "reportable": false,
+  "rag_allowed": false,
+  "provenance": {
+    "captured_at": "2026-08-13T10:30:00+08:00",
+    "capture_source": "fixture",
+    "tool_version": "ui-test-checkpoint-runtime"
+  },
+  "freshness": {
+    "max_age_seconds": 86400,
+    "earliest_cookie_expiry": "2099-01-01T00:00:00Z"
+  }
+}

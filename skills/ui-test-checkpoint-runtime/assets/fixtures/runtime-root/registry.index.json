@@ -1,0 +1,15 @@
+{
+  "schema_version": "checkpoint-runtime.registry.v1",
+  "generated_at": "2026-08-13T10:30:00+08:00",
+  "systems": [
+    {
+      "system_id": "demo-system",
+      "system_name": "Demo System",
+      "manifest_ref": "systems/demo-system/system.manifest.json",
+      "status": "active",
+      "modules_count": 1,
+      "last_verified_at": null
+    }
+  ]
+}
+

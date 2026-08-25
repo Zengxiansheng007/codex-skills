@@ -1,0 +1,35 @@
+{
+  "packet_id": "pkt_2_0_001",
+  "schema_version": "2.0",
+  "objective": "继续修正 Midscene 请求，使创建产品需求链路稳定可复用",
+  "scope": {
+    "in_scope": ["prompt conversion", "failure history preservation", "stable artifact references"],
+    "out_of_scope": ["remote transport", "browser execution", "checkpoint runtime"]
+  },
+  "safety": {
+    "read_only": true,
+    "forbidden_actions": ["write_business_state", "export_credentials", "remote_transport"]
+  },
+  "steps": [
+    {"id": "01", "name": "登录"},
+    {"id": "02", "name": "切换项目"},
+    {"id": "03", "name": "进入产品需求池"}
+  ],
+  "artifact_refs": [
+    {"type": "screenshot_path", "path": "reports/01_login.png"},
+    {"type": "trace_path", "path": "reports/01_login.zip"},
+    {"type": "packet_id", "packet_id": "pkt_2_0_001"}
+  ],
+  "failure_history": [
+    {"step_id": "05", "layer": "ai_recognition", "reason": "PRD地址字段定位失败", "evidence": "reports/05_fill_form.png"}
+  ],
+  "retry_history": [
+    {"prompt_id": "midscene_001", "revision": "initial prompt", "result": "failed"}
+  ],
+  "required_fix_points": [
+    {"id": "fix_01", "text": "PRD 地址优先使用 placeholder 定位"},
+    {"id": "fix_02", "text": "保留失败历史，不要覆盖"}
+  ],
+  "next_action": "revise_prompt"
+}
+

@@ -1,0 +1,3 @@
+name: ui-test-execution-report
+description: Governed UI automation execution report generation with step-table embedded screenshots and JSON evidence.
+default_prompt: "Use $ui-test-execution-report to generate a governed HTML UI automation execution report from supplied step-scoped evidence, with screenshots and JSON details embedded directly in the test-step table."

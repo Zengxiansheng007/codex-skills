@@ -1,0 +1,53 @@
+{
+  "schema_version": "checkpoint-runtime.module-manifest.v1",
+  "system_id": "demo-system",
+  "module_id": "requirement-pool",
+  "module_name": "Requirement Pool",
+  "environment_alias": "test",
+  "base_url": "https://example.com/",
+  "route_hints": ["/"],
+  "module_assertions": {
+    "title_contains": "Example",
+    "url_contains": "example.com",
+    "visible_text": "Example Domain"
+  },
+  "role_account_types": ["tester"],
+  "auth_ref": "systems/demo-system/modules/requirement-pool/auth/auth-ref.json",
+  "entry_chain": ["CP1-login-state", "CP2-project-switch", "CP3-module-entry"],
+  "function_buttons": [
+    {
+      "button_id": "open-create-page",
+      "button_name": "Open Create Page",
+      "checkpoint_ref": "checkpoints/CP4-function-button/open-create-page/checkpoint.json",
+      "risk_level": "R1",
+      "allowed_action": "open_page_only",
+      "forbidden_actions": ["submit", "save", "delete", "approve"],
+      "locator": {
+        "strategy": "css",
+        "value": "a[href*=\"iana.org\"]",
+        "exact": false
+      },
+      "result_assertions": {
+        "url_contains": "iana.org",
+        "visible_text": "IANA"
+      }
+    },
+    {
+      "button_id": "submit-form",
+      "button_name": "Submit Form",
+      "checkpoint_ref": "checkpoints/CP4-function-button/submit-form/checkpoint.json",
+      "risk_level": "R1",
+      "allowed_action": "submit",
+      "forbidden_actions": ["submit", "save", "delete", "approve"],
+      "locator": {
+        "strategy": "text",
+        "value": "Submit",
+        "exact": true
+      },
+      "result_assertions": {
+        "url_contains": "submit",
+        "visible_text": "Submit"
+      }
+    }
+  ]
+}

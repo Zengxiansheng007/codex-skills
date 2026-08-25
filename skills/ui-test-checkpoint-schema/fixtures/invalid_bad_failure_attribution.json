@@ -1,0 +1,82 @@
+{
+  "checkpoint_id": "CP6_submit_verify",
+  "schema_version": "2.2.0",
+  "stage": "CP6",
+  "name": "提交与结果验证",
+  "status": "failed",
+  "risk_level": "R1",
+  "source_baseline": {
+    "prd_version": "v2.2",
+    "figma_version": "2026-07-30",
+    "design_version": "v2.2",
+    "api_version": "2026.07",
+    "code_branch": "main",
+    "environment_ref": "test-env-01",
+    "captured_at": "2026-07-30T13:00:00+08:00"
+  },
+  "execution_context": {
+    "base_url": "https://example.test",
+    "route": "/module/submit",
+    "role_account_type": "tester",
+    "environment_ref": "test-env-01",
+    "browser_profile": "chromium",
+    "viewport": {"width": 1440, "height": 900},
+    "run_mode": "gated-write",
+    "allowed_actions": ["open", "click", "type", "select", "submit"],
+    "forbidden_actions": ["delete", "publish", "deploy"],
+    "test_data_ref": "TD-CP6-01",
+    "auth_ref": "auth-state-cp1",
+    "cleanup_scope": "test-prefix"
+  },
+  "depends_on": [
+    {"checkpoint_id": "CP5_form_fill", "dependency_type": "data", "impact": "submit depends on filled values"}
+  ],
+  "steps": [],
+  "validate": {
+    "ui": ["success toast or success state visible"],
+    "api": ["submit response 2xx"],
+    "task": ["status reaches success"],
+    "downstream": ["record visible in target detail or query page"],
+    "schema": ["business id can be extracted"]
+  },
+  "evidence": {
+    "artifacts": [
+      {"type": "screenshot", "path": "reports/cp6/01-submit.png"}
+    ],
+    "summary": "bad failure attribution should fail"
+  },
+  "failure_attribution": {
+    "layer": "mystery",
+    "failure_type": "unknown",
+    "root_cause_id": "",
+    "confidence": 1.2,
+    "evidence_refs": [],
+    "impact_scope": "full chain",
+    "action_taken": "",
+    "next_step": "",
+    "notes": ""
+  },
+  "cleanup_policy": {
+    "required_for_write": true,
+    "scope": "test-prefix",
+    "verification": "cleanup evidence must be attached"
+  },
+  "governance": {
+    "owner": "qa-lead",
+    "reviewer": "codex",
+    "approved_by": "qa-lead",
+    "decision": "needs-fix",
+    "decision_reason": "failure attribution intentionally invalid"
+  },
+  "promotion_gate": {
+    "candidate_type": "hybrid",
+    "pass_count": 1,
+    "required_pass_count": 2,
+    "confidence": 0.1,
+    "blocked_reasons": ["invalid failure attribution"]
+  },
+  "staleness_policy": {
+    "dependency_categories": ["task", "downstream", "submit-response"],
+    "validation_result": "stale"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "checkpoint-runtime.system-manifest.v1",
+  "system_id": "demo-system",
+  "system_name": "Demo System",
+  "environment_aliases": ["test"],
+  "default_role_account_type": "tester",
+  "modules": [
+    {
+      "module_id": "requirement-pool",
+      "manifest_ref": "systems/demo-system/modules/requirement-pool/module.manifest.json"
+    }
+  ],
+  "risk_allowlist": ["R0", "R1"],
+  "forbidden_actions": ["submit", "save", "delete", "approve", "publish", "pay", "deploy"]
+}
+

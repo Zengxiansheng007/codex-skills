@@ -1,0 +1,40 @@
+{
+  "schema_version": "checkpoint-runtime.checkpoint-index.v1",
+  "system_id": "demo-system",
+  "module_id": "requirement-pool",
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1-login-state",
+      "stage": "CP1",
+      "status": "valid",
+      "risk_level": "R0",
+      "current_ref": "checkpoints/CP1-login-state/checkpoint.json",
+      "last_run_ref": null
+    },
+    {
+      "checkpoint_id": "CP2-project-switch",
+      "stage": "CP2",
+      "status": "valid",
+      "risk_level": "R1",
+      "current_ref": "checkpoints/CP2-project-switch/checkpoint.json",
+      "last_run_ref": null
+    },
+    {
+      "checkpoint_id": "CP3-module-entry",
+      "stage": "CP3",
+      "status": "valid",
+      "risk_level": "R1",
+      "current_ref": "checkpoints/CP3-module-entry/checkpoint.json",
+      "last_run_ref": null
+    },
+    {
+      "checkpoint_id": "open-create-page",
+      "stage": "CP4.1",
+      "status": "valid",
+      "risk_level": "R1",
+      "current_ref": "checkpoints/CP4-function-button/open-create-page/checkpoint.json",
+      "last_run_ref": null
+    }
+  ]
+}
+
