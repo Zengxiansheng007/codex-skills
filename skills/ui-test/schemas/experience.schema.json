@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/experience.schema.v2.json",
+  "type": "object",
+  "required": ["experience_id", "experience_status", "scope"],
+  "additionalProperties": true,
+  "properties": {
+    "experience_id": {"type": "string", "minLength": 1},
+    "experience_status": {"enum": ["observed", "candidate", "negative", "quarantined", "validated", "promotable", "active", "superseded"]},
+    "scope": {"type": "object"},
+    "forbidden_reuse": {"type": "array"}
+  }
+}

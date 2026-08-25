@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI-test"
+  short_description: "Run, harden, and govern Web UI testing experience."
+  default_prompt: "Use $ui-test to build a safe UI test, verify it with Playwright and Solution D evidence, review and repair failures, produce reports, and capture only scoped, redacted, approval-governed execution experience."

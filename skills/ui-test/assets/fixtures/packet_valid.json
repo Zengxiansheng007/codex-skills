@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "packet_id": "UIT-PACKET-PUBLIC-001",
+  "packet_type": "ui-test-packet",
+  "scope": {"project_group":"public-fixture","product":"public-ui","system":"the-internet","module_path":["checkboxes"],"function":"read-checkbox-state","checkpoint":"CP-checkboxes-ready","environment":"public","risk_level":"r0-read-only"},
+  "risk_level": "r0-read-only",
+  "state": "plan",
+  "case": {"case_id":"TC-PUBLIC-CHECKBOXES"},
+  "branch": {"branch_id":"main"},
+  "run": {"run_id":"RUN-PUBLIC-001","started_at":"2026-08-18T00:00:00Z"},
+  "steps": [
+    {"step_id":"S01","action":"navigate","risk_level":"r0-read-only","required":true,"intent":"open public checkbox page"},
+    {"step_id":"S02","action":"assert","risk_level":"r0-read-only","required":true,"intent":"verify route and two UI features","postcondition":"route plus title and checkbox count"}
+  ],
+  "lineage": {"anchor_id":"RA-UIT-IMPLEMENTATION-20260818-v1.0","source_refs":["public-fixture"]},
+  "evidence_policy": {"screenshot_on_ui_change":true,"redaction_required":true},
+  "retry_policy": {"max_attempts":1,"fallback_allowed":true},
+  "next_action": "validate"
+}

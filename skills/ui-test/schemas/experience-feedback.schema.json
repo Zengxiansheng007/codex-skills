@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/experience-feedback.schema.v1.json",
+  "type": "object",
+  "required": ["schema_version", "experience_id", "run_id", "checkpoint_version", "outcome", "evidence_refs", "permission_effect"],
+  "properties": {
+    "schema_version": {"const": "ui-test.experience-feedback.v1"},
+    "outcome": {"enum": ["used", "not-used", "degraded", "stale", "blocked"]},
+    "permission_effect": {"const": "none"}
+  },
+  "additionalProperties": true
+}

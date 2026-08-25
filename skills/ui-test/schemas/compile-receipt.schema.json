@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/compile-receipt.v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "case_id", "build_fingerprint", "source_hash", "dependency_digest", "compiler_version", "renderer_version", "schema_contract_version", "config_fingerprint", "dependency_material", "byproducts"],
+  "properties": {
+    "schema_version": {"const": "ui-test.compile-receipt.v1"}, "case_id": {"type": "string"},
+    "build_fingerprint": {"$ref": "#/$defs/hash"}, "source_hash": {"$ref": "#/$defs/hash"}, "dependency_digest": {"$ref": "#/$defs/hash"},
+    "compiler_version": {"type": "string"}, "renderer_version": {"type": "string"}, "schema_contract_version": {"type": "string"}, "config_fingerprint": {"type": "string"},
+    "dependency_material": {"type": "array"}, "byproducts": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

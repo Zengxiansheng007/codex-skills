@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/run-result.schema.v2.json",
+  "type": "object",
+  "required": ["schema_version", "run_id", "case_id", "branch_id", "priority", "scope", "overall_status", "release_status", "step_results", "evidence_refs", "conflicts", "findings", "write_state", "submit_count", "retained_test_data", "cleanup_status", "business_cleanup_attempted", "run_result_hash"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {"const": "ui-test.run-result.v2"},
+    "overall_status": {"enum": ["passed", "degraded", "failed", "blocked", "unknown"]},
+    "step_results": {"type": "array"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "conflicts": {"type": "array"},
+    "findings": {"type": "array", "items": {"type": "string"}},
+    "release_status": {"const": "in_sync"},
+    "submit_count": {"type": "integer", "minimum": 0, "maximum": 1},
+    "retained_test_data": {"type": "array"},
+    "cleanup_status": {"enum": ["not_applicable", "not_planned_this_release"]},
+    "business_cleanup_attempted": {"const": false},
+    "run_result_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

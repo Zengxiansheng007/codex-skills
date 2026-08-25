@@ -1,0 +1,30 @@
+{
+  "schema_version": "ui-test.dependency-licenses.v1",
+  "generated_for": "ui-test candidate total-human-view",
+  "dependencies": [
+    {
+      "name": "rfc8785",
+      "version": "0.1.4",
+      "license_expression": "Apache-2.0",
+      "license_source": "PyPI metadata classifier",
+      "source_url": "https://pypi.org/project/rfc8785/",
+      "used_through": "scripts/ui_test_core/jcs.py"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.26.0",
+      "license_expression": "MIT",
+      "license_source": "PyPI project metadata",
+      "source_url": "https://pypi.org/project/jsonschema/",
+      "used_through": "scripts/ui_test_core/case_contracts.py"
+    },
+    {
+      "name": "pytest",
+      "version": "9.1.1",
+      "license_expression": "MIT",
+      "license_source": "installed package license metadata",
+      "source_url": "https://pypi.org/project/pytest/",
+      "used_through": "pytest.ini and tests/"
+    }
+  ]
+}

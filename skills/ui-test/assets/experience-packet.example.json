@@ -1,0 +1,31 @@
+{
+  "experience_id": "EXP-EXAMPLE-001",
+  "experience_version": 1,
+  "experience_status": "candidate",
+  "scope": {
+    "project_group": "project-a",
+    "product": "product-a",
+    "system": "bops-ops-platform",
+    "module": "announcement-management",
+    "function": "open-create-announcement-form",
+    "checkpoint": "CP3-announcement-list",
+    "environment": "test",
+    "risk_level": "r1-read-only"
+  },
+  "category": "network",
+  "trigger": "post-login-list-query",
+  "strategy": "bounded-semantic-read-only-post",
+  "source_run_ids": ["RUN-EXAMPLE-001"],
+  "source_step_ids": ["CP3"],
+  "source_checkpoint_ids": ["CP1", "CP2", "CP3"],
+  "evidence_refs": ["EV-EXAMPLE-001"],
+  "semantic_post": {
+    "method": "POST",
+    "path_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "query_keys": ["ctoken"],
+    "body_keys": ["current", "pageSize"],
+    "content_type": "application/json",
+    "classification": "pagination",
+    "max_per_session": 4
+  }
+}

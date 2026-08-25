@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/r2-approval-record.v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "approval_id", "run_id", "case_id", "environment", "allowed_action", "channel", "max_submit_count", "decision", "boundary_hash", "credential_values_persisted", "reusable_across_runs"],
+  "properties": {
+    "schema_version": {"const": "ui-test.r2-approval-record.v1"}, "approval_id": {"type": "string"}, "run_id": {"type": "string"}, "case_id": {"type": "string"},
+    "environment": {"const": "test"}, "allowed_action": {"type": "string"}, "channel": {"const": "visible-ui"}, "max_submit_count": {"const": 1},
+    "decision": {"enum": ["approved", "denied"]}, "boundary_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "credential_values_persisted": {"const": false}, "reusable_across_runs": {"const": false}
+  }
+}

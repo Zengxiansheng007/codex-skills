@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/ui-test-project.schema.v2.json",
+  "title": "UI-Test Project Config v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scope",
+    "asset_governance",
+    "systems",
+    "runtime_env_keys",
+    "checkpoint_runtime",
+    "knowledge_space",
+    "wait_strategy",
+    "semantic_post_signatures",
+    "execution_policies"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_group", "project_group_name", "product", "product_name", "environment"],
+      "properties": {
+        "project_group": {"$ref": "#/$defs/stableId"},
+        "project_group_name": {"$ref": "#/$defs/displayName"},
+        "product": {"$ref": "#/$defs/stableId"},
+        "product_name": {"$ref": "#/$defs/displayName"},
+        "product_aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}},
+        "environment": {"enum": ["public", "test", "staging", "production"]}
+      }
+    },
+    "asset_governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_asset_root", "knowledge_root", "staging_root", "forbidden_persistent_roots", "layout_version", "levels", "segment_naming", "asset_type_policy_version"],
+      "properties": {
+        "execution_asset_root": {"const": "D:\\UI-Test"},
+        "knowledge_root": {"const": "D:\\RAG"},
+        "staging_root": {"const": "D:\\UI-Test\\_tmp"},
+        "forbidden_persistent_roots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": {"const": "C:\\"},
+          "items": {"type": "string", "minLength": 3}
+        },
+        "layout_version": {"const": 1},
+        "levels": {"const": ["project_group", "product", "system", "module_path", "function", "case", "branch", "run"]},
+        "segment_naming": {"const": "stable-id__display-name"},
+        "asset_type_policy_version": {"const": "ui-test.asset-types.v1"}
+      }
+    },
+    "systems": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/system"}
+    },
+    "runtime_env_keys": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}},
+    "checkpoint_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root_ref"],
+      "properties": {"root_ref": {"type": "string", "minLength": 1}}
+    },
+    "knowledge_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledge_space_id", "relative_path"],
+      "properties": {
+        "knowledge_space_id": {"$ref": "#/$defs/stableId"},
+        "relative_path": {"type": "string", "minLength": 1}
+      }
+    },
+    "wait_strategy": {"type": "object"},
+    "semantic_post_signatures": {"type": "array"},
+    "execution_policies": {"type": "array"}
+  },
+  "$defs": {
+    "stableId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$"},
+    "displayName": {"type": "string", "minLength": 1, "maxLength": 80},
+    "function": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_id", "display_name"],
+      "properties": {
+        "function_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}}
+      }
+    },
+    "modulePathSegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "display_name"],
+      "properties": {
+        "module_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"}
+      }
+    },
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "display_name", "aliases", "module_path", "functions"],
+      "properties": {
+        "module_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "aliases": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}},
+        "module_path": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/modulePathSegment"}},
+        "functions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/function"}},
+        "direct_route_ref": {"type": "string", "minLength": 1},
+        "locator_replay_ref": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [
+        {"required": ["direct_route_ref"]},
+        {"required": ["locator_replay_ref"]}
+      ]
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system_id", "display_name", "modules"],
+      "properties": {
+        "system_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "modules": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/module"}}
+      }
+    }
+  }
+}

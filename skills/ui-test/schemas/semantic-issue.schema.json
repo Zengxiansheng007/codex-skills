@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-test/schemas/semantic-issue.v1.json",
+  "title": "UI-Test Semantic Issue v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issue_id", "rule_id", "severity", "case_id", "branch_id", "source_path", "message", "expected", "actual", "suggested_fix", "blocking", "evidence_refs"],
+  "properties": {
+    "issue_id": {"type": "string", "minLength": 1},
+    "rule_id": {"type": "string", "minLength": 1},
+    "severity": {"enum": ["P0", "P1", "P2", "info"]},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": ["string", "null"]},
+    "source_path": {"type": "string", "minLength": 1},
+    "message": {"type": "string", "minLength": 1},
+    "expected": {"type": "string"},
+    "actual": {"type": "string"},
+    "suggested_fix": {"type": "string"},
+    "blocking": {"type": "boolean"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

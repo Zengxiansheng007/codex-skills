@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/execution-policy.schema.v1.json",
+  "title": "UI-Test Execution Policy",
+  "type": "object",
+  "required": ["policy_id", "allow_actions", "deny_actions", "task_authorization"],
+  "additionalProperties": true,
+  "properties": {
+    "policy_id": {"type": "string", "minLength": 1},
+    "allow_actions": {"type": "array", "items": {"type": "string"}},
+    "deny_actions": {"type": "array", "items": {"type": "string"}},
+    "task_authorization": {"enum": ["approved", "pending", true, false]},
+    "valid_until": {"type": "string"},
+    "secret_boundary": {"enum": ["clear", "detected"]}
+  }
+}

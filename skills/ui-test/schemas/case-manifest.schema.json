@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/case-manifest.v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "case_id", "case_version", "source_hash", "dependency_digest", "build_fingerprint", "status", "generated_from", "generator_version", "renderer_version", "do_not_edit", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "ui-test.case-manifest.v1"}, "case_id": {"type": "string"}, "case_version": {"type": "integer", "minimum": 1},
+    "source_hash": {"$ref": "#/$defs/hash"}, "dependency_digest": {"$ref": "#/$defs/hash"}, "build_fingerprint": {"$ref": "#/$defs/hash"},
+    "status": {"const": "in_sync"}, "generated_from": {"const": "Source Case"}, "generator_version": {"type": "string"}, "renderer_version": {"type": "string"},
+    "do_not_edit": {"const": true}, "artifacts": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hash"}}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/module-ready-context.schema.v1.json",
+  "type": "object",
+  "required": ["schema_version", "context_id", "session_id", "run_id", "checkpoint_id", "module_id", "route_verified", "ui_features_verified", "generated_at", "expires_at", "handoff_status", "evidence_refs"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "context_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "checkpoint_id": {"type": "string", "minLength": 1},
+    "module_id": {"type": "string", "minLength": 1},
+    "route_verified": {"const": true},
+    "ui_features_verified": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+    "handoff_status": {"const": "ready"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  },
+  "not": {"anyOf": [{"required": ["page"]}, {"required": ["dom"]}, {"required": ["cookie"]}, {"required": ["token"]}, {"required": ["storage_state"]}]}
+}

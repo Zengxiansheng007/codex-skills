@@ -1,0 +1,5 @@
+# UI-Test candidate runtime direct dependency lock.
+# Transitive packages are resolved by the project environment manager.
+jsonschema==4.26.0
+pytest==9.1.1
+rfc8785==0.1.4

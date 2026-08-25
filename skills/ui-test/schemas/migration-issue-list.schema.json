@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/migration-issue-list.v1.json",
+  "title": "UI-Test Migration Issue List v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "migration_mode", "source_ref", "source_type", "source_version", "source_hash", "source_unchanged", "target_sidecar_ref", "issues", "blocking_completion"],
+  "properties": {
+    "schema_version": {"const": "ui-test.migration-issue-list.v1"},
+    "migration_mode": {"const": "dry-run"},
+    "source_ref": {"type": "string", "minLength": 1},
+    "source_type": {"type": "string", "minLength": 1},
+    "source_version": {"type": "string", "minLength": 1},
+    "source_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_unchanged": {"const": true},
+    "target_sidecar_ref": {"type": "string", "minLength": 1},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["issue_id", "severity", "problem_code", "source_type", "source_ref", "target_sidecar_ref", "recommended_action", "sensitive_status", "blocking_completion", "provenance"],
+        "properties": {
+          "issue_id": {"type": "string", "pattern": "^MIG-[0-9a-f]{16}$"},
+          "severity": {"enum": ["P0", "P1", "P2"]},
+          "problem_code": {"type": "string", "pattern": "^E_MIGRATION_[A-Z0-9_]+$"},
+          "source_type": {"type": "string", "minLength": 1},
+          "source_ref": {"type": "string", "minLength": 1},
+          "target_sidecar_ref": {"type": "string", "minLength": 1},
+          "recommended_action": {"type": "string", "minLength": 1},
+          "sensitive_status": {"enum": ["clear", "suspected", "quarantined"]},
+          "blocking_completion": {"type": "boolean"},
+          "provenance": {
+            "type": "object", "additionalProperties": false,
+            "required": ["algorithm"],
+            "properties": {"algorithm": {"const": "stable-sha256-v1"}}
+          }
+        }
+      }
+    },
+    "blocking_completion": {"type": "boolean"}
+  }
+}

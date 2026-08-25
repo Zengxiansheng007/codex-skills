@@ -1,0 +1,15 @@
+{
+  "schema_version": "ui-test.jcs-fixtures.v1",
+  "fixtures": [
+    {
+      "id": "JCS-001",
+      "input": {"b": 2, "a": 1},
+      "canonical_utf8": "{\"a\":1,\"b\":2}"
+    },
+    {
+      "id": "JCS-002",
+      "input": {"numbers": [333333333.33333329, 4.50, 2e-3, -0.0]},
+      "canonical_utf8": "{\"numbers\":[333333333.3333333,4.5,0.002,0]}"
+    }
+  ]
+}

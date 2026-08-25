@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-test/schemas/product-outline.v1.json",
+  "title": "UI-Test product outline v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["node_id", "node_type", "label", "children"],
+  "properties": {
+    "node_id": {"type": "string", "minLength": 1},
+    "node_type": {"enum": ["project-group", "product", "system", "module", "function", "common-preconditions", "case", "section", "operation", "parameters", "parameter", "expected", "metadata"]},
+    "label": {"type": "string", "minLength": 1},
+    "stable_id": {"type": "string", "minLength": 1},
+    "priority": {"enum": ["P0", "P1", "P2"]},
+    "branch_id": {"type": ["string", "null"]},
+    "is_unmodified": {"type": "boolean"},
+    "source_ref": {"type": "object"},
+    "children": {"type": "array", "items": {"$ref": "#"}}
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/ui-test-project.schema.v1.json",
+  "title": "UI-Test Project Config",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope",
+    "systems",
+    "runtime_env_keys",
+    "checkpoint_runtime",
+    "knowledge_space",
+    "wait_strategy",
+    "semantic_post_signatures",
+    "execution_policies"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "scope": {
+      "type": "object",
+      "required": ["project_group", "product", "environment"],
+      "properties": {
+        "project_group": {"type": "string", "minLength": 1},
+        "product": {"type": "string", "minLength": 1},
+        "environment": {"enum": ["public", "test", "staging", "production"]}
+      }
+    },
+    "systems": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["system_id", "modules"],
+        "properties": {
+          "system_id": {"type": "string", "minLength": 1},
+          "modules": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["module_id", "aliases"],
+              "properties": {
+                "module_id": {"type": "string", "minLength": 1},
+                "aliases": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "direct_route_ref": {"type": "string", "minLength": 1},
+                "locator_replay_ref": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    "runtime_env_keys": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "checkpoint_runtime": {"type": "object", "required": ["root_ref"], "properties": {"root_ref": {"type": "string", "minLength": 1}}},
+    "knowledge_space": {"type": "object", "required": ["knowledge_space_id", "root_ref"], "properties": {"knowledge_space_id": {"type": "string", "minLength": 1}, "root_ref": {"type": "string", "minLength": 1}}},
+    "wait_strategy": {"type": "object"},
+    "semantic_post_signatures": {"type": "array"},
+    "execution_policies": {"type": "array"}
+  }
+}

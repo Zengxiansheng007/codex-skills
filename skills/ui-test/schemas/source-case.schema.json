@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-test/schemas/source-case.v1.json",
+  "title": "UI-Test Source Case v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "case_version", "title", "display_name", "status", "priority", "scope", "risk", "precondition_group", "precondition_flow_refs", "special_preconditions", "page_object_refs", "component_refs", "test_points", "steps", "data_rules", "generation", "source_refs"],
+  "properties": {
+    "schema_version": {"const": "ui-test.source-case.v1"},
+    "case_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,127}$"},
+    "case_version": {"type": "integer", "minimum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "display_name": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "review", "approved", "active", "deprecated"]},
+    "priority": {"enum": ["P0", "P1", "P2"]},
+    "p0_suite_id": {"type": ["string", "null"]},
+    "branch_id": {"type": ["string", "null"]},
+    "scope": {"$ref": "#/$defs/scope"},
+    "risk": {"$ref": "#/$defs/risk"},
+    "precondition_group": {"type": "string", "minLength": 1},
+    "precondition_flow_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/versionedRef"}},
+    "special_preconditions": {"type": "array", "items": {"$ref": "#/$defs/specialStep"}},
+    "page_object_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/versionedRef"}},
+    "component_refs": {"type": "array", "items": {"$ref": "#/$defs/versionedRef"}},
+    "test_points": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/testPoint"}},
+    "steps": {
+      "type": "object", "additionalProperties": false,
+      "required": ["setup", "feature", "assertions"],
+      "properties": {
+        "setup": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}},
+        "feature": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}},
+        "assertions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}}
+      }
+    },
+    "data_rules": {"type": "object"},
+    "generation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["human", "midscene", "resolved", "playwright"],
+      "properties": {"human": {"type": "boolean"}, "midscene": {"type": "boolean"}, "resolved": {"type": "boolean"}, "playwright": {"type": "boolean"}}
+    },
+    "source_refs": {"type": "array", "items": {"type": "string"}},
+    "owner": {"type": "string"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"priority": {"const": "P0"}}},
+      "then": {
+        "required": ["p0_suite_id", "branch_id"],
+        "properties": {
+          "p0_suite_id": {"type": "string", "minLength": 1},
+          "branch_id": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "risk": {
+            "properties": {"risk_level": {"const": "R2"}},
+            "required": ["risk_level"]
+          }
+        },
+        "required": ["risk"]
+      },
+      "then": {
+        "properties": {
+          "risk": {
+            "required": ["write_action", "max_submit_count", "environment_allowlist", "ui_only"],
+            "properties": {
+              "max_submit_count": {"const": 1},
+              "ui_only": {"const": true},
+              "environment_allowlist": {"contains": {"const": "test"}}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "scope": {"type": "object", "additionalProperties": false, "required": ["project_group", "product", "system", "module_path", "function"], "properties": {"project_group": {"type": "string", "minLength": 1}, "product": {"type": "string", "minLength": 1}, "product_aliases": {"type": "array", "items": {"type": "string"}}, "system": {"type": "string", "minLength": 1}, "module_path": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}, "function": {"type": "string", "minLength": 1}}},
+    "risk": {"type": "object", "additionalProperties": false, "required": ["risk_level", "forbidden_actions"], "properties": {"risk_level": {"enum": ["R0", "R1", "R2"]}, "write_action": {"type": "string"}, "max_submit_count": {"type": "integer", "minimum": 0}, "environment_allowlist": {"type": "array", "items": {"type": "string"}}, "ui_only": {"type": "boolean"}, "forbidden_actions": {"type": "array", "items": {"type": "string"}}}},
+    "versionedRef": {"type": "object", "additionalProperties": false, "required": ["id", "version"], "properties": {"id": {"type": "string", "minLength": 1}, "version": {"type": "integer", "minimum": 1}}},
+    "testPoint": {"type": "object", "additionalProperties": false, "required": ["test_point_id", "responsibility", "coverage_method", "variant", "assertion_refs"], "properties": {"test_point_id": {"type": "string", "minLength": 1}, "responsibility": {"enum": ["primary", "supporting", "execution-only", "not-applicable"]}, "coverage_method": {"enum": ["operation", "default-assertion", "visibility-assertion", "usability-assertion", "constraint-assertion", "not-applicable"]}, "variant": {"type": "string", "minLength": 1}, "assertion_refs": {"type": "array", "items": {"type": "string"}}}},
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["step_id", "intent", "action", "expected_result", "risk_level", "required"],
+      "properties": {
+        "step_id": {"type": "string", "minLength": 1},
+        "intent": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "binding_ref": {"type": ["string", "null"]},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}},
+        "expected_result": {"type": "string", "minLength": 1},
+        "risk_level": {"enum": ["R0", "R1", "R2"]},
+        "required": {"type": "boolean"},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "forbidden_actions": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "specialStep": {
+      "type": "object", "additionalProperties": false,
+      "required": ["step_id", "intent", "action", "expected_result", "risk_level", "required"],
+      "properties": {
+        "step_id": {"type": "string", "minLength": 1},
+        "intent": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "binding_ref": {"type": ["string", "null"]},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}},
+        "expected_result": {"type": "string", "minLength": 1},
+        "risk_level": {"enum": ["R0", "R1", "R2"]},
+        "required": {"type": "boolean"},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "forbidden_actions": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "parameter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["label", "display_value", "source_type"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "display_value": {"type": "string", "minLength": 1},
+        "source_type": {"enum": ["literal", "generated", "shared-data", "public-data", "environment", "reference"]},
+        "index_ref": {"type": "string", "minLength": 1},
+        "sensitive": {"type": "boolean"},
+        "notes": {"type": "string"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"source_type": {"enum": ["shared-data", "public-data"]}}, "required": ["source_type"]},
+          "then": {"required": ["index_ref"]}
+        }
+      ]
+    }
+  }
+}

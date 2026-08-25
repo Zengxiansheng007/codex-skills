@@ -1,0 +1,24 @@
+{
+  "schema_version": "ui-test.contract-registry.v1",
+  "owner": "ui-test",
+  "contracts": [
+    {"contract_id": "ui-test.project.v1", "path": "schemas/ui-test-project.schema.json", "status": "deprecated"},
+    {"contract_id": "ui-test.project.v2", "path": "schemas/ui-test-project-v2.schema.json", "status": "active"},
+    {"contract_id": "ui-test.packet.v1", "path": "schemas/ui-test-packet.schema.json", "status": "deprecated"},
+    {"contract_id": "ui-test.packet.v2", "path": "schemas/ui-test-packet-v2.schema.json", "status": "active"},
+    {"contract_id": "ui-test.execution-policy.v1", "path": "schemas/execution-policy.schema.json", "status": "active"},
+    {"contract_id": "ui-test.module-ready-context.v1", "path": "schemas/module-ready-context.schema.json", "status": "active"},
+    {"contract_id": "ui-test.run-result.v2", "path": "schemas/run-result.schema.json", "status": "active"},
+    {"contract_id": "ui-test.experience.v2", "path": "schemas/experience.schema.json", "status": "active"},
+    {"contract_id": "ui-test.experience-feedback.v1", "path": "schemas/experience-feedback.schema.json", "status": "active"},
+    {"contract_id": "ui-test.migration-issue-list.v1", "path": "schemas/migration-issue-list.schema.json", "status": "active"},
+    {"contract_id": "ui-test.preflight-result.v1", "path": "schemas/preflight-result.schema.json", "status": "active"},
+    {"contract_id": "ui-test.r2-approval-record.v1", "path": "schemas/r2-approval-record.schema.json", "status": "active"},
+    {"contract_id": "ui-test.metric-record.v1", "path": "schemas/metric-record.schema.json", "status": "active"},
+    {"contract_id": "ui-test.source-case.v1", "path": "schemas/source-case.schema.json", "status": "active"},
+    {"contract_id": "ui-test.case-ir.v1", "path": "schemas/case-ir.schema.json", "status": "active"},
+    {"contract_id": "ui-test.resolved-ir.v1", "path": "schemas/resolved-ir.schema.json", "status": "active"},
+    {"contract_id": "ui-test.case-manifest.v1", "path": "schemas/case-manifest.schema.json", "status": "active"},
+    {"contract_id": "ui-test.compile-receipt.v1", "path": "schemas/compile-receipt.schema.json", "status": "active"}
+  ]
+}

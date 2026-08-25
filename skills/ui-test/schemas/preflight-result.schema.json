@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/preflight-result.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stage", "ok", "issues", "formal_write_allowed", "completion_allowed"],
+  "properties": {
+    "schema_version": {"const": "ui-test.preflight-result.v1"},
+    "stage": {"enum": ["preflight", "post-write"]},
+    "ok": {"type": "boolean"},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["code", "path", "message"],
+        "properties": {"code": {"type": "string", "pattern": "^E_[A-Z0-9_]+$"}, "path": {"type": "string"}, "message": {"type": "string"}}
+      }
+    },
+    "path_plans": {"type": "array"},
+    "formal_write_allowed": {"type": "boolean"},
+    "completion_allowed": {"type": "boolean"}
+  }
+}

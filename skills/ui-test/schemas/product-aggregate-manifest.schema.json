@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui-test/schemas/product-aggregate-manifest.v1.json",
+  "title": "UI-Test product aggregate manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "is_unmodified", "project_group_display_name", "product_display_name", "system_display_name", "scope", "included_cases", "compiler_version", "renderer_version", "schema_version_source", "markdown_hash", "outline_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.product-aggregate-manifest.v1"},
+    "status": {"const": "in_sync"},
+    "is_unmodified": {"const": true},
+    "project_group_display_name": {"type": "string", "minLength": 1},
+    "product_display_name": {"type": "string", "minLength": 1},
+    "system_display_name": {"type": "string", "minLength": 1},
+    "scope": {"type": "object", "additionalProperties": false, "required": ["project_group", "product", "system", "module_path"], "properties": {"project_group": {"type": "string"}, "product": {"type": "string"}, "system": {"type": "string"}, "module_path": {"type": "array", "minItems": 1, "items": {"type": "string"}}}},
+    "included_cases": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["case_id", "branch_id", "priority", "source_hash", "case_manifest_hash"], "properties": {"case_id": {"type": "string"}, "branch_id": {"type": ["string", "null"]}, "priority": {"enum": ["P0", "P1", "P2"]}, "source_hash": {"type": "string"}, "case_manifest_hash": {"type": "string"}}}},
+    "compiler_version": {"type": "string"},
+    "renderer_version": {"type": "string"},
+    "schema_version_source": {"type": "string"},
+    "config_fingerprint": {"type": "string"},
+    "markdown_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "outline_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}
