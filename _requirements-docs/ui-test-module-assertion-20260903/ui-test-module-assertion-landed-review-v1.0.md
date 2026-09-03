@@ -1,6 +1,6 @@
 # UI-Test 逐模块断言专项 Landed Review v1.0
 
-状态：`reviewed / formal-accepted / publish-pending`
+状态：`reviewed / formal-accepted / published`
 
 ## 已落地
 
@@ -17,8 +17,8 @@
 - XMind 桌面端未安装，无法完成原生桌面导入；递归 Outline Schema 和 Markdown Golden 已通过。
 - 新 build 仅 `pre-submit-verified / R2-not-reverified`，不能把 A-011/B-001 的历史 R2 成功迁移为新 build 成功。
 - diagnostics、孤儿 Run、Runtime 分类和 Completion 独立证明仍为整体治理的 `repair-needed`。
-- GitHub 发布与远端 SHA 校验尚待本轮最后步骤。
+- GitHub `main` 已发布，远端 ref 与 Raw Skill/需求文档均已独立读取验证。
 
 ## 结论
 
-本专项正式业务链路达到 `functional-accepted / pre-submit-verified`；公开发布完成前专项状态不是最终 completed，整体治理也不得因本专项通过而关闭其他缺陷。
+本专项达到 `delivered / functional-accepted / pre-submit-verified / published`；XMind 桌面导入保持外部待验，整体治理也不得因本专项交付而关闭其他缺陷。

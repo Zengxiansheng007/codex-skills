@@ -2,7 +2,8 @@
   "artifact_id": "RA-UI-TEST-MODULE-ASSERTION-20260903",
   "version": "1.0",
   "status": "approved",
-  "implementation_status": "formal-validated-publish-pending",
+  "implementation_status": "implemented-and-published",
+  "verification_status": "passed-except-xmind-desktop-external",
   "approved_scope": [
     "global-ui-test-workspace-and-install",
     "tianjin-a-b-module-semantics",

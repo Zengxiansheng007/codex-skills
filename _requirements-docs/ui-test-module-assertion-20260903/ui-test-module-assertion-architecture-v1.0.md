@@ -1,6 +1,6 @@
 # UI-Test 逐模块断言与产品聚合架构 v1.0
 
-状态：`candidate-as-built`
+状态：`as-built / validated`
 
 ## 权威数据流
 

@@ -1,6 +1,6 @@
 # UI-Test 逐模块断言修复测试方案 v1.0
 
-状态：`execution-running`
+状态：`passed / xmind-desktop-external`
 
 ## 自动化层
 

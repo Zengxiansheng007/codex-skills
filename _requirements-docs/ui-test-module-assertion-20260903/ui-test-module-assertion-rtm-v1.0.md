@@ -9,4 +9,4 @@
 | FR-07 | recursive aggregate | `render_product_aggregate_v2` | Tianjin aggregate Golden | passed-workspace |
 | FR-08 | structural formal verifier | `verify_formal_deployment.py` | valid/in_sync/ready; 336 historical files unchanged | passed |
 | FR-09/10 | prepare/activate + qualification | `case_sync.py`, `formal_deploy.py`, `formal_runtime.py` | both zero-submit qualifications and activation result | passed |
-| AC-07 | global/public release | install/publish workflow | 243 installed tests; remote SHA pending | publish-pending |
+| AC-07 | global/public release | install/publish workflow | 243 installed tests; GitHub main and Raw files verified | passed |

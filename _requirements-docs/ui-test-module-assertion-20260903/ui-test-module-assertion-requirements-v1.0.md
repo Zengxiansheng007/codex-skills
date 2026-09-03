@@ -1,6 +1,6 @@
 # UI-Test 总测试用例与逐模块断言修复需求 v1.0
 
-状态：`approved / implementation-running`
+状态：`approved / implemented`
 需求锚点：`RA-UI-TEST-MODULE-ASSERTION-20260903@v1.0`
 
 ## 目标

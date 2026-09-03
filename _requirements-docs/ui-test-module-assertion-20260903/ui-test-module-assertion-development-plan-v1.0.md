@@ -1,6 +1,6 @@
 # UI-Test 逐模块断言修复开发计划 v1.0
 
-状态：`implementation-running`
+状态：`implemented`
 
 | Story | 交付 | 验证 |
 |---|---|---|
