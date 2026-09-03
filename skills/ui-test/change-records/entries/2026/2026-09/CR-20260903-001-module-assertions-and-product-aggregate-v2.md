@@ -41,7 +41,7 @@ All semantic changes produce new immutable A/B builds. Existing releases and Run
 
 | Check | Result |
 |---|---|
-| Full candidate suite | 273 passed |
+| Full candidate suite | 274 passed |
 | Installed global Skill suite | 243 passed |
 | Formal A/B no-submit qualification | A 12 steps passed; B 13 steps passed; both zero submit and zero sequence allocation |
 | Formal verifier | valid/in_sync/ready; 336 historical files unchanged |
