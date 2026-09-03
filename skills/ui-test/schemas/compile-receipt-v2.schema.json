@@ -3,7 +3,7 @@
   "$id": "https://codex.local/ui-test/schemas/compile-receipt.schema.v2.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "case_id", "branch_id", "build_fingerprint", "source_hash", "test_data_hash", "parameter_manifest_hash", "runtime_material_digest", "dependency_digest", "config_fingerprint", "compiler_version", "renderer_version", "artifact_names"],
+  "required": ["schema_version", "case_id", "branch_id", "build_fingerprint", "source_hash", "test_data_hash", "parameter_manifest_hash", "runtime_material_digest", "dependency_digest", "page_module_registry_digest", "module_coverage_digest", "config_fingerprint", "compiler_version", "renderer_version", "artifact_names"],
   "properties": {
     "schema_version": {"const": "ui-test.compile-receipt.v2"},
     "case_id": {"type": "string"},
@@ -14,6 +14,8 @@
     "parameter_manifest_hash": {"$ref": "#/$defs/hash"},
     "runtime_material_digest": {"$ref": "#/$defs/hash"},
     "dependency_digest": {"$ref": "#/$defs/hash"},
+    "page_module_registry_digest": {"$ref": "#/$defs/hash"},
+    "module_coverage_digest": {"$ref": "#/$defs/hash"},
     "config_fingerprint": {"$ref": "#/$defs/hash"},
     "compiler_version": {"type": "string"},
     "renderer_version": {"type": "string"},

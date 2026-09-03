@@ -66,6 +66,107 @@ def render_product_aggregate(
             "outline": outline, "manifest": manifest, "included_cases": included}
 
 
+def render_product_aggregate_v2(
+    compiled_cases: Iterable[dict[str, Any]],
+    *,
+    display_registry: dict[str, dict[str, str]],
+    config_fingerprint: str,
+    compiler_version: str = "2.0.0",
+    renderer_version: str = "2.2.0",
+) -> dict[str, Any]:
+    """从已验证的 v2 Case/Resolved IR 构造产品树，而不是拼接单用例 Human View。"""
+    raw_entries = list(compiled_cases)
+    if not raw_entries:
+        raise AggregateError("E_AGGREGATE_EMPTY")
+    entries = [_normalize_v2_entry(item) for item in raw_entries]
+    entries.sort(key=_case_sort_key)
+    first_scope = entries[0]["case_ir"]["scope"]
+    _assert_same_scope(entries, first_scope)
+    context = _resolve_display_context(
+        first_scope,
+        entries,
+        display_registry=display_registry,
+        project_group_display_name=None,
+        product_display_name=None,
+        system_display_name=None,
+    )
+    if len({item["case_ir"]["case_id"] for item in entries}) != len(entries):
+        raise AggregateError("E_AGGREGATE_DUPLICATE_CASE")
+    outline = _build_outline(context, entries)
+    markdown = _render_markdown(outline)
+    included = [
+        {
+            "case_id": item["case_ir"]["case_id"],
+            "branch_id": item["case_ir"]["branch_id"],
+            "priority": item["case_ir"]["priority"],
+            "source_hash": item["case_ir"]["source_hash"],
+            "test_data_hash": item["case_ir"]["test_data_hash"],
+            "parameter_manifest_hash": item["case_ir"]["parameter_manifest_hash"],
+            "case_manifest_hash": canonical_hash(item["manifest"]),
+            "build_fingerprint": item["manifest"]["build_fingerprint"],
+        }
+        for item in entries
+    ]
+    manifest = {
+        "schema_version": "ui-test.product-aggregate-manifest.v2",
+        "status": "in_sync",
+        "is_unmodified": True,
+        "project_group_display_name": context["project_group_display_name"],
+        "product_id": context["product_id"],
+        "product_display_name": context["product_display_name"],
+        "system_display_name": context["system_display_name"],
+        "scope": {
+            "project_group": first_scope["project_group"],
+            "product": first_scope["product"],
+            "system": first_scope["system"],
+            "module_path": copy.deepcopy(first_scope["module_path"]),
+            "function": first_scope["function"],
+        },
+        "included_cases": included,
+        "compiler_version": compiler_version,
+        "renderer_version": renderer_version,
+        "config_fingerprint": config_fingerprint,
+        "markdown_hash": canonical_hash(markdown),
+        "outline_hash": canonical_hash(outline),
+    }
+    manifest["aggregate_hash"] = canonical_hash(manifest)
+    if validate_document(outline, "product-outline-v2.schema.json"):
+        raise AggregateError("E_AGGREGATE_OUTLINE_V2_INVALID")
+    if validate_document(manifest, "product-aggregate-manifest-v2.schema.json"):
+        raise AggregateError("E_AGGREGATE_MANIFEST_V2_INVALID")
+    safe_name = _safe_filename(context["product_display_name"])
+    return {
+        "outputs": {f"{safe_name}.总测试用例.md": markdown, f"{safe_name}.总测试用例.outline.json": outline},
+        "outline": outline,
+        "manifest": manifest,
+        "included_cases": included,
+    }
+
+
+def _normalize_v2_entry(item: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(item, dict):
+        raise AggregateError("E_AGGREGATE_ENTRY_INVALID")
+    case_ir = item.get("case_ir")
+    resolved_ir = item.get("resolved_ir")
+    manifest = item.get("manifest")
+    release_state = item.get("release_state")
+    if not all(isinstance(value, dict) for value in (case_ir, resolved_ir, manifest, release_state)):
+        raise AggregateError("E_AGGREGATE_ENTRY_CONTRACT")
+    if validate_document(case_ir, "case-ir-v2.schema.json"):
+        raise AggregateError(f"E_AGGREGATE_CASE_IR_INVALID:{case_ir.get('case_id', 'unknown')}")
+    if validate_document(resolved_ir, "resolved-ir-v2.schema.json"):
+        raise AggregateError(f"E_AGGREGATE_RESOLVED_IR_INVALID:{case_ir['case_id']}")
+    if validate_document(manifest, "case-manifest-v2.schema.json"):
+        raise AggregateError(f"E_AGGREGATE_CASE_MANIFEST_INVALID:{case_ir['case_id']}")
+    if release_state.get("release_integrity") != "valid" or release_state.get("input_sync") != "in_sync" or release_state.get("execution_gate") != "ready":
+        raise AggregateError(f"E_AGGREGATE_CASE_NOT_IN_SYNC:{case_ir['case_id']}")
+    if manifest.get("source_hash") != case_ir.get("source_hash") or resolved_ir.get("source_hash") != case_ir.get("source_hash"):
+        raise AggregateError(f"E_AGGREGATE_SOURCE_HASH_MISMATCH:{case_ir['case_id']}")
+    normalized = copy.deepcopy(case_ir)
+    normalized["normalized_steps"] = copy.deepcopy(resolved_ir["resolved_steps"])
+    return {"case_ir": normalized, "resolved_ir": copy.deepcopy(resolved_ir), "manifest": copy.deepcopy(manifest), "release_state": copy.deepcopy(release_state)}
+
+
 def _validate_entry(item: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(item, dict):
         raise AggregateError("E_AGGREGATE_ENTRY_INVALID")
@@ -189,7 +290,15 @@ def _build_step_node(case_id: str, section: str, index: int, step: dict[str, Any
     if parameters:
         for p_index, parameter in enumerate(parameters, 1): parameter_node["children"].append(_label_node("parameter", _format_parameter(parameter), f"step|{case_id}|{step_id}|parameter|{p_index}"))
     else: parameter_node["children"].append(_label_node("parameter", "无", f"step|{case_id}|{step_id}|parameter|empty"))
-    node["children"].append(parameter_node); node["children"].append(_label_node("expected", f"预期：{step['expected_result']}", f"step|{case_id}|{step_id}|expected"))
+    node["children"].append(parameter_node)
+    assertions = []
+    for item in step.get("postconditions", []):
+        expected = item.get("expected_value", item.get("expected_reference", item.get("expected_ref", "")))
+        assertions.append(f"{item['assertion_id']} {item['operator']} {expected}")
+    expected_label = f"预期：{step['expected_result']}"
+    if assertions:
+        expected_label += "；断言：" + "；".join(assertions)
+    node["children"].append(_label_node("expected", expected_label, f"step|{case_id}|{step_id}|expected"))
     return node
 
 
@@ -203,7 +312,12 @@ def _label_node(node_type: str, label: str, node_id: str) -> dict[str, Any]: ret
 
 
 def _format_parameter(parameter: dict[str, Any]) -> str:
-    label = str(parameter.get("label", "")).strip(); value = str(parameter.get("display_value", "")).strip(); pieces = [f"{label}：{value}" if label else value]
+    label = str(parameter.get("label", "")).strip()
+    if parameter.get("reference_only"):
+        value = str(parameter.get("ref", "")).strip()
+    else:
+        value = str(parameter.get("display_value", parameter.get("value", ""))).strip()
+    pieces = [f"{label}：{value}" if label else value]
     index_ref = str(parameter.get("index_ref", "")).strip()
     if index_ref: pieces.append(f"索引：{index_ref}")
     source_type = str(parameter.get("source_type", "")).strip()

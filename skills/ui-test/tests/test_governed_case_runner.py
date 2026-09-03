@@ -5,7 +5,7 @@ import pytest
 from scripts.ui_test_core.execution_data_session import ExecutionDataError, ExecutionDataSession
 from scripts.ui_test_core.execution_parameter_guard import ExecutionParameterGuard
 from scripts.ui_test_core.failure_repair_store import FailureRepairEventStore
-from scripts.ui_test_core.governed_case_runner import execute_governed_case
+from scripts.ui_test_core.governed_case_runner import execute_governed_case, execute_pre_submit_case
 from tests.fixtures_v2 import compiled_v2
 
 
@@ -34,6 +34,9 @@ class FakeDriver:
     def submit_once(self, page, consume):
         self.events.append("submit")
         return {"write_state": "write_succeeded_verified"}
+
+    def capture_failure(self, page):
+        self.events.append("failure-capture")
 
 
 def _guard(tmp_path, compiled, data_path):
@@ -78,3 +81,24 @@ def test_drift_blocks_context_and_business_write(tmp_path):
             snapshot_path=tmp_path / "run" / "resolved-test-data.json",
         )
     assert events == []
+
+
+def test_pre_submit_failure_is_captured_before_context_closes(tmp_path):
+    data_path = tmp_path / "test-data.json"
+    compiled, _ = compiled_v2(data_path)
+    events = []
+    driver = FakeDriver(events)
+
+    def fail_prepare(page, consume):
+        events.append("prepare")
+        raise RuntimeError("E_SYNTHETIC_UI_FAILURE")
+
+    driver.prepare = fail_prepare
+    with pytest.raises(RuntimeError, match="E_SYNTHETIC_UI_FAILURE"):
+        execute_pre_submit_case(
+            guard=_guard(tmp_path, compiled, data_path),
+            context_factory=lambda: (events.append("context") or FakeContext(events)),
+            driver=driver,
+            snapshot_path=tmp_path / "run" / "resolved-test-data.json",
+        )
+    assert events == ["context", "page", "prepare", "failure-capture", "close"]

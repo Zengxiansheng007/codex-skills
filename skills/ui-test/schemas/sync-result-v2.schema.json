@@ -6,7 +6,7 @@
   "required": ["schema_version", "status", "case_id", "branch_id", "build_fingerprint", "active_build", "no_op", "issues"],
   "properties": {
     "schema_version": {"const": "ui-test.sync-result.v2"},
-    "status": {"enum": ["applied", "in_sync", "plan_stale", "concurrent_update", "validation_failed", "generation_failed", "blocked"]},
+    "status": {"enum": ["prepared", "applied", "in_sync", "plan_stale", "concurrent_update", "validation_failed", "generation_failed", "blocked"]},
     "case_id": {"type": "string"},
     "branch_id": {"type": "string"},
     "build_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},

@@ -11,6 +11,7 @@
     "data_revision": {"type": "integer", "minimum": 1},
     "parameters": {"type": "object", "minProperties": 1},
     "generation_rules": {"type": "object"},
+    "expected_defaults": {"type": "object"},
     "runtime_refs": {"type": "array", "items": {"type": "string", "pattern": "^(value|credential|sequence):.+$"}, "uniqueItems": true},
     "metadata": {
       "type": "object",

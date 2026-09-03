@@ -46,6 +46,9 @@
     {"contract_id": "ui-test.cleanup-result.v2", "path": "schemas/cleanup-result-v2.schema.json", "status": "active"},
     {"contract_id": "ui-test.product-release-manifest.v2", "path": "schemas/product-release-manifest-v2.schema.json", "status": "active"},
     {"contract_id": "ui-test.product-active-pointer.v2", "path": "schemas/product-active-pointer-v2.schema.json", "status": "active"},
-    {"contract_id": "ui-test.product-aggregate-manifest.v2", "path": "schemas/product-aggregate-manifest-v2.schema.json", "status": "active"}
+    {"contract_id": "ui-test.product-aggregate-manifest.v2", "path": "schemas/product-aggregate-manifest-v2.schema.json", "status": "active"},
+    {"contract_id": "ui-test.product-outline.v2", "path": "schemas/product-outline-v2.schema.json", "status": "active"},
+    {"contract_id": "ui-test.page-module-registry.v1", "path": "schemas/page-module-registry.schema.json", "status": "active"},
+    {"contract_id": "ui-test.pre-submit-qualification-result.v1", "path": "schemas/pre-submit-qualification-result.schema.json", "status": "active"}
   ]
 }

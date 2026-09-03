@@ -1,0 +1,29 @@
+{
+  "artifact_id": "RA-UI-TEST-MODULE-ASSERTION-20260903",
+  "version": "1.0",
+  "status": "approved",
+  "implementation_status": "formal-validated-publish-pending",
+  "approved_scope": [
+    "global-ui-test-workspace-and-install",
+    "tianjin-a-b-module-semantics",
+    "product-aggregate-v2",
+    "inactive-successor-and-pre-submit-qualification",
+    "formal-active-transaction",
+    "github-main-public-scope"
+  ],
+  "forbidden_actions": [
+    "click-submit",
+    "create-or-delete-announcement",
+    "allocate-popup-sequence",
+    "rewrite-historical-release-or-run",
+    "write-d-rag",
+    "gitbook-sync"
+  ],
+  "overall_governance_state_after_specialty": "repair-needed",
+  "excluded_defects": [
+    "diagnostics-governance",
+    "orphan-run-governance",
+    "runtime-classification",
+    "completion-independent-proof"
+  ]
+}

@@ -1,6 +1,6 @@
 import copy
 
-from scripts.ui_test_core.case_sync import apply_sync_plan, dry_run
+from scripts.ui_test_core.case_sync import activate_prepared_sync_plan, apply_sync_plan, dry_run, prepare_sync_plan
 from scripts.ui_test_core.release_verifier import verify_release
 from tests.fixtures_v2 import compiled_v2
 
@@ -42,3 +42,16 @@ def test_generation_failure_keeps_active_and_cleans_unique_staging(tmp_path):
     staging = target / "_staging"
     assert list(staging.iterdir()) == []
 
+
+def test_prepare_keeps_old_active_until_explicit_activation(tmp_path):
+    compiled, _ = compiled_v2(tmp_path / "test-data.json")
+    target = tmp_path / "formal-copy"
+    plan = dry_run(compiled, target, operation_id="op-prepare")
+    prepared = prepare_sync_plan(plan, lambda: copy.deepcopy(compiled), target)
+    assert prepared["status"] == "prepared"
+    assert prepared["active_build"] is None
+    assert not (target / "active.json").exists()
+    assert verify_release(prepared["release_path"], current_identity=compiled["identity"])["execution_gate"] == "ready"
+    activated = activate_prepared_sync_plan(plan, lambda: copy.deepcopy(compiled), target)
+    assert activated["status"] == "applied"
+    assert activated["active_build"] == compiled["manifest"]["build_fingerprint"]

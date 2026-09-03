@@ -21,7 +21,7 @@ def source_case_v2() -> dict[str, Any]:
         "display_name": "创建示例记录核心冒烟",
         "priority": "P0",
         "risk_level": "R2",
-        "scope": {"project_group": "demo", "product": "sample-product", "function": "create"},
+        "scope": {"project_group": "demo", "product": "sample-product", "system": "sample-system", "module_path": ["records"], "function": "create"},
         "parameter_bindings": [
             {"parameter_id": "title-template", "label": "标题规则", "ref": "test-data:/parameters/title_template"},
             {"parameter_id": "content-template", "label": "内容规则", "ref": "test-data:/parameters/content_template"},
@@ -33,9 +33,11 @@ def source_case_v2() -> dict[str, Any]:
             {"parameter_id": "version", "label": "版本号", "ref": "sequence:popup-version"}
         ],
         "steps": [
-            {"step_id": "S-001", "section": "setup", "intent": "进入创建页", "action": "flow", "parameter_ids": ["service-host", "login-account"], "expected_result": "创建页可见", "binding_ref": "flow.open-create", "evidence": ["page-ready"]},
-            {"step_id": "S-002", "section": "feature", "intent": "填写业务字段", "action": "fill", "parameter_ids": ["title-template", "content-template", "audiences", "date-offset", "time-suffix-digits", "version"], "expected_result": "全部字段已填写", "binding_ref": "component.form.fill", "evidence": ["form-state"]},
-            {"step_id": "S-003", "section": "assertions", "intent": "核对字段", "action": "assert", "parameter_ids": ["title-template", "audiences"], "expected_result": "字段值正确", "binding_ref": "component.form.assert", "evidence": ["field-values"]}
+            {"step_id": "S-001", "section": "setup", "intent": "进入创建页", "action": "flow", "module_id": "page.record-create", "parameter_ids": ["service-host", "login-account"], "expected_result": "创建页可见", "binding_ref": "flow.open-create", "evidence": ["page-ready"], "postconditions": [{"assertion_id": "A-PAGE", "operator": "visible", "expected_ref": "literal:true", "evidence": ["page-ready"]}]},
+            {"step_id": "S-002", "section": "feature", "intent": "填写标题", "action": "fill", "module_id": "title", "parameter_ids": ["title-template", "time-suffix-digits"], "expected_result": "标题正确", "binding_ref": "component.form.fill", "evidence": ["field-values"], "postconditions": [{"assertion_id": "A-TITLE", "operator": "equals", "expected_ref": "parameter:title-template", "evidence": ["field-values"]}]},
+            {"step_id": "S-003", "section": "feature", "intent": "设置受众", "action": "check", "module_id": "audiences", "parameter_ids": ["audiences"], "expected_result": "受众正确", "binding_ref": "component.form.fill", "evidence": ["field-values"], "postconditions": [{"assertion_id": "A-AUDIENCES", "operator": "set-equals", "expected_ref": "parameter:audiences", "evidence": ["field-values"]}]},
+            {"step_id": "S-004", "section": "feature", "intent": "填写版本", "action": "fill", "module_id": "version", "parameter_ids": ["version"], "expected_result": "版本正确", "binding_ref": "component.form.fill", "evidence": ["field-values"], "postconditions": [{"assertion_id": "A-VERSION", "operator": "equals", "expected_ref": "sequence:popup-version", "evidence": ["field-values"]}]},
+            {"step_id": "S-005", "section": "assertions", "intent": "核对字段", "action": "assert", "module_id": "result.record", "parameter_ids": ["title-template", "audiences"], "expected_result": "字段值正确", "binding_ref": "component.form.assert", "evidence": ["field-values"], "postconditions": [{"assertion_id": "A-RESULT", "operator": "visible", "expected_ref": "literal:true", "evidence": ["field-values"]}]}
         ],
         "dependency_refs": ["flow.open-create", "component.form.fill", "component.form.assert"],
         "p0_suite_id": "DEMO-P0"
@@ -56,6 +58,18 @@ def make_test_data_document() -> dict[str, Any]:
         "generation_rules": {"expiry_offset_days": 1, "time_suffix_digits": 3},
         "runtime_refs": ["value:SERVICE_HOST", "credential:shared-login", "sequence:popup-version"],
         "metadata": {"owner": "qa", "manually_editable": True}
+    }
+
+
+def page_module_registry() -> dict[str, Any]:
+    return {
+        "schema_version": "ui-test.page-module-registry.v1",
+        "page_id": "record-create",
+        "modules": {
+            "title": {"display_name": "标题", "branch_modes": {"primary": "operate"}, "assertion_binding_ref": "component.form.assert"},
+            "audiences": {"display_name": "受众", "branch_modes": {"primary": "operate"}, "assertion_binding_ref": "component.form.assert"},
+            "version": {"display_name": "版本", "branch_modes": {"primary": "operate"}, "assertion_binding_ref": "component.form.assert"}
+        }
     }
 
 
@@ -80,5 +94,6 @@ def compiled_v2(path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
         runtime_values={"SERVICE_HOST": {"value": "sample.internal", "classification": "ordinary", "sensitive": False}},
         credential_keys={"shared-login"},
         sequence_keys={"popup-version"}
+        ,page_module_registry=page_module_registry()
     )
     return compiled, copy.deepcopy(loaded)

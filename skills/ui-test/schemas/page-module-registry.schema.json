@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/page-module-registry.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "page_id", "modules"],
+  "properties": {
+    "schema_version": {"const": "ui-test.page-module-registry.v1"},
+    "page_id": {"type": "string", "minLength": 1},
+    "modules": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["display_name", "branch_modes", "assertion_binding_ref"],
+        "properties": {
+          "display_name": {"type": "string", "minLength": 1},
+          "branch_modes": {"type": "object", "minProperties": 1, "additionalProperties": {"enum": ["operate", "assert-default", "not-applicable"]}},
+          "assertion_binding_ref": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

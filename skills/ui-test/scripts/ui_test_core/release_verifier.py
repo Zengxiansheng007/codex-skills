@@ -18,6 +18,8 @@ IDENTITY_FIELDS = (
     "parameter_manifest_hash",
     "runtime_material_digest",
     "dependency_digest",
+    "page_module_registry_digest",
+    "module_coverage_digest",
     "config_fingerprint",
     "build_fingerprint",
 )

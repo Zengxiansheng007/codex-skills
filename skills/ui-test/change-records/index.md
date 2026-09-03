@@ -6,6 +6,7 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 | Date | Change ID | Summary | Status |
 |---|---|---|---|
+| 2026-09-03 | CR-20260903-001 | Restore per-module postconditions, recursive product aggregate and qualification-gated activation | validated |
 | 2026-09-02 | CR-20260902-002 | Add formal pytest markers and live v2 execution readiness | proposed |
 | 2026-09-02 | CR-20260902-001 | Add v2 test-data, compiler/sync, execution guard, diagnostics and migration governance | validated |
 | 2026-08-18 | CR-20260818-001 | Add unified ui-test-packet schema and fail-closed validator | applied |
@@ -36,11 +37,14 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 ## Open Risks
 
+- XMind desktop is not installed on the current host; recursive Outline Schema and Markdown Golden passed, but native desktop import remains external validation.
+- Diagnostics, orphan-run, Runtime classification and independent completion-proof defects remain separate `repair-needed` work.
 - The private Tianjin endpoint is reachable; final R2 A/B and report evidence remain pending until the v1.2.3 activity release is deployed.
 - Historical R2 A-001 remains failed; its append-only reconciliation records `write_failed` without changing canonical history.
 
 ## Detail Records
 
+- [CR-20260903-001](entries/2026/2026-09/CR-20260903-001-module-assertions-and-product-aggregate-v2.md)
 - [CR-20260902-002](entries/2026/2026-09/CR-20260902-002-formal-v2-execution-readiness.md)
 - [CR-20260902-001](entries/2026/2026-09/CR-20260902-001-test-data-sync-execution-governance.md)
 - [CR-20260818-001](entries/2026/2026-08/CR-20260818-001-unified-packet-contract.md)

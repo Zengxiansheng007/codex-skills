@@ -8,6 +8,7 @@ Track schemas, fixtures, references and generated-asset contracts.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-03 | CR-20260903-001 | v2 schemas and asset governance | changed | Add page-module, product-outline, aggregate-manifest and pre-submit qualification contracts | validated |
 | 2026-09-02 | CR-20260902-001 | schemas, fixtures and asset-governance reference | added | Define the v2 parameter, release, diagnostics, migration and cleanup artifact family | validated |
 | 2026-08-18 | CR-20260818-001 | schemas/assets/fixtures | added | Add versioned packet schema and valid/invalid fixtures | applied |
 | 2026-08-22 | CR-20260822-001 | schemas/contract-registry.json | changed | Extend registry with planned Source Case, Case IR, Resolved IR and Compile Receipt entries | applied |

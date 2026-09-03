@@ -8,6 +8,7 @@ Track deterministic runtime, compiler, validator and test changes.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-03 | CR-20260903-001 | compiler, aggregate, case sync and tests | changed | Enforce per-module postconditions, hierarchical aggregate Golden and inactive successor lifecycle | validated |
 | 2026-09-02 | CR-20260902-002 | Compiler v2 Playwright renderer and live readiness tests | fixed | Generate formal pytest identity/risk markers and validate live-adapter contracts | proposed |
 | 2026-09-02 | CR-20260902-001 | v2 contracts, compiler, sync, guard, diagnostics and tests | added | Implement the approved parameter-governance and migration closure in a workspace candidate | validated |
 | 2026-08-18 | CR-20260818-001 | scripts/ui_test_core and tests | added | Add standard-library validator and contract tests | applied |

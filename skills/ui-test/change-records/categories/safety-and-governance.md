@@ -8,6 +8,7 @@ Track approval, privacy, risk, retention and forbidden-action rules.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-03 | CR-20260903-001 | no-submit successor activation | governance | Require matching A/B qualifications and CAS activation while preserving immutable history | validated |
 | 2026-09-02 | CR-20260902-002 | formal execution gate | governance | Bind formal tests to case/branch/R2 markers and reject offline Runtime fixtures in deployment | proposed |
 | 2026-09-02 | CR-20260902-001 | execution gate, event store, migration and cleanup | governance | Fail closed on parameter drift and preserve historical assets while requiring separate live/delete gates | validated |
 | 2026-08-18 | CR-20260818-001 | packet risk/secret rules | security | Block R0/R1 writes and secret-like values | applied |
