@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "development-system.github-publication-evidence.v1",
+  "status": "published",
+  "repository": "Zengxiansheng007/codex-skills",
+  "branch": "main",
+  "publishedContentCommit": "ae26100d38da6a41feb2f38877dacc3af5e40904",
+  "remoteShaObserved": "ae26100d38da6a41feb2f38877dacc3af5e40904",
+  "verifiedAt": "2026-09-03T02:59:48.316485+00:00",
+  "httpChecks": [
+    "commit page reachable",
+    "skills/ui-test/SKILL.md reachable",
+    "review package README reachable",
+    "PRD v0.5 reachable"
+  ],
+  "gitbook": "not-requested-not-written",
+  "rag": "not-requested-not-written"
+}

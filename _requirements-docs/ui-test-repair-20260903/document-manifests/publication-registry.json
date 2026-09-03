@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "development-system.document-publication-registry.v1",
+  "records": [
+    {
+      "idempotencyKey": "UI-TEST-REPAIR-PACKAGE-README:1.0.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/README.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "UI-TEST-REPAIR-PACKAGE-README",
+        "category": "governance",
+        "phase": "delivery",
+        "version": "1.0.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "64c4534b203be7512be2843ea8614429c4f805bc4cbe08849c7d864d93c8b0b8"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/README.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "PRD-UI-TEST-REPAIR-20260830:0.5.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/requirements__ui-test-repair-requirements-v0.5.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "PRD-UI-TEST-REPAIR-20260830",
+        "category": "requirements",
+        "phase": "completed",
+        "version": "0.5.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "44526c0ff667a3117c28bf69957185a23d3ad6a7d66fe234214480729c1b2eea"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/requirements/ui-test-repair-requirements-v0.5.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "ARCH-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/architecture__ui-test-repair-architecture-v0.4.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "ARCH-UI-TEST-REPAIR-20260903",
+        "category": "architecture",
+        "phase": "completed",
+        "version": "0.4.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "5d20b238f0a25756bea3724dcdbe20ed9a08ddd42dc73622a4148acbffcb5dee"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/architecture/ui-test-repair-architecture-v0.4.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "DEVPLAN-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/development__ui-test-repair-development-plan-v0.4.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+        "category": "development",
+        "phase": "completed",
+        "version": "0.4.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "325d6ab0bd0c4b0ef5bbb6dc1cc655d2738bde385d0eb1827e0bca22c2c0b4dc"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/development/ui-test-repair-development-plan-v0.4.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "TESTPLAN-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/test__ui-test-repair-test-plan-v0.4.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+        "category": "test",
+        "phase": "completed",
+        "version": "0.4.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "680cff98d7bb945f5b6e1798b79a5af5c4e9f3910ef55926b8767f86e66b7835"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/test/ui-test-repair-test-plan-v0.4.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "RTM-UI-TEST-REPAIR-20260903:1.2.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/traceability__ui-test-repair-rtm-v1.2.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "RTM-UI-TEST-REPAIR-20260903",
+        "category": "traceability",
+        "phase": "completed",
+        "version": "1.2.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "152818669e057e37f7767453ea9e614e46d5c6baad9e058a1fccd5fa7ffcd271"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/traceability/ui-test-repair-rtm-v1.2.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    },
+    {
+      "idempotencyKey": "CHG-UI-TEST-REPAIR-20260903:1.0.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "github-published",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {
+            "preflight": "document-manifests/governance__ui-test-repair-change-record-v1.0.manifest.preflight.json"
+          }
+        },
+        {
+          "from": "preflight-passed",
+          "to": "github-published",
+          "evidence": {
+            "commitSha": "ae26100d38da6a41feb2f38877dacc3af5e40904"
+          }
+        }
+      ],
+      "manifest": {
+        "docId": "CHG-UI-TEST-REPAIR-20260903",
+        "category": "governance",
+        "phase": "completed",
+        "version": "1.0.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "819aff71f0247230587a9da787b32f7590a1ff5ddbdfe80d3fd79c5347a07496"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/governance/ui-test-repair-change-record-v1.0.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    }
+  ]
+}
