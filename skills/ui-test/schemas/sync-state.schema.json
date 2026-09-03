@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/sync-state.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "branch_id", "release_integrity", "input_sync", "execution_gate", "issues"],
+  "properties": {
+    "schema_version": {"const": "ui-test.sync-state.v2"},
+    "case_id": {"type": ["string", "null"]},
+    "branch_id": {"type": ["string", "null"]},
+    "build_fingerprint": {"type": ["string", "null"], "pattern": "^(sha256:[0-9a-f]{64})?$"},
+    "release_integrity": {"enum": ["valid", "manual_drift", "invalid", "missing"]},
+    "input_sync": {"enum": ["in_sync", "out_of_sync", "unverifiable"]},
+    "execution_gate": {"enum": ["ready", "blocked"]},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "path"],
+        "properties": {"code": {"type": "string"}, "path": {"type": "string"}, "detail": {"type": "string"}}
+      }
+    }
+  }
+}

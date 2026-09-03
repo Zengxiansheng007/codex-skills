@@ -3,7 +3,7 @@ import unittest
 
 from scripts.ui_test_core.case_contracts import validate_document
 from scripts.ui_test_core.migration import evaluate_pilot_delete
-from scripts.ui_test_core.run_governance import aggregate_events, project_run_result
+from scripts.ui_test_core.run_governance import aggregate_events, create_run_reconciliation, project_run_result
 
 
 def run_identity():
@@ -58,6 +58,36 @@ class RunGovernanceTests(unittest.TestCase):
         self.assertTrue(evaluate_pilot_delete(exact_inventory=inventory, reference_check_passed=True, pilot_status="first-pilot-active", action="delete-pilot-unmigratable")["allowed"])
         self.assertFalse(evaluate_pilot_delete(exact_inventory=None, reference_check_passed=True, pilot_status="first-pilot-active", action="delete-pilot-unmigratable")["allowed"])
         self.assertFalse(evaluate_pilot_delete(exact_inventory=inventory, reference_check_passed=True, pilot_status="completed", action="delete-pilot-unmigratable")["allowed"])
+
+    def test_reconciliation_is_append_only_diagnostic_and_hash_bound(self):
+        result = aggregate_events(run=run_identity(), events=passed_events(), release_status="in_sync")
+        result["write_state"] = "write_outcome_unknown"  # Build a synthetic historical unknown outcome.
+        result["run_result_hash"] = "sha256:" + "1" * 64  # Preserve a valid immutable source identity.
+        before = copy.deepcopy(result)  # Prove the helper never rewrites canonical history.
+        reconciliation = create_run_reconciliation(
+            run_result=result,
+            reconciled_write_state="write_failed",
+            evidence=[{"ref": "evidence:after-submit.png", "sha256": "sha256:" + "2" * 64, "observation": "required-field-validation-visible"}],
+            reason_code="client-validation-blocked-submission",
+            created_at="2026-08-28T00:00:00Z",
+        )
+        self.assertEqual(result, before)  # Canonical RunResult remains byte-for-byte represented by the original object.
+        self.assertEqual(reconciliation["reconciliation_effect"], "diagnostic-only")
+        self.assertEqual(reconciliation["rerun_authorization_effect"], "none")
+        self.assertEqual(validate_document(reconciliation, "run-reconciliation.schema.json"), [])
+
+    def test_reconciliation_rejects_non_unknown_source(self):
+        result = aggregate_events(run=run_identity(), events=passed_events(), release_status="in_sync")
+        with self.assertRaisesRegex(ValueError, "E_RECONCILIATION_SOURCE_NOT_UNKNOWN"):
+            create_run_reconciliation(run_result=result, reconciled_write_state="write_failed", evidence=[{"ref": "EV", "sha256": "sha256:" + "2" * 64, "observation": "validation"}], reason_code="not-unknown")
+
+    def test_reconciliation_accepts_transient_submitted_unknown_from_historical_runtime(self):
+        result = aggregate_events(run=run_identity(), events=passed_events(), release_status="in_sync")
+        result["write_state"] = "submitted_unknown"  # Reproduce the historical post-submit verifier exception state.
+        result["run_result_hash"] = "sha256:" + "3" * 64  # Preserve a valid historical identity.
+        reconciliation = create_run_reconciliation(run_result=result, reconciled_write_state="write_succeeded_verified", evidence=[{"ref": "diagnostic:list-check.json", "sha256": "sha256:" + "4" * 64, "observation": "unique-title-visible-in-fresh-list-session"}], reason_code="fresh-read-only-list-verification", created_at="2026-08-28T00:00:00Z")
+        self.assertEqual(reconciliation["original_write_state"], "submitted_unknown")
+        self.assertEqual(validate_document(reconciliation, "run-reconciliation.schema.json"), [])
 
 
 if __name__ == "__main__":

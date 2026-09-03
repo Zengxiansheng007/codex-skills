@@ -12,7 +12,7 @@ from scripts.ui_test_core.path_planner import (
     plan_asset_path,
     validate_existing_path_containment,
 )
-from scripts.ui_test_core.project_config import ProjectConfigError, load_project_config
+from scripts.ui_test_core.project_config import ProjectConfigError, load_project_config, popup_version_sequence_config, runtime_index_path
 
 
 def project_v2():
@@ -43,7 +43,9 @@ def project_v2():
                 "direct_route_ref": "route.announcement.create"
             }]
         }],
-        "runtime_env_keys": ["BOPS_ACCOUNT_USER"],
+        "runtime_value_index_ref": "path:D:/UI-Test/_private/runtime-values/tianjin/ops-platform/test/runtime-value-index.yaml",
+        "credential_index_ref": "path:D:/UI-Test/_private/runtime-values/tianjin/ops-platform/test/credential-index.yaml",
+        "runtime_refs": {"base_url": "value:BOPS_BASE_URL"},
         "checkpoint_runtime": {"root_ref": "checkpoint-root"},
         "knowledge_space": {"knowledge_space_id": "tianjin-ops-ui-test-experience", "relative_path": r"10_knowledge_spaces\tianjin-ops-ui-test-experience"},
         "wait_strategy": {"default_ref": "slow-network"},
@@ -92,6 +94,56 @@ class ProjectPathTests(unittest.TestCase):
             config = load_project_config(path)
         self.assertEqual(config["scope"]["project_group"], "tianjin")
         self.assertTrue(config["config_fingerprint"].startswith("sha256:"))
+
+    def test_runtime_refs_may_name_credential_aliases_without_secret_values(self):
+        value = project_v2()
+        value["runtime_refs"]["account_password"] = "credential:BOPS_ACCOUNT_PASSWORD"  # This is a reference name, not a persisted secret.
+        with tempfile.TemporaryDirectory() as directory:
+            config = load_project_config(write_config(directory, value))
+        self.assertEqual(config["runtime_refs"]["account_password"], "credential:BOPS_ACCOUNT_PASSWORD")
+
+    def test_secret_like_values_outside_runtime_refs_are_still_rejected(self):
+        value = project_v2()
+        value["wait_strategy"]["password_note"] = "credential:BOPS_ACCOUNT_PASSWORD"  # Non-runtime_refs credential-shaped fields stay forbidden.
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ProjectConfigError, "E_SECRET_DETECTED"):
+                load_project_config(write_config(directory, value))
+
+    def test_runtime_index_path_is_derived_from_project_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = load_project_config(write_config(directory))
+        self.assertEqual(
+            runtime_index_path(config),
+            Path(r"D:\UI-Test\_private\runtime-values\tianjin\ops-platform\test\runtime-value-index.yaml"),
+        )
+
+    def test_popup_sequence_applies_only_to_popup_branch(self):
+        value = project_v2()
+        value["runtime_state"] = {"popup_version_sequence": {"sequence_key": "popup_announcement_version", "scope": "tianjin/ops-platform/popup-announcement", "description": "天津首页弹窗公告受治理持久版本号序列", "allocate_for_branches": ["popup-announcement"], "allocation_policy": "first_value_is_one"}}  # Declare one branch-scoped sequence.
+        with tempfile.TemporaryDirectory() as directory:
+            config = load_project_config(write_config(directory, value))
+        popup = popup_version_sequence_config(config, "popup-announcement")  # Resolve the enabled branch.
+        system = popup_version_sequence_config(config, "system-announcement")  # Resolve the unaffected branch.
+        self.assertEqual(popup["sequence_key"], "popup_announcement_version")  # Popup creation receives the governed sequence.
+        self.assertIsNone(system)  # System announcement creation never consumes a popup version.
+
+    def test_credential_index_path_is_derived_from_project_scope(self):
+        from scripts.ui_test_core.project_config import credential_index_path
+
+        with tempfile.TemporaryDirectory() as directory:
+            config = load_project_config(write_config(directory))
+        self.assertEqual(
+            credential_index_path(config),
+            Path(r"D:\UI-Test\_private\runtime-values\tianjin\ops-platform\test\credential-index.yaml"),
+        )
+
+    def test_runtime_index_scope_cannot_be_redirected(self):
+        value = project_v2()
+        value["runtime_value_index_ref"] = "path:D:/UI-Test/_private/runtime-values/other/product/test/runtime-value-index.yaml"
+        with tempfile.TemporaryDirectory() as directory:
+            config = load_project_config(write_config(directory, value))
+            with self.assertRaisesRegex(ProjectConfigError, "E_RUNTIME_INDEX_SCOPE_MISMATCH"):
+                runtime_index_path(config)
 
     def test_asset_type_selects_root_without_caller_root(self):
         with tempfile.TemporaryDirectory() as directory:

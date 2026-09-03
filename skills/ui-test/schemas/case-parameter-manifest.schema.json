@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/case-parameter-manifest.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "branch_id", "data_revision", "test_data_hash", "runtime_material_digest", "parameters", "parameter_manifest_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.case-parameter-manifest.v2"},
+    "case_id": {"type": "string", "minLength": 1},
+    "branch_id": {"type": "string", "minLength": 1},
+    "data_revision": {"type": "integer", "minimum": 1},
+    "test_data_hash": {"$ref": "#/$defs/hash"},
+    "runtime_material_digest": {"$ref": "#/$defs/hash"},
+    "parameter_manifest_hash": {"$ref": "#/$defs/hash"},
+    "parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["parameter_id", "label", "ref", "source_type", "required"],
+        "properties": {
+          "parameter_id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "ref": {"type": "string", "pattern": "^(test-data|value|credential|sequence):.+$"},
+          "source_type": {"enum": ["test-data", "value", "credential", "sequence"]},
+          "required": {"type": "boolean"},
+          "reference_only": {"const": true},
+          "value": {}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"source_type": {"enum": ["credential", "sequence"]}}, "required": ["source_type"]},
+            "then": {"required": ["reference_only"], "not": {"required": ["value"]}}
+          },
+          {
+            "if": {"properties": {"source_type": {"enum": ["test-data", "value"]}}, "required": ["source_type"]},
+            "then": {"required": ["value"], "not": {"required": ["reference_only"]}}
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

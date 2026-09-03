@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/cleanup-result.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plan_hash", "status", "deleted_count", "before_inventory_hash", "after_inventory_hash", "unchanged"],
+  "properties": {
+    "schema_version": {"const": "ui-test.cleanup-result.v2"},
+    "plan_hash": {"type": "string"},
+    "status": {"const": "dry-run"},
+    "deleted_count": {"const": 0},
+    "before_inventory_hash": {"type": "string"},
+    "after_inventory_hash": {"type": "string"},
+    "unchanged": {"const": true}
+  }
+}

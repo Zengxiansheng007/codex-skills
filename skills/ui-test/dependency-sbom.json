@@ -1,0 +1,16 @@
+{
+  "schema_version": "ui-test.dependency-sbom.v1",
+  "generated_at": "2026-09-02T09:00:00+08:00",
+  "environment": "machine-level C:/DevelopTool/Python311",
+  "direct_dependencies": [
+    {"name": "jsonschema", "version": "4.26.0", "license": "MIT", "admission": "reused-existing"},
+    {"name": "pytest", "version": "9.1.1", "license": "MIT", "admission": "reused-existing"},
+    {"name": "rfc8785", "version": "0.1.4", "license": "Apache-2.0", "admission": "reused-existing"},
+    {"name": "PyYAML", "version": "6.0.3", "license": "MIT", "admission": "reused-existing"}
+  ],
+  "rejected_new_dependencies": [
+    {"name": "jsonpointer", "reason": "RFC 6901 is implemented and tested with the standard library; no install authorization."},
+    {"name": "portalocker", "reason": "Windows msvcrt and POSIX fcntl fallback are sufficient; no install authorization."}
+  ],
+  "dependencies_installed_by_this_change": 0
+}

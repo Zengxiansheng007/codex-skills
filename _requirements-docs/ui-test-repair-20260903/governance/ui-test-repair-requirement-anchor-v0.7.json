@@ -1,0 +1,111 @@
+{
+  "anchorId": "RA-UI-TEST-REPAIR-20260830",
+  "version": "v0.7",
+  "originalGoal": "修复天津公告验证链路和全局作用域治理，并形成可重复编译、验证、执行、诊断、迁移、清理与发布的闭环。",
+  "approvedScope": [
+    "全局 ui-test 通用契约、编译、同步、Guard、日志、验证和迁移能力",
+    "天津公告 A/B 项目适配、正式后继资产、单次 R2 验证和精确清理",
+    "development-system 文档回顾调整与 GitHub 公共发布"
+  ],
+  "nonGoals": [
+    "删除测试创建的公告业务数据",
+    "改写历史 release/run/report",
+    "写入 D:/RAG",
+    "GitBook 发布"
+  ],
+  "frAc": [
+    "FR-001",
+    "FR-002",
+    "FR-003",
+    "FR-004",
+    "FR-005",
+    "FR-006",
+    "FR-007",
+    "FR-008",
+    "FR-009",
+    "FR-010",
+    "FR-011",
+    "FR-012",
+    "FR-013",
+    "FR-014",
+    "AC-001",
+    "AC-002",
+    "AC-003",
+    "AC-004",
+    "AC-005",
+    "AC-006",
+    "AC-007",
+    "AC-008",
+    "AC-009",
+    "AC-010",
+    "AC-011",
+    "AC-012",
+    "AC-013",
+    "AC-014",
+    "AC-015",
+    "AC-016",
+    "AC-017",
+    "AC-018",
+    "BR-001",
+    "BR-002",
+    "BR-003",
+    "BR-004",
+    "BR-005",
+    "NFR-001",
+    "NFR-002",
+    "NFR-003",
+    "NFR-004",
+    "NFR-005",
+    "NFR-006",
+    "NFR-007",
+    "NFR-008"
+  ],
+  "confirmedDecisions": [
+    "分支 Test Data 是唯一可人工编辑业务参数来源",
+    "Runtime、Credential、Sequence 和 Test Data 分层",
+    "服务范围点击上级天津市并验证级联",
+    "已认证列表路由允许同主机创建页受控 fallback",
+    "全局通用能力与天津项目定位器分离",
+    "历史资产不可变，清理只处理精确 cache/IDE 对象",
+    "GitHub 仅发布通用 Skill 和脱敏文档"
+  ],
+  "authorityOrder": [
+    "Codex control plane",
+    "user-approved requirement and authorization records",
+    "deterministic validators",
+    "implementation and run evidence"
+  ],
+  "allowedActions": [
+    "完成文档治理调整",
+    "验证全局 ui-test",
+    "发布批准路径到 GitHub main"
+  ],
+  "forbiddenActions": [
+    "发布项目适配器或正式资产",
+    "发布凭据、私有 URL 或请求载荷",
+    "写入 D:/RAG",
+    "GitBook 同步",
+    "改写历史结果"
+  ],
+  "manualConfirmActions": [
+    "未来真实 R2/R3",
+    "未来正式清理",
+    "未来全局安装"
+  ],
+  "sourceBaseline": [
+    "governance/source-baseline.json",
+    "review/final-landed-review.json",
+    "evidence/as-tested-summary.json"
+  ],
+  "currentIterationObjective": "完成 development-system 合规文档回顾调整并将当前全局 ui-test 与脱敏文档发布到已批准 GitHub 目标。",
+  "expectedFeedbackSchema": "development-system/document-review-feedback.v1",
+  "stopConditions": [
+    "敏感扫描失败",
+    "作用域扫描失败",
+    "远端分支发生未纳入基线的变化",
+    "GitHub 目标或授权不匹配"
+  ],
+  "nextState": "completed",
+  "cycleId": "DS-UI-TEST-REPAIR-20260830",
+  "roundNumber": 7
+}

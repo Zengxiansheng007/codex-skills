@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/case-manifest.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "branch_id", "build_fingerprint", "source_hash", "test_data_hash", "parameter_manifest_hash", "runtime_material_digest", "dependency_digest", "config_fingerprint", "generator_version", "renderer_version", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "ui-test.case-manifest.v2"},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "build_fingerprint": {"$ref": "#/$defs/hash"},
+    "source_hash": {"$ref": "#/$defs/hash"},
+    "test_data_hash": {"$ref": "#/$defs/hash"},
+    "parameter_manifest_hash": {"$ref": "#/$defs/hash"},
+    "runtime_material_digest": {"$ref": "#/$defs/hash"},
+    "dependency_digest": {"$ref": "#/$defs/hash"},
+    "config_fingerprint": {"$ref": "#/$defs/hash"},
+    "generator_version": {"type": "string"},
+    "renderer_version": {"type": "string"},
+    "artifacts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/hash"},
+      "propertyNames": {"not": {"const": "manifest.json"}}
+    }
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

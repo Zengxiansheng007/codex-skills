@@ -1,0 +1,35 @@
+{
+  "anchorId": "RA-UI-TEST-REPAIR-20260830",
+  "artifacts": [
+    {
+      "artifactId": "PRD-UI-TEST-REPAIR-20260830",
+      "version": "v0.4",
+      "contentHash": "sha256:bafa12b4510a78f7f4bbbd2fbaa9d1e4ff42b8d9ef151ca1f7fd85fcff5f4af9"
+    },
+    {
+      "artifactId": "ARCH-UI-TEST-REPAIR-20260903",
+      "version": "v0.3",
+      "contentHash": "sha256:6011698d687efc28882eabadf793ea434c67e86bfd311b8c32fe213e15fd16bd"
+    },
+    {
+      "artifactId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+      "version": "v0.3",
+      "contentHash": "sha256:645a4c005ebd780d451c83c57d99648c952caed7fc41c04733d828003d74dcf4"
+    },
+    {
+      "artifactId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+      "version": "v0.3",
+      "contentHash": "sha256:3d3f1a4b59b1fa686b71c2ff6917cabf7d280800c8f96783f369ffc28457b097"
+    },
+    {
+      "artifactId": "RTM-UI-TEST-REPAIR-20260903",
+      "version": "v1.1",
+      "contentHash": "sha256:5b360a56d0d763eb2c24e92c5d66b0cd279bb6e5d918a5d8193dd31ceba8ae76"
+    },
+    {
+      "artifactId": "PHASE-UI-TEST-REPAIR-20260903",
+      "version": "v1.0",
+      "contentHash": "sha256:b50979747834b2be28830e91873ea3147157994156e38f49560b570fe1d1eeb2"
+    }
+  ]
+}

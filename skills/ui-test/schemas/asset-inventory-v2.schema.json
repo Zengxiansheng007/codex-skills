@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/asset-inventory.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "root", "generated_at", "file_count", "files", "inventory_hash"],
+  "properties": {
+    "schema_version": {"enum": ["ui-test.migration-inventory.v2", "ui-test.cleanup-inventory.v2"]},
+    "root": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "file_count": {"type": "integer", "minimum": 0},
+    "files": {"type": "array", "items": {"type": "object"}},
+    "inventory_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

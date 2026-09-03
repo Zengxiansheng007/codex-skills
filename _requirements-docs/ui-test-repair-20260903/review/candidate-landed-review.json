@@ -1,0 +1,102 @@
+{
+  "reportType": "landed-review",
+  "reportVersion": "1.0.0",
+  "baselineAnchorId": "RA-UI-TEST-REPAIR-20260830",
+  "baselineInputHash": "ef819bae6d431944055dac7a291e69f3a508dd788be648be8a1383d5b63a2d1b",
+  "observedInputHash": "5654748bb3294467e118d0c4dae52b132dc57e410a6c740ca2010b3a2e04b578",
+  "baselineImmutable": true,
+  "generatedBy": "development-system/landed-review",
+  "result": {
+    "status": "candidate-revision-needed",
+    "classification": "implementation-drift",
+    "reasons": [
+      "observed-artifact-diff"
+    ],
+    "changedArtifacts": [
+      {
+        "artifactId": "ARCH-UI-TEST-REPAIR-20260903",
+        "baselineHash": "sha256:6011698d687efc28882eabadf793ea434c67e86bfd311b8c32fe213e15fd16bd",
+        "observedHash": "sha256:5d20b238f0a25756bea3724dcdbe20ed9a08ddd42dc73622a4148acbffcb5dee",
+        "reason": "repair development-system document governance"
+      },
+      {
+        "artifactId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+        "baselineHash": "sha256:645a4c005ebd780d451c83c57d99648c952caed7fc41c04733d828003d74dcf4",
+        "observedHash": "sha256:325d6ab0bd0c4b0ef5bbb6dc1cc655d2738bde385d0eb1827e0bca22c2c0b4dc",
+        "reason": "repair development-system document governance"
+      },
+      {
+        "artifactId": "PHASE-UI-TEST-REPAIR-20260903",
+        "baselineHash": "sha256:b50979747834b2be28830e91873ea3147157994156e38f49560b570fe1d1eeb2",
+        "observedHash": "sha256:0c98a3ebc6ff7d60510776ddb06e3c50d0c4ff8a1e236264648fe979fd900d64",
+        "reason": "repair development-system document governance"
+      },
+      {
+        "artifactId": "PRD-UI-TEST-REPAIR-20260830",
+        "baselineHash": "sha256:bafa12b4510a78f7f4bbbd2fbaa9d1e4ff42b8d9ef151ca1f7fd85fcff5f4af9",
+        "observedHash": "sha256:44526c0ff667a3117c28bf69957185a23d3ad6a7d66fe234214480729c1b2eea",
+        "reason": "repair development-system document governance"
+      },
+      {
+        "artifactId": "RTM-UI-TEST-REPAIR-20260903",
+        "baselineHash": "sha256:5b360a56d0d763eb2c24e92c5d66b0cd279bb6e5d918a5d8193dd31ceba8ae76",
+        "observedHash": "sha256:152818669e057e37f7767453ea9e614e46d5c6baad9e058a1fccd5fa7ffcd271",
+        "reason": "repair development-system document governance"
+      },
+      {
+        "artifactId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+        "baselineHash": "sha256:3d3f1a4b59b1fa686b71c2ff6917cabf7d280800c8f96783f369ffc28457b097",
+        "observedHash": "sha256:680cff98d7bb945f5b6e1798b79a5af5c4e9f3910ef55926b8767f86e66b7835",
+        "reason": "repair development-system document governance"
+      }
+    ],
+    "missingArtifacts": [],
+    "candidateRevisions": [
+      {
+        "artifactId": "ARCH-UI-TEST-REPAIR-20260903",
+        "revisionType": "candidate-revision",
+        "supersedes": "ARCH-UI-TEST-REPAIR-20260903",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      },
+      {
+        "artifactId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+        "revisionType": "candidate-revision",
+        "supersedes": "DEVPLAN-UI-TEST-REPAIR-20260903",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      },
+      {
+        "artifactId": "PHASE-UI-TEST-REPAIR-20260903",
+        "revisionType": "candidate-revision",
+        "supersedes": "PHASE-UI-TEST-REPAIR-20260903",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      },
+      {
+        "artifactId": "PRD-UI-TEST-REPAIR-20260830",
+        "revisionType": "candidate-revision",
+        "supersedes": "PRD-UI-TEST-REPAIR-20260830",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      },
+      {
+        "artifactId": "RTM-UI-TEST-REPAIR-20260903",
+        "revisionType": "candidate-revision",
+        "supersedes": "RTM-UI-TEST-REPAIR-20260903",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      },
+      {
+        "artifactId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+        "revisionType": "candidate-revision",
+        "supersedes": "TESTPLAN-UI-TEST-REPAIR-20260903",
+        "reason": "repair development-system document governance",
+        "approvalStatus": "need-review"
+      }
+    ],
+    "retestRequired": true,
+    "approvalStatus": "not-approved",
+    "rcStatus": "not-generated"
+  }
+}

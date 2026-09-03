@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "development-system.current-artifacts.v1",
+  "anchorId": "RA-UI-TEST-REPAIR-20260830",
+  "anchorVersion": "v0.7",
+  "status": "completed",
+  "artifacts": [
+    {
+      "artifactId": "PRD-UI-TEST-REPAIR-20260830",
+      "version": "v0.5",
+      "path": "requirements/ui-test-repair-requirements-v0.5.md",
+      "envelopePath": "envelopes/prd-v0.5.envelope.json",
+      "contentHash": "sha256:44526c0ff667a3117c28bf69957185a23d3ad6a7d66fe234214480729c1b2eea",
+      "status": "current",
+      "supersedes": "PRD-UI-TEST-REPAIR-20260830@v0.4"
+    },
+    {
+      "artifactId": "ARCH-UI-TEST-REPAIR-20260903",
+      "version": "v0.4",
+      "path": "architecture/ui-test-repair-architecture-v0.4.md",
+      "envelopePath": "envelopes/architecture-v0.4.envelope.json",
+      "contentHash": "sha256:5d20b238f0a25756bea3724dcdbe20ed9a08ddd42dc73622a4148acbffcb5dee",
+      "status": "current",
+      "supersedes": "ARCH-UI-TEST-REPAIR-20260903@v0.3"
+    },
+    {
+      "artifactId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+      "version": "v0.4",
+      "path": "development/ui-test-repair-development-plan-v0.4.md",
+      "envelopePath": "envelopes/development-plan-v0.4.envelope.json",
+      "contentHash": "sha256:325d6ab0bd0c4b0ef5bbb6dc1cc655d2738bde385d0eb1827e0bca22c2c0b4dc",
+      "status": "current",
+      "supersedes": "DEVPLAN-UI-TEST-REPAIR-20260903@v0.3"
+    },
+    {
+      "artifactId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+      "version": "v0.4",
+      "path": "test/ui-test-repair-test-plan-v0.4.md",
+      "envelopePath": "envelopes/test-plan-v0.4.envelope.json",
+      "contentHash": "sha256:680cff98d7bb945f5b6e1798b79a5af5c4e9f3910ef55926b8767f86e66b7835",
+      "status": "current",
+      "supersedes": "TESTPLAN-UI-TEST-REPAIR-20260903@v0.3"
+    },
+    {
+      "artifactId": "RTM-UI-TEST-REPAIR-20260903",
+      "version": "v1.2",
+      "path": "traceability/ui-test-repair-rtm-v1.2.md",
+      "envelopePath": "envelopes/rtm-v1.2.envelope.json",
+      "contentHash": "sha256:152818669e057e37f7767453ea9e614e46d5c6baad9e058a1fccd5fa7ffcd271",
+      "status": "current",
+      "supersedes": "RTM-UI-TEST-REPAIR-20260903@v1.1"
+    },
+    {
+      "artifactId": "PHASE-UI-TEST-REPAIR-20260903",
+      "version": "v1.1",
+      "path": "phase/ui-test-repair-phase-story-v1.1.json",
+      "envelopePath": "envelopes/phase-story-v1.1.envelope.json",
+      "contentHash": "sha256:0c98a3ebc6ff7d60510776ddb06e3c50d0c4ff8a1e236264648fe979fd900d64",
+      "status": "current",
+      "supersedes": "PHASE-UI-TEST-REPAIR-20260902@v1.0"
+    },
+    {
+      "artifactId": "CHG-UI-TEST-REPAIR-20260903",
+      "version": "v1.0",
+      "path": "governance/ui-test-repair-change-record-v1.0.md",
+      "envelopePath": "envelopes/change-record-v1.0.envelope.json",
+      "contentHash": "sha256:819aff71f0247230587a9da787b32f7590a1ff5ddbdfe80d3fd79c5347a07496",
+      "status": "current"
+    },
+    {
+      "artifactId": "RA-UI-TEST-REPAIR-20260830",
+      "version": "v0.7",
+      "path": "governance/ui-test-repair-requirement-anchor-v0.7.json",
+      "envelopePath": "envelopes/requirement-anchor-v0.7.envelope.json",
+      "contentHash": "sha256:fa0ef8797017088dd535eee58810b502b84ff05dcf97a32152f66e4f54ca2b98",
+      "status": "current",
+      "supersedes": "RA-UI-TEST-REPAIR-20260830@v0.6"
+    },
+    {
+      "artifactId": "COMP-UI-TEST-REPAIR-20260903",
+      "version": "v1.0",
+      "path": "evidence/completion-result.json",
+      "envelopePath": "envelopes/completion-decision-v1.0.envelope.json",
+      "contentHash": "sha256:2024f352ff0d830e49a027ad085558d163351d6362ff98e6342f0f07d07035c3",
+      "status": "current"
+    }
+  ],
+  "historicalPolicy": "superseded versions remain read-only"
+}

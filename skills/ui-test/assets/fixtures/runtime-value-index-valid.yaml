@@ -1,0 +1,26 @@
+# Synthetic fixture only; no real URL, account, password, token, or cookie is stored here.
+schema_version: ui-test.runtime-value-index.v1
+environment: test
+runtime_values:
+  base_url:
+    value: https://synthetic-test.example.com
+    source_type: literal
+    description: Synthetic base URL
+  timeout_ms:
+    value: 30000
+    source_type: literal
+    description: Synthetic timeout
+exploration_values:
+  create_route:
+    value: /synthetic/create
+    source_type: literal
+    status: active
+    run_id: RUN-SYNTHETIC-001
+    discovered_at: '2026-08-27T00:00:00Z'
+    scope: synthetic/test
+    evidence_ref: evidence:synthetic-route
+    description: Synthetic route
+required_runtime_keys:
+  - base_url
+  - timeout_ms
+manual_hash: sha256:868c53eec6e920a3a34a18cb5c5d9a97705b37dd0e4775d9df81836f3249c6c2

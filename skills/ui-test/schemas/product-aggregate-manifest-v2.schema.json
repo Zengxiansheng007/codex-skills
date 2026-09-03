@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/product-aggregate-manifest.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "is_unmodified", "product_id", "product_display_name", "included_cases", "markdown_hash", "outline_hash", "aggregate_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.product-aggregate-manifest.v2"},
+    "status": {"const": "in_sync"},
+    "is_unmodified": {"const": true},
+    "product_id": {"type": "string"},
+    "product_display_name": {"type": "string"},
+    "included_cases": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "markdown_hash": {"$ref": "#/$defs/hash"},
+    "outline_hash": {"$ref": "#/$defs/hash"},
+    "aggregate_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

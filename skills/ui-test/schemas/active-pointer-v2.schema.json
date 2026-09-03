@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/active-pointer.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "branch_id", "build_fingerprint", "manifest_ref"],
+  "properties": {
+    "schema_version": {"const": "ui-test.active-pointer.v2"},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "build_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "manifest_ref": {"type": "string", "pattern": "^releases/[0-9a-f]{64}/manifest\\.json$"}
+  }
+}

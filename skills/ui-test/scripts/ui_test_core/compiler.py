@@ -149,8 +149,12 @@ def create_compile_plan(compiled: dict[str, Any], expected_active_build: str | N
     }
 
 
-def sync_release(release_root: str | Path, plan: dict[str, Any], compiled: dict[str, Any], *, fail_after_files: int | None = None) -> dict[str, Any]:
+def sync_release(release_root: str | Path, plan: dict[str, Any], compiled: dict[str, Any], *, fail_after_files: int | None = None, audit_fixture: bool = False) -> dict[str, Any]:
     root = Path(release_root)
+    root_text = str(root.resolve()).replace("/", "\\").lower()
+    if not audit_fixture or root_text.startswith("d:\\ui-test\\"):
+        # V1 仅保留审计和隔离 fixture 回归，不得再向正式 UI-Test 根发布或恢复执行资格。
+        return {**_sync_result("generation_failed", None), "error_code": "E_LEGACY_V1_WRITE_FORBIDDEN"}
     root.mkdir(parents=True, exist_ok=True)
     active_path = root / "active.json"
     current = _read_json(active_path) if active_path.is_file() else None
@@ -247,44 +251,10 @@ def _render_outputs(case_ir: dict[str, Any], resolved_ir: dict[str, Any], build:
     return {"human.md": "\n".join(human_lines) + "\n", "midscene.json": {"metadata": metadata, "sections": sections}, "playwright-test.py": playwright}
 
 
-def _render_human_section(title: str, steps: list[dict[str, Any]]) -> list[str]:
-    lines = [f"## {title}", "", "| 序号 | 操作 | 参数/数据 | 预期结果 |", "| --- | --- | --- | --- |"]
-    for index, step in enumerate(steps, 1):
-        lines.append(f"| {index} | {step['intent']} | {_render_parameter_cell(step.get('parameters', []))} | {step['expected_result']} |")
-    return lines
-
-
-def _render_parameter_cell(parameters: list[dict[str, Any]]) -> str:
-    if not parameters:
-        return "-"
-    rendered: list[str] = []
-    for parameter in parameters:
-        if not isinstance(parameter, dict):
-            continue
-        label = str(parameter.get("label", "")).strip()
-        display_value = str(parameter.get("display_value", "")).strip()
-        source_type = str(parameter.get("source_type", "")).strip()
-        if not label and not display_value:
-            continue
-        pieces = [f"{label}：{display_value}" if label else display_value]
-        index_ref = str(parameter.get("index_ref", "")).strip()
-        if index_ref:
-            pieces.append(f"索引：{index_ref}")
-        if source_type:
-            pieces.append(f"来源：{source_type}")
-        if parameter.get("sensitive"):
-            pieces.append("脱敏")
-        notes = str(parameter.get("notes", "")).strip()
-        if notes:
-            pieces.append(notes)
-        rendered.append("；".join(pieces))
-    return "; ".join(rendered) if rendered else "-"
-
-
 def _render_pytest(case_ir: dict[str, Any], metadata: dict[str, Any]) -> str:
     function_name = "test_" + "".join(character.lower() if character.isalnum() else "_" for character in case_ir["case_id"]).strip("_")
     header = json.dumps(metadata, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-    return f'''# generated_metadata: {header}\nimport pytest\n\npytestmark = [pytest.mark.{case_ir["priority"].lower()}, pytest.mark.ui_test]\n\ndef {function_name}(ui_test_runtime):\n    ui_test_runtime.execute_case(case_id={case_ir["case_id"]!r}, branch_id={case_ir.get("branch_id")!r})\n'''
+    return f'''# 生成元数据: {header}\nimport pytest\n\npytestmark = [pytest.mark.{case_ir["priority"].lower()}, pytest.mark.ui_test]\n\ndef {function_name}(ui_test_runtime):\n    ui_test_runtime.execute_case(case_id={case_ir["case_id"]!r}, branch_id={case_ir.get("branch_id")!r})\n'''
 
 
 def _dependency_closure(graph: dict[str, Any], direct: list[str]) -> list[str]:
@@ -325,8 +295,7 @@ def _load_artifact(path: Path) -> Any:
     return text if path.suffix in {".md", ".py"} else json.loads(text)
 
 
-# Keep generated Human View wording stable even when source files are inspected
-# through a console with a different code page.
+# 即使使用不同代码页的控制台查看源文件，也要保持 Human View 文案稳定。
 def _render_human_section(title: str, steps: list[dict[str, Any]]) -> list[str]:
     lines = [
         f"## {title}",

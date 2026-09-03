@@ -1,0 +1,1214 @@
+{
+  "schemaVersion": "ui-test.phase-story-package.v2",
+  "status": "completed",
+  "phases": [
+    {
+      "phaseId": "PH-UIR-01",
+      "name": "治理基线、依赖准入与契约",
+      "goal": "建立干净候选基线、复用准入和完整数据契约，且不修改任何正式资产。",
+      "entryCriteria": [
+        "Requirements v0.3、Anchor v0.4 和 Architecture v0.2 已批准",
+        "获得精确 workspace candidate 实施授权",
+        "有效全局 ui-test 基线 hash 已冻结"
+      ],
+      "exitCriteria": [
+        "干净候选不包含误写 workspace 和缓存",
+        "依赖准入结论、许可证和 fallback 已记录",
+        "全部新 Schema 和 registry 正反 fixture 通过"
+      ],
+      "runtimeBoundary": "只允许候选 workspace 代码、Schema、fixture 和本地测试；禁止全局、D 盘、安装和真实 UI。",
+      "status": "completed",
+      "envelope": {
+        "artifactId": "PH-UIR-01",
+        "version": "v1.1",
+        "artifactType": "phase",
+        "owner": "development-system/planning",
+        "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+        "sourceAnchorVersion": "v0.7",
+        "mappedFrAc": [
+          "AC-002",
+          "AC-003",
+          "AC-004",
+          "AC-008",
+          "AC-009",
+          "AC-010",
+          "AC-012",
+          "AC-014",
+          "AC-015",
+          "AC-016",
+          "AC-018",
+          "BR-003",
+          "FR-003",
+          "FR-004",
+          "FR-008",
+          "FR-009",
+          "FR-010",
+          "FR-011",
+          "FR-012",
+          "FR-013",
+          "NFR-005",
+          "NFR-007",
+          "NFR-008"
+        ],
+        "createdAt": "2026-09-03",
+        "derivedFrom": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-01"
+        ],
+        "supersedes": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-01"
+        ],
+        "evidenceRefs": [
+          "RTM-UI-TEST-REPAIR-20260903@v1.2",
+          "EVD-PHASE-01"
+        ]
+      },
+      "stories": [
+        {
+          "storyId": "UIR-ST-001",
+          "title": "冻结干净候选和第三方准入",
+          "goal": "从有效全局基线建立隔离候选并决定每个参考代码的复用方式。",
+          "mappedRequirements": [
+            "BR-003",
+            "NFR-007",
+            "NFR-008"
+          ],
+          "acceptanceCriteria": [
+            "AC-002",
+            "AC-018"
+          ],
+          "dependsOn": [],
+          "testability": "比较源/候选 manifest，验证排除误写资产、缓存和天津项目代码；校验许可证、版本和 hash 记录。",
+          "evidenceRequirements": [
+            "EVD-001",
+            "EVD-018"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-001",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "BR-003",
+              "NFR-007",
+              "NFR-008",
+              "AC-002",
+              "AC-018"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-001"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-001"
+            ],
+            "evidenceRefs": [
+              "EVD-001",
+              "EVD-018"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-002",
+          "title": "新增契约族和严格加载边界",
+          "goal": "定义 Test Data、参数清单、v2 Case、同步、运行快照、诊断、迁移和清理契约。",
+          "mappedRequirements": [
+            "FR-003",
+            "FR-004",
+            "FR-008",
+            "FR-009",
+            "FR-010",
+            "FR-011",
+            "FR-012",
+            "FR-013"
+          ],
+          "acceptanceCriteria": [
+            "AC-003",
+            "AC-004",
+            "AC-008",
+            "AC-009",
+            "AC-010",
+            "AC-012",
+            "AC-015",
+            "AC-016"
+          ],
+          "dependsOn": [
+            "UIR-ST-001"
+          ],
+          "testability": "使用 Draft 2020-12 正反 fixture、重复键、非法 UTF-8/数字和身份错配测试。",
+          "evidenceRequirements": [
+            "EVD-002",
+            "EVD-003"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-002",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-003",
+              "FR-004",
+              "FR-008",
+              "FR-009",
+              "FR-010",
+              "FR-011",
+              "FR-012",
+              "FR-013",
+              "AC-003",
+              "AC-004",
+              "AC-008",
+              "AC-009",
+              "AC-010",
+              "AC-012",
+              "AC-015",
+              "AC-016"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-002"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-002"
+            ],
+            "evidenceRefs": [
+              "EVD-002",
+              "EVD-003"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-003",
+          "title": "历史审计兼容和新写版本边界",
+          "goal": "保证 v1 只读审计、新写 v2、旧资产不改写且旧格式无执行资格。",
+          "mappedRequirements": [
+            "FR-011",
+            "NFR-005"
+          ],
+          "acceptanceCriteria": [
+            "AC-014",
+            "AC-015"
+          ],
+          "dependsOn": [
+            "UIR-ST-002"
+          ],
+          "testability": "对历史 v1 运行只读验证，证明无字节变化；新编译只产生 v2。",
+          "evidenceRequirements": [
+            "EVD-014",
+            "EVD-015"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-003",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-011",
+              "NFR-005",
+              "AC-014",
+              "AC-015"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-003"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-003"
+            ],
+            "evidenceRefs": [
+              "EVD-014",
+              "EVD-015"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-UIR-02",
+      "name": "通用参数、编译、验证与同步引擎",
+      "goal": "完成不包含天津业务常量的确定性参数编译和 release 同步闭环。",
+      "entryCriteria": [
+        "PH-UIR-01 全部 Story 通过"
+      ],
+      "exitCriteria": [
+        "所有 renderer 使用同一参数清单",
+        "manifest verifier 区分内部损坏与输入漂移",
+        "dry-run/apply、并发、幂等和恢复 fixture 通过"
+      ],
+      "runtimeBoundary": "通用候选和临时目录；禁止项目正式迁移和 active 写入。",
+      "status": "completed",
+      "envelope": {
+        "artifactId": "PH-UIR-02",
+        "version": "v1.1",
+        "artifactType": "phase",
+        "owner": "development-system/planning",
+        "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+        "sourceAnchorVersion": "v0.7",
+        "mappedFrAc": [
+          "AC-001",
+          "AC-003",
+          "AC-004",
+          "AC-005",
+          "AC-007",
+          "AC-011",
+          "AC-013",
+          "FR-001",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-007",
+          "NFR-001",
+          "NFR-002"
+        ],
+        "createdAt": "2026-09-03",
+        "derivedFrom": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-02"
+        ],
+        "supersedes": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-02"
+        ],
+        "evidenceRefs": [
+          "RTM-UI-TEST-REPAIR-20260903@v1.2",
+          "EVD-PHASE-02"
+        ]
+      },
+      "stories": [
+        {
+          "storyId": "UIR-ST-004",
+          "title": "Test Data 与类型化引用解析",
+          "goal": "生成稳定 data revision、参数清单和参与 build 的 Runtime digest。",
+          "mappedRequirements": [
+            "FR-003",
+            "FR-004",
+            "FR-007"
+          ],
+          "acceptanceCriteria": [
+            "AC-003",
+            "AC-004",
+            "AC-007"
+          ],
+          "dependsOn": [
+            "UIR-ST-002"
+          ],
+          "testability": "验证 RFC 6901、JCS、Runtime/Credential/Sequence 分类、碰撞、缺失和敏感展开门禁。",
+          "evidenceRequirements": [
+            "EVD-003",
+            "EVD-004",
+            "EVD-007"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-004",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-003",
+              "FR-004",
+              "FR-007",
+              "AC-003",
+              "AC-004",
+              "AC-007"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-004"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-004"
+            ],
+            "evidenceRefs": [
+              "EVD-003",
+              "EVD-004",
+              "EVD-007"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-005",
+          "title": "Compiler v2 与一致投影",
+          "goal": "用组合 identity 生成 Human、Midscene、Resolved、Playwright、receipt 和完整 manifest。",
+          "mappedRequirements": [
+            "FR-001",
+            "FR-004",
+            "FR-005",
+            "FR-007"
+          ],
+          "acceptanceCriteria": [
+            "AC-001",
+            "AC-004",
+            "AC-011"
+          ],
+          "dependsOn": [
+            "UIR-ST-003",
+            "UIR-ST-004"
+          ],
+          "testability": "逐字段比较投影、编译生成 Python、验证附件集合和输入不变性。",
+          "evidenceRequirements": [
+            "EVD-001",
+            "EVD-004",
+            "EVD-011"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-005",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-001",
+              "FR-004",
+              "FR-005",
+              "FR-007",
+              "AC-001",
+              "AC-004",
+              "AC-011"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-005"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-005"
+            ],
+            "evidenceRefs": [
+              "EVD-001",
+              "EVD-004",
+              "EVD-011"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-006",
+          "title": "Manifest Verifier 与三轴状态",
+          "goal": "独立验证 release integrity、input sync 和 execution gate。",
+          "mappedRequirements": [
+            "FR-001",
+            "FR-007",
+            "NFR-001"
+          ],
+          "acceptanceCriteria": [
+            "AC-001",
+            "AC-007"
+          ],
+          "dependsOn": [
+            "UIR-ST-005"
+          ],
+          "testability": "使用缺失、多出、错误 hash、路径越界、receipt 冲突、Runtime 漂移 fixture。",
+          "evidenceRequirements": [
+            "EVD-001",
+            "EVD-007"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-006",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-001",
+              "FR-007",
+              "NFR-001",
+              "AC-001",
+              "AC-007"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-006"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-006"
+            ],
+            "evidenceRefs": [
+              "EVD-001",
+              "EVD-007"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-007",
+          "title": "Plan-bound Compile/Sync",
+          "goal": "实现零写 dry-run 和可恢复、并发安全、幂等的 apply 协议。",
+          "mappedRequirements": [
+            "FR-005",
+            "NFR-002"
+          ],
+          "acceptanceCriteria": [
+            "AC-005",
+            "AC-011",
+            "AC-013"
+          ],
+          "dependsOn": [
+            "UIR-ST-006"
+          ],
+          "testability": "注入输入漂移、双进程、staging、existing release、replace/readback 失败并证明旧 active 保持。",
+          "evidenceRequirements": [
+            "EVD-005",
+            "EVD-011",
+            "EVD-013"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-007",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-005",
+              "NFR-002",
+              "AC-005",
+              "AC-011",
+              "AC-013"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-007"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-007"
+            ],
+            "evidenceRefs": [
+              "EVD-005",
+              "EVD-011",
+              "EVD-013"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-UIR-03",
+      "name": "执行期数据会话、诊断与报告一致性",
+      "goal": "在零真实业务写入的模拟环境中完成 Guard、运行快照和失败修复记录。",
+      "entryCriteria": [
+        "PH-UIR-02 全部 Story 通过"
+      ],
+      "exitCriteria": [
+        "Guard/日志/快照失败时业务写计数为零",
+        "JSONL/index/unfinished 可恢复且幂等",
+        "snapshot、RunResult、evidence 三向一致"
+      ],
+      "runtimeBoundary": "模拟 BrowserContext 和拦截写请求；禁止真实页面与 R2。",
+      "status": "completed",
+      "envelope": {
+        "artifactId": "PH-UIR-03",
+        "version": "v1.1",
+        "artifactType": "phase",
+        "owner": "development-system/planning",
+        "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+        "sourceAnchorVersion": "v0.7",
+        "mappedFrAc": [
+          "AC-006",
+          "AC-008",
+          "AC-009",
+          "AC-010",
+          "AC-012",
+          "AC-013",
+          "AC-014",
+          "AC-017",
+          "BR-001",
+          "FR-006",
+          "FR-008",
+          "FR-009",
+          "FR-010",
+          "FR-013"
+        ],
+        "createdAt": "2026-09-03",
+        "derivedFrom": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-03"
+        ],
+        "supersedes": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-03"
+        ],
+        "evidenceRefs": [
+          "RTM-UI-TEST-REPAIR-20260903@v1.2",
+          "EVD-PHASE-03"
+        ]
+      },
+      "stories": [
+        {
+          "storyId": "UIR-ST-008",
+          "title": "Execution Data Session 与 Resolved Snapshot",
+          "goal": "提供不可热加载参数读取、三个漂移检查点和不可变实际参数快照。",
+          "mappedRequirements": [
+            "FR-006",
+            "FR-013"
+          ],
+          "acceptanceCriteria": [
+            "AC-006",
+            "AC-012",
+            "AC-017"
+          ],
+          "dependsOn": [
+            "UIR-ST-004",
+            "UIR-ST-007"
+          ],
+          "testability": "在启动、消费和首写前修改参数并断言 context/提交/业务写请求为零；验证快照幂等和凭据引用-only。",
+          "evidenceRequirements": [
+            "EVD-006",
+            "EVD-012",
+            "EVD-017"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-008",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-006",
+              "FR-013",
+              "AC-006",
+              "AC-012",
+              "AC-017"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-008"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-008"
+            ],
+            "evidenceRefs": [
+              "EVD-006",
+              "EVD-012",
+              "EVD-017"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-009",
+          "title": "失败修复事件源与投影恢复",
+          "goal": "建立每日 JSONL 权威源、index/unfinished 投影、跨进程锁和修复证据门禁。",
+          "mappedRequirements": [
+            "FR-008",
+            "FR-009",
+            "FR-010"
+          ],
+          "acceptanceCriteria": [
+            "AC-008",
+            "AC-009",
+            "AC-010",
+            "AC-013"
+          ],
+          "dependsOn": [
+            "UIR-ST-002",
+            "UIR-ST-008"
+          ],
+          "testability": "在 append/fsync/index/unfinished/readback 各点注入故障；验证同幂等键恢复、不同请求阻断和历史不改写。",
+          "evidenceRequirements": [
+            "EVD-008",
+            "EVD-009",
+            "EVD-010",
+            "EVD-013"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-009",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-008",
+              "FR-009",
+              "FR-010",
+              "AC-008",
+              "AC-009",
+              "AC-010",
+              "AC-013"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-009"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-009"
+            ],
+            "evidenceRefs": [
+              "EVD-008",
+              "EVD-009",
+              "EVD-010",
+              "EVD-013"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-010",
+          "title": "RunResult、Evidence 与报告链接",
+          "goal": "将 resolved snapshot 身份纳入 canonical RunResult、evidence index 和报告有效性门禁。",
+          "mappedRequirements": [
+            "FR-013",
+            "BR-001"
+          ],
+          "acceptanceCriteria": [
+            "AC-012",
+            "AC-014"
+          ],
+          "dependsOn": [
+            "UIR-ST-008",
+            "UIR-ST-009"
+          ],
+          "testability": "分别篡改引用/hash 并验证 run 无法完成、报告无效且历史 RunResult 字节不变。",
+          "evidenceRequirements": [
+            "EVD-012",
+            "EVD-014"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-010",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-013",
+              "BR-001",
+              "AC-012",
+              "AC-014"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-010"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-010"
+            ],
+            "evidenceRefs": [
+              "EVD-012",
+              "EVD-014"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-UIR-04",
+      "name": "天津 A/B 候选迁移与清理治理",
+      "goal": "在 workspace 中生成完整 A/B 后继候选、迁移计划和零删除清理计划。",
+      "entryCriteria": [
+        "PH-UIR-03 全部 Story 通过",
+        "D 盘 inventory 重新读取且 hash 已冻结"
+      ],
+      "exitCriteria": [
+        "A/B 和全部直接依赖均有迁移后继候选",
+        "历史 release/run/report 未修改",
+        "所有非迁移资产均有 disposition，实际删除为零"
+      ],
+      "runtimeBoundary": "只读 D:/UI-Test，候选输出仅在授权 workspace；禁止正式发布、active 切换和删除。",
+      "status": "completed",
+      "envelope": {
+        "artifactId": "PH-UIR-04",
+        "version": "v1.1",
+        "artifactType": "phase",
+        "owner": "development-system/planning",
+        "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+        "sourceAnchorVersion": "v0.7",
+        "mappedFrAc": [
+          "AC-002",
+          "AC-003",
+          "AC-014",
+          "AC-015",
+          "AC-016",
+          "AC-017",
+          "BR-004",
+          "FR-002",
+          "FR-003",
+          "FR-011",
+          "FR-012",
+          "FR-014"
+        ],
+        "createdAt": "2026-09-03",
+        "derivedFrom": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-04"
+        ],
+        "supersedes": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-04"
+        ],
+        "evidenceRefs": [
+          "RTM-UI-TEST-REPAIR-20260903@v1.2",
+          "EVD-PHASE-04"
+        ]
+      },
+      "stories": [
+        {
+          "storyId": "UIR-ST-011",
+          "title": "天津项目适配器与 A/B Test Data",
+          "goal": "迁移公告业务参数、字段绑定和专属路径，同时保持通用引擎无天津常量。",
+          "mappedRequirements": [
+            "FR-002",
+            "FR-003",
+            "FR-011"
+          ],
+          "acceptanceCriteria": [
+            "AC-002",
+            "AC-003",
+            "AC-015"
+          ],
+          "dependsOn": [
+            "UIR-ST-005",
+            "UIR-ST-008"
+          ],
+          "testability": "静态扫描通用候选，验证 A/B 各自唯一 test-data、参数投影、适配器路径和零凭据复制。",
+          "evidenceRequirements": [
+            "EVD-002",
+            "EVD-003",
+            "EVD-015"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-011",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-002",
+              "FR-003",
+              "FR-011",
+              "AC-002",
+              "AC-003",
+              "AC-015"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-011"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-011"
+            ],
+            "evidenceRefs": [
+              "EVD-002",
+              "EVD-003",
+              "EVD-015"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-012",
+          "title": "正式迁移包和 Execution Eligibility 计划",
+          "goal": "为 A/B、共享依赖、产品聚合和 active/release 生成 plan-bound 后继发布包。",
+          "mappedRequirements": [
+            "FR-011",
+            "FR-014"
+          ],
+          "acceptanceCriteria": [
+            "AC-014",
+            "AC-015",
+            "AC-017"
+          ],
+          "dependsOn": [
+            "UIR-ST-007",
+            "UIR-ST-010",
+            "UIR-ST-011"
+          ],
+          "testability": "在复制的产品 fixture 上执行迁移 dry-run/apply，验证历史 hash 不变、后继 release 完整且状态仅 execution-ready-not-live-verified。",
+          "evidenceRequirements": [
+            "EVD-014",
+            "EVD-015",
+            "EVD-017"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-012",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-011",
+              "FR-014",
+              "AC-014",
+              "AC-015",
+              "AC-017"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-012"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-012"
+            ],
+            "evidenceRefs": [
+              "EVD-014",
+              "EVD-015",
+              "EVD-017"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-013",
+          "title": "清理 Inventory 与零删除 Dry-run",
+          "goal": "对历史、tmp、备份、缓存、IDE、staging 和治理文件生成分类 disposition。",
+          "mappedRequirements": [
+            "FR-012",
+            "BR-004"
+          ],
+          "acceptanceCriteria": [
+            "AC-014",
+            "AC-016"
+          ],
+          "dependsOn": [
+            "UIR-ST-012"
+          ],
+          "testability": "验证 inventory 全覆盖、引用/hold/回滚门禁和 dry-run 前后 D 盘 inventory hash 不变。",
+          "evidenceRequirements": [
+            "EVD-014",
+            "EVD-016"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-013",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-012",
+              "BR-004",
+              "AC-014",
+              "AC-016"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-013"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-013"
+            ],
+            "evidenceRefs": [
+              "EVD-014",
+              "EVD-016"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-UIR-05",
+      "name": "全量 QA、Landed Review 与完成判定",
+      "goal": "用独立 QA 证据证明候选满足全部需求，并保持所有高风险动作未执行。",
+      "entryCriteria": [
+        "PH-UIR-01 至 PH-UIR-04 全部 Story 通过"
+      ],
+      "exitCriteria": [
+        "全部 TCOV/EVD 有有效结果",
+        "full suite、敏感扫描、作用域扫描和故障注入通过",
+        "landed review 无 P0/P1 drift",
+        "CompletionEvaluator 只判定开发候选完成，不宣称 live verified"
+      ],
+      "runtimeBoundary": "候选验证和只读正式基线核对；禁止安装、部署、D 盘写、删除和真实 UI/R2。",
+      "status": "completed",
+      "envelope": {
+        "artifactId": "PH-UIR-05",
+        "version": "v1.1",
+        "artifactType": "phase",
+        "owner": "development-system/planning",
+        "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+        "sourceAnchorVersion": "v0.7",
+        "mappedFrAc": [
+          "AC-001",
+          "AC-002",
+          "AC-003",
+          "AC-004",
+          "AC-005",
+          "AC-006",
+          "AC-007",
+          "AC-008",
+          "AC-009",
+          "AC-010",
+          "AC-011",
+          "AC-012",
+          "AC-013",
+          "AC-014",
+          "AC-015",
+          "AC-016",
+          "AC-017",
+          "AC-018",
+          "BR-003",
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008",
+          "FR-009",
+          "FR-010",
+          "FR-011",
+          "FR-012",
+          "FR-013",
+          "FR-014",
+          "NFR-004",
+          "NFR-007",
+          "NFR-008"
+        ],
+        "createdAt": "2026-09-03",
+        "derivedFrom": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-05"
+        ],
+        "supersedes": [
+          "PHASE-UI-TEST-REPAIR-20260902@v1.0#PH-UIR-05"
+        ],
+        "evidenceRefs": [
+          "RTM-UI-TEST-REPAIR-20260903@v1.2",
+          "EVD-PHASE-05"
+        ]
+      },
+      "stories": [
+        {
+          "storyId": "UIR-ST-014",
+          "title": "全量自动化和非回归验证",
+          "goal": "执行契约、单元、集成、多进程、恢复、迁移和清理 dry-run 测试。",
+          "mappedRequirements": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006",
+            "FR-007",
+            "FR-008",
+            "FR-009",
+            "FR-010",
+            "FR-011",
+            "FR-012",
+            "FR-013",
+            "FR-014"
+          ],
+          "acceptanceCriteria": [
+            "AC-001",
+            "AC-002",
+            "AC-003",
+            "AC-004",
+            "AC-005",
+            "AC-006",
+            "AC-007",
+            "AC-008",
+            "AC-009",
+            "AC-010",
+            "AC-011",
+            "AC-012",
+            "AC-013",
+            "AC-014",
+            "AC-015",
+            "AC-016",
+            "AC-017"
+          ],
+          "dependsOn": [
+            "UIR-ST-013"
+          ],
+          "testability": "运行完整测试矩阵并将命令、输入 hash、结果、失败归因和证据路径固化。",
+          "evidenceRequirements": [
+            "EVD-001",
+            "EVD-002",
+            "EVD-003",
+            "EVD-004",
+            "EVD-005",
+            "EVD-006",
+            "EVD-007",
+            "EVD-008",
+            "EVD-009",
+            "EVD-010",
+            "EVD-011",
+            "EVD-012",
+            "EVD-013",
+            "EVD-014",
+            "EVD-015",
+            "EVD-016",
+            "EVD-017"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-014",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-001",
+              "FR-002",
+              "FR-003",
+              "FR-004",
+              "FR-005",
+              "FR-006",
+              "FR-007",
+              "FR-008",
+              "FR-009",
+              "FR-010",
+              "FR-011",
+              "FR-012",
+              "FR-013",
+              "FR-014",
+              "AC-001",
+              "AC-002",
+              "AC-003",
+              "AC-004",
+              "AC-005",
+              "AC-006",
+              "AC-007",
+              "AC-008",
+              "AC-009",
+              "AC-010",
+              "AC-011",
+              "AC-012",
+              "AC-013",
+              "AC-014",
+              "AC-015",
+              "AC-016",
+              "AC-017"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-014"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-014"
+            ],
+            "evidenceRefs": [
+              "EVD-001",
+              "EVD-002",
+              "EVD-003",
+              "EVD-004",
+              "EVD-005",
+              "EVD-006",
+              "EVD-007",
+              "EVD-008",
+              "EVD-009",
+              "EVD-010",
+              "EVD-011",
+              "EVD-012",
+              "EVD-013",
+              "EVD-014",
+              "EVD-015",
+              "EVD-016",
+              "EVD-017"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-015",
+          "title": "复用、许可证与供应链验收",
+          "goal": "确认所有复用能力和条件依赖具有版本/hash、许可证、NOTICE/SBOM 和回归证据。",
+          "mappedRequirements": [
+            "BR-003",
+            "NFR-007",
+            "NFR-008"
+          ],
+          "acceptanceCriteria": [
+            "AC-018"
+          ],
+          "dependsOn": [
+            "UIR-ST-001",
+            "UIR-ST-014"
+          ],
+          "testability": "验证依赖锁、许可证清单、上游来源和未批准依赖零引入。",
+          "evidenceRequirements": [
+            "EVD-018"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-015",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "BR-003",
+              "NFR-007",
+              "NFR-008",
+              "AC-018"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-015"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-015"
+            ],
+            "evidenceRefs": [
+              "EVD-018"
+            ]
+          }
+        },
+        {
+          "storyId": "UIR-ST-016",
+          "title": "Landed Review 与候选完成判定",
+          "goal": "将 changed files、RTM 和全部证据与 Anchor v0.4 比较，决定最终状态。",
+          "mappedRequirements": [
+            "FR-014",
+            "NFR-004"
+          ],
+          "acceptanceCriteria": [
+            "AC-014",
+            "AC-017",
+            "AC-018"
+          ],
+          "dependsOn": [
+            "UIR-ST-014",
+            "UIR-ST-015"
+          ],
+          "testability": "运行 landed review、manifest runtime、CompletionEvaluator 并确认未映射动作和 P0/P1 为零。",
+          "evidenceRequirements": [
+            "EVD-014",
+            "EVD-017",
+            "EVD-018"
+          ],
+          "status": "completed",
+          "envelope": {
+            "artifactId": "UIR-ST-016",
+            "version": "v1.1",
+            "artifactType": "story",
+            "owner": "development-system/planning",
+            "sourceAnchorId": "RA-UI-TEST-REPAIR-20260830",
+            "sourceAnchorVersion": "v0.7",
+            "mappedFrAc": [
+              "FR-014",
+              "NFR-004",
+              "AC-014",
+              "AC-017",
+              "AC-018"
+            ],
+            "createdAt": "2026-09-03",
+            "derivedFrom": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-016"
+            ],
+            "supersedes": [
+              "PHASE-UI-TEST-REPAIR-20260902@v1.0#UIR-ST-016"
+            ],
+            "evidenceRefs": [
+              "EVD-014",
+              "EVD-017",
+              "EVD-018"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

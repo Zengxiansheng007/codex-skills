@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/cleanup-plan.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_inventory_hash", "items", "delete_authorized", "plan_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.cleanup-plan.v2"},
+    "source_inventory_hash": {"type": "string"},
+    "items": {"type": "array", "items": {"type": "object"}},
+    "delete_authorized": {"const": false},
+    "plan_hash": {"type": "string"}
+  }
+}

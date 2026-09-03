@@ -56,6 +56,15 @@
     "knowledge_space": {"type": "object", "required": ["knowledge_space_id", "root_ref"], "properties": {"knowledge_space_id": {"type": "string", "minLength": 1}, "root_ref": {"type": "string", "minLength": 1}}},
     "wait_strategy": {"type": "object"},
     "semantic_post_signatures": {"type": "array"},
-    "execution_policies": {"type": "array"}
+    "execution_policies": {"type": "array"},
+    "pycharm_manual_execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["auto_generate_run_id", "auto_approve_r2_visible_ui"],
+      "properties": {
+        "auto_generate_run_id": {"type": "boolean"},
+        "auto_approve_r2_visible_ui": {"type": "boolean"}
+      }
+    }
   }
 }

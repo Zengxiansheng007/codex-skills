@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+from datetime import UTC, datetime
 from typing import Any
 
 from .case_contracts import canonical_hash
@@ -71,3 +72,28 @@ def project_run_result(run_result: dict[str, Any], projection: str) -> dict[str,
         status = "negative" if run_result["overall_status"] != "passed" else "observed"
         return {**common, "experience_status": status, "permission_effect": "none", "promotion_effect": "none", "evidence_refs": copy.deepcopy(run_result["evidence_refs"]), "forbidden_reuse": [{"reason": "failed-run"}] if status == "negative" else []}
     raise ValueError("E_PROJECTION_UNKNOWN")
+
+
+def create_run_reconciliation(*, run_result: dict[str, Any], reconciled_write_state: str, evidence: list[dict[str, Any]], reason_code: str, created_at: str | None = None) -> dict[str, Any]:
+    if run_result.get("write_state") not in {"write_outcome_unknown", "submitted_unknown"}:
+        raise ValueError("E_RECONCILIATION_SOURCE_NOT_UNKNOWN")  # Reconcile only genuinely unknown historical write outcomes.
+    if reconciled_write_state not in {"write_failed", "write_succeeded_verified", "write_succeeded_verification_failed"}:
+        raise ValueError("E_RECONCILIATION_STATE_INVALID")  # Never replace uncertainty with another ambiguous state.
+    if not evidence or any(not item.get("ref") or not item.get("sha256", "").startswith("sha256:") for item in evidence):
+        raise ValueError("E_RECONCILIATION_EVIDENCE_INVALID")  # Require hash-bound evidence for every historical conclusion.
+    record = {
+        "schema_version": "ui-test.run-reconciliation.v1",
+        "run_id": run_result["run_id"],
+        "case_id": run_result["case_id"],
+        "canonical_run_result_hash": run_result["run_result_hash"],
+        "original_write_state": run_result["write_state"],
+        "reconciled_write_state": reconciled_write_state,
+        "reason_code": reason_code,
+        "evidence": copy.deepcopy(evidence),
+        "canonical_run_result_unchanged": True,
+        "reconciliation_effect": "diagnostic-only",
+        "rerun_authorization_effect": "none",
+        "created_at": created_at or datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+    }
+    record["reconciliation_hash"] = canonical_hash(record)  # Make later diagnostic drift detectable without rewriting history.
+    return record

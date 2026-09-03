@@ -64,6 +64,8 @@ class CompilerTests(unittest.TestCase):
         self.assertNotIn("锛?", human)
         self.assertEqual(compiled["outputs"]["midscene.json"]["sections"]["setup"][0]["parameters"][0]["index_ref"], "D:\\UI-Test\\tianjin__天津项目组\\ops-platform__运营管理平台\\_shared\\data\\account-index.yaml#shared_account.test_zwz")
         self.assertIn("pytest.mark.p0", compiled["outputs"]["playwright-test.py"])
+        self.assertIn("# 生成元数据:", compiled["outputs"]["playwright-test.py"])
+        self.assertNotIn("# generated_metadata:", compiled["outputs"]["playwright-test.py"])
         self.assertIn("ui_test_runtime.execute_case", compiled["outputs"]["playwright-test.py"])
         from scripts.ui_test_core.case_contracts import validate_document
         self.assertEqual(validate_document(compiled["manifest"], "case-manifest.schema.json"), [])
@@ -83,14 +85,14 @@ class CompilerTests(unittest.TestCase):
         compiled = compiled_case()
         with tempfile.TemporaryDirectory() as directory:
             plan = create_compile_plan(compiled, None)
-            first = sync_release(directory, plan, compiled)
+            first = sync_release(directory, plan, compiled, audit_fixture=True)
             self.assertEqual(first["status"], "in_sync")
-            second = sync_release(directory, create_compile_plan(compiled, compiled["manifest"]["build_fingerprint"]), compiled)
+            second = sync_release(directory, create_compile_plan(compiled, compiled["manifest"]["build_fingerprint"]), compiled, audit_fixture=True)
             self.assertTrue(second["no_op"])
             stale = copy.deepcopy(plan)
             stale["input_fingerprint"] = "sha256:" + "0" * 64
-            self.assertEqual(sync_release(directory, stale, compiled)["status"], "plan_stale")
-            self.assertEqual(sync_release(directory, create_compile_plan(compiled, None), compiled)["status"], "concurrent_update")
+            self.assertEqual(sync_release(directory, stale, compiled, audit_fixture=True)["status"], "plan_stale")
+            self.assertEqual(sync_release(directory, create_compile_plan(compiled, None), compiled, audit_fixture=True)["status"], "concurrent_update")
             release = Path(first["release_path"])
             (release / "human.md").write_text("manual change", encoding="utf-8")
             self.assertEqual(validate_release(directory)["status"], "manual_drift")
@@ -98,11 +100,11 @@ class CompilerTests(unittest.TestCase):
     def test_generation_failure_preserves_previous_active(self):
         first_compiled = compiled_case()
         with tempfile.TemporaryDirectory() as directory:
-            first = sync_release(directory, create_compile_plan(first_compiled, None), first_compiled)
+            first = sync_release(directory, create_compile_plan(first_compiled, None), first_compiled, audit_fixture=True)
             graph, case_ir = graph_and_ir()
             graph["assets"]["page.announcement-create"]["version"] = 2
             second_compiled = compile_case(case_ir, graph, compiler_version="1.0.0", renderer_version="1.0.0", schema_version="1", config_fingerprint="sha256:" + "a" * 64)
-            failed = sync_release(directory, create_compile_plan(second_compiled, first_compiled["manifest"]["build_fingerprint"]), second_compiled, fail_after_files=1)
+            failed = sync_release(directory, create_compile_plan(second_compiled, first_compiled["manifest"]["build_fingerprint"]), second_compiled, fail_after_files=1, audit_fixture=True)
             self.assertEqual(failed["status"], "generation_failed")
             active = json.loads((Path(directory) / "active.json").read_text(encoding="utf-8"))
             self.assertEqual(active["build_fingerprint"], first_compiled["manifest"]["build_fingerprint"])

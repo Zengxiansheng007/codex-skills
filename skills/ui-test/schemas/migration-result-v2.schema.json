@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/migration-result.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plan_hash", "status", "historical_unchanged", "successor_releases", "execution_eligibility", "formal_assets_written"],
+  "properties": {
+    "schema_version": {"const": "ui-test.migration-result.v2"},
+    "plan_hash": {"type": "string"},
+    "status": {"enum": ["rehearsed", "blocked", "failed"]},
+    "historical_unchanged": {"type": "boolean"},
+    "successor_releases": {"type": "array", "items": {"type": "object"}},
+    "execution_eligibility": {"enum": ["execution-ready-not-live-verified", "blocked"]},
+    "formal_assets_written": {"const": false}
+  }
+}

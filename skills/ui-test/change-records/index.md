@@ -6,6 +6,8 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 | Date | Change ID | Summary | Status |
 |---|---|---|---|
+| 2026-09-02 | CR-20260902-002 | Add formal pytest markers and live v2 execution readiness | proposed |
+| 2026-09-02 | CR-20260902-001 | Add v2 test-data, compiler/sync, execution guard, diagnostics and migration governance | validated |
 | 2026-08-18 | CR-20260818-001 | Add unified ui-test-packet schema and fail-closed validator | applied |
 | 2026-08-22 | CR-20260822-001 | Extend contract registry with planned entries and add baseline validation | applied |
 | 2026-08-22 | CR-20260822-002 | Add Source Case, Case IR, Resolved IR and RFC 8785 hashing | applied |
@@ -20,6 +22,10 @@ Trace all behavior, contract, validation, security and downstream changes in the
 | 2026-08-22 | CR-20260822-011 | Add structured case parameters and synchronized Human/Midscene projections | validated |
 | 2026-08-22 | CR-20260822-012 | Make installed ui-test validation self-contained with a package baseline fallback | validated |
 | 2026-08-25 | CR-20260825-006 | Publish formal Tianjin assets and deploy the validated global ui-test Skill | validated |
+| 2026-08-27 | CR-20260827-001 | Add runtime-value-index schema and fail-closed RuntimeValueLoader with Hash verification | validated |
+| 2026-08-28 | CR-20260828-001 | Support Windows extended-length and UNC paths in sensitive scans | validated |
+| 2026-08-28 | CR-20260828-002 | Add R2 pre-submit form gates and append-only write reconciliation | validated |
+| 2026-08-28 | CR-20260828-003 | Add governed popup announcement version sequence and append-only allocation ledger | candidate |
 
 ## Category Index
 
@@ -30,11 +36,13 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 ## Open Risks
 
-- Private Tianjin test endpoint is currently TCP-unreachable; PH-05 live R2 evidence remains blocked.
-- Global deployment is bound to the backup and post-deployment validation recorded in CR-20260825-006.
+- The private Tianjin endpoint is reachable; final R2 A/B and report evidence remain pending until the v1.2.3 activity release is deployed.
+- Historical R2 A-001 remains failed; its append-only reconciliation records `write_failed` without changing canonical history.
 
 ## Detail Records
 
+- [CR-20260902-002](entries/2026/2026-09/CR-20260902-002-formal-v2-execution-readiness.md)
+- [CR-20260902-001](entries/2026/2026-09/CR-20260902-001-test-data-sync-execution-governance.md)
 - [CR-20260818-001](entries/2026/2026-08/CR-20260818-001-unified-packet-contract.md)
 - [CR-20260822-001](entries/2026/2026-08/CR-20260822-001-contract-registry-and-baseline-validation.md)
 - [CR-20260822-002](entries/2026/2026-08/CR-20260822-002-source-case-ir-contracts.md)
@@ -49,3 +57,6 @@ Trace all behavior, contract, validation, security and downstream changes in the
 - [CR-20260822-011](entries/2026/2026-08/CR-20260822-011-structured-case-parameters-and-projections.md)
 - [CR-20260822-012](entries/2026/2026-08/CR-20260822-012-package-self-contained-validation.md)
 - [CR-20260825-006](entries/2026/2026-08/CR-20260825-006-formal-publish-global-deployment.md)
+- [CR-20260827-001](entries/2026/2026-08/CR-20260827-001-runtime-value-index-and-loader.md)
+- [CR-20260828-001](entries/2026/2026-08/CR-20260828-001-windows-long-path-sensitive-scan.md)
+- [CR-20260828-002](entries/2026/2026-08/CR-20260828-002-r2-form-gates-and-reconciliation.md)

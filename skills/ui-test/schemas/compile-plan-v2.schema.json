@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/compile-plan.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "operation_id", "case_id", "branch_id", "target", "expected_active_build", "input_identity_hash", "build_fingerprint", "artifact_names", "plan_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.compile-plan.v2"},
+    "operation_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "target": {"type": "string", "minLength": 1},
+    "expected_active_build": {"type": ["string", "null"], "pattern": "^(sha256:[0-9a-f]{64})?$"},
+    "input_identity_hash": {"$ref": "#/$defs/hash"},
+    "build_fingerprint": {"$ref": "#/$defs/hash"},
+    "artifact_names": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "plan_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

@@ -25,6 +25,14 @@
       "license_source": "installed package license metadata",
       "source_url": "https://pypi.org/project/pytest/",
       "used_through": "pytest.ini and tests/"
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "license_expression": "MIT",
+      "license_source": "installed package metadata",
+      "source_url": "https://pypi.org/project/PyYAML/",
+      "used_through": "scripts/ui_test_core/runtime_value_loader.py and credential_index_loader.py"
     }
   ]
 }

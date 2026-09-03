@@ -1,0 +1,33 @@
+{
+  "artifact": "COMP-UI-TEST-REPAIR-20260903@v1.0",
+  "evaluatedAt": "2026-09-03T02:46:27.482028+00:00",
+  "evaluation": {
+    "state": "completed",
+    "passed": true,
+    "checks": {
+      "allStoriesPassed": true,
+      "allAcceptanceCriteriaVerified": true,
+      "feedbackValid": true,
+      "evidenceComplete": true,
+      "qaPassed": true,
+      "noP0P1Drift": true,
+      "noUnmappedActions": true,
+      "permissionGatePassed": true,
+      "riskGatePassed": true,
+      "codexReviewPassed": true
+    },
+    "blockers": [],
+    "feedbackValidation": {
+      "valid": true,
+      "errors": [],
+      "computedHash": "76ed360295172ee8c12b12dc5f8d1ca649664369f58eecd530074abf5522c99f"
+    }
+  },
+  "transition": {
+    "allowed": true,
+    "state": "completed",
+    "reason": "codex-authorized"
+  },
+  "state": "completed",
+  "passed": true
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/product-release-manifest.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product_id", "build_fingerprint", "included_cases", "artifacts", "formal_history_policy"],
+  "properties": {
+    "schema_version": {"const": "ui-test.product-release-manifest.v2"},
+    "product_id": {"type": "string", "minLength": 1},
+    "build_fingerprint": {"$ref": "#/$defs/hash"},
+    "included_cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case_id", "branch_id", "build_fingerprint", "test_data_hash", "manifest_hash", "manifest_ref"],
+        "properties": {
+          "case_id": {"type": "string"},
+          "branch_id": {"type": "string"},
+          "build_fingerprint": {"$ref": "#/$defs/hash"},
+          "test_data_hash": {"$ref": "#/$defs/hash"},
+          "manifest_hash": {"$ref": "#/$defs/hash"},
+          "manifest_ref": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "artifacts": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}},
+    "formal_history_policy": {"const": "immutable-audit-only"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

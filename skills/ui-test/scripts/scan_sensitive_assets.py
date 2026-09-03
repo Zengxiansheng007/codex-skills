@@ -6,7 +6,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
+import sys
 from pathlib import Path
 
 
@@ -24,8 +26,26 @@ PLACEHOLDERS = {"", "redacted", "placeholder", "example", "synthetic", "test-onl
 SKIP_SUFFIXES = {".pyc", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".zip", ".trace"}
 
 
+def _is_windows() -> bool:
+    return sys.platform == "win32" or os.name == "nt"  # Detect Windows for extended-length path normalization.
+
+
+def _normalize_long_path(path_str: str) -> str:
+    if not _is_windows():  # Non-Windows: return unchanged.
+        return path_str
+    if path_str.startswith("\\\\?\\") or path_str.startswith("\\\\.\\"):  # Already prefixed (extended or device namespace): preserve as-is.
+        return path_str
+    if path_str.startswith("\\\\"):  # UNC path: convert to the extended-length UNC form.
+        unc_path = path_str[2:]  # Strip the leading backslashes.
+        return "\\\\?\\UNC\\" + unc_path  # Apply the extended-length UNC namespace prefix.
+    abs_path = os.path.abspath(path_str)  # Resolve to an absolute path before prefixing.
+    return "\\\\?\\" + abs_path  # Always prefix every normalized absolute local Windows root so deep descendants can exceed 260 characters.
+
+
 def scan(root: str | Path) -> dict:
-    base = Path(root).resolve()
+    root_str = str(root)
+    normalized_root = _normalize_long_path(root_str)  # Normalize the scan root for Windows long paths.
+    base = Path(normalized_root).resolve()
     findings = []
     for path in sorted(base.rglob("*")):
         if not path.is_file() or "__pycache__" in path.parts or path.suffix.lower() in SKIP_SUFFIXES:

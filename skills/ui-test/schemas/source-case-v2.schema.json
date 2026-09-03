@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/source-case.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "branch_id", "case_version", "title", "display_name", "priority", "risk_level", "scope", "parameter_bindings", "steps", "dependency_refs"],
+  "properties": {
+    "schema_version": {"const": "ui-test.source-case.v2"},
+    "case_id": {"type": "string", "minLength": 1},
+    "branch_id": {"type": "string", "minLength": 1},
+    "case_version": {"type": "integer", "minimum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "display_name": {"type": "string", "minLength": 1},
+    "priority": {"enum": ["P0", "P1", "P2"]},
+    "risk_level": {"enum": ["R0", "R1", "R2"]},
+    "scope": {"type": "object", "minProperties": 1},
+    "parameter_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["parameter_id", "label", "ref"],
+        "properties": {
+          "parameter_id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "ref": {"type": "string", "pattern": "^(test-data|value|credential|sequence):.+$"},
+          "required": {"type": "boolean"}
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "section", "intent", "action", "parameter_ids", "expected_result"],
+        "properties": {
+          "step_id": {"type": "string", "minLength": 1},
+          "section": {"enum": ["setup", "feature", "assertions", "special_preconditions"]},
+          "intent": {"type": "string", "minLength": 1},
+          "action": {"type": "string", "minLength": 1},
+          "parameter_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "expected_result": {"type": "string", "minLength": 1},
+          "binding_ref": {"type": ["string", "null"]},
+          "evidence": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "dependency_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "p0_suite_id": {"type": ["string", "null"]}
+  }
+}

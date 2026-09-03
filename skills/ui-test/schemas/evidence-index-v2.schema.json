@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/evidence-index.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "case_id", "branch_id", "run_result_ref", "run_result_hash", "resolved_test_data_ref", "resolved_test_data_hash", "evidence_refs", "read_only_projection"],
+  "properties": {
+    "schema_version": {"const": "ui-test.evidence-index.v2"},
+    "run_id": {"type": "string"},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "run_result_ref": {"type": "string", "minLength": 1},
+    "run_result_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "resolved_test_data_ref": {"type": "string", "minLength": 1},
+    "resolved_test_data_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "read_only_projection": {"const": true}
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "allStoriesPassed": true,
+  "allAcceptanceCriteriaVerified": true,
+  "feedback": {
+    "cycleId": "DS-UI-TEST-REPAIR-20260830",
+    "status": "validated",
+    "completionClaim": false,
+    "documentVersions": {
+      "prd": "v0.5",
+      "architecture": "v0.4",
+      "developmentPlan": "v0.4",
+      "testPlan": "v0.4",
+      "rtm": "v1.2",
+      "phaseStory": "v1.1",
+      "anchor": "v0.7"
+    },
+    "landedReview": "reviewed/no-drift",
+    "openP0P1": 0,
+    "unmappedActions": 0,
+    "evidenceRefs": [
+      "review/final-landed-review.json",
+      "evidence/as-tested-summary.json",
+      "current-artifacts.json"
+    ]
+  },
+  "feedbackValidation": {
+    "schemaRef": "development-system/document-review-feedback.v1",
+    "validatorId": "validate-ui-test-review-adjustment-20260903",
+    "feedbackHash": "76ed360295172ee8c12b12dc5f8d1ca649664369f58eecd530074abf5522c99f",
+    "ok": true,
+    "errorCount": 0,
+    "errors": [],
+    "validatedAt": "2026-09-03T02:46:27.415167+00:00"
+  },
+  "evidenceComplete": true,
+  "qaPassed": true,
+  "driftSeverity": "none",
+  "unmappedActions": [],
+  "permissionGatePassed": true,
+  "riskGatePassed": true,
+  "codexReviewPassed": true
+}

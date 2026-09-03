@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/unfinished-repairs.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product_id", "generated_at", "items", "projection_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.unfinished-repairs.v2"},
+    "product_id": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "items": {"type": "array", "items": {"type": "object"}},
+    "projection_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/run-result.schema.v3.json",
+  "type": "object",
+  "required": ["schema_version", "run_id", "case_id", "branch_id", "overall_status", "resolved_test_data_ref", "resolved_test_data_hash", "run_result_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.run-result.v3"},
+    "resolved_test_data_ref": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+    "resolved_test_data_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "run_result_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

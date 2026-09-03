@@ -5,13 +5,15 @@ from __future__ import annotations
 import hashlib
 import json
 import ntpath
-import os
 from pathlib import Path
 from pathlib import PureWindowsPath
 from typing import Any
 
 import rfc8785
 from jsonschema import Draft202012Validator
+
+from .credential_index_loader import CredentialIndexError, load_credential_index
+from .runtime_value_loader import RuntimeValueError, load_runtime_value_index, resolve_value_ref
 
 
 class ProjectConfigError(ValueError):
@@ -25,7 +27,9 @@ V1_REQUIRED_TOP_LEVEL = (
     "schema_version",
     "scope",
     "systems",
-    "runtime_env_keys",
+    "runtime_value_index_ref",
+    "credential_index_ref",
+    "runtime_refs",
     "checkpoint_runtime",
     "knowledge_space",
     "wait_strategy",
@@ -94,14 +98,88 @@ def load_project_config(path: str | Path, *, purpose: str = "write") -> dict[str
         raise ProjectConfigError("E_SECRET_DETECTED: config contains forbidden secret keys")
     if version == "1.0" and not _valid_systems(value.get("systems")):
         raise ProjectConfigError("E_CONFIG_SYSTEMS_INVALID: systems/modules/routes are required")
+    if version == "2.0" and not isinstance(value.get("credential_index_ref"), str):
+        raise ProjectConfigError("E_CONFIG_CREDENTIAL_INDEX_REF_MISSING: credential_index_ref is required")
     result = dict(value)
     result["config_path"] = str(source)
     result["config_fingerprint"] = "sha256:" + hashlib.sha256(rfc8785.dumps(value)).hexdigest()
-    result["runtime_env_keys"] = sorted(str(item) for item in value.get("runtime_env_keys", []))
-    result["runtime_env_present"] = {key: bool(os.environ.get(key)) for key in result["runtime_env_keys"]}
+    result["runtime_value_index_ref"] = value.get("runtime_value_index_ref")
+    result["credential_index_ref"] = value.get("credential_index_ref")
+    result["runtime_refs"] = dict(value.get("runtime_refs", {}))
+    result["runtime_env_keys"] = sorted(str(item) for item in value.get("runtime_env_keys", []))  # 旧环境变量名仅作为元数据保留。
+    result["runtime_env_present"] = {key: False for key in result["runtime_env_keys"]}  # 旧变量盘点只报告名称，不读取进程环境值。
     result["write_ready"] = version == "2.0"
     result["config_issues"] = [] if version == "2.0" else ["E_CONFIG_UPGRADE_REQUIRED"]
     return result
+
+
+def runtime_index_path(config: dict[str, Any]) -> Path:
+    """Resolve the declared private runtime index without accepting a caller-selected path."""
+    reference = config.get("runtime_value_index_ref")
+    if not isinstance(reference, str) or not reference.startswith("path:"):
+        raise ProjectConfigError("E_RUNTIME_INDEX_REF_MISSING: project config must declare a path reference")
+    raw_path = reference.removeprefix("path:").replace("/", "\\")
+    source = Path(raw_path)
+    expected_root = Path(r"D:\UI-Test\_private\runtime-values")
+    try:
+        source.relative_to(expected_root)
+    except ValueError as exc:
+        raise ProjectConfigError("E_RUNTIME_INDEX_PATH_FORBIDDEN: runtime index must stay below private D-drive root") from exc
+    scope = config.get("scope", {})
+    expected_parts = (str(scope.get("project_group", "")), str(scope.get("product", "")), str(scope.get("environment", "")), "runtime-value-index.yaml")
+    if tuple(source.parts[-4:]) != expected_parts:
+        raise ProjectConfigError("E_RUNTIME_INDEX_SCOPE_MISMATCH: runtime index path does not match project scope")
+    return source
+
+
+def credential_index_path(config: dict[str, Any]) -> Path:
+    """Resolve the declared private credential index without accepting a caller-selected path."""
+    reference = config.get("credential_index_ref")
+    if not isinstance(reference, str) or not reference.startswith("path:"):
+        raise ProjectConfigError("E_CREDENTIAL_INDEX_REF_MISSING: project config must declare a path reference")
+    raw_path = reference.removeprefix("path:").replace("/", "\\")
+    source = Path(raw_path)
+    expected_root = Path(r"D:\UI-Test\_private\runtime-values")
+    try:
+        source.relative_to(expected_root)
+    except ValueError as exc:
+        raise ProjectConfigError("E_CREDENTIAL_INDEX_PATH_FORBIDDEN: credential index must stay below private D-drive root") from exc
+    scope = config.get("scope", {})
+    expected_parts = (str(scope.get("project_group", "")), str(scope.get("product", "")), str(scope.get("environment", "")), "credential-index.yaml")
+    if tuple(source.parts[-4:]) != expected_parts:
+        raise ProjectConfigError("E_CREDENTIAL_INDEX_SCOPE_MISMATCH: credential index path does not match project scope")
+    return source
+
+
+def load_project_runtime_values(config: dict[str, Any]) -> dict[str, Any]:
+    """Load all governed project values and resolve only declared references."""
+    try:
+        loaded = load_runtime_value_index(runtime_index_path(config))
+        credentials = load_credential_index(credential_index_path(config))
+        loaded["credentials"] = credentials["credentials"]  # Merge the private credential index only for in-memory resolution.
+        return {name: resolve_value_ref(loaded, reference) for name, reference in config.get("runtime_refs", {}).items()}
+    except (RuntimeValueError, CredentialIndexError) as exc:
+        raise ProjectConfigError(str(exc)) from exc
+
+
+def popup_version_sequence_config(config: dict[str, Any], branch_id: str) -> dict[str, Any] | None:
+    """Resolve the governed popup-version sequence declaration for a branch, or None when it should not allocate."""
+    runtime_state = config.get("runtime_state")  # Read the machine-maintained sequence declaration.
+    if not isinstance(runtime_state, dict):
+        return None  # A project without a sequence declaration performs no allocation.
+    sequence = runtime_state.get("popup_version_sequence")
+    if not isinstance(sequence, dict):
+        return None  # Missing sequence declaration means the branch does not allocate.
+    allocate_branches = sequence.get("allocate_for_branches", [])
+    if not isinstance(allocate_branches, list) or branch_id not in allocate_branches:
+        return None  # System-announcement and other branches never allocate a popup version.
+    if sequence.get("allocation_policy") != "first_value_is_one":
+        raise ProjectConfigError("E_POPUP_VERSION_POLICY_INVALID: allocation_policy must be first_value_is_one")  # Reject unsupported sequence rules.
+    return {
+        "sequence_key": sequence["sequence_key"],  # The stable runtime_state key the allocator persists under.
+        "scope": sequence["scope"],  # The declared allocation scope recorded in the runtime index.
+        "description": sequence.get("description", ""),  # The human-readable allocation purpose.
+    }  # Return only the fields the allocator needs.
 
 
 def _validate_v2_governance(value: dict[str, Any]) -> None:
@@ -165,7 +243,7 @@ def _find_secret_keys(value: Any, path: str = "$") -> list[str]:
     if isinstance(value, dict):
         for key, child in value.items():
             lowered = str(key).lower()
-            if lowered in FORBIDDEN_CONFIG_KEYS or any(token in lowered for token in FORBIDDEN_CONFIG_KEYS):
+            if path != "$.runtime_refs" and (lowered in FORBIDDEN_CONFIG_KEYS or any(token in lowered for token in FORBIDDEN_CONFIG_KEYS)):
                 findings.append(f"{path}.{key}")
             findings.extend(_find_secret_keys(child, f"{path}.{key}"))
     elif isinstance(value, list):

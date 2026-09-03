@@ -8,6 +8,8 @@ Track deterministic runtime, compiler, validator and test changes.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-02 | CR-20260902-002 | Compiler v2 Playwright renderer and live readiness tests | fixed | Generate formal pytest identity/risk markers and validate live-adapter contracts | proposed |
+| 2026-09-02 | CR-20260902-001 | v2 contracts, compiler, sync, guard, diagnostics and tests | added | Implement the approved parameter-governance and migration closure in a workspace candidate | validated |
 | 2026-08-18 | CR-20260818-001 | scripts/ui_test_core and tests | added | Add standard-library validator and contract tests | applied |
 | 2026-08-22 | CR-20260822-001 | scripts/ui_test_core/registry_validator and tests | added | Add contract registry and source baseline validator with lifecycle state support | applied |
 | 2026-08-22 | CR-20260822-002 | schemas, scripts/ui_test_core/case_contracts and tests | added | Add Source Case and IR contracts with RFC 8785 canonical hashing | applied |
@@ -22,6 +24,16 @@ Track deterministic runtime, compiler, validator and test changes.
 | 2026-08-25 | CR-20260825-003 | runtime dependency metadata | changed | Install pytest 9.1.1, lock the dependency and validate the full pytest suite | validated |
 
 ## Detailed Records
+
+### CR-20260902-001 - test-data-sync-execution-governance
+
+- Section changed: schemas, `scripts/ui_test_core`, validators, migration tooling and tests.
+- Before: business parameters had no dedicated v2 contract, compiler manifest coverage was incomplete, and execution/logging lacked a unified hash gate.
+- After: proposed v2 contracts and deterministic implementations cover parameter ownership, synchronization, execution snapshots and failure/repair projections.
+- Why: eliminate A/B parameter dual sources and restore execution eligibility through controlled migration.
+- Impact: v1 remains audit-only; new execution eligibility requires the complete v2 gates.
+- Validation: 247 tests passed; structure validator reported P0/P1/P2 zero; candidate sensitive scan reported zero findings; A/B migration and zero-delete cleanup rehearsal passed.
+- Detail record: `../entries/2026/2026-09/CR-20260902-001-test-data-sync-execution-governance.md`.
 
 ### CR-20260822-007 - candidate-validation-and-pilot-runtime
 

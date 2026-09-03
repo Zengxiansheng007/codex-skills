@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/resolved-test-data.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "case_id", "branch_id", "build_fingerprint", "test_data_hash", "parameter_manifest_hash", "parameters", "sealed_at", "snapshot_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.resolved-test-data.v2"},
+    "run_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "build_fingerprint": {"$ref": "#/$defs/hash"},
+    "test_data_hash": {"$ref": "#/$defs/hash"},
+    "parameter_manifest_hash": {"$ref": "#/$defs/hash"},
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["parameter_id", "ref", "source_type"],
+        "properties": {
+          "parameter_id": {"type": "string"},
+          "ref": {"type": "string"},
+          "source_type": {"enum": ["test-data", "value", "credential", "sequence", "derived"]},
+          "reference_only": {"const": true},
+          "value": {}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"source_type": {"const": "credential"}}, "required": ["source_type"]},
+            "then": {"required": ["reference_only"], "not": {"required": ["value"]}}
+          },
+          {
+            "if": {"properties": {"source_type": {"enum": ["test-data", "value", "sequence", "derived"]}}, "required": ["source_type"]},
+            "then": {"required": ["value"]}
+          }
+        ]
+      }
+    },
+    "sealed_at": {"type": "string", "format": "date-time"},
+    "snapshot_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

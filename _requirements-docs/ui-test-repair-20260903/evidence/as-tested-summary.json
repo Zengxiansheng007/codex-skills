@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "ui-test.review-evidence-summary.v1",
+  "generatedAt": "2026-09-03T02:31:45.614378+00:00",
+  "globalSkill": {
+    "installedFiles": 190,
+    "installationTestsPassed": 241,
+    "publicationRegressionTestsPassed": 234,
+    "validated": true
+  },
+  "projectAdapter": {
+    "testsPassed": 25,
+    "validated": true
+  },
+  "formalRelease": {
+    "A": "sha256:6a5f2566aa29fe481b4fc35b1e84a12c02e89c8000e493a2c16a0a55b8ad35f9",
+    "B": "sha256:4d48eff797461af40f276f48fc0ee11f450ee9fa1b91854746beb5b3b4f87298",
+    "product": "sha256:c0214f8b6a57d1862fe9806d3ce95d2e2aa5c40c46e8a53664ae1a2fa8e29494",
+    "releaseIntegrity": "valid",
+    "inputSync": "in_sync",
+    "executionGate": "ready",
+    "historicalFilesChecked": 336,
+    "historicalFilesUnchanged": true
+  },
+  "acceptedRuns": [
+    {
+      "runId": "RVI-20260903-R2-A-FORMAL-011",
+      "status": "passed",
+      "submitCount": 1,
+      "writeState": "write_succeeded_verified",
+      "resultHash": "sha256:8de16b251dfef2e2b6a971ec6e123df7d4fb48e6059d5d55d421a098341761dc"
+    },
+    {
+      "runId": "RVI-20260903-R2-B-FORMAL-001",
+      "status": "passed",
+      "submitCount": 1,
+      "writeState": "write_succeeded_verified",
+      "resultHash": "sha256:3ca08e2d9855cc704a77b053fd9232322405c2b0845bedda6f24c918d412bd8c"
+    }
+  ],
+  "diagnostics": {
+    "unfinishedRepairCount": 0,
+    "historyPolicy": "append-only"
+  },
+  "cleanup": {
+    "status": "applied",
+    "deletedDirectories": 21,
+    "deletedFiles": 180,
+    "businessDataDeleted": false,
+    "historicalEvidenceDeleted": false
+  },
+  "publicationBoundary": {
+    "includes": [
+      "global ui-test",
+      "public review documents"
+    ],
+    "excludes": [
+      "project adapter",
+      "formal assets",
+      "private URLs",
+      "credentials",
+      "raw run evidence"
+    ]
+  }
+}

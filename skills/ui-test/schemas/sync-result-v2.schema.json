@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/sync-result.schema.v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "case_id", "branch_id", "build_fingerprint", "active_build", "no_op", "issues"],
+  "properties": {
+    "schema_version": {"const": "ui-test.sync-result.v2"},
+    "status": {"enum": ["applied", "in_sync", "plan_stale", "concurrent_update", "validation_failed", "generation_failed", "blocked"]},
+    "case_id": {"type": "string"},
+    "branch_id": {"type": "string"},
+    "build_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "active_build": {"type": ["string", "null"], "pattern": "^(sha256:[0-9a-f]{64})?$"},
+    "no_op": {"type": "boolean"},
+    "release_path": {"type": "string"},
+    "issues": {"type": "array", "items": {"type": "string"}}
+  }
+}

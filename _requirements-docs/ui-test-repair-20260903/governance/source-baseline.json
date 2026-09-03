@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "development-system.source-baseline.v1",
+  "capturedAt": "2026-09-03T02:31:45.624946+00:00",
+  "sources": [
+    {
+      "id": "ui-test-repair-requirements-20260903-v0.4.md",
+      "sha256": "bafa12b4510a78f7f4bbbd2fbaa9d1e4ff42b8d9ef151ca1f7fd85fcff5f4af9"
+    },
+    {
+      "id": "ui-test-repair-architecture-20260903-v0.3.md",
+      "sha256": "6011698d687efc28882eabadf793ea434c67e86bfd311b8c32fe213e15fd16bd"
+    },
+    {
+      "id": "ui-test-repair-development-plan-20260903-v0.3.md",
+      "sha256": "645a4c005ebd780d451c83c57d99648c952caed7fc41c04733d828003d74dcf4"
+    },
+    {
+      "id": "ui-test-repair-test-plan-20260903-v0.3.md",
+      "sha256": "3d3f1a4b59b1fa686b71c2ff6917cabf7d280800c8f96783f369ffc28457b097"
+    },
+    {
+      "id": "ui-test-repair-rtm-20260903-v1.1.md",
+      "sha256": "5b360a56d0d763eb2c24e92c5d66b0cd279bb6e5d918a5d8193dd31ceba8ae76"
+    },
+    {
+      "id": "ui-test-repair-phase-story-20260902.json",
+      "sha256": "b50979747834b2be28830e91873ea3147157994156e38f49560b570fe1d1eeb2"
+    }
+  ],
+  "sourceSetHash": "sha256:03adf91d5ba8512372c215b2f3362269a2f27deb666a003e1719dfb1500cee40"
+}
