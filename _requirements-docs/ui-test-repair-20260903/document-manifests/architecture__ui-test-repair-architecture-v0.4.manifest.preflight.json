@@ -1,0 +1,54 @@
+{
+  "status": "preflight-passed",
+  "preflight": {
+    "status": "preflight-passed",
+    "errors": [],
+    "actions": [
+      "git-preflight",
+      "sensitive-scan",
+      "manifest-validation",
+      "approval-check"
+    ],
+    "externalWrite": false
+  },
+  "idempotency": {
+    "reused": false,
+    "idempotencyKey": "ARCH-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+    "record": {
+      "idempotencyKey": "ARCH-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "draft",
+      "history": [],
+      "manifest": {
+        "docId": "ARCH-UI-TEST-REPAIR-20260903",
+        "category": "architecture",
+        "phase": "completed",
+        "version": "0.4.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "5d20b238f0a25756bea3724dcdbe20ed9a08ddd42dc73622a4148acbffcb5dee"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/architecture/ui-test-repair-architecture-v0.4.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    }
+  },
+  "next": "requires-explicit-live-adapter-and-target-binding",
+  "github": "not-written",
+  "gitbook": "not-written"
+}

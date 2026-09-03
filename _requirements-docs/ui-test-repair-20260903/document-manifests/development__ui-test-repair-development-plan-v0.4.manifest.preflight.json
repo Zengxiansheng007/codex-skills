@@ -1,0 +1,54 @@
+{
+  "status": "preflight-passed",
+  "preflight": {
+    "status": "preflight-passed",
+    "errors": [],
+    "actions": [
+      "git-preflight",
+      "sensitive-scan",
+      "manifest-validation",
+      "approval-check"
+    ],
+    "externalWrite": false
+  },
+  "idempotency": {
+    "reused": false,
+    "idempotencyKey": "DEVPLAN-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+    "record": {
+      "idempotencyKey": "DEVPLAN-UI-TEST-REPAIR-20260903:0.4.0:bce613d95f01d2db7ac83de073c1995028782556",
+      "status": "draft",
+      "history": [],
+      "manifest": {
+        "docId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+        "category": "development",
+        "phase": "completed",
+        "version": "0.4.0",
+        "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+        "integrity": {
+          "algorithm": "SHA-256",
+          "digest": "325d6ab0bd0c4b0ef5bbb6dc1cc655d2738bde385d0eb1827e0bca22c2c0b4dc"
+        },
+        "classification": {
+          "visibility": "public",
+          "containsCredentials": false,
+          "containsPrivateUrls": false,
+          "containsRawRunEvidence": false
+        },
+        "paths": {
+          "githubRepository": "Zengxiansheng007/codex-skills",
+          "githubBranch": "main",
+          "githubPath": "_requirements-docs/ui-test-repair-20260903/development/ui-test-repair-development-plan-v0.4.md"
+        },
+        "provenance": {
+          "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+          "landedReview": "review/final-landed-review.json",
+          "generatedBy": "development-system/document_manifest_runtime.py"
+        },
+        "status": "draft"
+      }
+    }
+  },
+  "next": "requires-explicit-live-adapter-and-target-binding",
+  "github": "not-written",
+  "gitbook": "not-written"
+}

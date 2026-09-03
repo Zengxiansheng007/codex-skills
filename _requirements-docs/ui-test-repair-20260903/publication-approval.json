@@ -1,0 +1,24 @@
+{
+  "approvalId": "USER-20260903-GITHUB-PUBLISH",
+  "approved": true,
+  "targetRepository": "Zengxiansheng007/codex-skills",
+  "targetBranch": "main",
+  "publishVisibility": "public",
+  "approvedPathRoots": [
+    "skills/ui-test",
+    "_requirements-docs/ui-test-repair-20260903"
+  ],
+  "included": [
+    "current global ui-test",
+    "redacted development-system review package"
+  ],
+  "excluded": [
+    "GitBook",
+    "D:/RAG",
+    "project adapter",
+    "formal assets",
+    "credentials",
+    "private URLs",
+    "raw run evidence"
+  ]
+}

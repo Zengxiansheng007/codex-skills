@@ -1,0 +1,28 @@
+{
+  "docId": "UI-TEST-REPAIR-PACKAGE-README",
+  "category": "governance",
+  "phase": "delivery",
+  "version": "1.0.0",
+  "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+  "integrity": {
+    "algorithm": "SHA-256",
+    "digest": "64c4534b203be7512be2843ea8614429c4f805bc4cbe08849c7d864d93c8b0b8"
+  },
+  "classification": {
+    "visibility": "public",
+    "containsCredentials": false,
+    "containsPrivateUrls": false,
+    "containsRawRunEvidence": false
+  },
+  "paths": {
+    "githubRepository": "Zengxiansheng007/codex-skills",
+    "githubBranch": "main",
+    "githubPath": "_requirements-docs/ui-test-repair-20260903/README.md"
+  },
+  "provenance": {
+    "requirementAnchor": "RA-UI-TEST-REPAIR-20260830@v0.7",
+    "landedReview": "review/final-landed-review.json",
+    "generatedBy": "development-system/document_manifest_runtime.py"
+  },
+  "status": "draft"
+}

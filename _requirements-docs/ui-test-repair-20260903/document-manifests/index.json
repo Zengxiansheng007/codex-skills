@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "development-system.document-manifest-index.v1",
+  "sourceCommit": "bce613d95f01d2db7ac83de073c1995028782556",
+  "documents": [
+    {
+      "docId": "UI-TEST-REPAIR-PACKAGE-README",
+      "manifest": "document-manifests/README.manifest.json",
+      "content": "README.md"
+    },
+    {
+      "docId": "PRD-UI-TEST-REPAIR-20260830",
+      "manifest": "document-manifests/requirements__ui-test-repair-requirements-v0.5.manifest.json",
+      "content": "requirements/ui-test-repair-requirements-v0.5.md"
+    },
+    {
+      "docId": "ARCH-UI-TEST-REPAIR-20260903",
+      "manifest": "document-manifests/architecture__ui-test-repair-architecture-v0.4.manifest.json",
+      "content": "architecture/ui-test-repair-architecture-v0.4.md"
+    },
+    {
+      "docId": "DEVPLAN-UI-TEST-REPAIR-20260903",
+      "manifest": "document-manifests/development__ui-test-repair-development-plan-v0.4.manifest.json",
+      "content": "development/ui-test-repair-development-plan-v0.4.md"
+    },
+    {
+      "docId": "TESTPLAN-UI-TEST-REPAIR-20260903",
+      "manifest": "document-manifests/test__ui-test-repair-test-plan-v0.4.manifest.json",
+      "content": "test/ui-test-repair-test-plan-v0.4.md"
+    },
+    {
+      "docId": "RTM-UI-TEST-REPAIR-20260903",
+      "manifest": "document-manifests/traceability__ui-test-repair-rtm-v1.2.manifest.json",
+      "content": "traceability/ui-test-repair-rtm-v1.2.md"
+    },
+    {
+      "docId": "CHG-UI-TEST-REPAIR-20260903",
+      "manifest": "document-manifests/governance__ui-test-repair-change-record-v1.0.manifest.json",
+      "content": "governance/ui-test-repair-change-record-v1.0.md"
+    }
+  ]
+}
