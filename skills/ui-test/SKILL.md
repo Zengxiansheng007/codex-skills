@@ -36,11 +36,15 @@ Read [the project asset governance contract](references/asset-governance.md) bef
 - Load `ui-test.project.yaml` v2 and use its `runtime_value_index_ref` and `credential_index_ref`; resolve non-credential values through `RuntimeValueLoader` and credentials through the separate credential loader. Callers and scripts must not read governed values from `os.environ` or choose arbitrary formal output roots.
 - Formal regression is Python + pytest + pytest-playwright only. Every thin test must run independently and in a suite, use shared Flow/Page/Component objects, create a fresh BrowserContext and replay the complete precondition Flow.
 - 新生成或修改的 Python 测试、页面对象、fixture 与治理脚本，其 `#` 说明性注释必须使用中文；机器字段、稳定 ID、错误码和第三方 API 名称保持原值。
-- PyCharm 人工执行可通过项目级 `pycharm_manual_execution` 策略自动生成唯一 Run ID，并将人工点击运行记录为测试环境可见 UI 的单次 R2 授权；全局 Skill 只提供解析逻辑，未显式启用的项目、命令行、CI 与非测试环境必须继续 fail-closed。
+- 所有正式 UI-Test Playwright 用例必须通过根 `conftest.py` 显式加载通用 `ui_test_core.pytest_runtime_plugin` 插件；该插件是 ExecutionContextV3、AttemptV2、finalization 与 session 结果的唯一控制层。项目 runtime 只消费插件产出的已验证上下文并返回候选，不得自行识别 PyCharm 来源、生成 Run ID、授予 R2 批准或写 canonical terminal。缺失插件加载的收集必须失败。
+- 所有新正式执行必须使用项目契约 2.2、ExecutionContextV3、ExecutionAttemptV2、RunResultV5 和 `transaction-v1` finalization；2.1/ExecutionContextV2/ExecutionAttemptV1/RunResultV4 及更早版本仅允许历史审计，不可恢复执行或验收资格。来源分类（`pycharm|codex-cli|cli|ci|unknown`）与 R2 授权决定分离：JetBrains runner 路径只产生 `pycharm` 来源分类，不独立授予写权限。
+- Run、Rerun、Debug 采用相同 PyCharm R2 规则；suite 每个 test node 独立 Run ID、attempt、approval 和一次写许可；R2 使用 `project_group+product+environment` 跨进程串行锁。上一 run 为 `unfinished` 或 `unknown` 不阻断新 run。runner 路径结构匹配即可识别，runner 内容摘要变化只记录不阻断。
+- 分层完成状态：pytest 阶段、业务 write state、finalization commit/receipt、PytestSessionResult、外部 PyCharmProcessEvidence/PyCharmAcceptanceResult 和整体完成状态不得互相替代。普通 run 只有内容寻址 RunResultV5/evidence index 经单一 commit manifest 提交且成功 receipt 落盘后，才可写唯一 `passed` terminal；finalizer 异常必须先写脱敏 failure receipt，并向 TestReport/TeamCity 提供非空 `longrepr`。session exit 非零、receipt 缺失或 `recovery_mode=post-run` 均阻断 PyCharm/人工通过。
 - Run the deterministic Case Compiler plan/sync and unified preflight. A non-`in_sync` release cannot execute, report, write experience or complete.
 - Keep Runtime values, credentials, run-level dynamic values and case business data separate: `value:` may expand only explicitly non-sensitive ordinary Runtime entries; `credential:` and `sequence:` remain reference-only in compile artifacts; actual sequence allocations first appear in the immutable run snapshot and credential values remain process-memory-only.
 - After a Test Data edit, use the fixed single-case+branch `dry-run/apply` coordinator. Until a v2 successor release verifies, the evaluator reports `input_sync=out_of_sync` and `execution_gate=blocked`; it never rewrites an immutable manifest to store current drift.
 - A formal successor that changes execution semantics uses `dry-run -> prepare -> pre-submit qualification -> activate`: `prepare` publishes immutable inactive case/product releases, qualification executes all setup and feature steps except submit with `submit_count=0`, and `activate` requires the complete matching qualification set before switching case/product pointers and root projections under CAS/lock protection.
+- `pre-submit qualification` 使用独立 QualificationResult，不生成正式业务 run 的 R2ApprovalRecord、RunResultV5、commit 或 receipt；通用 pytest 插件仍记录 qualification attempt/terminal，但必须跳过普通业务 finalizer。普通业务 run 不得跳过事务化 finalization。
 - Before BrowserContext creation, at every parameter consumption point and immediately before the first business write, use the execution data session hash gate. A drift, diagnostics failure or snapshot failure must leave BrowserContext/business-write/submit counts at zero.
 - Record failures, sync-required changes and repair completions through the product diagnostics event store. Daily JSONL is authoritative, `index.json` and `unfinished-repairs.json` are projections, and no daily file is created when no event occurs.
 
@@ -139,7 +143,7 @@ Core deterministic helpers are under `scripts/ui_test_core/`: routing and Proble
 ## Decision Rules
 
 - Read [references/workflow-contract.md](references/workflow-contract.md) when defining roles, phases, inputs, outputs, or completion criteria.
-- Read [references/execution-contracts.md](references/execution-contracts.md) when generating plans, evidence schemas, failure attribution, fallback logic, or Memory entries.
+- Read [references/execution-contracts.md](references/execution-contracts.md) when generating plans, evidence schemas, failure attribution, fallback logic, or Memory entries. 该引用同时规定执行治理契约：pytest 阶段结果、业务 write state、人工 PyCharm 验收和整体完成状态互不替代。
 - Read [references/reporting-and-promotion.md](references/reporting-and-promotion.md) when creating reports or deciding whether to promote a flow.
 - Use Midscene-only for exploratory observation, never for proving upstream/downstream completion.
 - Use Playwright-only when model use is forbidden or unavailable; report the deviation from Midscene-first.
@@ -158,9 +162,11 @@ Before declaring success, confirm:
 - failed and degraded steps retain their original reason and fallback history;
 - repairs are complete: root cause, affected steps/assertions/policy/evidence/fallback, validation, reports, and downstream impacts are handled or explicitly documented as out of scope;
 - reports and Memory contain no credentials, tokens, cookies, private identifiers, or unredacted sensitive data;
+- every new formal business run has a hash-closed RunResultV5/evidence object pair, one atomic commit manifest, one receipt before its unique passed terminal, and a PytestSessionResult matching the final pytest exit status;
+- PyCharm and human R2 pass only through an external AcceptanceResult that binds the real helper process exit; RunResult, terminal, or post-run recovery cannot self-attest or upgrade acceptance;
 - experience packets pass scope, sensitive, production, semantic-POST, knowledge-space, append-only, and promotion gates; automatic writeback can only produce `observed/candidate`, never `active/shared/RC`;
 - the final URL, selected state, key visible content, and applicable downstream state all match expectations.
 
 ## Escalation
 
-Ask before private-page model export, any R2 write, global Skill installation, dependency installation, production access, or destructive migration. Block R3, API business creation, credential persistence, unapproved external disclosure, and any run whose project config, release, approval record, path plan, or sensitive scan is invalid.
+Ask before private-page model export, any R2 write, global Skill installation, dependency installation, production access, or destructive migration. Block R3, API business creation, credential persistence, unapproved external disclosure, and any run whose project config, release, approval record, path plan, or sensitive scan is invalid. 2.1及更早配置不可用于新正式执行；非 stable runner、active identity 不匹配或缺少 `transaction-v1` 能力必须在 BrowserContext 前失败。

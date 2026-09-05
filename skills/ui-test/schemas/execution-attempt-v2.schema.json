@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/execution-attempt.schema.v2.json",
+  "title": "Execution Attempt V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "attempt_id", "session_id", "run_id", "node_id", "case_id", "branch_id",
+    "finalization_mode", "diagnostics_admission", "events"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.execution-attempt.v2"},
+    "attempt_id": {"$ref": "#/$defs/stableIdentity"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "case_id": {"$ref": "#/$defs/stableIdentity"},
+    "branch_id": {"$ref": "#/$defs/stableIdentity"},
+    "finalization_mode": {"enum": ["transaction-v1", "not_applicable_qualification", "not_applicable_read_only"]},
+    "diagnostics_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["admitted", "admission_digest"],
+      "properties": {
+        "admitted": {"type": "boolean"},
+        "admission_digest": {"$ref": "#/$defs/hash"},
+        "rejection_code": {"type": "string", "pattern": "^E_[A-Z0-9_]+$"},
+        "rejection_reason_digest": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "events": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/attemptEvent"}},
+    "pre_terminal_events_hash": {"$ref": "#/$defs/hash"},
+    "finalization_commit_ref": {"$ref": "#/$defs/relativeRef"},
+    "finalization_commit_hash": {"$ref": "#/$defs/hash"},
+    "finalization_receipt_ref": {"$ref": "#/$defs/relativeRef"},
+    "finalization_receipt_hash": {"$ref": "#/$defs/hash"},
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "recorded_at", "terminal_digest", "is_unique_terminal"],
+      "properties": {
+        "status": {"enum": ["passed", "failed", "error", "cancelled", "timed_out", "write_outcome_unknown", "interrupted", "unresolved"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "terminal_digest": {"$ref": "#/$defs/hash"},
+        "is_unique_terminal": {"const": true},
+        "code": {"type": "string", "minLength": 1}
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recovered_from", "recovery_event", "recovery_digest", "recovery_mode"],
+      "properties": {
+        "recovered_from": {"enum": ["unfinished", "finalizing", "commit_without_receipt", "receipt_without_terminal", "interrupted", "unresolved"]},
+        "recovery_event": {"$ref": "#/$defs/attemptEvent"},
+        "recovery_digest": {"$ref": "#/$defs/hash"},
+        "recovery_mode": {"enum": ["post-run", "orphan-audit"]}
+      }
+    },
+    "evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/relativeRef"}}
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["terminal"],
+        "properties": {
+          "finalization_mode": {"const": "transaction-v1"},
+          "terminal": {"required": ["status"], "properties": {"status": {"const": "passed"}}}
+        }
+      },
+      "then": {
+        "required": ["pre_terminal_events_hash", "finalization_commit_ref", "finalization_commit_hash", "finalization_receipt_ref", "finalization_receipt_hash"],
+        "properties": {
+          "events": {
+            "allOf": [
+              {"contains": {"required": ["event_type"], "properties": {"event_type": {"const": "finalization_started"}}}},
+              {"contains": {"required": ["event_type"], "properties": {"event_type": {"const": "finalization_committed"}}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"finalization_mode": {"enum": ["not_applicable_qualification", "not_applicable_read_only"]}}},
+      "then": {
+        "not": {"anyOf": [
+          {"required": ["finalization_commit_ref"]}, {"required": ["finalization_commit_hash"]},
+          {"required": ["finalization_receipt_ref"]}, {"required": ["finalization_receipt_hash"]}
+        ]}
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [
+        {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}, {"pattern": "(?:^|/)\\.\\.(?:/|$)"},
+        {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+      ]}
+    },
+    "attemptEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "recorded_at", "event_digest"],
+      "properties": {
+        "event_type": {"enum": ["detected", "admitted", "executing", "finalization_started", "finalization_committed", "finalization_failed", "terminal", "interrupted", "unresolved", "unfinished"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "event_digest": {"$ref": "#/$defs/hash"},
+        "phase": {"enum": ["setup", "call", "teardown", "finalization", "session"]},
+        "code": {"type": "string", "minLength": 1},
+        "detail_digest": {"$ref": "#/$defs/hash"},
+        "exception_class": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_.]{0,127}$"},
+        "message_digest": {"$ref": "#/$defs/hash"},
+        "transaction_id": {"$ref": "#/$defs/stableIdentity"},
+        "evidence_ref": {"$ref": "#/$defs/relativeRef"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"event_type": {"enum": ["finalization_started", "finalization_committed", "finalization_failed"]}}},
+          "then": {"required": ["phase", "transaction_id"], "properties": {"phase": {"const": "finalization"}}}
+        },
+        {
+          "if": {"properties": {"event_type": {"const": "finalization_failed"}}},
+          "then": {"required": ["code", "exception_class", "message_digest"]}
+        }
+      ]
+    }
+  }
+}

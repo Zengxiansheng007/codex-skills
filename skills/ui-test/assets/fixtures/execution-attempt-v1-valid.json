@@ -1,0 +1,49 @@
+{
+  "schema_version": "ui-test.execution-attempt.v1",
+  "attempt_id": "ATT-RVI-20260904-R2-A-100000-ABCD1234",
+  "run_id": "RVI-20260904-R2-A-100000-ABCD1234",
+  "node_id": "test_announcement_p0_a.py::TestAnnouncementP0A",
+  "case_id": "BOPS-ANNOUNCEMENT-P0-A",
+  "branch_id": "system-announcement",
+  "diagnostics_admission": {
+    "admitted": true,
+    "admission_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "events": [
+    {
+      "event_type": "detected",
+      "recorded_at": "2026-09-04T10:00:00Z",
+      "event_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+    },
+    {
+      "event_type": "admitted",
+      "recorded_at": "2026-09-04T10:00:01Z",
+      "event_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    {
+      "event_type": "executing",
+      "recorded_at": "2026-09-04T10:00:02Z",
+      "event_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "phase": "setup"
+    },
+    {
+      "event_type": "executing",
+      "recorded_at": "2026-09-04T10:00:03Z",
+      "event_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "phase": "call"
+    },
+    {
+      "event_type": "terminal",
+      "recorded_at": "2026-09-04T10:00:04Z",
+      "event_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000006",
+      "phase": "teardown"
+    }
+  ],
+  "terminal": {
+    "status": "passed",
+    "recorded_at": "2026-09-04T10:00:04Z",
+    "terminal_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+    "is_unique_terminal": true
+  },
+  "evidence_refs": ["evidence/RVI-20260904-R2-A-100000-ABCD1234/screenshot-01.png"]
+}

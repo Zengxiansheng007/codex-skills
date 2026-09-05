@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/ui-test-project.schema.v2.2.json",
+  "title": "UI-Test Project Config v2.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scope",
+    "asset_governance",
+    "systems",
+    "runtime_value_index_ref",
+    "runtime_refs",
+    "checkpoint_runtime",
+    "knowledge_space",
+    "wait_strategy",
+    "semantic_post_signatures",
+    "execution_policies",
+    "credential_index_ref",
+    "pycharm_manual_execution"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.2"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_group", "project_group_name", "product", "product_name", "environment"],
+      "properties": {
+        "project_group": {"$ref": "#/$defs/stableId"},
+        "project_group_name": {"$ref": "#/$defs/displayName"},
+        "product": {"$ref": "#/$defs/stableId"},
+        "product_name": {"$ref": "#/$defs/displayName"},
+        "product_aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}},
+        "environment": {"enum": ["public", "test", "staging", "production"]}
+      }
+    },
+    "asset_governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_asset_root", "knowledge_root", "staging_root", "forbidden_persistent_roots", "layout_version", "levels", "segment_naming", "asset_type_policy_version"],
+      "properties": {
+        "execution_asset_root": {"const": "D:\\UI-Test"},
+        "knowledge_root": {"const": "D:\\RAG"},
+        "staging_root": {"const": "D:\\UI-Test\\_tmp"},
+        "forbidden_persistent_roots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": {"const": "C:\\"},
+          "items": {"type": "string", "minLength": 3}
+        },
+        "layout_version": {"const": 1},
+        "levels": {"const": ["project_group", "product", "system", "module_path", "function", "case", "branch", "run"]},
+        "segment_naming": {"const": "stable-id__display-name"},
+        "asset_type_policy_version": {"const": "ui-test.asset-types.v1"}
+      }
+    },
+    "systems": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/system"}},
+    "runtime_value_index_ref": {"type": "string", "pattern": "^path:D:/UI-Test/_private/runtime-values/[A-Za-z0-9._\\-]+/[A-Za-z0-9._\\-]+/(public|test|staging|production)/runtime-value-index\\.yaml$"},
+    "credential_index_ref": {"type": "string", "pattern": "^path:D:/UI-Test/_private/runtime-values/[A-Za-z0-9._\\-]+/[A-Za-z0-9._\\-]+/(public|test|staging|production)/credential-index\\.yaml$"},
+    "runtime_refs": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^(value|credential|exploration):[A-Za-z0-9._\\-]+$"}
+    },
+    "checkpoint_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root_ref"],
+      "properties": {"root_ref": {"type": "string", "minLength": 1}}
+    },
+    "runtime_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "popup_version_sequence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sequence_key", "scope", "description", "allocate_for_branches", "allocation_policy"],
+          "properties": {
+            "sequence_key": {"type": "string", "minLength": 1},
+            "scope": {"type": "string", "minLength": 1},
+            "description": {"type": "string", "minLength": 1},
+            "allocate_for_branches": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+            "allocation_policy": {"const": "first_value_is_one"}
+          }
+        }
+      }
+    },
+    "knowledge_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledge_space_id", "relative_path"],
+      "properties": {
+        "knowledge_space_id": {"$ref": "#/$defs/stableId"},
+        "relative_path": {"type": "string", "minLength": 1}
+      }
+    },
+    "wait_strategy": {"type": "object"},
+    "semantic_post_signatures": {"type": "array"},
+    "execution_policies": {"type": "array"},
+    "pycharm_manual_execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "origin_detection",
+        "entry_scope",
+        "r2_authorization",
+        "run_scope",
+        "r2_parallelism",
+        "auto_generate_run_id",
+        "auto_approve_r2_visible_ui",
+        "finalization_contract",
+        "run_result_contract",
+        "session_result_contract",
+        "acceptance_contract"
+      ],
+      "properties": {
+        "contract_version": {"const": 3},
+        "origin_detection": {"const": "jetbrains-runner-path"},
+        "entry_scope": {"const": "stable-active-runners"},
+        "r2_authorization": {"const": "auto-test-only"},
+        "run_scope": {"const": "per-node"},
+        "r2_parallelism": {"const": "serial-project-environment"},
+        "auto_generate_run_id": {"type": "boolean"},
+        "auto_approve_r2_visible_ui": {"type": "boolean"},
+        "finalization_contract": {"const": "transaction-v1"},
+        "run_result_contract": {"const": "v5"},
+        "session_result_contract": {"const": "v1"},
+        "acceptance_contract": {"const": "external-exit-v1"}
+      }
+    }
+  },
+  "$defs": {
+    "stableId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$"},
+    "displayName": {"type": "string", "minLength": 1, "maxLength": 80},
+    "function": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_id", "display_name"],
+      "properties": {
+        "function_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}}
+      }
+    },
+    "modulePathSegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "display_name"],
+      "properties": {
+        "module_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"}
+      }
+    },
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "display_name", "aliases", "module_path", "functions"],
+      "properties": {
+        "module_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "aliases": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/displayName"}},
+        "module_path": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/modulePathSegment"}},
+        "functions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/function"}},
+        "direct_route_ref": {"type": "string", "minLength": 1},
+        "locator_replay_ref": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [{"required": ["direct_route_ref"]}, {"required": ["locator_replay_ref"]}]
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system_id", "display_name", "modules"],
+      "properties": {
+        "system_id": {"$ref": "#/$defs/stableId"},
+        "display_name": {"$ref": "#/$defs/displayName"},
+        "modules": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/module"}}
+      }
+    }
+  }
+}

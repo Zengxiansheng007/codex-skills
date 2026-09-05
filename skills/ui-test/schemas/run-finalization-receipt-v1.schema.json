@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/run-finalization-receipt.v1.json",
+  "title": "Run Finalization Receipt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "transaction_id", "session_id", "run_id", "node_id", "status", "recovery_mode", "recorded_at", "receipt_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.run-finalization-receipt.v1"},
+    "transaction_id": {"$ref": "#/$defs/stableIdentity"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "status": {"enum": ["committed", "failed"]},
+    "recovery_mode": {"enum": ["none", "post-run", "orphan-audit"]},
+    "commit_manifest_ref": {"$ref": "#/$defs/relativeRef"},
+    "commit_manifest_hash": {"$ref": "#/$defs/hash"},
+    "run_result_ref": {"$ref": "#/$defs/relativeRef"},
+    "run_result_hash": {"$ref": "#/$defs/hash"},
+    "evidence_index_ref": {"$ref": "#/$defs/relativeRef"},
+    "evidence_index_hash": {"$ref": "#/$defs/hash"},
+    "error_code": {"type": "string", "pattern": "^E_[A-Z0-9_]+$"},
+    "exception_class": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_.]{0,127}$"},
+    "message_digest": {"$ref": "#/$defs/hash"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "receipt_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "committed"}}},
+      "then": {
+        "properties": {"recovery_mode": {"const": "none"}},
+        "required": ["commit_manifest_ref", "commit_manifest_hash", "run_result_ref", "run_result_hash", "evidence_index_ref", "evidence_index_hash"],
+        "not": {"anyOf": [{"required": ["error_code"]}, {"required": ["exception_class"]}, {"required": ["message_digest"]}]}
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "failed"}}},
+      "then": {"required": ["error_code", "exception_class", "message_digest"]}
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [
+        {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}, {"pattern": "(?:^|/)\\.\\.(?:/|$)"},
+        {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+      ]}
+    }
+  }
+}

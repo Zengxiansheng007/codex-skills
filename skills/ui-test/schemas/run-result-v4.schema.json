@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/run-result.schema.v4.json",
+  "title": "Run Result V4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "node_id",
+    "case_id",
+    "branch_id",
+    "resolved_test_data_ref",
+    "resolved_test_data_hash",
+    "execution_context_ref",
+    "execution_context_hash",
+    "attempt_ref",
+    "attempt_hash",
+    "approval_ref",
+    "approval_hash",
+    "overall_status",
+    "write_state",
+    "submit_count",
+    "layered_status",
+    "run_result_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.run-result.v4"},
+    "run_id": {"type": "string", "minLength": 1},
+    "node_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "minLength": 1},
+    "branch_id": {"type": "string", "minLength": 1},
+    "resolved_test_data_ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "resolved_test_data_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "execution_context_ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "execution_context_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "attempt_ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "attempt_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "approval_ref": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+    },
+    "approval_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "overall_status": {"enum": ["passed", "degraded", "failed", "blocked", "unknown"]},
+    "write_state": {
+      "enum": ["not_attempted", "submitted_unknown", "write_succeeded_verified", "write_succeeded_verification_failed", "write_failed", "write_outcome_unknown"]
+    },
+    "submit_count": {"type": "integer", "minimum": 0, "maximum": 1},
+    "layered_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "collection", "release_verification", "qualification", "pycharm_integration", "human_r2"],
+      "properties": {
+        "unit": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]},
+        "collection": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]},
+        "release_verification": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]},
+        "qualification": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]},
+        "pycharm_integration": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]},
+        "human_r2": {"enum": ["passed", "failed", "blocked", "not_applicable", "unknown"]}
+      }
+    },
+    "step_results": {"type": "array"},
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "not": {"anyOf": [
+          {"pattern": "^(?:[A-Za-z]:|/|\\\\)"},
+          {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+        ]}
+      }
+    },
+    "conflicts": {"type": "array"},
+    "findings": {"type": "array", "items": {"type": "string", "not": {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}}},
+    "retained_test_data": {"type": "array"},
+    "cleanup_status": {"enum": ["not_applicable", "not_planned_this_release"]},
+    "business_cleanup_attempted": {"const": false},
+    "run_result_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

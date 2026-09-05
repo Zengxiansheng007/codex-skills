@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from .case_contracts import canonical_hash
+from .pycharm_acceptance import validate_pycharm_acceptance_chain
 
 
 def aggregate_events(*, run: dict[str, Any], events: list[dict[str, Any]], release_status: str) -> dict[str, Any]:
@@ -61,7 +62,13 @@ def aggregate_events(*, run: dict[str, Any], events: list[dict[str, Any]], relea
     return result
 
 
-def project_run_result(run_result: dict[str, Any], projection: str) -> dict[str, Any]:
+def project_run_result(
+    run_result: dict[str, Any],
+    projection: str,
+    *,
+    acceptance_result: dict[str, Any] | None = None,
+    acceptance_chain: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     source_hash = canonical_hash(run_result)
     common = {"schema_version": f"ui-test.{projection}.v1", "projection": projection, "run_id": run_result["run_id"], "case_id": run_result["case_id"], "branch_id": run_result["branch_id"], "overall_status": run_result["overall_status"], "source_run_result_hash": source_hash, "read_only_projection": True}
     if projection == "evidence-index":
@@ -69,7 +76,21 @@ def project_run_result(run_result: dict[str, Any], projection: str) -> dict[str,
     if projection == "report-model":
         return {**common, "sections": {"setup": [item for item in run_result["step_results"] if item["section"] == "setup"], "feature": [item for item in run_result["step_results"] if item["section"] == "feature"], "assertions": [item for item in run_result["step_results"] if item["section"] == "assertions"]}, "retained_test_data": copy.deepcopy(run_result["retained_test_data"]), "cleanup_status": run_result["cleanup_status"]}
     if projection == "experience-candidate":
-        status = "negative" if run_result["overall_status"] != "passed" else "observed"
+        chain = dict(acceptance_chain or {})
+        required_chain = {
+            "run_result", "finalization_commit", "finalization_receipt", "pytest_session_result",
+            "acceptance_result", "approval_record", "execution_context", "terminal", "process_evidence",
+        }
+        external_acceptance_missing = run_result.get("schema_version") == "ui-test.run-result.v5" and (
+            (acceptance_result or {}).get("overall_status", (acceptance_result or {}).get("verdict")) != "passed"
+            or (acceptance_result or {}).get("observed_process_exit_code") != 0
+            or set(chain) != required_chain
+            or chain.get("run_result") != run_result
+            or chain.get("acceptance_result") != (acceptance_result or {})
+            or bool(validate_pycharm_acceptance_chain(**chain))
+        )
+        # V5业务passed没有资格单独生成正向经验；必须绑定进程退出后的外部验收。
+        status = "negative" if run_result["overall_status"] != "passed" or external_acceptance_missing else "observed"
         return {**common, "experience_status": status, "permission_effect": "none", "promotion_effect": "none", "evidence_refs": copy.deepcopy(run_result["evidence_refs"]), "forbidden_reuse": [{"reason": "failed-run"}] if status == "negative" else []}
     raise ValueError("E_PROJECTION_UNKNOWN")
 

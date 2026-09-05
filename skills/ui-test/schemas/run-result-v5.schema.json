@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/run-result.schema.v5.json",
+  "title": "Run Result V5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "transaction_id", "session_id", "run_id", "node_id", "case_id", "branch_id",
+    "resolved_test_data_ref", "resolved_test_data_hash", "execution_context_ref", "execution_context_hash",
+    "attempt_ref", "pre_terminal_events_hash", "approval_ref", "approval_hash", "pytest_phase_status",
+    "overall_status", "write_state", "submit_count", "step_results", "evidence_refs", "conflicts",
+    "findings", "retained_test_data", "cleanup_status", "business_cleanup_attempted", "run_result_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.run-result.v5"},
+    "transaction_id": {"$ref": "#/$defs/stableIdentity"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "case_id": {"$ref": "#/$defs/stableIdentity"},
+    "branch_id": {"$ref": "#/$defs/stableIdentity"},
+    "resolved_test_data_ref": {"$ref": "#/$defs/relativeRef"},
+    "resolved_test_data_hash": {"$ref": "#/$defs/hash"},
+    "execution_context_ref": {"$ref": "#/$defs/relativeRef"},
+    "execution_context_hash": {"$ref": "#/$defs/hash"},
+    "attempt_ref": {"$ref": "#/$defs/relativeRef"},
+    "pre_terminal_events_hash": {"$ref": "#/$defs/hash"},
+    "approval_ref": {"$ref": "#/$defs/relativeRef"},
+    "approval_hash": {"$ref": "#/$defs/hash"},
+    "pytest_phase_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["setup", "call", "teardown"],
+      "properties": {
+        "setup": {"enum": ["passed", "failed", "skipped", "unknown"]},
+        "call": {"enum": ["passed", "failed", "skipped", "not_run", "unknown"]},
+        "teardown": {"enum": ["passed", "failed", "skipped", "unknown"]}
+      }
+    },
+    "overall_status": {"enum": ["passed", "degraded", "failed", "blocked", "unknown"]},
+    "write_state": {"enum": ["not_attempted", "submitted_unknown", "write_succeeded_verified", "write_succeeded_verification_failed", "write_failed", "write_outcome_unknown"]},
+    "submit_count": {"type": "integer", "minimum": 0, "maximum": 1},
+    "step_results": {"type": "array"},
+    "evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/relativeRef"}},
+    "conflicts": {"type": "array"},
+    "findings": {"type": "array", "items": {"type": "string", "not": {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}}},
+    "retained_test_data": {"type": "array"},
+    "cleanup_status": {"enum": ["not_applicable", "not_planned_this_release"]},
+    "business_cleanup_attempted": {"const": false},
+    "run_result_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"overall_status": {"const": "passed"}}},
+      "then": {
+        "properties": {
+          "pytest_phase_status": {
+            "properties": {"setup": {"const": "passed"}, "call": {"const": "passed"}, "teardown": {"const": "passed"}}
+          },
+          "write_state": {"const": "write_succeeded_verified"},
+          "submit_count": {"const": 1}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [
+        {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}, {"pattern": "(?:^|/)\\.\\.(?:/|$)"},
+        {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+      ]}
+    }
+  }
+}

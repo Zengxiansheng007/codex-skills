@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/pycharm-process-evidence.v1.json",
+  "title": "PyCharm Process Evidence V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "session_id", "helper_path_hash", "helper_content_hash",
+    "observed_process_exit_code", "pytest_exitstatus", "stdout_hash", "stderr_hash",
+    "recorded_at", "process_evidence_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.pycharm-process-evidence.v1"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "helper_path_hash": {"$ref": "#/$defs/hash"},
+    "helper_content_hash": {"$ref": "#/$defs/hash"},
+    "observed_process_exit_code": {"type": "integer"},
+    "pytest_exitstatus": {"type": "integer", "minimum": 0, "maximum": 5},
+    "stdout_hash": {"$ref": "#/$defs/hash"},
+    "stderr_hash": {"$ref": "#/$defs/hash"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "process_evidence_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"}
+  }
+}

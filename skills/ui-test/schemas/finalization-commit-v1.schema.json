@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/finalization-commit.v1.json",
+  "title": "Finalization Commit V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "transaction_id", "session_id", "run_id", "node_id", "status",
+    "candidate_hash", "pre_terminal_events_hash", "run_result_ref", "run_result_hash",
+    "evidence_index_ref", "evidence_index_hash", "atomic_publish", "committed_at", "commit_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.finalization-commit.v1"},
+    "transaction_id": {"$ref": "#/$defs/stableIdentity"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "status": {"const": "committed"},
+    "candidate_hash": {"$ref": "#/$defs/hash"},
+    "pre_terminal_events_hash": {"$ref": "#/$defs/hash"},
+    "run_result_ref": {"$ref": "#/$defs/objectRef"},
+    "run_result_hash": {"$ref": "#/$defs/hash"},
+    "evidence_index_ref": {"$ref": "#/$defs/objectRef"},
+    "evidence_index_hash": {"$ref": "#/$defs/hash"},
+    "atomic_publish": {"const": true},
+    "committed_at": {"type": "string", "format": "date-time"},
+    "commit_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "objectRef": {
+      "type": "string", "pattern": "^objects/[0-9a-f]{64}\\.json$",
+      "not": {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+    }
+  }
+}

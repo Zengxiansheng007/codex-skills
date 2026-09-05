@@ -21,6 +21,8 @@ from .project_config import credential_index_path, load_project_runtime_values, 
 from .runtime_value_writer import RuntimeValueWriteError, append_exploration_value, promote_exploration_value
 from .runtime_state_allocator import RuntimeStateError, allocate_runtime_sequence, initialize_runtime_sequence
 
+# pytest_runtime_plugin 不在此导入；由根 conftest 通过 pytest_plugins 显式加载。
+
 __all__ = [
     "validate_packet",
     "validate_contract_registry",

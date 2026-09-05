@@ -5,6 +5,8 @@ from __future__ import annotations
 from collections import Counter
 from typing import Iterable
 
+from .pycharm_acceptance import validate_pycharm_acceptance_chain
+
 PASS = {"passed"}
 FAIL = {"failed", "blocked", "policy-failed", "security-failed"}
 
@@ -51,10 +53,46 @@ def validate_branch_isolation(runs: Iterable[dict]) -> list[dict]:
     return problems
 
 
-def evaluate_completion(*, run_result: dict, required_requirements: set[str], passed_requirements: set[str], sensitive_scan_ok: bool, migration_ok: bool, state_valid: bool, risk_isolated: bool, p0_p1_findings: list[dict]) -> dict:
+def evaluate_completion(
+    *,
+    run_result: dict,
+    required_requirements: set[str],
+    passed_requirements: set[str],
+    sensitive_scan_ok: bool,
+    migration_ok: bool,
+    state_valid: bool,
+    risk_isolated: bool,
+    p0_p1_findings: list[dict],
+    finalization_receipt: dict | None = None,
+    pytest_session_result: dict | None = None,
+    acceptance_result: dict | None = None,
+    acceptance_chain: dict | None = None,
+) -> dict:
     missing = sorted(required_requirements - passed_requirements)
     blockers = []
     if run_result.get("overall_status") != "passed": blockers.append("run-not-passed")
+    if run_result.get("schema_version") == "ui-test.run-result.v5":
+        receipt = finalization_receipt or {}
+        session = pytest_session_result or {}
+        acceptance = acceptance_result or {}
+        if receipt.get("status") != "committed" or receipt.get("recovery_mode") != "none":
+            blockers.append("v5-finalization-not-current-process-committed")
+        if session.get("pytest_exitstatus") != 0:
+            blockers.append("v5-session-exit-not-zero")
+        if acceptance.get("overall_status", acceptance.get("verdict")) != "passed" or acceptance.get("observed_process_exit_code") != 0:
+            blockers.append("v5-external-acceptance-missing")
+        chain = dict(acceptance_chain or {})
+        required_chain = {
+            "run_result", "finalization_commit", "finalization_receipt", "pytest_session_result",
+            "acceptance_result", "approval_record", "execution_context", "terminal", "process_evidence",
+        }
+        if (
+            set(chain) != required_chain
+            or chain.get("run_result") != run_result
+            or chain.get("acceptance_result") != acceptance
+            or validate_pycharm_acceptance_chain(**chain)
+        ):
+            blockers.append("v5-external-acceptance-chain-invalid")
     if missing: blockers.append("requirement-coverage-missing")
     if not sensitive_scan_ok: blockers.append("sensitive-scan-failed")
     if not migration_ok: blockers.append("migration-failed")

@@ -8,6 +8,8 @@ Track approval, privacy, risk, retention and forbidden-action rules.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-04 | CR-20260904-002 | finalization ordering, redacted failure and external acceptance | governance | Block passed terminal before receipt and block nonzero exit/post-run recovery from PyCharm or human pass | applied |
+| 2026-09-04 | CR-20260904-001 | source authorization, R2 serialization, append-only lifecycle, CAS and completion | governance | Require source-matched node approval with `pycharm-project-policy`, history-preserving CAS and terminal-after V4; ST-010 post-install failure must restore the exact global baseline before candidate repair/reapproval | applied |
 | 2026-09-03 | CR-20260903-001 | no-submit successor activation | governance | Require matching A/B qualifications and CAS activation while preserving immutable history | validated |
 | 2026-09-02 | CR-20260902-002 | formal execution gate | governance | Bind formal tests to case/branch/R2 markers and reject offline Runtime fixtures in deployment | proposed |
 | 2026-09-02 | CR-20260902-001 | execution gate, event store, migration and cleanup | governance | Fail closed on parameter drift and preserve historical assets while requiring separate live/delete gates | validated |
@@ -16,6 +18,16 @@ Track approval, privacy, risk, retention and forbidden-action rules.
 | 2026-08-22 | CR-20260822-008 | private runtime value references | fixed | Represent environment references explicitly without relaxing literal-secret detection | validated |
 
 ## Detailed Records
+
+### CR-20260904-002 - pycharm-finalization-transaction-v2
+
+- Section changed: terminal authority, failure redaction, recovery and process acceptance.
+- Before: terminal/RunResult could appear passed while the original helper exited nonzero and error details were empty.
+- After: commit and receipt precede terminal; failure stores only error code/class/digest plus non-empty redacted longrepr; external acceptance requires zero exits and no post-run recovery.
+- Why: business evidence must not conceal execution-governance failure.
+- Impact: post-run repair can preserve evidence but can never upgrade PyCharm or human acceptance.
+- Validation: focused failure, tamper and recovery tests passed; real helper green canary remains pending.
+- Detail record: `../entries/2026/2026-09/CR-20260904-002-pycharm-finalization-transaction-v2.md`.
 
 ### CR-20260902-001 - test-data-sync-execution-governance
 

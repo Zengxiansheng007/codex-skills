@@ -1,0 +1,129 @@
+{
+  "scope": "immutable-preflight-snapshot",
+  "documents": [
+    {
+      "docId": "UIT-PYCHARM-PUB-architecture-and-repair",
+      "category": "ui-test",
+      "phase": "publication-review",
+      "version": "1.0.0",
+      "sourceCommit": "6a42eb48ea1a3227131058ebf21c2991c0506edb",
+      "integrity": {
+        "algorithm": "SHA-256",
+        "digest": "75da4dfbc5ac7832c0c50132d3814598f00f28c67803e022e5e46f78e61d6bc4"
+      },
+      "classification": {
+        "visibility": "public",
+        "status": "reviewed-projection-not-completion"
+      },
+      "paths": {
+        "githubRepository": "Zengxiansheng007/codex-skills",
+        "githubPath": "_requirements-docs/ui-test-pycharm-execution-governance-20260905/architecture-and-repair.md"
+      },
+      "provenance": {
+        "sourceKind": "validated-workspace",
+        "sourceCommitMeaning": "previous-publication-baseline"
+      },
+      "status": "preflight-passed",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {}
+        }
+      ]
+    },
+    {
+      "docId": "UIT-PYCHARM-PUB-README",
+      "category": "ui-test",
+      "phase": "publication-review",
+      "version": "1.0.0",
+      "sourceCommit": "6a42eb48ea1a3227131058ebf21c2991c0506edb",
+      "integrity": {
+        "algorithm": "SHA-256",
+        "digest": "8990e5e9c9973aed3a065524e3dbed08af485639fd98f1f98206b1783a846b6d"
+      },
+      "classification": {
+        "visibility": "public",
+        "status": "reviewed-projection-not-completion"
+      },
+      "paths": {
+        "githubRepository": "Zengxiansheng007/codex-skills",
+        "githubPath": "_requirements-docs/ui-test-pycharm-execution-governance-20260905/README.md"
+      },
+      "provenance": {
+        "sourceKind": "validated-workspace",
+        "sourceCommitMeaning": "previous-publication-baseline"
+      },
+      "status": "preflight-passed",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {}
+        }
+      ]
+    },
+    {
+      "docId": "UIT-PYCHARM-PUB-review-result",
+      "category": "ui-test",
+      "phase": "publication-review",
+      "version": "1.0.0",
+      "sourceCommit": "6a42eb48ea1a3227131058ebf21c2991c0506edb",
+      "integrity": {
+        "algorithm": "SHA-256",
+        "digest": "ca24673d542f3646bdebefa14134ee59acb7b47ca5f6731a83a6abd12d25cfd3"
+      },
+      "classification": {
+        "visibility": "public",
+        "status": "reviewed-projection-not-completion"
+      },
+      "paths": {
+        "githubRepository": "Zengxiansheng007/codex-skills",
+        "githubPath": "_requirements-docs/ui-test-pycharm-execution-governance-20260905/review-result.json"
+      },
+      "provenance": {
+        "sourceKind": "validated-workspace",
+        "sourceCommitMeaning": "previous-publication-baseline"
+      },
+      "status": "preflight-passed",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {}
+        }
+      ]
+    },
+    {
+      "docId": "UIT-PYCHARM-PUB-validation-and-rtm",
+      "category": "ui-test",
+      "phase": "publication-review",
+      "version": "1.0.0",
+      "sourceCommit": "6a42eb48ea1a3227131058ebf21c2991c0506edb",
+      "integrity": {
+        "algorithm": "SHA-256",
+        "digest": "9e1c92bfeca4ba1c521cdd69b28adfc388816492399417a74db081ddf953fd37"
+      },
+      "classification": {
+        "visibility": "public",
+        "status": "reviewed-projection-not-completion"
+      },
+      "paths": {
+        "githubRepository": "Zengxiansheng007/codex-skills",
+        "githubPath": "_requirements-docs/ui-test-pycharm-execution-governance-20260905/validation-and-rtm.md"
+      },
+      "provenance": {
+        "sourceKind": "validated-workspace",
+        "sourceCommitMeaning": "previous-publication-baseline"
+      },
+      "status": "preflight-passed",
+      "history": [
+        {
+          "from": "draft",
+          "to": "preflight-passed",
+          "evidence": {}
+        }
+      ]
+    }
+  ]
+}

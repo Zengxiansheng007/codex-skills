@@ -1,0 +1,17 @@
+{
+  "schema_version": "ui-test.r2-approval-record.v2",
+  "approval_id": "APR-RVI-20260904-R2-A-100000-ABCD1234",
+  "approval_source": "pycharm-project-policy",
+  "run_id": "RVI-20260904-R2-A-100000-ABCD1234",
+  "node_id": "test_announcement_p0_a.py::TestAnnouncementP0A",
+  "case_id": "BOPS-ANNOUNCEMENT-P0-A",
+  "branch_id": "system-announcement",
+  "environment": "test",
+  "allowed_action": "submit",
+  "channel": "visible-ui",
+  "max_submit_count": 1,
+  "decision": "approved",
+  "boundary_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+  "credential_values_persisted": false,
+  "reusable_across_runs": false
+}

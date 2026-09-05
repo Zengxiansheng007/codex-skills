@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.1",
+  "scope": {
+    "project_group": "tianjin",
+    "project_group_name": "天津",
+    "product": "bops-announcement",
+    "product_name": "公告管理",
+    "environment": "test"
+  },
+  "asset_governance": {
+    "execution_asset_root": "D:\\UI-Test",
+    "knowledge_root": "D:\\RAG",
+    "staging_root": "D:\\UI-Test\\_tmp",
+    "forbidden_persistent_roots": ["C:\\"],
+    "layout_version": 1,
+    "levels": ["project_group", "product", "system", "module_path", "function", "case", "branch", "run"],
+    "segment_naming": "stable-id__display-name",
+    "asset_type_policy_version": "ui-test.asset-types.v1"
+  },
+  "systems": [
+    {
+      "system_id": "announcement",
+      "display_name": "公告系统",
+      "modules": [
+        {
+          "module_id": "announcement-core",
+          "display_name": "公告核心",
+          "aliases": ["announcement"],
+          "module_path": [{"module_id": "announcement-core", "display_name": "公告核心"}],
+          "functions": [
+            {"function_id": "create-announcement", "display_name": "创建公告"}
+          ],
+          "direct_route_ref": "routes/announcement.yaml"
+        }
+      ]
+    }
+  ],
+  "runtime_value_index_ref": "path:D:/UI-Test/_private/runtime-values/tianjin/bops-announcement/test/runtime-value-index.yaml",
+  "runtime_refs": {"base_url": "value:tianjin-test-base-url"},
+  "checkpoint_runtime": {"root_ref": "checkpoints/announcement.yaml"},
+  "knowledge_space": {"knowledge_space_id": "tianjin-bops", "relative_path": "tianjin/bops-announcement"},
+  "wait_strategy": {"strategy": "visible"},
+  "semantic_post_signatures": [],
+  "execution_policies": [],
+  "credential_index_ref": "path:D:/UI-Test/_private/runtime-values/tianjin/bops-announcement/test/credential-index.yaml",
+  "pycharm_manual_execution": {
+    "contract_version": 2,
+    "origin_detection": "jetbrains-runner-path",
+    "entry_scope": "stable-active-runners",
+    "r2_authorization": "auto-test-only",
+    "run_scope": "per-node",
+    "auto_generate_run_id": true,
+    "auto_approve_r2_visible_ui": true
+  }
+}

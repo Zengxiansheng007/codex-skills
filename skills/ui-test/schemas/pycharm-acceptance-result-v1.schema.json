@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/pycharm-acceptance-result.v1.json",
+  "title": "PyCharm Acceptance Result V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "acceptance_id", "session_id", "run_id", "node_id", "case_id", "branch_id",
+    "helper_identity_digest", "authorization_ref", "authorization_hash", "approval_source",
+    "execution_context_ref", "execution_context_hash", "terminal_ref", "terminal_hash",
+    "run_result_ref", "run_result_hash", "finalization_commit_ref", "finalization_commit_hash",
+    "finalization_receipt_ref", "finalization_receipt_hash", "pytest_session_result_ref",
+    "pytest_session_result_hash", "console_evidence_ref", "console_evidence_hash",
+    "pytest_session_exitstatus", "observed_process_exit_code", "post_run_recovery",
+    "pycharm_integration", "human_r2", "overall_status", "evaluation_authority",
+    "evaluated_at", "acceptance_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.pycharm-acceptance-result.v1"},
+    "acceptance_id": {"$ref": "#/$defs/stableIdentity"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "case_id": {"$ref": "#/$defs/stableIdentity"},
+    "branch_id": {"$ref": "#/$defs/stableIdentity"},
+    "helper_identity_digest": {"$ref": "#/$defs/hash"},
+    "authorization_ref": {"$ref": "#/$defs/relativeRef"},
+    "authorization_hash": {"$ref": "#/$defs/hash"},
+    "approval_source": {"const": "pycharm-project-policy"},
+    "execution_context_ref": {"$ref": "#/$defs/relativeRef"},
+    "execution_context_hash": {"$ref": "#/$defs/hash"},
+    "terminal_ref": {"$ref": "#/$defs/relativeRef"},
+    "terminal_hash": {"$ref": "#/$defs/hash"},
+    "run_result_ref": {"$ref": "#/$defs/relativeRef"},
+    "run_result_hash": {"$ref": "#/$defs/hash"},
+    "finalization_commit_ref": {"$ref": "#/$defs/relativeRef"},
+    "finalization_commit_hash": {"$ref": "#/$defs/hash"},
+    "finalization_receipt_ref": {"$ref": "#/$defs/relativeRef"},
+    "finalization_receipt_hash": {"$ref": "#/$defs/hash"},
+    "pytest_session_result_ref": {"$ref": "#/$defs/relativeRef"},
+    "pytest_session_result_hash": {"$ref": "#/$defs/hash"},
+    "console_evidence_ref": {"$ref": "#/$defs/relativeRef"},
+    "console_evidence_hash": {"$ref": "#/$defs/hash"},
+    "pytest_session_exitstatus": {"type": "integer", "minimum": 0, "maximum": 5},
+    "observed_process_exit_code": {"type": "integer"},
+    "post_run_recovery": {"type": "boolean"},
+    "pycharm_integration": {"enum": ["passed", "failed", "blocked", "unknown"]},
+    "human_r2": {"enum": ["passed", "failed", "blocked", "unknown"]},
+    "overall_status": {"enum": ["passed", "failed", "blocked"]},
+    "evaluation_authority": {"enum": ["codex-independent-review", "independent-qa"]},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "acceptance_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"overall_status": {"const": "passed"}}},
+      "then": {
+        "properties": {
+          "pytest_session_exitstatus": {"const": 0},
+          "observed_process_exit_code": {"const": 0},
+          "post_run_recovery": {"const": false},
+          "pycharm_integration": {"const": "passed"},
+          "human_r2": {"const": "passed"}
+        }
+      }
+    },
+    {
+      "if": {"not": {"properties": {"observed_process_exit_code": {"const": 0}}}},
+      "then": {"not": {"properties": {"overall_status": {"const": "passed"}}}}
+    },
+    {
+      "if": {"properties": {"post_run_recovery": {"const": true}}},
+      "then": {"not": {"properties": {"overall_status": {"const": "passed"}}}}
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [
+        {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}, {"pattern": "(?:^|/)\\.\\.(?:/|$)"},
+        {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+      ]}
+    }
+  }
+}

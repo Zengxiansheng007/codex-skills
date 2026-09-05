@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/execution-attempt.schema.v1.json",
+  "title": "Execution Attempt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attempt_id",
+    "run_id",
+    "node_id",
+    "case_id",
+    "branch_id",
+    "diagnostics_admission",
+    "events"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.execution-attempt.v1"},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "node_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "minLength": 1},
+    "branch_id": {"type": "string", "minLength": 1},
+    "diagnostics_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["admitted", "admission_digest"],
+      "properties": {
+        "admitted": {"type": "boolean"},
+        "admission_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "rejection_code": {"type": "string", "minLength": 1},
+        "rejection_reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/attemptEvent"}
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "recorded_at", "terminal_digest"],
+      "properties": {
+        "status": {"enum": ["passed", "failed", "cancelled", "timed_out", "write_outcome_unknown", "interrupted", "unresolved"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "terminal_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "is_unique_terminal": {"const": true}
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recovered_from", "recovery_event", "recovery_digest"],
+      "properties": {
+        "recovered_from": {"enum": ["unfinished", "interrupted", "unresolved"]},
+        "recovery_event": {"$ref": "#/$defs/attemptEvent"},
+        "recovery_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+      }
+    }
+  },
+  "$defs": {
+    "attemptEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "recorded_at", "event_digest"],
+      "properties": {
+        "event_type": {"enum": ["detected", "admitted", "executing", "terminal", "interrupted", "unresolved", "unfinished"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "event_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "phase": {"enum": ["setup", "call", "teardown"]},
+        "detail": {"type": "string", "minLength": 1},
+        "evidence_ref": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}
+        }
+      }
+    }
+  }
+}

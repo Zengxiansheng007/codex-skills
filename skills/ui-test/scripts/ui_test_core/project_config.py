@@ -36,7 +36,12 @@ V1_REQUIRED_TOP_LEVEL = (
     "semantic_post_signatures",
     "execution_policies",
 )
-SCHEMA_FILES = {"1.0": "ui-test-project.schema.json", "2.0": "ui-test-project-v2.schema.json"}
+SCHEMA_FILES = {
+    "1.0": "ui-test-project.schema.json",
+    "2.0": "ui-test-project-v2.schema.json",
+    "2.1": "ui-test-project-v2.1.schema.json",
+    "2.2": "ui-test-project-v2.2.schema.json",
+}  # v2.2 是transaction-v1正式执行的唯一配置版本；旧版本仅保留兼容读取。
 EXPECTED_ROOTS = {
     "execution_asset_root": r"D:\UI-Test",
     "knowledge_root": r"D:\RAG",
@@ -67,9 +72,9 @@ def load_project_config(path: str | Path, *, purpose: str = "write") -> dict[str
     version = value.get("schema_version")
     if version not in SCHEMA_FILES:
         raise ProjectConfigError("E_CONFIG_VERSION_UNKNOWN: unsupported project config version")
-    if purpose not in {"write", "inventory"}:
-        raise ProjectConfigError("E_CONFIG_PURPOSE_INVALID: purpose must be write or inventory")
-    if version == "2.0":
+    if purpose not in {"write", "inventory", "execute"}:
+        raise ProjectConfigError("E_CONFIG_PURPOSE_INVALID: purpose must be write, inventory or execute")
+    if version in {"2.0", "2.1", "2.2"}:
         governance = value.get("asset_governance")
         if isinstance(governance, dict):
             for field, expected in EXPECTED_ROOTS.items():
@@ -82,8 +87,10 @@ def load_project_config(path: str | Path, *, purpose: str = "write") -> dict[str
         raise ProjectConfigError(f"E_CONFIG_SCHEMA_INVALID: {path_text or '/'}")
     if version == "1.0" and purpose == "write":
         raise ProjectConfigError("E_CONFIG_UPGRADE_REQUIRED: v1 is inventory-only; v2 is required for writes")
+    if purpose == "execute" and version != "2.2":
+        raise ProjectConfigError("E_UI_TEST_CONFIG_MIGRATION_REQUIRED: v2.2 is required for formal execution")  # 2.1及更早版本不得获得新finalization执行资格。
     scope = value.get("scope")
-    if version == "2.0":
+    if version in {"2.0", "2.1", "2.2"}:
         _validate_v2_governance(value)
     if scope["environment"] == "production":
         policies = value.get("execution_policies", [])
@@ -98,7 +105,7 @@ def load_project_config(path: str | Path, *, purpose: str = "write") -> dict[str
         raise ProjectConfigError("E_SECRET_DETECTED: config contains forbidden secret keys")
     if version == "1.0" and not _valid_systems(value.get("systems")):
         raise ProjectConfigError("E_CONFIG_SYSTEMS_INVALID: systems/modules/routes are required")
-    if version == "2.0" and not isinstance(value.get("credential_index_ref"), str):
+    if version in {"2.0", "2.1", "2.2"} and not isinstance(value.get("credential_index_ref"), str):
         raise ProjectConfigError("E_CONFIG_CREDENTIAL_INDEX_REF_MISSING: credential_index_ref is required")
     result = dict(value)
     result["config_path"] = str(source)
@@ -108,8 +115,14 @@ def load_project_config(path: str | Path, *, purpose: str = "write") -> dict[str
     result["runtime_refs"] = dict(value.get("runtime_refs", {}))
     result["runtime_env_keys"] = sorted(str(item) for item in value.get("runtime_env_keys", []))  # 旧环境变量名仅作为元数据保留。
     result["runtime_env_present"] = {key: False for key in result["runtime_env_keys"]}  # 旧变量盘点只报告名称，不读取进程环境值。
-    result["write_ready"] = version == "2.0"
-    result["config_issues"] = [] if version == "2.0" else ["E_CONFIG_UPGRADE_REQUIRED"]
+    result["write_ready"] = version in {"2.0", "2.1", "2.2"}  # 普通编译兼容性与正式执行资格保持分离。
+    result["execution_ready"] = version == "2.2"  # 只有2.2可进入transaction-v1正式执行。
+    if version == "2.2":
+        result["config_issues"] = []
+    elif version in {"2.0", "2.1"}:
+        result["config_issues"] = ["E_UI_TEST_CONFIG_MIGRATION_REQUIRED"]  # 旧配置可读取，但不能被误报为新执行就绪。
+    else:
+        result["config_issues"] = ["E_CONFIG_UPGRADE_REQUIRED"]
     return result
 
 

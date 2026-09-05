@@ -8,6 +8,8 @@ Track deterministic runtime, compiler, validator and test changes.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-04 | CR-20260904-002 | finalization store/transaction, V5 linker, plugin lifecycle and focused validation | added | Enforce content-addressed atomic finalization, failure receipts, session projection and legacy read-only behavior | applied |
+| 2026-09-04 | CR-20260904-001 | execution context, lock, attempt, deployment and V4 validation | added | Add v2.1 contracts, universal plugin, R2 lock, append-only lifecycle, terminal-after RunResultV4 and readiness; ST-010 keeps global tests self-contained while adapter deployment tests remain project-owned; ST-011 keeps qualification terminal evidence while skipping the ordinary RunResult finalizer | applied |
 | 2026-09-03 | CR-20260903-001 | compiler, aggregate, case sync and tests | changed | Enforce per-module postconditions, hierarchical aggregate Golden and inactive successor lifecycle | validated |
 | 2026-09-02 | CR-20260902-002 | Compiler v2 Playwright renderer and live readiness tests | fixed | Generate formal pytest identity/risk markers and validate live-adapter contracts | proposed |
 | 2026-09-02 | CR-20260902-001 | v2 contracts, compiler, sync, guard, diagnostics and tests | added | Implement the approved parameter-governance and migration closure in a workspace candidate | validated |
@@ -25,6 +27,16 @@ Track deterministic runtime, compiler, validator and test changes.
 | 2026-08-25 | CR-20260825-003 | runtime dependency metadata | changed | Install pytest 9.1.1, lock the dependency and validate the full pytest suite | validated |
 
 ## Detailed Records
+
+### CR-20260904-002 - pycharm-finalization-transaction-v2
+
+- Section changed: finalization store/transaction, RunResultV5 linker, pytest lifecycle, completion projection and tests.
+- Before: successful terminal preceded project finalization and two fixed files had no atomic commit point.
+- After: objects are content addressed, one manifest commits them, receipt precedes terminal, failures remain observable and session/acceptance are separate.
+- Why: close the real PyCharm exit=1 split-brain defect and partial-write risk.
+- Impact: new formal execution requires the V5 path; V3/V4 validators remain unchanged and read-only.
+- Validation: transaction plus V3/V4/V5 linker and contract focused suite passed; full plugin/adapter/helper matrix remains pending.
+- Detail record: `../entries/2026/2026-09/CR-20260904-002-pycharm-finalization-transaction-v2.md`.
 
 ### CR-20260902-001 - test-data-sync-execution-governance
 

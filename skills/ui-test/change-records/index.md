@@ -6,6 +6,8 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 | Date | Change ID | Summary | Status |
 |---|---|---|---|
+| 2026-09-04 | CR-20260904-002 | Add 2.2/V3/AttemptV2/RunResultV5 transactional finalization, SessionResult and external PyCharm acceptance | validated |
+| 2026-09-04 | CR-20260904-001 | Add v2.1 project config, ExecutionContextV2, AttemptV1, ApprovalV2, RunResultV4 schemas and deprecate v2.0/v1/v3 | applied |
 | 2026-09-03 | CR-20260903-001 | Restore per-module postconditions, recursive product aggregate and qualification-gated activation | validated |
 | 2026-09-02 | CR-20260902-002 | Add formal pytest markers and live v2 execution readiness | proposed |
 | 2026-09-02 | CR-20260902-001 | Add v2 test-data, compiler/sync, execution guard, diagnostics and migration governance | validated |
@@ -34,9 +36,11 @@ Trace all behavior, contract, validation, security and downstream changes in the
 - [References And Assets](categories/references-and-assets.md)
 - [Scripts And Validation](categories/scripts-and-validation.md)
 - [Safety And Governance](categories/safety-and-governance.md)
+- [Downstream And Handoff](categories/downstream-and-handoff.md)
 
 ## Open Risks
 
+- CR-20260904-002 remains applied, not validated, until full runtime/project-adapter suites, the real JetBrains no-business canary, independent QA and the candidate sensitive scan pass; no installation or real R2 authority is implied.
 - XMind desktop is not installed on the current host; recursive Outline Schema and Markdown Golden passed, but native desktop import remains external validation.
 - Diagnostics, orphan-run, Runtime classification and independent completion-proof defects remain separate `repair-needed` work.
 - The private Tianjin endpoint is reachable; final R2 A/B and report evidence remain pending until the v1.2.3 activity release is deployed.
@@ -44,6 +48,8 @@ Trace all behavior, contract, validation, security and downstream changes in the
 
 ## Detail Records
 
+- [CR-20260904-002](entries/2026/2026-09/CR-20260904-002-pycharm-finalization-transaction-v2.md)
+- [CR-20260904-001](entries/2026/2026-09/CR-20260904-001-pycharm-execution-context-v2.md)
 - [CR-20260903-001](entries/2026/2026-09/CR-20260903-001-module-assertions-and-product-aggregate-v2.md)
 - [CR-20260902-002](entries/2026/2026-09/CR-20260902-002-formal-v2-execution-readiness.md)
 - [CR-20260902-001](entries/2026/2026-09/CR-20260902-001-test-data-sync-execution-governance.md)

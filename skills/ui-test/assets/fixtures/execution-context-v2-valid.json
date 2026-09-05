@@ -1,0 +1,32 @@
+{
+  "schema_version": "ui-test.execution-context.v2",
+  "execution_origin": "pycharm",
+  "origin_evidence": {
+    "source_type": "jetbrains-runner-path",
+    "evidence_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+    "runner_path_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+    "invocation_marker": "_jb_pytest_runner.py"
+  },
+  "run_id": "RVI-20260904-R2-A-100000-ABCD1234",
+  "node_id": "test_announcement_p0_a.py::TestAnnouncementP0A",
+  "case_id": "BOPS-ANNOUNCEMENT-P0-A",
+  "branch_id": "system-announcement",
+  "risk_level": "r2-ui-write-test",
+  "environment": "test",
+  "approved": true,
+  "approval_source": "pycharm-project-policy",
+  "stable_runner_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+  "active_build_fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+  "active_attachment_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+  "project_config_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000006",
+  "attempt_ref": "attempts/RVI-20260904-R2-A-100000-ABCD1234.json",
+  "config_summary": {
+    "schema_version": "2.1",
+    "contract_version": 2,
+    "origin_detection": "jetbrains-runner-path",
+    "entry_scope": "stable-active-runners",
+    "r2_authorization": "auto-test-only",
+    "run_scope": "per-node",
+    "r2_parallelism": "serial-project-environment"
+  }
+}

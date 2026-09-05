@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/pycharm-governance-readiness.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product_id", "case_builds", "product_build", "candidate_validation_hash", "global_install_verification_hash", "qualification_results", "historical_results_hash_before", "historical_results_hash_after", "layered_status", "readiness_hash"],
+  "properties": {
+    "schema_version": {"const": "ui-test.pycharm-governance-readiness.v1"},
+    "product_id": {"type": "string", "minLength": 1},
+    "case_builds": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/caseBuild"}},
+    "product_build": {"$ref": "#/$defs/hash"},
+    "candidate_validation_hash": {"$ref": "#/$defs/hash"},
+    "global_install_verification_hash": {"$ref": "#/$defs/hash"},
+    "qualification_results": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/qualification"}},
+    "historical_results_hash_before": {"$ref": "#/$defs/hash"},
+    "historical_results_hash_after": {"$ref": "#/$defs/hash"},
+    "layered_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "collection", "release_verification", "qualification"],
+      "properties": {
+        "unit": {"const": "passed"},
+        "collection": {"const": "passed"},
+        "release_verification": {"const": "passed"},
+        "qualification": {"const": "passed"}
+      }
+    },
+    "readiness_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "caseBuild": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "branch_id", "build_fingerprint"],
+      "properties": {"case_id": {"type": "string"}, "branch_id": {"type": "string"}, "build_fingerprint": {"$ref": "#/$defs/hash"}}
+    },
+    "qualification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "branch_id", "build_fingerprint", "run_id", "result_hash"],
+      "properties": {"case_id": {"type": "string"}, "branch_id": {"type": "string"}, "build_fingerprint": {"$ref": "#/$defs/hash"}, "run_id": {"type": "string"}, "result_hash": {"$ref": "#/$defs/hash"}}
+    }
+  }
+}

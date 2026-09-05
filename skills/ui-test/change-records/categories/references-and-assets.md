@@ -8,12 +8,24 @@ Track schemas, fixtures, references and generated-asset contracts.
 
 | Date | Change ID | Section | Change Type | Summary | Status |
 |---|---|---|---|---|---|
+| 2026-09-04 | CR-20260904-002 | 2.2/V3/AttemptV2/V5/finalization/session/acceptance references and contracts | added | Define transactional result closure, failure evidence and historical read-only boundary | applied |
+| 2026-09-04 | CR-20260904-001 | v2.1/V4/readiness schemas, fixtures and deployment-source assets | added | Add stable execution context, attempt, approval, V4 and readiness contracts plus the current-Tianjin-derived v2.1 adapter configuration source | applied |
 | 2026-09-03 | CR-20260903-001 | v2 schemas and asset governance | changed | Add page-module, product-outline, aggregate-manifest and pre-submit qualification contracts | validated |
 | 2026-09-02 | CR-20260902-001 | schemas, fixtures and asset-governance reference | added | Define the v2 parameter, release, diagnostics, migration and cleanup artifact family | validated |
 | 2026-08-18 | CR-20260818-001 | schemas/assets/fixtures | added | Add versioned packet schema and valid/invalid fixtures | applied |
 | 2026-08-22 | CR-20260822-001 | schemas/contract-registry.json | changed | Extend registry with planned Source Case, Case IR, Resolved IR and Compile Receipt entries | applied |
 
 ## Detailed Records
+
+### CR-20260904-002 - pycharm-finalization-transaction-v2
+
+- Section changed: asset governance, execution contracts, workflow contract and new versioned finalization family.
+- Before: no atomic multi-artifact commit, session result or external process-exit acceptance contract.
+- After: content-addressed objects, one commit manifest, receipt, SessionResult and AcceptanceResult form separate hash-bound layers.
+- Why: a fixed RunResult/evidence write pair can leave an accepted half-result and cannot prove original process exit.
+- Impact: readers must follow the new closure; historical artifacts remain byte-readable and ineligible for upgrade.
+- Validation: Schema/transaction/linker focused tests passed; full candidate validation remains pending.
+- Detail record: `../entries/2026/2026-09/CR-20260904-002-pycharm-finalization-transaction-v2.md`.
 
 ### CR-20260902-001 - test-data-sync-execution-governance
 

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/pytest-session-result.v1.json",
+  "title": "Pytest Session Result V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "session_id", "execution_origin", "origin_evidence_digest", "nodes",
+    "pytest_exitstatus", "all_required_nodes_committed", "session_status", "recorded_at", "session_result_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.pytest-session-result.v1"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "execution_origin": {"enum": ["pycharm", "codex-cli", "cli", "ci", "unknown"]},
+    "origin_evidence_digest": {"$ref": "#/$defs/hash"},
+    "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nodeResult"}},
+    "pytest_exitstatus": {"type": "integer", "minimum": 0, "maximum": 5},
+    "all_required_nodes_committed": {"type": "boolean"},
+    "session_status": {"enum": ["passed", "failed", "interrupted"]},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "session_result_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"session_status": {"const": "passed"}}},
+      "then": {
+        "properties": {
+          "pytest_exitstatus": {"const": 0},
+          "all_required_nodes_committed": {"const": true},
+          "nodes": {
+            "items": {
+              "properties": {"finalization_status": {"enum": ["committed", "not_applicable_qualification", "not_applicable_read_only"]}}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [{"pattern": "^(?:[A-Za-z]:|/|\\\\)"}, {"pattern": "(?:^|/)\\.\\.(?:/|$)"}]}
+    },
+    "nodeResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "node_id", "terminal_ref", "terminal_hash", "finalization_status"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/stableIdentity"},
+        "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+        "terminal_ref": {"$ref": "#/$defs/relativeRef"},
+        "terminal_hash": {"$ref": "#/$defs/hash"},
+        "finalization_status": {"enum": ["committed", "failed", "not_applicable_qualification", "not_applicable_read_only", "missing"]},
+        "receipt_ref": {"$ref": "#/$defs/relativeRef"},
+        "receipt_hash": {"$ref": "#/$defs/hash"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"finalization_status": {"enum": ["committed", "failed"]}}},
+          "then": {"required": ["receipt_ref", "receipt_hash"]}
+        },
+        {
+          "if": {"properties": {"finalization_status": {"enum": ["not_applicable_qualification", "not_applicable_read_only", "missing"]}}},
+          "then": {"not": {"anyOf": [{"required": ["receipt_ref"]}, {"required": ["receipt_hash"]}]}}
+        }
+      ]
+    }
+  }
+}

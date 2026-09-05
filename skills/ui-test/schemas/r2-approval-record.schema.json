@@ -8,6 +8,6 @@
     "environment": {"const": "test"}, "allowed_action": {"type": "string"}, "channel": {"const": "visible-ui"}, "max_submit_count": {"const": 1},
     "decision": {"enum": ["approved", "denied"]}, "boundary_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "credential_values_persisted": {"const": false}, "reusable_across_runs": {"const": false},
-    "approval_source": {"enum": ["explicit-cli", "pycharm-manual-run", "not-approved"]}
+    "approval_source": {"enum": ["explicit-cli", "pycharm-project-policy", "not-approved"]}
   }
 }

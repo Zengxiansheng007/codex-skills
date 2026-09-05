@@ -1,0 +1,32 @@
+{
+  "schema_version": "ui-test.run-result.v4",
+  "run_id": "RVI-20260904-R2-A-100000-ABCD1234",
+  "node_id": "test_announcement_p0_a.py::TestAnnouncementP0A",
+  "case_id": "BOPS-ANNOUNCEMENT-P0-A",
+  "branch_id": "system-announcement",
+  "execution_context_ref": "C:/UI-Test/contexts/RVI-20260904-R2-A-100000-ABCD1234.json",
+  "execution_context_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+  "attempt_ref": "attempts/ATT-RVI-20260904-R2-A-100000-ABCD1234.json",
+  "attempt_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+  "approval_ref": "approvals/APR-RVI-20260904-R2-A-100000-ABCD1234.json",
+  "approval_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+  "overall_status": "passed",
+  "write_state": "write_succeeded_verified",
+  "submit_count": 1,
+  "layered_status": {
+    "unit": "passed",
+    "collection": "passed",
+    "release_verification": "passed",
+    "qualification": "passed",
+    "pycharm_integration": "passed",
+    "human_r2": "passed"
+  },
+  "step_results": [],
+  "evidence_refs": [],
+  "conflicts": [],
+  "findings": [],
+  "retained_test_data": [],
+  "cleanup_status": "not_planned_this_release",
+  "business_cleanup_attempted": false,
+  "run_result_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000004"
+}

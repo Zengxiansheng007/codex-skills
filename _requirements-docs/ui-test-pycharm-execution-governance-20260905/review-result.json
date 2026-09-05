@@ -1,0 +1,77 @@
+{
+  "artifact": {
+    "artifactId": "UIT-PYCHARM-PUBLICATION-REVIEW-20260905",
+    "version": "1.0.0",
+    "artifactType": "test-evidence",
+    "owner": "development-system",
+    "sourceAnchorId": "UIT-PYCHARM-FINALIZATION-ST013-20260904",
+    "sourceAnchorVersion": "v1.0",
+    "mappedFrAc": [
+      "FR-013",
+      "FR-014",
+      "FR-015",
+      "FR-016",
+      "FR-017",
+      "FR-018"
+    ],
+    "createdAt": "2026-09-05T02:50:36.084986+00:00",
+    "derivedFrom": [
+      "CR-20260904-001",
+      "CR-20260904-002"
+    ]
+  },
+  "scope": "public-code-and-redacted-documents",
+  "source_commit_meaning": "previous-publication-baseline",
+  "source_commit": "6a42eb48ea1a3227131058ebf21c2991c0506edb",
+  "validated_skill_tree_hash": "sha256:c5666e5cf3e7686b04af4a65eb55abd828af983ac1fec7a28ae5f193ec1451c9",
+  "validated_skill_files": 250,
+  "historical_test_inventories": [
+    {
+      "id": "ST-014-city-reentry-adapter-tests-R3",
+      "passed": 119,
+      "sha256": "467f5295b30db64740ba3ebda0268faab72e0f2b6671688dea94d3c97c431d2b"
+    },
+    {
+      "id": "ST-014-city-reentry-skill-tests-R2",
+      "passed": 436,
+      "sha256": "a612bf2de037a41743524e73cb37637004b352f1aef863fe30368e97b3649d9f"
+    },
+    {
+      "id": "ST-014-R2-installed-tests",
+      "passed": 436,
+      "sha256": "94fbd6f9db846b3fc2a3138910d620947acaf5644881db4529ae36f7c0a87b38"
+    }
+  ],
+  "landed_review": {
+    "reportType": "landed-review",
+    "reportVersion": "1.0.0",
+    "baselineAnchorId": "UIT-PYCHARM-FINALIZATION-ST013-20260904",
+    "baselineInputHash": "d2d37278c738c3382a56b3287ae2b2cfa165d1a7348e9f2f96fa5cb359bba9e2",
+    "observedInputHash": "dfcbeb85d5c7a6260237386adeff41196aeabbbc38a058e66a97a9c58b84670a",
+    "baselineImmutable": true,
+    "generatedBy": "development-system/landed-review",
+    "result": {
+      "status": "reviewed",
+      "classification": "no-drift",
+      "reasons": [],
+      "changedArtifacts": [],
+      "missingArtifacts": [],
+      "candidateRevisions": [],
+      "retestRequired": false,
+      "approvalStatus": "not-approved",
+      "rcStatus": "not-generated"
+    }
+  },
+  "landed_review_limit": "Payload matches the immutable validated package; this is not independent whole-requirement completion.",
+  "business_acceptance": "user-confirmed-passed",
+  "completion": "functional-accepted / repair-needed",
+  "open_gates": [
+    "external-process-evidence",
+    "file-read-acceptance-result",
+    "actual-B-B-A-vs-planned-A-B-order-and-count",
+    "independent-final-completion-review"
+  ],
+  "real_city_recovery_branch_observed_in_qualification": false,
+  "project_adapter_published": false,
+  "gitbook_written": false
+}

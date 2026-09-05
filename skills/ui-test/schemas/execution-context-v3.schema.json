@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/ui-test/schemas/execution-context.schema.v3.json",
+  "title": "Execution Context V3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "session_id", "execution_origin", "origin_evidence", "run_id", "node_id",
+    "case_id", "branch_id", "risk_level", "environment", "approved", "approval_source",
+    "stable_runner_digest", "active_build_fingerprint", "active_attachment_digest",
+    "project_config_digest", "finalization_policy_digest", "attempt_ref", "finalization_contract",
+    "run_result_contract", "session_result_contract", "acceptance_contract", "config_summary"
+  ],
+  "properties": {
+    "schema_version": {"const": "ui-test.execution-context.v3"},
+    "session_id": {"$ref": "#/$defs/stableIdentity"},
+    "execution_origin": {"enum": ["pycharm", "codex-cli", "cli", "ci", "unknown"]},
+    "origin_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "evidence_digest"],
+      "properties": {
+        "source_type": {"enum": ["jetbrains-runner-path", "sys-argv", "ci-env", "explicit-cli-arg", "unknown"]},
+        "evidence_digest": {"$ref": "#/$defs/hash"},
+        "runner_path_hash": {"$ref": "#/$defs/hash"},
+        "runner_content_hash": {"$ref": "#/$defs/hash"},
+        "argv0": {"type": "string", "minLength": 1, "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}},
+        "invocation_marker": {"type": "string", "minLength": 1, "not": {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}}
+      }
+    },
+    "run_id": {"$ref": "#/$defs/stableIdentity"},
+    "node_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "case_id": {"$ref": "#/$defs/stableIdentity"},
+    "branch_id": {"$ref": "#/$defs/stableIdentity"},
+    "risk_level": {"enum": ["r0-read-only", "r1-read-only-authenticated", "r2-ui-write-test", "r3-high-impact"]},
+    "environment": {"enum": ["public", "test", "staging", "production"]},
+    "approved": {"type": "boolean"},
+    "approval_source": {"enum": ["explicit-cli", "pycharm-project-policy", "not-approved"]},
+    "stable_runner_digest": {"$ref": "#/$defs/hash"},
+    "active_build_fingerprint": {"$ref": "#/$defs/hash"},
+    "active_attachment_digest": {"$ref": "#/$defs/hash"},
+    "project_config_digest": {"$ref": "#/$defs/hash"},
+    "finalization_policy_digest": {"$ref": "#/$defs/hash"},
+    "attempt_ref": {"$ref": "#/$defs/relativeRef"},
+    "finalization_contract": {"const": "transaction-v1"},
+    "run_result_contract": {"const": "v5"},
+    "session_result_contract": {"const": "v1"},
+    "acceptance_contract": {"const": "external-exit-v1"},
+    "config_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "contract_version", "origin_detection", "entry_scope", "r2_authorization",
+        "run_scope", "r2_parallelism", "finalization_contract", "run_result_contract",
+        "session_result_contract", "acceptance_contract"
+      ],
+      "properties": {
+        "schema_version": {"const": "2.2"},
+        "contract_version": {"const": 3},
+        "origin_detection": {"const": "jetbrains-runner-path"},
+        "entry_scope": {"const": "stable-active-runners"},
+        "r2_authorization": {"const": "auto-test-only"},
+        "run_scope": {"const": "per-node"},
+        "r2_parallelism": {"const": "serial-project-environment"},
+        "finalization_contract": {"const": "transaction-v1"},
+        "run_result_contract": {"const": "v5"},
+        "session_result_contract": {"const": "v1"},
+        "acceptance_contract": {"const": "external-exit-v1"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"execution_origin": {"const": "pycharm"}}},
+      "then": {
+        "properties": {
+          "origin_evidence": {"required": ["runner_path_hash", "runner_content_hash"]}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "stableIdentity": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+    "relativeRef": {
+      "type": "string", "minLength": 1,
+      "not": {"anyOf": [
+        {"pattern": "^(?:[A-Za-z]:|/|\\\\)"},
+        {"pattern": "(?:^|/)\\.\\.(?:/|$)"},
+        {"pattern": "(?i)(password|secret|token|cookie|authorization|api[_-]?key)"}
+      ]}
+    }
+  }
+}
