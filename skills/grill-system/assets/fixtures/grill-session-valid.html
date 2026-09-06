@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Grill Session Valid Fixture</title>
+</head>
+<body>
+<main>
+  <h1>Grill Session Report</h1>
+  <p>Positive fixture: a complete, formally valid grill session.</p>
+</main>
+<script type="application/json" id="grill-session">
+{
+  "sessionId": "grill-fixture-valid-001",
+  "scenario": "test-case-design",
+  "status": "complete",
+  "sourceInputs": [
+    {"type": "code", "pathOrLabel": "src/module.ts", "freshness": "fresh"}
+  ],
+  "questions": [
+    {
+      "id": "Q-001",
+      "question": "Which source is authoritative for current behavior?",
+      "purpose": "Choose the test oracle.",
+      "evidence": ["E-001"],
+      "recommendedAnswer": "Use running behavior as current truth and mark document drift as a risk.",
+      "blockingDecision": "oracle source",
+      "userResponse": "confirmed",
+      "status": "confirmed",
+      "severity": "P0"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-001",
+      "title": "Use running product as the test oracle",
+      "sourceQuestion": "Q-001",
+      "decision": "confirmed",
+      "consequence": "Generated cases must cite product evidence when PRD conflicts."
+    }
+  ],
+  "evidenceIndex": [
+    {"id": "E-001", "type": "code", "pathOrUrl": "src/module.ts", "claim": "module is still routed"}
+  ],
+  "openItems": [],
+  "nextActions": [
+    {"type": "skill", "target": "ui-test", "reason": "Test design decisions are ready."}
+  ]
+}
+</script>
+</body>
+</html>

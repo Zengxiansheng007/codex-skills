@@ -1,0 +1,8 @@
+name: grill-system
+summary: Routed one-question-at-a-time grilling workflow for plans, requirements, test designs, risks, failures, and handoffs.
+version: 0.1.0
+tags:
+  - planning
+  - review
+  - requirements
+  - testing

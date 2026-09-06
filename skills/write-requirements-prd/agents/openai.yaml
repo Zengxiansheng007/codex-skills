@@ -1,0 +1,3 @@
+display_name: Write Requirements PRD
+short_description: Draft and harden development-ready PRDs with explicit requirements and traceability.
+default_prompt: Use write-requirements-prd to turn source notes into a testable PRD and route P0/P1 ambiguity to grill-system.

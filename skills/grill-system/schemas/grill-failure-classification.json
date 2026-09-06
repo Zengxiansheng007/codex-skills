@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grill-failure-classification.json",
+  "title": "Grill Stable Failure Classification",
+  "description": "Failure classes that propagate through the grill-system and downstream skills. Each class has a severity and a propagation status that never maps to completed.",
+  "version": "1.0",
+  "classes": [
+    {
+      "name": "session-id-missing",
+      "severity": "P0",
+      "description": "The grill session has no formal session identifier.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "missing-required-question-field",
+      "severity": "P0",
+      "description": "A grill question is missing a required field (id, question, purpose, recommendedAnswer, blockingDecision, status, or severity).",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "multiple-questions-in-one",
+      "severity": "P1",
+      "description": "A single grill question item contains more than one question.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "invalid-question-status",
+      "severity": "P1",
+      "description": "A question status is not one of the allowed values.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "invalid-question-severity",
+      "severity": "P1",
+      "description": "A question severity is not P0, P1, or P2.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "invalid-session-status",
+      "severity": "P0",
+      "description": "The session status is not draft, blocked, complete, or risk-accepted.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "complete-with-p0-open-items",
+      "severity": "P0",
+      "description": "The session claims complete while P0 open items remain unresolved.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "missing-recommended-answer",
+      "severity": "P0",
+      "description": "A question has no recommended answer.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "no-questions-in-non-template",
+      "severity": "P0",
+      "description": "A non-template report contains zero questions.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "sensitive-data-in-report",
+      "severity": "P0",
+      "description": "The report contains a secret-like or credential-like value.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "parse-error",
+      "severity": "P0",
+      "description": "The report could not be parsed or the grill-session block was not found.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "missing-top-level-fields",
+      "severity": "P0",
+      "description": "Required top-level fields are missing from the session.",
+      "propagation": "repair-needed"
+    }
+  ]
+}

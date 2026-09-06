@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grill-session-v2.schema.json",
+  "title": "Grill Session Ledger V2",
+  "type": "object",
+  "required": ["schemaVersion", "sessionId", "scenario", "ledgerPath", "workspaceRoot", "phase", "result", "questions", "decisions", "effectiveDecisions", "evidenceIndex", "openItems", "nextActions", "sourceBaseline", "protectedAssets", "processArtifacts", "closureEvidence", "writebackPolicy", "exceptions", "recovery", "checkpoints", "writebackReceipts"],
+  "properties": {
+    "schemaVersion": {"const": "2.0"},
+    "sessionId": {"type": "string", "minLength": 1},
+    "scenario": {"type": "string", "minLength": 1},
+    "ledgerPath": {"type": "string", "minLength": 1},
+    "workspaceRoot": {"type": "string", "minLength": 1},
+    "phase": {"enum": ["grilling", "awaiting-closure", "review-ended", "writeback", "writeback-complete", "paused", "repair-needed", "blocked"]},
+    "result": {"enum": ["in-progress", "ready-for-writeback", "conclusions-only", "completed", "partial-failure", "blocked", "repair-needed", "legacy-read-only"]},
+    "questions": {"type": "array"},
+    "decisions": {"type": "array"},
+    "effectiveDecisions": {"type": "array"},
+    "evidenceIndex": {"type": "array"},
+    "openItems": {"type": "array"},
+    "nextActions": {"type": "array"},
+    "sourceBaseline": {"type": "array"},
+    "protectedAssets": {"type": "array"},
+    "processArtifacts": {"type": "array"},
+    "closureEvidence": {"type": "object"},
+    "writebackPolicy": {"type": "object"},
+    "exceptions": {"type": "array"},
+    "recovery": {"type": "object"},
+    "checkpoints": {"type": "array"},
+    "writebackReceipts": {"type": "array"}
+  },
+  "additionalProperties": true
+}

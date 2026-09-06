@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grill-session.schema.json",
+  "title": "Grill Session Report",
+  "description": "Strict schema for the grill-session JSON data block. Enforces formal session, single-question, required fields, and completion gates (AC-003, AC-004, AC-011).",
+  "type": "object",
+  "required": [
+    "sessionId",
+    "scenario",
+    "status",
+    "questions",
+    "decisions",
+    "evidenceIndex",
+    "openItems",
+    "nextActions"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Formal session identifier; must not be empty."
+    },
+    "scenario": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Routing scenario from the routing policy."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "blocked", "complete", "risk-accepted"],
+      "description": "Session status. complete requires zero P0 open items."
+    },
+    "sourceInputs": {
+      "type": "array",
+      "description": "Source artifacts inspected before the first question.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string", "minLength": 1},
+          "pathOrLabel": {"type": "string", "minLength": 1},
+          "freshness": {"type": "string"}
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "Ordered list of grill questions. Each must ask exactly one question.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "question",
+          "purpose",
+          "recommendedAnswer",
+          "blockingDecision",
+          "status",
+          "severity"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "question": {"type": "string", "minLength": 1},
+          "purpose": {"type": "string", "minLength": 1},
+          "evidence": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1}
+          },
+          "recommendedAnswer": {"type": "string", "minLength": 1},
+          "blockingDecision": {"type": "string", "minLength": 1},
+          "userResponse": {"type": "string"},
+          "status": {
+            "type": "string",
+            "enum": ["proposed", "confirmed", "changed", "rejected", "needs-evidence"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["P0", "P1", "P2"]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "evidenceIndex": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "openItems": {
+      "type": "array",
+      "description": "Unresolved items. P0 open items block status=complete.",
+      "items": {"type": "object"}
+    },
+    "nextActions": {
+      "type": "array",
+      "items": {"type": "object"}
+    }
+  },
+  "additionalProperties": true
+}
