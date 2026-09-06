@@ -22,7 +22,8 @@ Record changes to references/ or assets/ content, templates, schemas, or fixture
 - After: V2 defines one canonical ledger and the HTML report is its exact projection. It exposes phase/result and no-op or updated outcome without creating a second decision source.
 - Why: FR-003, FR-008, FR-009, FR-011, and FR-012 require one recoverable source and truthful report capability claims.
 - Impact: V1 remains legacy-read-only; the report and format validator cannot authorize closure or writeback.
-- Validation: Pending root final suite and independent junction evidence.
+- Initial validation note (historical): Pending root final suite and independent junction evidence.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-005-v2-runtime-artifact-boundary.md
 
 ### CR-20260906-001 - route-and-downstream-phase-boundary
@@ -32,7 +33,8 @@ Record changes to references/ or assets/ content, templates, schemas, or fixture
 - After: Each route directs answers to the authoritative ledger and freezes formal and substitute artifacts until closure-backed centralized writeback.
 - Why: FR-002, FR-004, FR-008, FR-010, and AC-002, AC-004, AC-008, AC-010 require route-consistent behavior.
 - Impact: Downstream writers receive explicit non-writing outcomes and domain-modeling receives a separate active-review output mode.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-001-phase-boundary-cross-skill-documentation.md
 
 ### CR-20260829-001 - grill-schemas-and-fixtures
@@ -43,3 +45,14 @@ Record changes to references/ or assets/ content, templates, schemas, or fixture
 - Why: Formal schema and deterministic negative fixtures are required for the strong grill gate (AC-003, AC-004, AC-011).
 - Impact: The validator now checks schema compliance and the failure classification is traceable.
 - Detail record: ../entries/2026/2026-08/CR-20260829-001-grill-strong-gate.md
+
+### CR-20260906-007 - Reviewed documentation
+
+- Section changed: current documentation and category validation projection.
+- Before: preparation snapshots could be mistaken for current state.
+- After: historical notes labeled; current public documentation linked.
+- Why: align documentation with released code and actual evidence.
+- Impact: Markdown only; executable content unchanged.
+- Validation: this documentation release's static/evidence/package checks passed; executable content unchanged.
+- Status: validated.
+- Detail record: [entry](../entries/2026/2026-09/CR-20260906-007-reviewed-public-documentation.md).

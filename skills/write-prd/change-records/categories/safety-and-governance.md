@@ -17,7 +17,8 @@ Track routing constraints, write authorization, and capability-boundary changes.
 - Section changed: SKILL.md and shared-contracts.md.
 - Before: The router did not explicitly distinguish session closure from artifact writing authority.
 - After: One closure-backed eligible result controls a centralized batch, notes-only produces zero writes, and non-writing outcomes remain blocked from formal mutation.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: `../entries/2026/2026-09/CR-20260906-002-phase-aware-grill-routing.md`
 
 ### CR-20260906-006 - Portable validation guidance

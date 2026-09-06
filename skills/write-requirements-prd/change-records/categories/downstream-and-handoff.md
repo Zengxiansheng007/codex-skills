@@ -17,5 +17,6 @@ Track Grill-to-PRD handoff constraints.
 - Section changed: SKILL.md.
 - Before: A returned decision could cause formal authoring to continue.
 - After: The Skill retains the ledger/recovery state unless the phase and result meet the centralized writeback gate.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: `../entries/2026/2026-09/CR-20260906-003-phase-aware-prd-authoring.md`

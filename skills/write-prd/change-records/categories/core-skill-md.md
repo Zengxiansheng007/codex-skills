@@ -18,7 +18,8 @@ Track router trigger wording and prerequisite governance changes.
 - Section changed: SKILL.md operating rules, child return checks, and decision rules.
 - Before: A child return could resume artifact processing without an explicit phase/writeback eligibility check.
 - After: The router freezes formal artifacts during Grill and requires `phase`, `result`, `closureEvidence`, `writebackPolicy`, `protectedAssets`, `processArtifacts`, `exceptions`, `checkpoints`, and `writebackReceipts` before centralized writing.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: `../entries/2026/2026-09/CR-20260906-002-phase-aware-grill-routing.md`
 
 ### CR-20260829-004

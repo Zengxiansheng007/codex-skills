@@ -91,12 +91,12 @@ Forward-test prompts:
 
 ## Formal Session Gate (AC-003, AC-004, AC-011)
 
-- The candidate phase contract separates `phase` (`grilling`, `awaiting-closure`, `review-ended`, `writeback`, `writeback-complete`, `paused`, `repair-needed`, or `blocked`) from `result` (`in-progress`, `ready-for-writeback`, `conclusions-only`, `completed`, `partial-failure`, `blocked`, `repair-needed`, or `legacy-read-only`). A legacy report is read-only and never grants write authority.
-- The local V2 CLI is `init`, `propose-question`, `record-answer`, `close`, `pause`, `resume`, `reopen`, `checkpoint`, `reconcile-format-only`, `create-exception`, `consume-exception`, `finish-exception`, `prepare-writeback-plan`, `begin-writeback --plan`, `verify-writeback`, and `render-report`. Use `prepare-writeback-plan` to generate the decision and scope fingerprints for a public plan; callers must not reproduce private fingerprint serialization. It records workflow evidence and checks; it does not merge formal content itself.
+- The current V2 phase contract separates `phase` (`grilling`, `awaiting-closure`, `review-ended`, `writeback`, `writeback-complete`, `paused`, `repair-needed`, or `blocked`) from `result` (`in-progress`, `ready-for-writeback`, `conclusions-only`, `completed`, `partial-failure`, `blocked`, `repair-needed`, or `legacy-read-only`). A legacy report is read-only and never grants write authority.
+- The local V2 CLI is `init`, `validate`, `propose-question`, `record-answer`, `close`, `pause`, `resume`, `reopen`, `checkpoint`, `reconcile-format-only`, `create-exception`, `consume-exception`, `finish-exception`, `prepare-writeback-plan`, `begin-writeback --plan`, `verify-writeback`, and `render-report`. Use `prepare-writeback-plan` to generate the decision and scope fingerprints for a public plan; callers must not reproduce private fingerprint serialization. It records workflow evidence and checks; it does not merge formal content itself.
 - Every grill report must carry a formal `sessionId` (non-empty).
 - Every question must contain exactly one question with all required fields: `id`, `question`, `purpose`, `recommendedAnswer`, `blockingDecision`, `status`, `severity`.
-- A `complete` session must have zero P0 open items; `risk-accepted` is the only status that permits open P0 items (with explicit user risk acceptance).
-- The session JSON must validate against [schemas/grill-session.schema.json](schemas/grill-session.schema.json).
+- V2 closure/writeback requires recorded whole-review closure evidence and resolved P0 items or concrete scoped risk acceptance. Legacy V1 complete/risk-accepted labels describe historical reports only and never grant V2 write authority.
+- Validate new V2 sessions against [schemas/grill-session-v2.schema.json](schemas/grill-session-v2.schema.json) plus runtime semantic checks. [schemas/grill-session.schema.json](schemas/grill-session.schema.json) is the legacy V1 inspection contract.
 - Failure classes are defined in [schemas/grill-failure-classification.json](schemas/grill-failure-classification.json) and never propagate to `completed`.
 
 ## Escalation

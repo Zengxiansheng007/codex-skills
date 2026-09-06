@@ -21,7 +21,8 @@ Record changes to validators, tests, or scripts.
 - After: The runtime provides the documented V2 CLI; its batch plans freeze decisions, scopes, and actual target postconditions. Artifact checks fail closed for traversal, symlink, and Windows junction/reparse paths; tests use owned temporary targets for updated, no-op, exception, and receipt evidence.
 - Why: FR-001 to FR-012 and AC-001 to AC-012 need testable phase, asset, exception, legacy, and postcondition behavior.
 - Impact: A process-ledger mutation does not authorize formal writes; no-op evidence is distinct from an actual update and a hash mismatch is not success.
-- Validation: Pending root final suite and independent junction evidence.
+- Initial validation note (historical): Pending root final suite and independent junction evidence.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-005-v2-runtime-artifact-boundary.md
 
 ### CR-20260829-001 - grill-validator-strengthening

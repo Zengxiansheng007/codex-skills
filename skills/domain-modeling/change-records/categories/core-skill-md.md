@@ -17,5 +17,6 @@ Track changes to domain-modeling workflow instructions.
 - Section changed: Grill Invocation Boundary.
 - Before: Resolved terms always directed immediate CONTEXT.md updates.
 - After: Only active-Grill calls return proposed terms and ADR candidates to the canonical ledger; standalone behavior remains immediate.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: `../entries/2026/2026-09/CR-20260906-004-active-grill-domain-modeling.md`

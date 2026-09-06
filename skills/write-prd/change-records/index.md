@@ -25,3 +25,8 @@
 ## Portable release validation
 
 - CR-20260906-006: [portable validation guidance](entries/2026/2026-09/CR-20260906-006-portable-release-validation.md), validated.
+
+## Reviewed public documentation
+
+- CR-20260906-008: [reviewed documentation](entries/2026/2026-09/CR-20260906-008-reviewed-public-documentation.md), validated.
+- [Current documentation and evidence](https://github.com/Zengxiansheng007/codex-skills/tree/main/_requirements-docs/grill-phase-boundary-20260906).

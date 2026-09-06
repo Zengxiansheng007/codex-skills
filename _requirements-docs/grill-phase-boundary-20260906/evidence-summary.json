@@ -1,0 +1,297 @@
+{
+  "schemaVersion": "public-evidence-summary-1.0",
+  "codeBaseline": "b4fa50611f2f4c627903df2cc439ff483ce6cfc6",
+  "disclosure": "Derived from actual local evidence; raw task/model/audit logs, user paths and credentials are not published.",
+  "deterministicSuites": [
+    {
+      "suite": "test_validate_grill_report.py",
+      "resultCode": "PASS",
+      "executedTestFunctions": [
+        "test_valid_report_passes",
+        "test_template_allowed",
+        "test_missing_question_fails",
+        "test_complete_with_p0_open_item_fails",
+        "test_multiple_questions_warns_but_does_not_fail",
+        "test_secret_like_value_fails",
+        "test_empty_session_id_fails",
+        "test_invalid_session_status_fails",
+        "test_json_direct_validation",
+        "test_invalid_question_status_fails",
+        "test_invalid_question_severity_fails",
+        "test_no_questions_in_non_template_fails",
+        "test_risk_accepted_with_p0_open_allowed",
+        "test_failure_classification_never_completes"
+      ],
+      "sourceHash": "8e43eaa01c997cbd9d4fcbb678f1fb6d65d68e21907114efea7ace10ed2ee55d",
+      "skipCount": 0,
+      "skipReason": null
+    },
+    {
+      "suite": "test_grill_phase_contract.py",
+      "resultCode": "PASS",
+      "executedTestFunctions": [
+        "test_default_batch_and_actual_postconditions",
+        "test_partial_receipt_records_recovery",
+        "test_unresolved_p0_and_concrete_risk_acceptance",
+        "test_pause_resume_reopen_preserves_history",
+        "test_exception_is_bounded_and_single_use",
+        "test_external_drift_and_new_version_block_batch",
+        "test_legacy_is_read_only_and_storage_cannot_overlap",
+        "test_non_overwrite_initialization",
+        "test_report_is_exact_ledger_projection",
+        "test_forged_closure_and_checkpoint_evidence_are_refused",
+        "test_format_only_reconciliation_keeps_unrelated_decisions",
+        "test_conversation_only_init_writes_no_ledger",
+        "test_cli_open_p0_answer_and_exception_finish",
+        "test_cli_propose_question_and_prepare_plan_round_trip",
+        "test_decision_text_change_invalidates_frozen_plan",
+        "test_unchanged_postcondition_is_explicit_noop",
+        "test_absolute_plan_target_normalizes_and_alias_is_rejected"
+      ],
+      "sourceHash": "6957b33d799fa6099853fc58a62b80466663d681468f7905cdcd878adeb63592",
+      "skipCount": 0,
+      "skipReason": null
+    },
+    {
+      "suite": "test_grill_artifact_checks.py",
+      "resultCode": "PASS",
+      "executedTestFunctions": [
+        "test_paths_and_semver_versions",
+        "test_reparse_escape_fails_closed",
+        "test_windows_junction_fails_closed"
+      ],
+      "sourceHash": "794cbe4342fb882d87ceaca68342b701800ff017f85c54e6a3fd15e50762a962",
+      "skipCount": 1,
+      "skipReason": "file-symlink creation unavailable on host (WinError 1314)"
+    }
+  ],
+  "namedFunctionCount": 34,
+  "independentQa": [
+    {
+      "id": "TQA-001",
+      "frAc": "FR-001, FR-005 / AC-001, AC-005",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "begin-writeback rejects a forged review-ended ledger with no closure evidence",
+      "observed": "begin-writeback exit=1; phase after call=review-ended"
+    },
+    {
+      "id": "TQA-002",
+      "frAc": "FR-001, FR-005, FR-011 / AC-005",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "close rejects a P0 marked confirmed without userResponse or traceable decision",
+      "observed": "close exit=1; phase after call=grilling"
+    },
+    {
+      "id": "TQA-003",
+      "frAc": "FR-007, FR-011 / AC-007, AC-011",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "begin-writeback rejects a checkpoint whose stored root and fingerprint were forged",
+      "observed": "begin-writeback exit=1; phase after call=review-ended"
+    },
+    {
+      "id": "TQA-004",
+      "frAc": "FR-009, FR-011 / AC-009, AC-011",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "uncovered protected change becomes partial-failure and cannot restart as a normal batch",
+      "observed": "verify exit=1; phase=repair-needed; retry exit=1"
+    },
+    {
+      "id": "TQA-005",
+      "frAc": "FR-012 / AC-012",
+      "status": "PASS",
+      "severity": "P1",
+      "expected": "legacy ledger is readable but all mutations are denied",
+      "observed": "validate exit=1; pause exit=1"
+    },
+    {
+      "id": "TQA-006",
+      "frAc": "FR-003, FR-004 / AC-003, AC-004",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "a ledger/process artifact overlapping a protected asset is rejected before mutation",
+      "observed": "pause exit=1"
+    },
+    {
+      "id": "TQA-007",
+      "frAc": "FR-009, FR-011 / AC-009, AC-011",
+      "status": "PASS",
+      "severity": "P1",
+      "expected": "a completion claim identifies whether a verified item changed or is an intentional no-op",
+      "observed": "verify exit=0; result=completed; receiptStatus=verified-noop; outcome=no-op; contentChanged=False; mergePerformed=False; observedChanges=[]"
+    },
+    {
+      "id": "TQA-008",
+      "frAc": "FR-007, FR-009, FR-011 / AC-007, AC-009, AC-011",
+      "status": "PASS",
+      "severity": "P1",
+      "expected": "a repeat verification after protected post-completion drift records repair-needed or declares its evidence only historical",
+      "observed": "first exit=0; repeat exit=1; phase=repair-needed; result=partial-failure"
+    },
+    {
+      "id": "TQA-009",
+      "frAc": "FR-006 / AC-006",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "a one-time exception is consumed for its in-scope target and cannot be reused",
+      "observed": "first exit=0; second exit=1; status=consumed"
+    },
+    {
+      "id": "TQA-010",
+      "frAc": "FR-009 / AC-009",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "a valid receipt retry remains completed without a second receipt or completion event",
+      "observed": "first exit=0; retry exit=0; receipts=1; verifiedEvents=1"
+    },
+    {
+      "id": "TQA-011",
+      "frAc": "FR-001, FR-005, FR-008 / AC-001, AC-005, AC-008",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "pause rejects a forged review-ended state rather than allowing a later resume/writeback bypass",
+      "observed": "pause exit=1; phase=review-ended"
+    },
+    {
+      "id": "TQA-012",
+      "frAc": "FR-004 / AC-004",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "checkpoint includes versioned sibling replacements of a protected formal file",
+      "observed": "checkpoint exit=0; paths=['formal/prd-v2.1.md', 'formal/prd-v2.md', 'formal/prd.md']"
+    },
+    {
+      "id": "TQA-013",
+      "frAc": "FR-004, FR-011 / AC-004, AC-011",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "checkpoint rejects a protected scope that traverses outside the workspace root",
+      "observed": "checkpoint exit=1"
+    },
+    {
+      "id": "TQA-014",
+      "frAc": "FR-004, FR-011 / AC-004, AC-011",
+      "status": "SKIPPED-HOST-CAPABILITY",
+      "severity": "P0",
+      "expected": "checkpoint rejects a versioned symlink replacement",
+      "observed": "Host denied file-symlink creation; no elevation performed."
+    },
+    {
+      "id": "TQA-015",
+      "frAc": "FR-003, FR-005 / AC-003, AC-005",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "a correctly indexed open P0 can record a normal answer and clear its own stale open item",
+      "observed": "record-answer exit=0; questionStatus=confirmed; openItems=0"
+    },
+    {
+      "id": "TQA-016",
+      "frAc": "FR-006 / AC-006",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "a scoped exception is created, consumed, postcondition-verified, and returned to frozen review state",
+      "observed": "checkpoint/create/consume/finish exits=0/0/0/0; exceptionStatus=verified"
+    },
+    {
+      "id": "TQA-017",
+      "frAc": "FR-004, FR-011 / AC-004, AC-011",
+      "status": "PASS",
+      "severity": "P0",
+      "expected": "checkpoint rejects a protected directory that contains a Windows directory junction",
+      "observed": "junctionAttributes=1040; checkpoint exit=1"
+    }
+  ],
+  "independentQaPass": 16,
+  "independentQaHostSkip": 1,
+  "forwardChecks": {
+    "reviewQuestionAndAnswerKeepPrdFrozen": true,
+    "wholeReviewClosureThenBatchUpdate": true,
+    "reportEqualsFinalLedger": true,
+    "activeGrillGlossaryUnchanged": true,
+    "standaloneGlossaryUpdated": true
+  },
+  "installedCodeRelease": {
+    "skills": [
+      "grill-system",
+      "write-prd",
+      "write-requirements-prd",
+      "domain-modeling"
+    ],
+    "files": 71,
+    "checks": 8,
+    "status": "installed-and-verified",
+    "sourceHash": "a76449a5c339de4f6443e505e8a65442f9a828cc850c4d528e0a201990506111"
+  },
+  "githubCodeRelease": {
+    "repository": "Zengxiansheng007/codex-skills",
+    "branch": "main",
+    "commit": "b4fa50611f2f4c627903df2cc439ff483ce6cfc6",
+    "verifiedFiles": 71,
+    "publicEntryHttpStatuses": [
+      200,
+      200,
+      200,
+      200
+    ]
+  },
+  "runtimeContract": {
+    "commands": [
+      "begin-writeback",
+      "checkpoint",
+      "close",
+      "consume-exception",
+      "create-exception",
+      "finish-exception",
+      "init",
+      "pause",
+      "prepare-writeback-plan",
+      "propose-question",
+      "reconcile-format-only",
+      "record-answer",
+      "render-report",
+      "reopen",
+      "resume",
+      "validate",
+      "verify-writeback"
+    ],
+    "phases": [
+      "grilling",
+      "awaiting-closure",
+      "review-ended",
+      "writeback",
+      "writeback-complete",
+      "paused",
+      "repair-needed",
+      "blocked"
+    ],
+    "results": [
+      "in-progress",
+      "ready-for-writeback",
+      "conclusions-only",
+      "completed",
+      "partial-failure",
+      "blocked",
+      "repair-needed",
+      "legacy-read-only"
+    ]
+  },
+  "sourceEvidenceHashes": {
+    "rootFinalSuite": "bbbc6597647e45a2a7ad9404daff35a9bb6d6cbfd4edc773e92d16c2567cd0bc",
+    "independentQa": "7d7527bd5e6a24992e561ab1fa4b0385531825031eebc6c9d307f9ccdc186998",
+    "forwardReview": "09584bf75f797ed47ef89778e291bbd64a3079453d771342dfa78617f7752f3e",
+    "installation": "86ab848f559cce3a711d4f148da8ee9518024ecc428a493dcfe42062a07c9d2f",
+    "publication": "7b70b7891d978ab3c79b325e422ebafb00b6f2aa4c030a6d6ea30ca43bf0c69c"
+  },
+  "limitations": [
+    "local workflow/evidence checks only; no global interception",
+    "semantic drift requires reviewer evidence",
+    "file-symlink host capability skip; actual directory-junction denial passed",
+    "earlier 43-check document validation and 80-check preparation are not product test counts"
+  ],
+  "rawPrivateEvidencePublished": false,
+  "hostLimitedBranchCount": 1,
+  "functionCountInterpretation": "34 named function invocations observed; all three suites exited successfully; one function returned after logging a host-limited symlink branch. This is not per-function framework PASS/SKIP metadata."
+}

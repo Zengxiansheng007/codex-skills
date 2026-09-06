@@ -21,7 +21,8 @@ Record changes to approval gates, privacy boundaries, forbidden actions, governa
 - After: V2 rejects escapes and forged/stale conditions; it accepts only bounded exception or closure-backed batch paths and records no-op separately from updated work.
 - Why: FR-004 to FR-007 and FR-011 require bounded permission and actual-change evidence without claiming an OS-wide interceptor.
 - Impact: The runtime detects observable drift but does not infer semantic impact or overwrite external content.
-- Validation: Pending root final suite and independent junction evidence.
+- Initial validation note (historical): Pending root final suite and independent junction evidence.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-005-v2-runtime-artifact-boundary.md
 
 ### CR-20260906-001 - write-authorization-governance
@@ -31,7 +32,8 @@ Record changes to approval gates, privacy boundaries, forbidden actions, governa
 - After: Only closure evidence and policy can make writeback eligible; notes-only, paused, blocked, repair-needed, partial-failure, and legacy-read-only remain non-writing.
 - Why: FR-001, FR-005, FR-006, FR-011, and FR-012 require safe, truthful write authority boundaries.
 - Impact: No OS/ACL interception is claimed; checkpoint evidence has a stated limit.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-001-phase-boundary-cross-skill-documentation.md
 
 ### CR-20260829-001 - grill-failure-governance

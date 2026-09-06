@@ -21,7 +21,8 @@ Record changes to handoff contracts, downstream skill routing, A2A packets, or f
 - After: `begin-writeback --plan` freezes the handoff, and `verify-writeback` records actual hash evidence as `updated`, `no-op`, or failure/recovery.
 - Why: FR-005, FR-009, FR-011, and AC-005, AC-009, AC-011 require result-aware downstream behavior.
 - Impact: A report, returned call, or outer exit code cannot become writeback authorization or completion evidence.
-- Validation: Pending root final suite and independent junction evidence.
+- Initial validation note (historical): Pending root final suite and independent junction evidence.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-005-v2-runtime-artifact-boundary.md
 
 ### CR-20260906-001 - closure-backed-downstream-routing
@@ -31,7 +32,8 @@ Record changes to handoff contracts, downstream skill routing, A2A packets, or f
 - After: The map requires closure evidence and an eligible result before centralized formal writing; all other outcomes preserve state or request recovery.
 - Why: FR-005, FR-008, FR-009, and FR-012 require return-state-aware routing.
 - Impact: Legacy reports remain read-only and no downstream route can infer write authority from report existence.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-001-phase-boundary-cross-skill-documentation.md
 
 ### CR-20260829-001 - grill-downstream-contract

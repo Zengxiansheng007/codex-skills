@@ -19,3 +19,8 @@
 
 - The final runtime schema and behavior validation determine whether CR-20260906-003 can be promoted from applied.
 - Global installation and formal artifact writing remain separately governed.
+
+## Reviewed public documentation
+
+- CR-20260906-009: [reviewed documentation](entries/2026/2026-09/CR-20260906-009-reviewed-public-documentation.md), validated.
+- [Current documentation and evidence](https://github.com/Zengxiansheng007/codex-skills/tree/main/_requirements-docs/grill-phase-boundary-20260906).

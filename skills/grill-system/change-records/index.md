@@ -24,3 +24,8 @@
 - The legacy negative fixtures remain coverage evidence, not a complete V2 behavior proof; final V2 suites and QA evidence cover the candidate scope recorded in CR-20260906-005.
 - The failure classification remains a stable contract: any newly added class must never propagate to `completed` without a reviewed schema, validator, and downstream update.
 - CR-20260906-005 covers local workflow enforcement only. File-symlink creation was unavailable on this host; actual Windows directory-junction denial passed. It does not claim a global interceptor or semantic inference for external drift.
+
+## Reviewed public documentation
+
+- CR-20260906-007: [reviewed documentation](entries/2026/2026-09/CR-20260906-007-reviewed-public-documentation.md), validated.
+- [Current documentation and evidence](https://github.com/Zengxiansheng007/codex-skills/tree/main/_requirements-docs/grill-phase-boundary-20260906).

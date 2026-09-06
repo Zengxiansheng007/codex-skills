@@ -1,0 +1,20 @@
+{
+  "documentSet": "grill-phase-boundary",
+  "version": "1.0.0",
+  "codeBaseline": "b4fa50611f2f4c627903df2cc439ff483ce6cfc6",
+  "files": {
+    "acceptance-release-v1.0.md": "408f2d0b1e56dda7dfa1d9893583d5393458b2e3e9240681e508a6c7dbaee7e5",
+    "architecture-v1.0.md": "613142a2f55535a1809943c175186db84e24ab5b833406f1c378a21d6107fa31",
+    "development-plan-v1.0.md": "e87b430d35a5a09af7fa6bd974e0e637b81592018a71a64d2f6248a307395a6c",
+    "document-review-v1.0.md": "1f7e496a722374483b57c1cbb8ecc9aa0c7345cfcff263b622870ee062a64929",
+    "evidence-summary.json": "f3918371134c5ca2b2856e21a60682a051ce280f14f87b0181de1554368e3cfa",
+    "README.md": "20fbb85dff30df9e0aa55b0d74b66497e8868d2f3bc645da83d8e6ada67db945",
+    "requirements-prd-v1.0.md": "67ff1c0c7c6c51191f4bf35275f857e06d35a6b0cc026d6d4130b0a818388c86",
+    "retrospective-v1.0.md": "c88ccbda160ed8a80f6766d21e7d89079592b9e2e0e99d62d7f402c07bd052da",
+    "test-plan-and-results-v1.0.md": "0fa40584d58bc9d47fee3ff3733ff67c855def6b353481c1087f6322af047261",
+    "usage-v1.0.md": "d7c249cb8ee6599b2cef960dc6661db87c54f8faf2889324bdd2af70acde73df"
+  },
+  "selfHashExcluded": true,
+  "contentPolicy": "reviewed current-state documents and derived evidence summary only",
+  "rawPrivateEvidencePublished": false
+}

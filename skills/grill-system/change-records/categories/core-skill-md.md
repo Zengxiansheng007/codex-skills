@@ -20,7 +20,8 @@ Record changes to SKILL.md trigger wording, operating rules, workflow, decision 
 - After: The Skill documents the candidate phase/result semantics, one-ledger authority, closure evidence, notes-only behavior, exception lifecycle, external-edit handling, and active-Grill suppression for domain-modeling.
 - Why: FR-001 through FR-010 require every route and nested call to carry the same boundary.
 - Impact: Documentation now rejects per-question formal writes and report-based authorization while preserving standalone domain modeling.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: ../entries/2026/2026-09/CR-20260906-001-phase-boundary-cross-skill-documentation.md
 
 ### CR-20260829-001 - grill-skill-md-formal-gate

@@ -17,5 +17,6 @@ Track domain-modeling behavior when invoked by Grill.
 - Section changed: Grill Invocation Boundary.
 - Before: The caller had no documented non-writing result to consume.
 - After: Grill receives proposed terms and ADR candidates in its canonical ledger and the owning writer applies them only after eligible writeback.
-- Validation: Pending candidate structure, change-record, and runtime behavior checks.
+- Initial validation note (historical): Pending candidate structure, change-record, and runtime behavior checks.
+- Release validation: passed for the verified scope; see the current public documentation and evidence summary. File-symlink capability skip remains explicit.
 - Detail record: `../entries/2026/2026-09/CR-20260906-004-active-grill-domain-modeling.md`
