@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/requirement-anchor.schema.json",
+  "title": "Requirement Anchor",
+  "description": "Versioned anchor that prevents requirement drift across the development lifecycle. Codex-only authority (FR-001, FR-002, FR-006).",
+  "type": "object",
+  "required": [
+    "anchorId",
+    "version",
+    "originalGoal",
+    "approvedScope",
+    "nonGoals",
+    "frAc",
+    "confirmedDecisions",
+    "authorityOrder",
+    "allowedActions",
+    "forbiddenActions",
+    "sourceBaseline",
+    "currentIterationObjective"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "anchorId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for this anchor."
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "SemVer-style version string; bumped on any change."
+    },
+    "originalGoal": {"type": "string", "minLength": 1},
+    "approvedScope": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "nonGoals": {"type": "array", "items": {"type": "string"}},
+    "frAc": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Must contain at least one FR or AC id; empty anchors are rejected (AC-005)."
+    },
+    "confirmedDecisions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "authorityOrder": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Fixed authority precedence; first entry must reference Codex control plane (FR-002)."
+    },
+    "allowedActions": {"type": "array", "items": {"type": "string"}},
+    "forbiddenActions": {"type": "array", "items": {"type": "string"}},
+    "manualConfirmActions": {"type": "array", "items": {"type": "string"}},
+    "sourceBaseline": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "currentIterationObjective": {"type": "string", "minLength": 1},
+    "expectedFeedbackSchema": {"type": "string"},
+    "stopConditions": {"type": "array", "items": {"type": "string"}},
+    "nextState": {
+      "enum": [
+        "running",
+        "waiting-approval",
+        "blocked-external-dependency",
+        "blocked-user-decision",
+        "repair-needed",
+        "requirements-review",
+        "risk-gate-required",
+        "loop-limit-reached",
+        "resource-limit-reached",
+        "completed",
+        "failed"
+      ]
+    },
+    "cycleId": {"type": "string"},
+    "roundNumber": {"type": "integer", "minimum": 1}
+  }
+}

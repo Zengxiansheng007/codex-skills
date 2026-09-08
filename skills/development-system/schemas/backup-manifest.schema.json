@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["manifestId", "targetPath", "targetBaselineHash", "files", "filesHash", "createdAt", "rollbackPlanRef", "restoreValidation", "manifestHash"],
+  "properties": {
+    "manifestId": {"type": "string", "minLength": 1},
+    "targetPath": {"type": "string", "minLength": 1},
+    "targetBaselineHash": {"type": "string", "minLength": 1},
+    "files": {"type": "array", "minItems": 1},
+    "filesHash": {"type": "string", "minLength": 1},
+    "createdAt": {"type": "string", "minLength": 1},
+    "rollbackPlanRef": {"type": "string", "minLength": 1},
+    "restoreValidation": {"type": "string", "minLength": 1},
+    "manifestHash": {"type": "string", "minLength": 1}
+  }
+}
+

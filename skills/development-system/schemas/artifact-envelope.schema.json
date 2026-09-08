@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/artifact-envelope.schema.json",
+  "title": "Artifact Envelope",
+  "description": "Versioned artifact ownership and provenance envelope. Every PRD, architecture, phase, story, handoff, feedback, test evidence, defect and completion decision must carry this envelope (FR-007, FR-008).",
+  "type": "object",
+  "required": [
+    "artifactId",
+    "version",
+    "artifactType",
+    "owner",
+    "sourceAnchorId",
+    "sourceAnchorVersion",
+    "mappedFrAc",
+    "createdAt",
+    "derivedFrom"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "artifactId": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "artifactType": {
+      "enum": [
+        "requirement-anchor",
+        "prd",
+        "architecture",
+        "phase",
+        "story",
+        "handoff-packet",
+        "feedback-packet",
+        "test-evidence",
+        "defect",
+        "completion-decision",
+        "change-record",
+        "snapshot",
+        "event"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Artifact owner profile or skill; must be resolvable to a single owner (FR-007)."
+    },
+    "sourceAnchorId": {"type": "string", "minLength": 1},
+    "sourceAnchorVersion": {"type": "string", "minLength": 1},
+    "mappedFrAc": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "At least one FR or AC id required for traceability (AC-003)."
+    },
+    "createdAt": {"type": "string", "minLength": 1},
+    "derivedFrom": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Upstream artifact ids this artifact derives from; empty for root anchors."
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Artifact ids this artifact supersedes."
+    },
+    "contentHash": {"type": "string"},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}}
+  }
+}

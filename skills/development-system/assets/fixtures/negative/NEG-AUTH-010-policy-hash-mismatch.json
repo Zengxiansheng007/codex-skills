@@ -1,0 +1,15 @@
+{
+  "fixtureId": "NEG-AUTH-010",
+  "targetFunction": "validate_preauthorization_policy",
+  "description": "A policy changed after hashing must fail closed.",
+  "input": {
+    "mutation": "actions+publish"
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "policy-hash-mismatch",
+  "traceTo": [
+    "FR-TOT-010",
+    "FR-TOT-011",
+    "AC-TOT-008"
+  ]
+}

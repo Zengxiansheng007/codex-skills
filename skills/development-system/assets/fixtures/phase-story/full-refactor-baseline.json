@@ -1,0 +1,646 @@
+{
+  "documentId": "DS-PSR-001",
+  "version": "1.1",
+  "status": "confirmed-baseline",
+  "functionalRequirements": [
+    "FR-001",
+    "FR-002",
+    "FR-003",
+    "FR-004",
+    "FR-005",
+    "FR-006",
+    "FR-007",
+    "FR-008",
+    "FR-009",
+    "FR-010",
+    "FR-011",
+    "FR-012",
+    "FR-013",
+    "FR-014",
+    "FR-015",
+    "FR-016",
+    "FR-017",
+    "FR-018",
+    "FR-019",
+    "FR-020",
+    "FR-021",
+    "FR-022",
+    "FR-023",
+    "FR-024",
+    "FR-025",
+    "FR-026",
+    "FR-027",
+    "FR-028",
+    "FR-029",
+    "FR-030",
+    "FR-031",
+    "FR-032"
+  ],
+  "nonFunctionalRequirements": [
+    "NFR-001",
+    "NFR-002",
+    "NFR-003",
+    "NFR-004",
+    "NFR-005",
+    "NFR-006",
+    "NFR-007",
+    "NFR-008"
+  ],
+  "acceptanceCriteria": [
+    "AC-001",
+    "AC-002",
+    "AC-003",
+    "AC-004",
+    "AC-005",
+    "AC-006",
+    "AC-007",
+    "AC-008",
+    "AC-009",
+    "AC-010",
+    "AC-011",
+    "AC-012",
+    "AC-013",
+    "AC-014",
+    "AC-015",
+    "AC-016",
+    "AC-017",
+    "AC-018",
+    "AC-019",
+    "AC-020",
+    "AC-021",
+    "AC-022",
+    "AC-023",
+    "AC-024",
+    "AC-025",
+    "AC-026",
+    "AC-027",
+    "AC-028",
+    "AC-029",
+    "AC-030",
+    "AC-031",
+    "AC-032",
+    "AC-033",
+    "AC-034"
+  ],
+  "phases": [
+    {
+      "phaseId": "PH-01",
+      "entryCriteria": [
+        "Grill P0/P1/P2 open = 0",
+        "研究 P0/P1 evidence gaps = 0",
+        "本需求基线已确认"
+      ],
+      "exitCriteria": [
+        "最小纵向链路的所有对象可追踪",
+        "确定性强门禁和负向夹具能拒绝绕过",
+        "独立 Skill 所有权无冲突",
+        "后续 Phase 可直接扩展同一契约"
+      ],
+      "stories": [
+        {
+          "storyId": "PH1-ST-001",
+          "mappedRequirements": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ],
+          "acceptanceCriteria": [
+            "AC-001",
+            "AC-002"
+          ],
+          "dependsOn": []
+        },
+        {
+          "storyId": "PH1-ST-002",
+          "mappedRequirements": [
+            "FR-006",
+            "FR-007",
+            "FR-032"
+          ],
+          "acceptanceCriteria": [
+            "AC-003"
+          ],
+          "dependsOn": [
+            "PH1-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-003",
+          "mappedRequirements": [
+            "FR-004",
+            "FR-009"
+          ],
+          "acceptanceCriteria": [
+            "AC-004"
+          ],
+          "dependsOn": [
+            "PH1-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-004",
+          "mappedRequirements": [
+            "FR-008",
+            "NFR-007"
+          ],
+          "acceptanceCriteria": [
+            "AC-005"
+          ],
+          "dependsOn": [
+            "PH1-ST-002",
+            "PH1-ST-003"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-005",
+          "mappedRequirements": [
+            "FR-010",
+            "FR-011"
+          ],
+          "acceptanceCriteria": [
+            "AC-006"
+          ],
+          "dependsOn": [
+            "PH1-ST-004"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-006",
+          "mappedRequirements": [
+            "FR-012",
+            "FR-028"
+          ],
+          "acceptanceCriteria": [
+            "AC-007"
+          ],
+          "dependsOn": [
+            "PH1-ST-005"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-007",
+          "mappedRequirements": [
+            "FR-021",
+            "FR-031",
+            "NFR-003"
+          ],
+          "acceptanceCriteria": [
+            "AC-008"
+          ],
+          "dependsOn": [
+            "PH1-ST-002"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-008",
+          "mappedRequirements": [
+            "FR-013",
+            "FR-014"
+          ],
+          "acceptanceCriteria": [
+            "AC-009"
+          ],
+          "dependsOn": [
+            "PH1-ST-005",
+            "PH1-ST-007"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-009",
+          "mappedRequirements": [
+            "FR-015",
+            "FR-016",
+            "FR-017",
+            "FR-018",
+            "FR-019",
+            "FR-020"
+          ],
+          "acceptanceCriteria": [
+            "AC-010"
+          ],
+          "dependsOn": [
+            "PH1-ST-007",
+            "PH1-ST-008"
+          ]
+        },
+        {
+          "storyId": "PH1-ST-010",
+          "mappedRequirements": [
+            "FR-022",
+            "FR-023",
+            "NFR-001",
+            "NFR-004"
+          ],
+          "acceptanceCriteria": [
+            "AC-011"
+          ],
+          "dependsOn": [
+            "PH1-ST-001",
+            "PH1-ST-008"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-02",
+      "entryCriteria": [
+        "PH-01 passed",
+        "Claude Adapter 可用",
+        "用户预授权策略已登记",
+        "live 测试 workspace 已隔离"
+      ],
+      "exitCriteria": [
+        "真实单 Agent 闭环通过",
+        "越界与无效反馈路径 fail-closed",
+        "Codex 接管保持同一锚点和证据链"
+      ],
+      "stories": [
+        {
+          "storyId": "PH2-ST-001",
+          "mappedRequirements": [
+            "FR-024"
+          ],
+          "acceptanceCriteria": [
+            "AC-012"
+          ],
+          "dependsOn": [
+            "PH1-ST-010"
+          ]
+        },
+        {
+          "storyId": "PH2-ST-002",
+          "mappedRequirements": [
+            "FR-022",
+            "FR-025"
+          ],
+          "acceptanceCriteria": [
+            "AC-013"
+          ],
+          "dependsOn": [
+            "PH2-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH2-ST-003",
+          "mappedRequirements": [
+            "FR-010",
+            "FR-011",
+            "FR-013",
+            "FR-028"
+          ],
+          "acceptanceCriteria": [
+            "AC-014"
+          ],
+          "dependsOn": [
+            "PH2-ST-002"
+          ]
+        },
+        {
+          "storyId": "PH2-ST-004",
+          "mappedRequirements": [
+            "FR-027",
+            "NFR-006"
+          ],
+          "acceptanceCriteria": [
+            "AC-015"
+          ],
+          "dependsOn": [
+            "PH2-ST-003"
+          ]
+        },
+        {
+          "storyId": "PH2-ST-005",
+          "mappedRequirements": [
+            "FR-018",
+            "FR-019",
+            "FR-026"
+          ],
+          "acceptanceCriteria": [
+            "AC-016"
+          ],
+          "dependsOn": [
+            "PH2-ST-003"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-03",
+      "entryCriteria": [
+        "PH-02 passed",
+        "角色输入输出契约稳定"
+      ],
+      "exitCriteria": [
+        "五类职责均产生版本化 Artifact",
+        "缺陷能确定性返回所有者",
+        "外部独立 Skill 不被复制或覆盖"
+      ],
+      "stories": [
+        {
+          "storyId": "PH3-ST-001",
+          "mappedRequirements": [
+            "FR-006",
+            "FR-007",
+            "FR-009"
+          ],
+          "acceptanceCriteria": [
+            "AC-017"
+          ],
+          "dependsOn": [
+            "PH-02"
+          ]
+        },
+        {
+          "storyId": "PH3-ST-002",
+          "mappedRequirements": [
+            "FR-008",
+            "FR-009"
+          ],
+          "acceptanceCriteria": [
+            "AC-018"
+          ],
+          "dependsOn": [
+            "PH3-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH3-ST-003",
+          "mappedRequirements": [
+            "FR-024",
+            "FR-028"
+          ],
+          "acceptanceCriteria": [
+            "AC-019"
+          ],
+          "dependsOn": [
+            "PH3-ST-002"
+          ]
+        },
+        {
+          "storyId": "PH3-ST-004",
+          "mappedRequirements": [
+            "FR-012",
+            "FR-032"
+          ],
+          "acceptanceCriteria": [
+            "AC-020"
+          ],
+          "dependsOn": [
+            "PH3-ST-003"
+          ]
+        },
+        {
+          "storyId": "PH3-ST-005",
+          "mappedRequirements": [
+            "FR-003",
+            "FR-010"
+          ],
+          "acceptanceCriteria": [
+            "AC-021"
+          ],
+          "dependsOn": [
+            "PH3-ST-004"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-04",
+      "entryCriteria": [
+        "PH-03 passed",
+        "执行历史和 Snapshot 兼容性已验证"
+      ],
+      "exitCriteria": [
+        "中断后可恢复",
+        "无进展、重复失败、无效反馈、超时和轮次上限均按规则停止",
+        "HALF_OPEN 仅由 Codex 授权"
+      ],
+      "stories": [
+        {
+          "storyId": "PH4-ST-001",
+          "mappedRequirements": [
+            "FR-015",
+            "FR-020",
+            "FR-031"
+          ],
+          "acceptanceCriteria": [
+            "AC-022"
+          ],
+          "dependsOn": [
+            "PH-03"
+          ]
+        },
+        {
+          "storyId": "PH4-ST-002",
+          "mappedRequirements": [
+            "FR-016",
+            "FR-017",
+            "FR-018"
+          ],
+          "acceptanceCriteria": [
+            "AC-023"
+          ],
+          "dependsOn": [
+            "PH4-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH4-ST-003",
+          "mappedRequirements": [
+            "FR-019",
+            "FR-021",
+            "FR-026",
+            "NFR-003"
+          ],
+          "acceptanceCriteria": [
+            "AC-024"
+          ],
+          "dependsOn": [
+            "PH4-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH4-ST-004",
+          "mappedRequirements": [
+            "FR-016",
+            "FR-017",
+            "FR-022"
+          ],
+          "acceptanceCriteria": [
+            "AC-025"
+          ],
+          "dependsOn": [
+            "PH4-ST-002",
+            "PH4-ST-003"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-05",
+      "entryCriteria": [
+        "PH-04 passed",
+        "execution slot、workspace fingerprint 和 merge contract 已验证"
+      ],
+      "exitCriteria": [
+        "并行 Story 无 workspace 交叉写入",
+        "冲突在合并前被发现",
+        "每个反馈和证据可归属到唯一执行槽"
+      ],
+      "stories": [
+        {
+          "storyId": "PH5-ST-001",
+          "mappedRequirements": [
+            "FR-022",
+            "FR-029",
+            "NFR-005"
+          ],
+          "acceptanceCriteria": [
+            "AC-026"
+          ],
+          "dependsOn": [
+            "PH-04"
+          ]
+        },
+        {
+          "storyId": "PH5-ST-002",
+          "mappedRequirements": [
+            "FR-001",
+            "FR-029"
+          ],
+          "acceptanceCriteria": [
+            "AC-027"
+          ],
+          "dependsOn": [
+            "PH5-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH5-ST-003",
+          "mappedRequirements": [
+            "FR-007",
+            "FR-028",
+            "FR-029"
+          ],
+          "acceptanceCriteria": [
+            "AC-028"
+          ],
+          "dependsOn": [
+            "PH5-ST-002"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-06",
+      "entryCriteria": [
+        "PH-05 passed",
+        "资源计量来源可验证"
+      ],
+      "exitCriteria": [
+        "用户可观察所有受治理状态",
+        "资源门不会被 Agent 自报绕过",
+        "resource-limit-reached 与 completed 严格分离"
+      ],
+      "stories": [
+        {
+          "storyId": "PH6-ST-001",
+          "mappedRequirements": [
+            "FR-027",
+            "NFR-006"
+          ],
+          "acceptanceCriteria": [
+            "AC-029"
+          ],
+          "dependsOn": [
+            "PH-05"
+          ]
+        },
+        {
+          "storyId": "PH6-ST-002",
+          "mappedRequirements": [
+            "FR-030"
+          ],
+          "acceptanceCriteria": [
+            "AC-030"
+          ],
+          "dependsOn": [
+            "PH6-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH6-ST-003",
+          "mappedRequirements": [
+            "FR-002",
+            "FR-007",
+            "FR-032",
+            "NFR-002"
+          ],
+          "acceptanceCriteria": [
+            "AC-031"
+          ],
+          "dependsOn": [
+            "PH6-ST-002"
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": "PH-07",
+      "entryCriteria": [
+        "PH-06 passed",
+        "候选模块或 Adapter 有固定版本、许可和依赖清单"
+      ],
+      "exitCriteria": [
+        "准入、拒绝和回滚路径均可验证",
+        "任何接入均不改变 Codex 权威和 CompletionEvaluator 语义",
+        "旧版本兼容或迁移路径明确"
+      ],
+      "stories": [
+        {
+          "storyId": "PH7-ST-001",
+          "mappedRequirements": [
+            "FR-005"
+          ],
+          "acceptanceCriteria": [
+            "AC-032"
+          ],
+          "dependsOn": [
+            "PH-06"
+          ]
+        },
+        {
+          "storyId": "PH7-ST-002",
+          "mappedRequirements": [
+            "FR-005",
+            "FR-032"
+          ],
+          "acceptanceCriteria": [
+            "AC-033"
+          ],
+          "dependsOn": [
+            "PH7-ST-001"
+          ]
+        },
+        {
+          "storyId": "PH7-ST-003",
+          "mappedRequirements": [
+            "FR-003",
+            "FR-010",
+            "FR-029",
+            "NFR-007",
+            "NFR-008"
+          ],
+          "acceptanceCriteria": [
+            "AC-034"
+          ],
+          "dependsOn": [
+            "PH7-ST-002"
+          ]
+        }
+      ]
+    }
+  ]
+}

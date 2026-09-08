@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Atomic Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cycleId", "anchorId", "anchorVersion", "workspaceFingerprint", "lastSequenceIndex", "lastEventHash", "state", "phaseId", "storyId", "roundNumber", "heartbeatAt", "evidenceRefs", "nextAction", "writtenAt", "snapshotHash"],
+  "properties": {
+    "cycleId": {"type": "string", "minLength": 1},
+    "anchorId": {"type": "string", "minLength": 1},
+    "anchorVersion": {"type": "string", "minLength": 1},
+    "workspaceFingerprint": {"type": "string", "minLength": 1},
+    "lastSequenceIndex": {"type": "integer", "minimum": 1},
+    "lastEventHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "state": {"type": "string", "minLength": 1},
+    "phaseId": {"type": "string", "minLength": 1},
+    "storyId": {"type": "string", "minLength": 1},
+    "roundNumber": {"type": "integer", "minimum": 0, "maximum": 10},
+    "heartbeatAt": {"type": "string", "minLength": 1},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}},
+    "nextAction": {"type": "string", "minLength": 1},
+    "writtenAt": {"type": "string", "minLength": 1},
+    "snapshotHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "counters": {"type": "object"}
+  }
+}

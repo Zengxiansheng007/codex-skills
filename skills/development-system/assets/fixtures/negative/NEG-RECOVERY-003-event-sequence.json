@@ -1,0 +1,13 @@
+{
+  "fixtureId": "NEG-RECOVERY-003",
+  "targetFunction": "validate_history",
+  "description": "A non-contiguous event sequence must invalidate the append-only history.",
+  "input": {
+    "eventSequence": [1, 3],
+    "previousHashMode": "otherwise-valid"
+  },
+  "expectedError": "line-2-sequence",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "event-sequence-mismatch",
+  "traceTo": ["FR-021", "AC-008"]
+}

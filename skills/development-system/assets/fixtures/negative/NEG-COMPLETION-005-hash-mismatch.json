@@ -1,0 +1,29 @@
+{
+  "fixtureId": "NEG-COMPLETION-005",
+  "targetFunction": "evaluate_completion",
+  "description": "A feedbackHash that does not equal the canonical SHA-256 of the supplied feedback object must not produce completed. This detects packet substitution or tampering.",
+  "input": {
+    "allStoriesPassed": true,
+    "allAcceptanceCriteriaVerified": true,
+    "feedback": {"packetId": "FB-005", "result": "completed"},
+    "feedbackValidation": {
+      "schemaRef": "feedback-packet.schema.json",
+      "validatorId": "handoff-feedback-reviewer",
+      "feedbackHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "ok": true,
+      "errorCount": 0,
+      "validatedAt": "2026-08-15T00:00:00Z"
+    },
+    "evidenceComplete": true,
+    "qaPassed": true,
+    "driftSeverity": "none",
+    "unmappedActions": [],
+    "permissionGatePassed": true,
+    "riskGatePassed": true,
+    "codexReviewPassed": true
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "feedbackHash-mismatch",
+  "traceTo": ["FR-011", "FR-013", "AC-006", "AC-009", "AC-014", "REPAIR-ST-001"]
+}

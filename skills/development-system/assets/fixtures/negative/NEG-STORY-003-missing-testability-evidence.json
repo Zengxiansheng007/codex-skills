@@ -1,0 +1,16 @@
+{
+  "fixtureId": "NEG-STORY-003",
+  "description": "A story with missing testability and evidenceRequirements. The validator must reject it (AC-005).",
+  "story": {
+    "storyId": "PH1-ST-BAD-003",
+    "title": "Story missing testability and evidence",
+    "goal": "This story has no testability or evidence requirements.",
+    "mappedRequirements": ["FR-008"],
+    "acceptanceCriteria": ["AC-005"],
+    "dependsOn": [],
+    "testability": "",
+    "evidenceRequirements": []
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "AC-005"
+}

@@ -1,0 +1,45 @@
+{
+  "fixtureId": "NEG-STORY-004",
+  "description": "Three stories form a dependency cycle A->B->C->A. The validator must detect and reject the cycle.",
+  "phase": {
+    "phaseId": "PH-CYCLE",
+    "name": "Cycle phase",
+    "goal": "Test dependency cycle detection.",
+    "entryCriteria": ["test"],
+    "exitCriteria": ["test"],
+    "stories": [
+      {
+        "storyId": "ST-CYCLE-A",
+        "title": "A",
+        "goal": "depends on B",
+        "mappedRequirements": ["FR-001"],
+        "acceptanceCriteria": ["AC-001"],
+        "dependsOn": ["ST-CYCLE-B"],
+        "testability": "validator",
+        "evidenceRequirements": ["test"]
+      },
+      {
+        "storyId": "ST-CYCLE-B",
+        "title": "B",
+        "goal": "depends on C",
+        "mappedRequirements": ["FR-001"],
+        "acceptanceCriteria": ["AC-001"],
+        "dependsOn": ["ST-CYCLE-C"],
+        "testability": "validator",
+        "evidenceRequirements": ["test"]
+      },
+      {
+        "storyId": "ST-CYCLE-C",
+        "title": "C",
+        "goal": "depends on A",
+        "mappedRequirements": ["FR-001"],
+        "acceptanceCriteria": ["AC-001"],
+        "dependsOn": ["ST-CYCLE-A"],
+        "testability": "validator",
+        "evidenceRequirements": ["test"]
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "dependency-cycle"
+}

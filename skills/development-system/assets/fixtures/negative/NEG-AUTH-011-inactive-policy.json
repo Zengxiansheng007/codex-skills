@@ -1,0 +1,15 @@
+{
+  "fixtureId": "NEG-AUTH-011",
+  "targetFunction": "validate_preauthorization_policy",
+  "description": "A revoked policy must not authorize execution.",
+  "input": {
+    "status": "revoked"
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "policy-not-active",
+  "traceTo": [
+    "FR-TOT-010",
+    "FR-TOT-016",
+    "AC-TOT-007"
+  ]
+}

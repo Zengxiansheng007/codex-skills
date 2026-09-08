@@ -1,0 +1,23 @@
+{
+  "fixtureId": "NEG-CLW2-002",
+  "targetFunction": "validate_story_graph",
+  "description": "A Story that depends on an unknown Story ID must be rejected with a P0 finding before selection.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-DEP-USER",
+        "title": "Story with unknown dependency",
+        "goal": "Depends on a Story that does not exist.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": ["CLW-ST-201-DOES-NOT-EXIST"],
+        "priority": 1,
+        "status": "pending"
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "story-dependency-unknown",
+  "expectedRejectionSeverity": "P0",
+  "traceTo": ["FR-CLW2-001", "AC-CLW2-001"]
+}

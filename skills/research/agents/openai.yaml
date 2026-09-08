@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Router"
+  short_description: "AnySearch default; guided on explicit choice; fail-closed recovery."
+  default_prompt: "Use research to retrieve public evidence with the requested provider, preserve progress and pause on non-quota faults."

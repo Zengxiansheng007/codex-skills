@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pipeline-plan.schema.json",
+  "title": "Governed baseline pipeline phase inputs",
+  "type": "object",
+  "required": ["planType", "requirementAnchor", "researchId", "roundId", "ledgerSha256", "baselineCommit", "sourceStateHash", "derivedFrom", "citationPatch", "themes", "tension", "critique"],
+  "properties": {
+    "planType": {"enum": ["fixture", "live-scholarly"]},
+    "requirementAnchor": {"type": "string", "minLength": 1},
+    "researchId": {"type": "string", "minLength": 1},
+    "roundId": {"type": "string", "minLength": 1},
+    "ledgerSha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "baselineCommit": {"type": "string", "pattern": "^[a-fA-F0-9]{40}$"},
+    "sourceStateHash": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "derivedFrom": {"type": "array", "minItems": 1},
+    "liveEvidenceRefs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "syntheticPhaseData": {"type": "boolean"},
+    "citationPatch": {"type": "object", "required": ["new_records", "query_entry"]},
+    "themes": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["name"]}},
+    "tension": {"type": "object", "required": ["topic", "sides"]},
+    "critique": {"type": "object", "required": ["finding", "resolution", "appendix"]}
+  },
+  "additionalProperties": true
+}

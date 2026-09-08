@@ -1,0 +1,24 @@
+{
+  "fixtureId": "NEG-DRYRUN-003",
+  "targetFunction": "evaluate_dry_run_gate",
+  "description": "A wrong policy hash must not bypass the dry-run gate.",
+  "input": {
+    "packetHash": "abc123",
+    "policyHash": "wrong-policy",
+    "dryRunRecords": [
+      {
+        "packetHash": "abc123",
+        "policyHash": "correct-policy",
+        "status": "DRY_RUN_OK"
+      }
+    ]
+  },
+  "expectedAllowed": false,
+  "expectedStatus": "DRY_RUN_MISSING",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "no-dry-run-record-for-this-packet-policy-combo",
+  "traceTo": [
+    "FR-TOT-012",
+    "AC-TOT-009"
+  ]
+}

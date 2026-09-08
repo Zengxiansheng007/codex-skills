@@ -1,0 +1,23 @@
+{
+  "fixtureId": "NEG-CLW2-004",
+  "targetFunction": "validate_story_graph",
+  "description": "A Story with empty mappedRequirements or acceptanceCriteria must be rejected with a P1 finding before selection.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-NO-TRACE",
+        "title": "Story without FR/AC mapping",
+        "goal": "Missing both mappedRequirements and acceptanceCriteria.",
+        "mappedRequirements": [],
+        "acceptanceCriteria": [],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRules": ["story-fr-ac-missing", "story-acceptance-missing"],
+  "expectedRejectionSeverity": "P1",
+  "traceTo": ["FR-CLW2-001", "AC-CLW2-001"]
+}

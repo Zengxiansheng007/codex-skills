@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Runtime State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cycleId", "anchorId", "anchorVersion", "phaseId", "storyId", "roundNumber", "state", "circuitState", "workspaceFingerprint", "heartbeatAt", "evidenceRefs", "nextAction"],
+  "properties": {
+    "cycleId": {"type": "string", "minLength": 1},
+    "anchorId": {"type": "string", "minLength": 1},
+    "anchorVersion": {"type": "string", "minLength": 1},
+    "phaseId": {"type": "string", "pattern": "^PH-[0-9]{2}$"},
+    "storyId": {"type": "string", "pattern": "^PH[0-9]+-ST-[0-9]{3}$"},
+    "roundNumber": {"type": "integer", "minimum": 0, "maximum": 10},
+    "state": {"enum": ["running", "waiting-approval", "blocked-external-dependency", "blocked-user-decision", "repair-needed", "requirements-review", "risk-gate-required", "loop-limit-reached", "resource-limit-reached", "completed", "failed"]},
+    "circuitState": {"enum": ["CLOSED", "OPEN", "HALF_OPEN"]},
+    "workspaceFingerprint": {"type": "string", "minLength": 1},
+    "heartbeatAt": {"type": "string", "minLength": 1},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "nextAction": {"type": "string", "minLength": 1},
+    "blocker": {"type": ["string", "null"]},
+    "counters": {"type": "object"}
+  }
+}

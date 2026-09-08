@@ -1,0 +1,14 @@
+{
+  "fixtureId": "NEG-METAGPT-001",
+  "targetFunction": "evaluate_module_admission",
+  "description": "A MetaGPT code candidate missing version, dependency, isolation, exception, test, and rollback evidence remains reference-only.",
+  "input": {
+    "license": "MIT",
+    "codeRequested": true
+  },
+  "expectedClassification": "reference-only",
+  "expectedAdmitted": false,
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "metagpt-admission-evidence-incomplete",
+  "traceTo": ["FR-005", "AC-032"]
+}

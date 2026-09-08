@@ -1,0 +1,14 @@
+{
+  "fixtureId": "NEG-STATE-001",
+  "targetFunction": "validate_transition",
+  "description": "The undeclared cancelled-or-superseded state must be rejected because DS-PSR-001 defines exactly 11 governed runtime states.",
+  "input": {
+    "currentState": "running",
+    "nextState": "cancelled-or-superseded",
+    "actor": "Codex"
+  },
+  "expectedState": "running",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "unknown-governed-state",
+  "traceTo": ["FR-027", "NFR-007", "REPAIR-ST-002"]
+}

@@ -1,0 +1,31 @@
+{
+  "fixtureId": "POS-CLW-101-MEDIUM",
+  "targetFunction": "evaluate_live_handoff_stories",
+  "description": "A Medium Story with a valid profile is executable.",
+  "input": {
+    "packetId": "HND-CLW-MEDIUM-001",
+    "packetType": "handoff",
+    "version": "1.0",
+    "storyProfile": {
+      "profileId": "CLW-PROFILE-MEDIUM",
+      "size": "medium",
+      "initialTimeoutSeconds": 1800,
+      "noProgressTimeoutSeconds": 1800,
+      "extensionSliceSeconds": 900,
+      "attemptHardDeadlineSeconds": 5400,
+      "storyTotalDeadlineSeconds": 14400,
+      "maxRounds": 3
+    },
+    "stories": [
+      {
+        "storyId": "CLW-ST-101-MEDIUM",
+        "title": "Medium Story positive",
+        "goal": "Execute a medium feature implementation."
+      }
+    ]
+  },
+  "expectedDecision": "execute",
+  "expectedAllowed": true,
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW-001", "FR-CLW-002", "AC-CLW-001", "AC-CLW-002"]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Completion Evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["allStoriesPassed", "allAcceptanceCriteriaVerified", "feedback", "feedbackValidation", "evidenceComplete", "qaPassed", "driftSeverity", "unmappedActions", "permissionGatePassed", "riskGatePassed", "codexReviewPassed"],
+  "properties": {
+    "allStoriesPassed": {"type": "boolean"},
+    "allAcceptanceCriteriaVerified": {"type": "boolean"},
+    "feedback": {"type": "object", "minProperties": 1},
+    "feedbackValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaRef", "validatorId", "feedbackHash", "ok", "errorCount", "validatedAt"],
+      "properties": {
+        "schemaRef": {"type": "string", "minLength": 1},
+        "validatorId": {"type": "string", "minLength": 1},
+        "feedbackHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "ok": {"const": true},
+        "errorCount": {"const": 0},
+        "errors": {"type": "array", "items": {"type": "string"}, "maxItems": 0},
+        "validatedAt": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidenceComplete": {"type": "boolean"},
+    "qaPassed": {"type": "boolean"},
+    "driftSeverity": {"enum": ["none", "allowed", "P0", "P1", "P2", "P3"]},
+    "unmappedActions": {"type": "array", "items": {"type": "string"}},
+    "permissionGatePassed": {"type": "boolean"},
+    "riskGatePassed": {"type": "boolean"},
+    "codexReviewPassed": {"type": "boolean"},
+    "agentCompletionClaim": {"type": "boolean"},
+    "stopSignal": {"type": "string"}
+  }
+}

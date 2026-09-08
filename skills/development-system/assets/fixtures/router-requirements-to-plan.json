@@ -1,0 +1,12 @@
+{
+  "fixtureId": "router-requirements-to-plan",
+  "inputTask": "根据需求生成 PRD、开发计划和测试计划。",
+  "expectedRoute": ["write-prd"],
+  "manualApprovalRequired": false,
+  "requiredObservableMarkers": [
+    "requirement anchor",
+    "PRD",
+    "development plan",
+    "test plan"
+  ]
+}

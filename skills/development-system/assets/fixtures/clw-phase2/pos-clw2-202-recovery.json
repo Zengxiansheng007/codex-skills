@@ -1,0 +1,1 @@
+{"fixtureId":"POS-CLW2-202-RECOVERY","targetFunction":"resume_cycle","description":"Hash-linked history and matching aggregate snapshot resume the current Story without re-executing passed Stories.","expectedValidation":"accept","traceTo":["FR-CLW2-005","FR-CLW2-006","FR-CLW2-007","AC-CLW2-006","AC-CLW2-009"]}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/live-handoff-story-envelope.schema.json",
+  "title": "Live Handoff Story Envelope",
+  "description": "CLW-ST-101: A live handoff packet must identify exactly one Story with a Story Profile. Multiple Stories are rejected before live execution (FR-CLW-001, AC-CLW-001).",
+  "type": "object",
+  "required": [
+    "packetId",
+    "packetType",
+    "version",
+    "storyProfile",
+    "stories"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "packetId": {"type": "string", "minLength": 1},
+    "packetType": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "storyProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {"type": "string", "minLength": 1},
+        "size": {"enum": ["small", "medium", "large"]},
+        "initialTimeoutSeconds": {"type": "integer", "minimum": 1},
+        "noProgressTimeoutSeconds": {"type": "integer", "minimum": 1},
+        "extensionSliceSeconds": {"type": "integer", "minimum": 1},
+        "attemptHardDeadlineSeconds": {"type": "integer", "minimum": 1},
+        "storyTotalDeadlineSeconds": {"type": "integer", "minimum": 1},
+        "maxRounds": {"type": "integer", "minimum": 1, "maximum": 3},
+        "splitRequired": {"type": "boolean"}
+      },
+      "oneOf": [
+        {"properties": {"size": {"enum": ["small", "medium"]}}, "required": ["profileId", "size", "initialTimeoutSeconds", "noProgressTimeoutSeconds", "extensionSliceSeconds", "attemptHardDeadlineSeconds", "storyTotalDeadlineSeconds", "maxRounds"]},
+        {"properties": {"size": {"const": "large"}, "splitRequired": {"const": true}}, "required": ["profileId", "size", "splitRequired"]}
+      ]
+    },
+    "stories": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["storyId", "title", "goal"],
+        "additionalProperties": true,
+        "properties": {
+          "storyId": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "goal": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

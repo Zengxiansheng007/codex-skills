@@ -1,0 +1,1979 @@
+{
+  "releaseId": "research-routing-20260908",
+  "repositoryBaseCommit": "60f583c61b748c98c2b64c12b1d689881cd8c615",
+  "packages": [
+    "anysearch",
+    "development-system",
+    "handoff-feedback-reviewer",
+    "research",
+    "research-guided"
+  ],
+  "candidateArchiveSha256": "9de2a0b23bf89e2826ad5fdc111d222cba43a3a0f85aba9f32c4d937ab8c38a1",
+  "files": [
+    {
+      "package": "anysearch",
+      "path": ".env.example",
+      "sha256": "38ba2a57290ff77882cb28ce5496722d86c0eb4e5176628bc280eb798d4ffbca",
+      "size": 375
+    },
+    {
+      "package": "anysearch",
+      "path": ".gitattributes",
+      "sha256": "1d5d71dcc6ccd28ab46a335349ecc74742ca4b81f4fcad212f8d134f70f1f13e",
+      "size": 17
+    },
+    {
+      "package": "anysearch",
+      "path": ".gitignore",
+      "sha256": "c46c6f288d3ec1733bd66ec8f2649cde63acef481c92c5f7e6926b4f0186a462",
+      "size": 35
+    },
+    {
+      "package": "anysearch",
+      "path": "LICENSE",
+      "sha256": "07a854e52ab475b19ac2bed1bb1e014da7be2e9613aa27a86808f07dba531d94",
+      "size": 11215
+    },
+    {
+      "package": "anysearch",
+      "path": "NOTICE",
+      "sha256": "5eab122dbb6c1198640222c32c15e57cee925c884619edfb133b3f210b24c9b2",
+      "size": 90
+    },
+    {
+      "package": "anysearch",
+      "path": "README.md",
+      "sha256": "a090f413a5c48dfbb03364862439e08aa8506d069ccf57f2b45e98faef4a2602",
+      "size": 11547
+    },
+    {
+      "package": "anysearch",
+      "path": "README_zh.md",
+      "sha256": "eecb62f19a1a7dfe5c64780f2b1849d9df4bdf5950d9e864774c827e27976c69",
+      "size": 11507
+    },
+    {
+      "package": "anysearch",
+      "path": "requirements.txt",
+      "sha256": "e6f639fef7f09e79c31bb68bf232e83a09e832c8fc9e1d1818514ca9b20d4713",
+      "size": 183
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/anysearch_cli.js",
+      "sha256": "c11c32aecbe3e330385850fbf88696a4188dc23b0dadbeb3f7a9297b57f23e5c",
+      "size": 21113
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/anysearch_cli.ps1",
+      "sha256": "7c8cfcdb174ccd988970c739d51b93b1450a5adb496109a63c0f177153f7d2a1",
+      "size": 29722
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/anysearch_cli.py",
+      "sha256": "4045623cc09f3289a17ddb83dd91c0039bb85d37eb809ebaa4e8dd8777ebcaae",
+      "size": 27646
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/anysearch_cli.sh",
+      "sha256": "7f1002271640d97f14b1bdd317b55ddcc20dfa0bcd21f3a276f05764c2337e33",
+      "size": 22070
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/generate.py",
+      "sha256": "8313494e60b6c3ff55d93cf0d2cbe49da5d63df02c158657d4df95b9eee628ac",
+      "size": 9568
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/shared/constants.json",
+      "sha256": "8464aa5b51181ff76438c9275852e73d29216471d1b91d94682a270305869d20",
+      "size": 278
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/shared/doc_spec.md",
+      "sha256": "3fe372d6d5efd02324c073500d904b2209943ba5be9ee7e077cb1efeb9532f85",
+      "size": 10292
+    },
+    {
+      "package": "anysearch",
+      "path": "scripts/test_cli.py",
+      "sha256": "93e9112dd80d34d136e9f92e23f0c8e7525da03490d9a3481ef2c5e8f8cfc51a",
+      "size": 12916
+    },
+    {
+      "package": "anysearch",
+      "path": "SECURITY.md",
+      "sha256": "37bb52a2b58e86b950bce1bc905d454ca977c166094d9da9edfd8c7b58bb150a",
+      "size": 1222
+    },
+    {
+      "package": "anysearch",
+      "path": "SHA256SUMS.txt",
+      "sha256": "8d24f50e4a929a93ec20d3ea612aa43c75ce0801799021b2c8b244700a7d3465",
+      "size": 365
+    },
+    {
+      "package": "anysearch",
+      "path": "SKILL.md",
+      "sha256": "54702f6066dc76cb2b3c04ba556404e6113b1cdcf0f63120ef3306343f9ab25e",
+      "size": 12647
+    },
+    {
+      "package": "development-system",
+      "path": "agents/openai.yaml",
+      "sha256": "b9754c4f3985772b04c021ea889f8662c2fa806830bc693ced84a7a630f3491c",
+      "size": 235
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-001-cycle.json",
+      "sha256": "132994efa69b907be82116d613a91b28eaf16089d505c626a5844b504203e615",
+      "size": 1059
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-002-unknown-dependency.json",
+      "sha256": "ce340b13788f96eb9be833fed306b7a9db7c2ae3dc4ade96eb517ba6a9e099f9",
+      "size": 770
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-003-duplicate-id.json",
+      "sha256": "83bbf77552ff85dc3224d24b6c90fcc5a762958fd2dec961797a85d6a0dfa8c3",
+      "size": 1009
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-004-missing-fr-ac.json",
+      "sha256": "ef270860abdc5f4f727d4ec1e24133f03960e9dea7ebf554c4b3ca3c44439a76",
+      "size": 773
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-005-single-active.json",
+      "sha256": "d564102028d896f52fe071e8b23b86eecbe69a567947bff353d60f867da18e9e",
+      "size": 1237
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-006-dependency-blocker.json",
+      "sha256": "a253b16de2e71288495e3066289f595197b9ecd8f28dbb0b227e6ffac1adaabf",
+      "size": 1202
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-007-false-agent-completion.json",
+      "sha256": "7e66b8d55a3594a6ed7b1bc2bf89936f9b3000606830426fd0e46f1162192101",
+      "size": 939
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-202-crash-gap.json",
+      "sha256": "d7ed2034254a0f1ed9fc9246a45d1cebc65ae85798809def15a5a9a516d66a44",
+      "size": 298
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-202-history-tamper.json",
+      "sha256": "aa865036d1aa7de3eaa0259c42fcb9e9b2032f002d3f442021d30405351b8d2c",
+      "size": 275
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-202-identity-drift.json",
+      "sha256": "ff6eca1e3a57d11a22d374be1a313b08e982f267ddcb1242060ba070bfc8fc17",
+      "size": 366
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/neg-clw2-202-snapshot-tamper.json",
+      "sha256": "3fda4e0be20ddf548d45ea1c52082143e1ba7af276b097eff492de98be2b9759",
+      "size": 276
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/pos-clw2-001-valid-dag.json",
+      "sha256": "446d96ba690126f776beef48f66f8438b59b30e930883296b8cd095521a84a5d",
+      "size": 1259
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/pos-clw2-002-stable-selection.json",
+      "sha256": "ec10dc336095b18fabae252710ef550c3731da43fd0b795b9dd95c0ebc41587b",
+      "size": 1410
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/pos-clw2-003-dependency-completed.json",
+      "sha256": "aba0b9a8cdc2e2967199f5763c496870dc3b620aaf76fd57bf9033621e9da6cd",
+      "size": 1120
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/pos-clw2-004-story-completion-gate.json",
+      "sha256": "8b520483da9a83c2d71612ee91c90b915ada7d59b2f6c0d05250158a0a33327f",
+      "size": 809
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase2/pos-clw2-202-recovery.json",
+      "sha256": "3d84675d4a50cbff44fe89dc3d58f9e47b928006e66109c899136b34442f4480",
+      "size": 312
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase3/neg-clw3-001-write-conflict.json",
+      "sha256": "bd2f76363a6c87f5c3eb28de474ee160f82173de35669100130386a160b40187",
+      "size": 362
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase3/neg-clw3-002-merge-conflict.json",
+      "sha256": "40c0fa686195e8bb86e1f7cd94ebed3ab7015b61149c219c5a6d3b6fff2d4119",
+      "size": 384
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase3/pos-clw3-301-slot.json",
+      "sha256": "0c450b66b9d85612ab6a18f796fecf989fd413e86207ef9156fa6ae8a45d95bb",
+      "size": 324
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase3/pos-clw3-303-integration.json",
+      "sha256": "d31523c3a9de404b30ded158f8bb3dd839a569451927ee8c1f3ccaba5385b13b",
+      "size": 349
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase4/neg-clw4-001-profile-authority.json",
+      "sha256": "8c95f60ee3e5f4985e801f6bf4fffed98bce55b4cebe0f3629c1df84d49c7dae",
+      "size": 315
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase4/neg-clw4-002-feedback-drift.json",
+      "sha256": "4375b75875d562a3484381af0f689c562498f99c149e832984c088dacf5f403e",
+      "size": 349
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase4/neg-clw4-003-feedback-lineage.json",
+      "sha256": "e2b9fbf9dfb0ef9acff6499ebc301066a2cea7106d6146d87269226d6ceeff09",
+      "size": 322
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase4/pos-clw4-001-profile.json",
+      "sha256": "e2c73ad56d46be3c11e460d5c8cdf06ac360d69771cd62c5d5ec3b5361e0a0df",
+      "size": 307
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-phase4/pos-clw4-003-feedback.json",
+      "sha256": "37b89a8b7837ff8a33041c8b97ed972b8e9f1dc4864eb5f36bebdd2cff49718a",
+      "size": 282
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-st-101/neg-clw-001-multi-story.json",
+      "sha256": "31a1399acddbc314c555b38e8286be43c25450016f52072a525219a9498e3e09",
+      "size": 968
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-st-101/neg-clw-002-large-story.json",
+      "sha256": "acb1978656d4faf32295a38aac18a4db4d5d23cdaf2609b77224cfb992360d5c",
+      "size": 892
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-st-101/pos-clw-101-medium.json",
+      "sha256": "b386f50c0ac47cb8af37f3f9b7f2d43030c36491ef88b0dffffb6c65b8e7f128",
+      "size": 928
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/clw-st-101/pos-clw-101-small.json",
+      "sha256": "cd7779b17cb4b9b13879a26863090c90d2f71f6db7710eb049fa4e0fffcf8296",
+      "size": 913
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-001-workspace-boundary.json",
+      "sha256": "36fd5a26bac92ef2991eb89a854d834a5fc49db33e51deac521fcacbfb060b6a",
+      "size": 1335
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-002-incomplete-preauthorization.json",
+      "sha256": "418676423e10793ddda45895199568db87c267d407bd15a8c887db71a19b1b0d",
+      "size": 1341
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-003-user-skill-install.json",
+      "sha256": "f2e98300ec9a38da4be8503a6d7e735d1c95a64dd19d7a683c44a1bcc85c1923",
+      "size": 607
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-004-credential-mismatch.json",
+      "sha256": "642f22503aef0672934e3d969bc0d17bf6662e4d57ca542ec81888b6159c4c17",
+      "size": 2086
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-005-schema-mismatch.json",
+      "sha256": "a0dad4b1c031097130c8dffcf07bdd8837030163b8f7e9957497a364fc175ef1",
+      "size": 2072
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-006-rounds-overflow.json",
+      "sha256": "f5bea0380916fd98f6a381572df72f7444bdce225e7c44c0b4464a97981ef3da",
+      "size": 2076
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-007-concurrency-overflow.json",
+      "sha256": "3f9525b638f50efdee9638d7d4196889ccbf8b053e435fa4dcf0e67febee1999",
+      "size": 2076
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-008-stopcondition-mismatch.json",
+      "sha256": "489565649872883630862a192e53d471600ab4d2622cb829c344a4c13d9d60fa",
+      "size": 2059
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-009-expired-policy.json",
+      "sha256": "0dc4a79099c13f35b033539ae751c4c743de18b973731109bc04a2bab4fe35dc",
+      "size": 448
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-010-policy-hash-mismatch.json",
+      "sha256": "144ee8152fa9adb7439973224d12e39ff80123d463465700f5e92aa961df0ee3",
+      "size": 382
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-AUTH-011-inactive-policy.json",
+      "sha256": "8df9889d3ca8c5f8587db06ec64a4836f5e891a25194c872e9ed599b4d455ec3",
+      "size": 367
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-001-agent-claim.json",
+      "sha256": "4367a100028552dce1c39d7fee9dd8884a8bc17fc00ff20cf791d662b4d252f3",
+      "size": 763
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-002-timeout-completed.json",
+      "sha256": "2c08ed88bd9f9b613e90a37a638c18c6ecfca79ea7ea4b451196d34c95bd3879",
+      "size": 802
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-003-drift-completed.json",
+      "sha256": "0b9ebf4b9f5b1ddaae9be2ee4a40b677cf5edec3b1323b14097241920145d531",
+      "size": 1040
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-004-missing-validation-evidence.json",
+      "sha256": "c4fb78817f6c162622edf4837fb7fdc59cd71ebbe61cdf9776187cdca613091b",
+      "size": 936
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-005-hash-mismatch.json",
+      "sha256": "5b75f38a970a574c2828411f02171a4977f98235694fe779eecd740a701f64f7",
+      "size": 1134
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-COMPLETION-006-schema-errors.json",
+      "sha256": "c9b5a5c69b8a37329b7b30ae7a0be25d2238ecfd07da0061982ec8d96c9769d0",
+      "size": 1198
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-DRYRUN-001-no-manifest.json",
+      "sha256": "a6b9491f5ad6f8cdd75932f8580e49400bf9125260789c268804acb4a406aeaf",
+      "size": 530
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-DRYRUN-002-wrong-packet.json",
+      "sha256": "e8de73078cc07358740c8e379dec785f95e5979d9dac809281720bc263631f78",
+      "size": 638
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-DRYRUN-003-wrong-policy-hash.json",
+      "sha256": "f49ea723b10bbb139ad351dfbee437ed18820e89f8d58e9fe28902732465b5c3",
+      "size": 638
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-DRYRUN-004-manifest-hash-mismatch.json",
+      "sha256": "f6236c69aa3ca7381fb7ff8b92f666a6eac3f33556515b96f195fd600e3cbed5",
+      "size": 378
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-LOOP-001-no-progress.json",
+      "sha256": "00215b44667fe746d6723463c5b2339aaa01b1d7b2cf52745f59f7e22cfe3261",
+      "size": 670
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-LOOP-002-round-eleven.json",
+      "sha256": "95593c5580d403b75bd5a6f2d869cac1c4d74dc371871fa8b766fa3ee8c3c520",
+      "size": 568
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-MERGE-001-write-conflict.json",
+      "sha256": "3c3919ea0930b5edbd3f4cb19266a7b928d6a4f61713566baacad19efb602b51",
+      "size": 629
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-METAGPT-001-missing-admission-evidence.json",
+      "sha256": "3782c62b3b017f2f83da713b78fab3456e3e100c72b0aa4fa41e305e427531d6",
+      "size": 512
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-OWNERSHIP-001-private-profile-global-clash.json",
+      "sha256": "3b90684547b3861ee411dda926e19f469ffea7e21e7c1f9231e12bc8810b90dc",
+      "size": 486
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-001-spawn-failure.json",
+      "sha256": "88b322891008380cf0220515f43d267860eae38ba5336cad689811705ebdc9fd",
+      "size": 2118
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-002-timeout.json",
+      "sha256": "9ac63409655e221cf9d6e5336f22698995c16b2f4b52fb8db6cc6932d0e86015",
+      "size": 2202
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-003-invalid-feedback.json",
+      "sha256": "5ee3fdc8e937f4ce7e2a887d7bff92b4613fd61ef174dbe515f3570d318c042d",
+      "size": 2111
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-004-p1-drift.json",
+      "sha256": "e10ac40d58fc4b25dd40b8e46f5df54ed0bc9e462ebce584543b7f8e1812d8e2",
+      "size": 2321
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-005-unmapped-action.json",
+      "sha256": "bb3a8e2cb0d5fd6e161c899681eba97dd13121f7f518223c4d1cb1da9a2b300d",
+      "size": 2369
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-006-stale-field.json",
+      "sha256": "5285c6ded7b818fac58aa55921dd614200f6f4a89c238cc806ca405a0a0f7c07",
+      "size": 2327
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-007-evidence-gap.json",
+      "sha256": "8ea5b5358410cc26f16fd3a0456e5f5486750a22de8fd6e0a2a9668eeabb8240",
+      "size": 2267
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-008-duplicate-side-effects.json",
+      "sha256": "47b34a2c730fbd688f752256ce4c1a2824218806099fb1664b74e3ddaa20ad0a",
+      "size": 2449
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-009-round-limit.json",
+      "sha256": "4dadc6da8bf6dcd0e3048338fc126f4d44d6694b1ae9eccac580626a32a70964",
+      "size": 620
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-010-takeover-limit.json",
+      "sha256": "e24ccdc4eb7d1c6728d1dc06a8e22bd410d4feef430d787b947b6df03d7cb9a6",
+      "size": 749
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH3-011-no-progress.json",
+      "sha256": "6e892efcf22fd36e0c47f1b6367f143c24175ab73538ad6e3a593e0a8b716516",
+      "size": 756
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH4-001-missing-approval.json",
+      "sha256": "354a7df271d601951f0832bbf1d97ebf2ce3ec1750417cba2fdc3644c28cd175",
+      "size": 1116
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH4-002-source-hash-drift.json",
+      "sha256": "ea3c0df7622493b989c02d48c7169b1336ab8fb9210576b6d89d5fd11c103f64",
+      "size": 1445
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH4-003-missing-rollback.json",
+      "sha256": "19865399c03811e8c927e83cf50e0de110d373544bc3cca8a9d76ef0b3f7f5c5",
+      "size": 1078
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-PH4-004-expired-approval.json",
+      "sha256": "522ae5eaf12a8c6effbeae6d3884446ef62d780e6ff9686aacecd94845081f0b",
+      "size": 1444
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-RECOVERY-001-snapshot-hash.json",
+      "sha256": "1b31785b7a7ca22d3580b2560eaf84c03c67c20c1a9c7eb98c35bc3f12c495b1",
+      "size": 525
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-RECOVERY-002-anchor-version.json",
+      "sha256": "b1486087581c253cb528d741c0494255d565b5113adb07e1b4c7bc0ce80c0520",
+      "size": 586
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-RECOVERY-003-event-sequence.json",
+      "sha256": "7f792409f6876582768c8a1c3eefa632152363f9c04cfa97654b2090956bc227",
+      "size": 421
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-REGISTRY-001-completion-authority.json",
+      "sha256": "bb7bff7128f9a29c376032be19b6e1750604ab6aa15de1da490d813fe047ef4f",
+      "size": 415
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-SLOT-001-shared-workspace.json",
+      "sha256": "bd970c52c7d2be83664d0d53d09b2e039a0a8c9560eaa33885f555a18d641714",
+      "size": 598
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STATE-001-undeclared-cancelled-state.json",
+      "sha256": "7eb2aaa8c04e7cf87c79dc8d2ae8e182ffcb88eb48b5fe5366368d751bfb0ded",
+      "size": 507
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STATUS-002-unknown-state.json",
+      "sha256": "2fe888101122467ccf736fabe6c902f3bc9981822cebb22f374f95a9f3dd2de5",
+      "size": 465
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STORY-001-missing-fr-ac.json",
+      "sha256": "f317d13f8d6735e9ec0798ad8ae10e149ac47d1bc8eb3594e33157c25a78857c",
+      "size": 510
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STORY-002-missing-entry-exit.json",
+      "sha256": "f5fc820df3756fc119c04383a874cf85e3ffd0428dc2a6fa0d5623f8786dc8a0",
+      "size": 699
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STORY-003-missing-testability-evidence.json",
+      "sha256": "9272df7beca12e4123412d86124e27f463f17f76c1271a00cb8f4068c583130a",
+      "size": 552
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-STORY-004-dependency-cycle.json",
+      "sha256": "497d1e4caff6c67db87aae2f69dad85b5f7af32ed82cddac478cd5e822d08a09",
+      "size": 1343
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-TAKEOVER-001-unrecognized-trigger.json",
+      "sha256": "5526b52242d38d64dc2dbc9881c2fcaa0b26c0168303fa277880ec0407b38ed8",
+      "size": 629
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-TAKEOVER-002-not-authorized.json",
+      "sha256": "ba797e8e41945463819905074c84df423769bbbd897abcd5b02600d977258a26",
+      "size": 706
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-TAKEOVER-003-round-limit.json",
+      "sha256": "5a4c62cfbaf7e0aa1cc3f662c1f771738a03812ddc1a8c21e717969ae292943e",
+      "size": 704
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/negative/NEG-TAKEOVER-004-cross-story.json",
+      "sha256": "9926eae751aca9b1f183853c84bed5cfd9edc7d4d66bcbf7afdd440a4b7c497e",
+      "size": 753
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/full-refactor-baseline.json",
+      "sha256": "9e053acecc350e5c5ef8cd8cd29ed73ff040471fe0efd12fe69eb081ecfff5ed",
+      "size": 14362
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph2-preauth-positive.json",
+      "sha256": "58d078a8c9cd3ab403ac4c0fa7b93a7a7f7f2b957c3d7b52640f4c04436641f2",
+      "size": 1250
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph2-registry-positive.json",
+      "sha256": "1c2dae1c5cc1a59ffc8696b1ebaec31ec9b7370fff8197d09c553bfb412be961",
+      "size": 746
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph2-status-positive.json",
+      "sha256": "4f2d3a23b44da02b6b04316daabce7b152c0459a8d73b6269711aefe7f6238ec",
+      "size": 1367
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph3-live-loop-positive.json",
+      "sha256": "c0b799b1af9bf87f4ac1b7a2fcbc10d8f0289d2d323b74a5423c886beb6be529",
+      "size": 2281
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph4-operations-positive.json",
+      "sha256": "1e165a7570de08fd1d1523940749f2a556c95fa1d8fb38d76c260acfc30a44ca",
+      "size": 624
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/ph4-promotion-positive.json",
+      "sha256": "948652df12e7a6d0a1e0d12a9aa2bcba9cec72e219b546581b4117d3c0168cef",
+      "size": 1990
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/phase-story/phase1-positive.json",
+      "sha256": "3748bb524b0d898fe249dc4c510547edbf57f30a30034b31898f90e73cbba766",
+      "size": 2960
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-feedback-to-review.json",
+      "sha256": "e4eac404b3f9105c7a6963bd3c7f1b9158f024405a23c9c864f0d5991b7e85fe",
+      "size": 342
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-live-adapter-risk-gate.json",
+      "sha256": "b82ecb833ae1983cdb2c5032638d7ac7058be3660388d08853b6342e6c4c67b3",
+      "size": 378
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-local-global-skill-edit.json",
+      "sha256": "be2fb6aa01c6037bc8719ad2c42dd4d3b729c0002622e666a6ba87f403e088eb",
+      "size": 458
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-plan-to-claude-handoff.json",
+      "sha256": "bf1a8d169187cd3d1a65c623c12176811157354bdfcd9095aac82ebc3fa3130c",
+      "size": 352
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-requirements-to-plan.json",
+      "sha256": "1492c48e35e15e85fa96756910f89c6f53b4469bce27e2d1d186a5b73d263363",
+      "size": 307
+    },
+    {
+      "package": "development-system",
+      "path": "assets/fixtures/router-single-file-behavior-change.json",
+      "sha256": "dafbb1833a70f38c72955b0ce0134011b20c04f8d9b40f85405c1884874b8798",
+      "size": 441
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/agent-metadata.md",
+      "sha256": "5d790f5a4acc372cca42abbe42b2da43ad6a1cd65aea53520de1930ee3738f8b",
+      "size": 661
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/core-skill-md.md",
+      "sha256": "a796bf6d9e91ae8bc0b37741a478a467984096c4d12044e2b166ca495897b3da",
+      "size": 1801
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/downstream-and-handoff.md",
+      "sha256": "458ec543eb21e85fd8e07e6f8fdc0cb30d1d7ba9a3fd14c085f5e4882d683a64",
+      "size": 1805
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/references-and-assets.md",
+      "sha256": "6e6f54ea886dec8482a7af8047f1c16f3f41259c2e0e5bc8c745c0affa1365b2",
+      "size": 1818
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/safety-and-governance.md",
+      "sha256": "488cd247d7e7c05e1ab3b197e69e135f7cc21f7c07e65042e6675222526d430c",
+      "size": 12349
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/categories/scripts-and-validation.md",
+      "sha256": "cf37c3d090bc705ffeb41ce18e0f9958a3cf8f328a50694ad8972d7a82bfa0a8",
+      "size": 14757
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260809-001-development-system-local-global-loop.md",
+      "sha256": "4a83e204c846acf39b028aeb623cba5bab958d4df23a71353a6f235a8d7b8f86",
+      "size": 5484
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260809-002-phase1-boundary-contract.md",
+      "sha256": "03327e83843e3416d0bdd7a45a0a7945fac73aebae287d0c8597ec282ff154b3",
+      "size": 4674
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260809-003-generic-skill-governance-contract.md",
+      "sha256": "e971f9a8731b6d51616416930b66688b7f3c1beb3c23ee1ca0281097c00b14d8",
+      "size": 5537
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260814-001-ph1-foundation-slice.md",
+      "sha256": "35b3608d2d1f5686a410fbcf29842e372dd3d57816e5ff16a206165bc56150dc",
+      "size": 7473
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260815-001-mappedFrAc-required-repair.md",
+      "sha256": "8cb21b4301bf4b57290e4284dbbb00d51e40f4776cd71e021430a836e035af56",
+      "size": 4537
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260815-002-full-runtime-ph1b-ph7.md",
+      "sha256": "0d315d3532a90ddbda7f6c30042a1adf4a74aa06a075822dd70ec7f0e2ce0f10",
+      "size": 8547
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260815-003-completion-evidence-and-state-alignment.md",
+      "sha256": "a4089646927ada43b718afe49d4ae829600f13729e228c5c3e60c2b6d139700d",
+      "size": 7709
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260816-001-artifact-envelope-dual-contract-closure.md",
+      "sha256": "0e362cc461ad45fef273ff9883c87d8df14a8d42d2898bc92a890f54b801ba49",
+      "size": 2883
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260816-002-ph2-claude-governance.md",
+      "sha256": "afed168d2831c96026bfb16a1e5332ba6cf5f738b6fa4d59d916963a29019995",
+      "size": 5194
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260816-003-ph3-real-closed-loop.md",
+      "sha256": "0c65b9cfea7dce31579cc31c6e706ace6eedb146a25399a9a3d845739315c817",
+      "size": 6868
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260816-004-ph4-install-operations-governance.md",
+      "sha256": "84b368d01fc9698563b28645bd5a226b7f053cb73adb90cfaf88b0d7c4dd7c93",
+      "size": 4572
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260816-005-clw-st-101-story-profile-and-split-gate.md",
+      "sha256": "381f4205dc5879ca0721c42a5baba9fe5b6c334edf1ef0ddda7c3556b5c16ce1",
+      "size": 6613
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-001-clw-ph2-ph4-deterministic-contracts.md",
+      "sha256": "d7227385ea7e161cd6d962e174355c124f7a2bb219e2231d11ccbeb9de6f0628",
+      "size": 4077
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-002-clw-st-201-serial-queue-fixtures-and-tests.md",
+      "sha256": "217e0f2c1fcbf1fa10ea75e72617a567d282e8ed7d9a65efd42910da98658307",
+      "size": 7389
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-003-clw-st-202-recovery-takeover.md",
+      "sha256": "531c0d74427106fc3bce258cf5c315e5d2f133e500a8dd7815f036e40903729a",
+      "size": 3053
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-004-clw-st-203-budgets-circuit-completion.md",
+      "sha256": "2a344c9e0eee390a8b49dc6bb3fd7edefc063ae42e87179aeece69abe5849caf",
+      "size": 8431
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-005-clw-ph2-aggregate-recovery-test-alignment.md",
+      "sha256": "0f53084afaf2230b4037ac3e6fa2f80e29877bdc92e0f9dbe50fd71e58f7b1c5",
+      "size": 3712
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-006-clw-ph3-worktree-integration.md",
+      "sha256": "a41949d02e4a22b9d32881eba23e59cf05ffba5fbe0fea11332237d570b69711",
+      "size": 3929
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260817-007-clw-ph3-live-integration-and-write-set.md",
+      "sha256": "e23cd1b699ba390d1982d73fcf5b35b2a7842e3bdf794553590e727761a03d13",
+      "size": 3215
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260820-001-write-prd-router-entry.md",
+      "sha256": "f3e5bfd4f2cae8ea847d3b76c715675c2c03ba8f063dc791af6cbd981494d829",
+      "size": 6250
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260824-001-landed-review-and-publish-lifecycle.md",
+      "sha256": "32c9fb42141380e2d1994410173abafd7d8b165f04bf89ba0d6e5499d221a6ce",
+      "size": 3862
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260824-002-live-release-adapter.md",
+      "sha256": "cb3c5d05ddc980aaa925b79ae57b774b72c34d7fc685a5e074be9273da7e9448",
+      "size": 3026
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260824-003-default-publish-targets.md",
+      "sha256": "ffb66d5909932699d852c92375234ace3807b11ffb178d318f5e5320a580d5f4",
+      "size": 3928
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-08/CR-20260825-001-research-execution-gate.md",
+      "sha256": "abd71649e9d900bad65e0b4dd89ce792930870fce36494a59f2df9fa12244cc1",
+      "size": 3090
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/entries/2026/2026-09/CR-20260908-003-research-routing.md",
+      "sha256": "8d5f4489c95757aa36e90de2994b14262fd5e3643a7b303d2161e6536aac13f3",
+      "size": 1984
+    },
+    {
+      "package": "development-system",
+      "path": "change-records/index.md",
+      "sha256": "7271701d669e5bafbbb40d81b823e158e697e88b73d65092daedcd35c5ac8e19",
+      "size": 7148
+    },
+    {
+      "package": "development-system",
+      "path": "references/artifact-lifecycle-contract.md",
+      "sha256": "c875143ec9337e83bb2894090cb44b55b09d5fe0fa2ae95859a757c17e7405df",
+      "size": 2537
+    },
+    {
+      "package": "development-system",
+      "path": "references/claude-first-execution-contract.md",
+      "sha256": "f2c7f0ac20713e0558f2a7520c61a9db33a3dcb21d0de1f11ca9f6d2535cc4a1",
+      "size": 929
+    },
+    {
+      "package": "development-system",
+      "path": "references/claude-governance-contract.md",
+      "sha256": "32791757d474a7da657243a30c88f12115cc2bc25195cd662f28ac4e6725c50f",
+      "size": 2238
+    },
+    {
+      "package": "development-system",
+      "path": "references/clw-phase2-serial-orchestration-contract.md",
+      "sha256": "607f2d43e3f4ca79117e7a468cf7a3aa3f06dc035b1e0871cabe0e319f790fda",
+      "size": 1566
+    },
+    {
+      "package": "development-system",
+      "path": "references/clw-phase3-isolated-concurrency-contract.md",
+      "sha256": "8dfe31d856b9f295b2b960f4acc4fd45d8d66b5892de2884f0369bd0237f862f",
+      "size": 1755
+    },
+    {
+      "package": "development-system",
+      "path": "references/clw-phase4-agent-extension-contract.md",
+      "sha256": "de64206304380b668cc71c9b743a6e809a44704157c1825faddaf31a5b3c7f83",
+      "size": 1916
+    },
+    {
+      "package": "development-system",
+      "path": "references/control-plane-and-authority.md",
+      "sha256": "68bff0838f00a786aa8a0ffd447f78a9eac7d2c337dc6fd7256ca1184e1f8558",
+      "size": 3373
+    },
+    {
+      "package": "development-system",
+      "path": "references/document-manifest-contract.md",
+      "sha256": "93cda5f0d3838ae2ae030679840bf4c3a2e5fd0d533ed36f5649fa44ba3237ec",
+      "size": 1030
+    },
+    {
+      "package": "development-system",
+      "path": "references/event-history-and-recovery-contract.md",
+      "sha256": "5654887481cadc675e0315d5f31aebdbd4f8da1f40683f570a0f4c6aec5bbd06",
+      "size": 1078
+    },
+    {
+      "package": "development-system",
+      "path": "references/handoff-interface-contract.md",
+      "sha256": "a696dcbc5e7493e8259b45e253256b6db4f049cb76295d443b7cf2b01424a2a8",
+      "size": 1932
+    },
+    {
+      "package": "development-system",
+      "path": "references/landed-review-contract.md",
+      "sha256": "1eaf651e5306a2c98cd2ac12759144f65163c2b707076ddaf0fced9c312b021f",
+      "size": 1455
+    },
+    {
+      "package": "development-system",
+      "path": "references/local-direct-implementation-loop.md",
+      "sha256": "9e7e0c936cfa475fd748186cdb0f2fc5e1fbbd2a8993ea11e0401596d58a7196",
+      "size": 1432
+    },
+    {
+      "package": "development-system",
+      "path": "references/local-global-skill-edit-loop.md",
+      "sha256": "ef6f44dd009a0b20d1bf5c211cb5d220e6de6382214c4d92c9f5132403975ab6",
+      "size": 2192
+    },
+    {
+      "package": "development-system",
+      "path": "references/long-task-runtime-contract.md",
+      "sha256": "e0807ebceb7550d4e01178f5bb8e76eff83b0166c2d24d315d8d69c5846fa5c9",
+      "size": 1253
+    },
+    {
+      "package": "development-system",
+      "path": "references/metagpt-module-admission.md",
+      "sha256": "77c44ce9e79693226177db9df7123245074a4772cbf7f540e0f470da7458318f",
+      "size": 1004
+    },
+    {
+      "package": "development-system",
+      "path": "references/metagpt-role-sop-contract.md",
+      "sha256": "11831cdd1c3f50f74c0a396639b7bfaff20c302296de346298e09576fae9eb91",
+      "size": 2251
+    },
+    {
+      "package": "development-system",
+      "path": "references/multi-agent-concurrency-contract.md",
+      "sha256": "6b9b8a9a6ecbbf3dedceb2c7e7189fbb1c5629c1b5750b096c0654a16127cbd0",
+      "size": 842
+    },
+    {
+      "package": "development-system",
+      "path": "references/naming-and-boundaries.md",
+      "sha256": "25fb289d83f456038a379888c37f22358d0dd15e480eab866c22a09790fe2c76",
+      "size": 1168
+    },
+    {
+      "package": "development-system",
+      "path": "references/observability-and-resource-contract.md",
+      "sha256": "cb8c55f8d98879b6680017e4dfcd5aafa805cf522040e77055b6e6b33b8f1117",
+      "size": 938
+    },
+    {
+      "package": "development-system",
+      "path": "references/phase1-boundary-contract.md",
+      "sha256": "b829683d68edf7ca83fdb7b1bf746b14d3e744517aaab82dcb152f0b774c13c2",
+      "size": 5702
+    },
+    {
+      "package": "development-system",
+      "path": "references/phase4-controlled-loop.md",
+      "sha256": "69a5548cc1063309e38407e230acca0f01499312f80c49d4c42d22c8367d0fda",
+      "size": 1996
+    },
+    {
+      "package": "development-system",
+      "path": "references/phase4-install-operations-contract.md",
+      "sha256": "40dbf81e5fe3f81eb1e2f1cac0369572f26c53ef046a611050ce054bc296e7bd",
+      "size": 1078
+    },
+    {
+      "package": "development-system",
+      "path": "references/plan-story-contract.md",
+      "sha256": "08930efba611de75f8db72aab928522043b8ae27020c00ee765e78bbe0ca689a",
+      "size": 1781
+    },
+    {
+      "package": "development-system",
+      "path": "references/publish-package-contract.md",
+      "sha256": "0ac5d39e7415a744e57c1484856e0ada79bf4d131baaac77678705c80705343b",
+      "size": 2053
+    },
+    {
+      "package": "development-system",
+      "path": "references/requirement-anchor-template.md",
+      "sha256": "4479797fb0b6bb28e1ce8d9558e591584f25041e36a9b2adbc54c29d39f90f57",
+      "size": 1693
+    },
+    {
+      "package": "development-system",
+      "path": "references/research-execution-gate.md",
+      "sha256": "d830e5f24fc610f2bde3003871689500f8812fc837795f9e05177ac77d3bd1ec",
+      "size": 3163
+    },
+    {
+      "package": "development-system",
+      "path": "references/rework-and-gate-reopen-contract.md",
+      "sha256": "ca77050b8860980da2e0c27644f43da665ac851583219492be464353434c1164",
+      "size": 954
+    },
+    {
+      "package": "development-system",
+      "path": "references/router-contract.md",
+      "sha256": "73850a93984dda54bf173aee4454442101be27adcfb042a3fedc08901a213681",
+      "size": 2121
+    },
+    {
+      "package": "development-system",
+      "path": "references/software-company-pipeline-contract.md",
+      "sha256": "ac2a128568ecfd403e78bad8f369a9c29623ba6712d13501d7ae5d728822390f",
+      "size": 1095
+    },
+    {
+      "package": "development-system",
+      "path": "references/state-and-completion-contract.md",
+      "sha256": "0e79ac65fec82584599276435b0b827d0d7699f02abe52faf04cc89065442e62",
+      "size": 1994
+    },
+    {
+      "package": "development-system",
+      "path": "references/system-use-retrospective.md",
+      "sha256": "bfc05fbddc2cf0f77e8246cbbb6c442dcc3ee6e6aafc9bfbfd9812bf9898d558",
+      "size": 1301
+    },
+    {
+      "package": "development-system",
+      "path": "references/workspace-and-approval-contract.md",
+      "sha256": "461d838657206063e66de8d8cdee1f34c7bd30ab9775cb1efc5f2f155726e5a7",
+      "size": 1007
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/agent-feedback-review.schema.json",
+      "sha256": "cde31cb0727fdb78cafa99c8daa2ff4623060633317643307acd991029533717",
+      "size": 509
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/agent-profile.schema.json",
+      "sha256": "902c5407c05f4bb111e9d741c6c30966e43ceccd2909b07f85bab5621df6ebb5",
+      "size": 1185
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/artifact-envelope.schema.json",
+      "sha256": "359367afc9e1fad87b45e98d431e6fd4088553d43a857bf3f2c70619ff3cd820",
+      "size": 2079
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/backup-manifest.schema.json",
+      "sha256": "559d3f23f0ec4e5ba055f65743f218c66c93808a26117d533ada90ef77fd8a8c",
+      "size": 763
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/claude-agent-registry.schema.json",
+      "sha256": "57e6e006499212d4f59c3bbbaa5f5c95a05ba965a4a88e0996f1cee3c830f921",
+      "size": 831
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/claude-dry-run-manifest.schema.json",
+      "sha256": "558204796440fc61309315e85780e7cbc19870b65c18d9eb0087d64f0ad0a0b8",
+      "size": 825
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/claude-preauthorization.schema.json",
+      "sha256": "acfb9bb2845f658a1d8787fe04a07c5b2621696432fd47a1c1841c87ed9688ec",
+      "size": 2022
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/claude-status-projection.schema.json",
+      "sha256": "e04b872934ba5873c7929247044f44d2288da2277c41f89bf1f8c332fa831acd",
+      "size": 595
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/codex-takeover-decision.schema.json",
+      "sha256": "37bdcf90ccb09d400811a1c09e4c4ff6cce4f5236706ff6ad869a6fefcb3eb7c",
+      "size": 816
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/completion-evaluation.schema.json",
+      "sha256": "48d66536a31fcffb6efeddb4e4e0654ce3050fe6370860f9738ee2c048db3014",
+      "size": 1648
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/event-history.schema.json",
+      "sha256": "9e21450e2d297996b6461170b2d0257dd6c60c87217af15e5e2e31c41ec390d0",
+      "size": 1017
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/execution-slot.schema.json",
+      "sha256": "3c6eb7bfb124556505e179e13348c1fb69cfc6aa432c701c0642d4906a4bf96c",
+      "size": 992
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/installation-approval.schema.json",
+      "sha256": "4b6899793b0ce1376ef97381796a6f9477fa3eab3abd3834ffbf6eb032686a28",
+      "size": 917
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/live-handoff-story-envelope.schema.json",
+      "sha256": "145440294bd78ebb212774803b9885cac33c051c11fde1cf476d1a8072673b41",
+      "size": 2256
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/merge-candidate.schema.json",
+      "sha256": "1cbc46d88a8915b3dd44ee7732ce3e36b7af2897fdb769c726126f1db9066b4a",
+      "size": 1104
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/module-admission.schema.json",
+      "sha256": "1c982e30bbf0aba118c6b41800d8eb36646f9fad46efa1448402921045080ac7",
+      "size": 879
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/operations-governance.schema.json",
+      "sha256": "ce0ad1accb71b7b91b128316f755e39ac95820b39e19ef687ec27690ebe6e29f",
+      "size": 787
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/phase-progress-snapshot.schema.json",
+      "sha256": "34c14b1630e931d356d34a621f062eceb10dba3519e161c93bad643b62d42974",
+      "size": 1385
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/phase-story.schema.json",
+      "sha256": "cfb223120514cc5454370a66fe08b499b30d011f00a4c7951eb9505a9fead4fd",
+      "size": 2527
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/requirement-anchor.schema.json",
+      "sha256": "5747dbae61479453521c8d585eb6ebfe8f338f6981874495490603457387ec00",
+      "size": 2590
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/resource-policy.schema.json",
+      "sha256": "2d84f35161fbc0da9db922212b2144a20e0e64585e72e78891400b5c64831522",
+      "size": 763
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/role-profile.schema.json",
+      "sha256": "46c654e553ab7612403603d595c2b7a4cf61595a4e27aab90cd0e02d40f46185",
+      "size": 938
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/runtime-state.schema.json",
+      "sha256": "a940dad1d26667864ed635e21adf3f01ac15ecd7fd6c9b2a80f53cf19d95af76",
+      "size": 1388
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/skill-interface.schema.json",
+      "sha256": "4feea3afd7db30c49bbef64a8ea2a84389497ac2e82ed0fb484ee6f3fcbe11aa",
+      "size": 1029
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/snapshot.schema.json",
+      "sha256": "a50202513db51cdde773d401b8fbb22685d5634dee0d8e0c1912511f805dead1",
+      "size": 1335
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/story-profile.schema.json",
+      "sha256": "5814249b89801cce4bcd9716de7ab6cc1accdcc1d8a3e2224ef0ec52346de2c2",
+      "size": 1399
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/story-queue.schema.json",
+      "sha256": "6927136158647bc916a8a4e624cffddc69f82d71999334b04b36f8e3682015a9",
+      "size": 1171
+    },
+    {
+      "package": "development-system",
+      "path": "schemas/story-split-finding.schema.json",
+      "sha256": "f7730d96819d614b0697bac72682c4e5608ea49794184fde327b17e9fe1718bf",
+      "size": 1097
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/bootstrap_clw_ph3_live_fixture.py",
+      "sha256": "999a4f785e089e4f4c246c21a80bd98ee1a080bb3d5d8fc0e30e282f42a72e0f",
+      "size": 1971
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/build_clw_ph3_live_packets.py",
+      "sha256": "dfbf3cde7e312358ec529ae636ab767b8b1f8ae07da0b0119fc218f90d18a9f8",
+      "size": 5360
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/build_refactor_reports.py",
+      "sha256": "16f081b7148f28cb03bbb8cd6c4e9e60fb7d42a8cd96ef32716b0a62383b2680",
+      "size": 8442
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/development_runtime.py",
+      "sha256": "528b60dd84bd883e1a94e2348964ab838db967fd6ed5bda06d56232461985035",
+      "size": 161685
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/document_manifest_runtime.py",
+      "sha256": "4611891b6de5c6d7a12a1ec34c00f905d9d6578e8263d3ddbf6295944332781e",
+      "size": 4088
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/git_worktree_runtime.py",
+      "sha256": "49a0b9cddbbe1d17478054449633388e2f325e69f75d5147e82e246385f229fe",
+      "size": 20792
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/landed_review.py",
+      "sha256": "d04297830d599b69f8f18707b1fa2f2b3653a92d062f10e790957f565d7cad67",
+      "size": 6681
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/phase4_governance.py",
+      "sha256": "3850dd1c6c7ea466bbf708ba4fd18447b65f2303e7a2b9ff133ed386a24b6bcf",
+      "size": 5419
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/publish_package.py",
+      "sha256": "04187173d3960fef0302469f35957b30301824bfd199ad18605cc3d5c880aac9",
+      "size": 2568
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/release_adapter.py",
+      "sha256": "d20db47ed4744c1c9ce34d286ada8a5873e5206496be5ad56ed1766ed4768f38",
+      "size": 10140
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/run_clw_ph3_live_integration.py",
+      "sha256": "47798a66ac29e47cfeb36d43f60bbdc95ab0d348922e47f24f2b0c42931138af",
+      "size": 7960
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/sync_requirements_baseline.py",
+      "sha256": "7aa8a4308e7934f8e3de90f247647e71b2ac007f2055c0cbb8f43e530de66479",
+      "size": 1921
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_clw_phase2_phase4_runtime.py",
+      "sha256": "634b02bd3b9e407bcffd51aac979acb38274725356af2b9530600d9c52155abd",
+      "size": 11089
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_clw_phase2_serial_runtime.py",
+      "sha256": "ab607358369b008db2c062d66c0a43ddc5ae4b038054d8ec788359bee8068ead",
+      "size": 51624
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_clw_phase3_worktree_runtime.py",
+      "sha256": "d47a1bb7f097c0450f9c7b477187a0225849247f88f733ea3ff7dfa244441466",
+      "size": 34051
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_development_runtime.py",
+      "sha256": "742d3e5a3a5d77dcd58a7c0817c480b29ec6c490ae51790a62f20adeab5127a3",
+      "size": 88412
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_document_manifest_runtime.py",
+      "sha256": "c23fa9167c8be321ef76c8dc2ca941ee81b4075dd5bfff6c78ed32567b2d649f",
+      "size": 2115
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_full_refactor_contract.py",
+      "sha256": "5e29fa10e0174b7a67b5de04013e1505bf8e9bb5fe802b22d680fa2a9dda301c",
+      "size": 15351
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_landed_review.py",
+      "sha256": "6db935209951d78df560ce822ee0c474fb4a12731c01701eea454cff57260339",
+      "size": 2498
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_phase1_boundary_contract.py",
+      "sha256": "99c275a1659b97ccd9633dbb149c1067343da635c1658b150312e1e1094a2664",
+      "size": 2594
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_phase4_governance.py",
+      "sha256": "0221ed216f66a8492c87f059f6f35eb83345d7bf36a858b996421635e4e44dba",
+      "size": 2289
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_phase_story_contract.py",
+      "sha256": "9b36f105cce257480388a6cea3e2f02897610005aec58a7a6e95eaee21b7b5af",
+      "size": 10376
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_publish_package.py",
+      "sha256": "7ff5534c069bca68a1ee8475a04fefaa3accfac5009aff774423ac3696bc761a",
+      "size": 1898
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_release_adapter.py",
+      "sha256": "16cb147e2cd81cd8b302bf022784e053c4427b8eceb33480756631e808d706fc",
+      "size": 7589
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/test_skill_governance_contract.py",
+      "sha256": "418c1adb3692764a22cf75bcffff13c4f341a949982ef618aa3af0395ede78f7",
+      "size": 1292
+    },
+    {
+      "package": "development-system",
+      "path": "scripts/validate_development_system.py",
+      "sha256": "6d86483b9382b7818d2183c4bce537a844e0bbe3e6ebc2f2f965d5170d4120cb",
+      "size": 33417
+    },
+    {
+      "package": "development-system",
+      "path": "SKILL.md",
+      "sha256": "c2a35a168ad87bf8e03b62ab2ed9a09cf0dda7b0ae52935b246d8393eba2fbea",
+      "size": 16731
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "agents/openai.yaml",
+      "sha256": "701e33a69c3b36c0909851c1362d02d6c1962a902c359ad8dcc2e909b58eeae3",
+      "size": 232
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/agent-metadata.md",
+      "sha256": "0dcc5b3166fc27cf3441817e69bd3aedebbfdfed9832350eef352b3d93f48edc",
+      "size": 668
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/core-skill-md.md",
+      "sha256": "f5c14110df1b60724d2676d4adee00d1427b93762fb3984257b4fef8188ece7e",
+      "size": 667
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/downstream-and-handoff.md",
+      "sha256": "6065a1365ee29e8e4d6c453370ba6a08c771639d0d237534c70e1f9a41e9c3a1",
+      "size": 1828
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/references-and-assets.md",
+      "sha256": "25655f6da37abb625650f318f42bd1dbcfe642f938ecfc35c99f90934e7cd0d6",
+      "size": 1816
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/safety-and-governance.md",
+      "sha256": "158afada6c5f7ac47a0e1fa4f92165326c623103ff19dcb8f26b44633f9967bc",
+      "size": 1792
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/categories/scripts-and-validation.md",
+      "sha256": "c2a80c2944f54c15e1dda40f359f36d3b7b57e28df944cb97ffdd990f52b361c",
+      "size": 676
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/entries/2026/2026-08/CR-20260825-001-research-failure-review.md",
+      "sha256": "a867e360c2fc23a58b7ba7d434f6274bafc866a63d19cfdfa818c04fe3398b41",
+      "size": 2991
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/entries/2026/2026-09/CR-20260908-004-research-routing.md",
+      "sha256": "ed4417609c6a163cf388261c8f404131161c01af99921d363b6896dec3e8ff2a",
+      "size": 1991
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "change-records/index.md",
+      "sha256": "3ca8f6f5e2692a94c9723a394cd0b74f146de846154c7f73de84d01c212789b2",
+      "size": 991
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "references/feedback-review-rules.md",
+      "sha256": "49cf4ab1271649814320474c2cc14be4f5207407b36993a79c9d7b15814580b3",
+      "size": 3587
+    },
+    {
+      "package": "handoff-feedback-reviewer",
+      "path": "SKILL.md",
+      "sha256": "73bfd40b755eb10061123fba86bef4e53429b0fcf8dd23b055bc61ab5bafe4b2",
+      "size": 1600
+    },
+    {
+      "package": "research",
+      "path": "agents/openai.yaml",
+      "sha256": "67ca6e48389b006ccb6463f4544cca387f6be4d5255fb32d63878bdd26104589",
+      "size": 275
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/agent-metadata.md",
+      "sha256": "dbffbce54884aedc7d6de798ef72999fdd744f7856b6bcd757bcdd1c70a531e0",
+      "size": 651
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/core-skill-md.md",
+      "sha256": "8642b292e29cf4db5fc254d738ffe430d094f50164f810863c98cc41a5929b75",
+      "size": 650
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/downstream-and-handoff.md",
+      "sha256": "767af4bc0529942058d4bd33cb6154cbbd8325244da7b48f2196f808123a00f4",
+      "size": 659
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/references-and-assets.md",
+      "sha256": "86b312ea42868e0d95cf51322ba67fe6089341c6318d811e378e9c52428de727",
+      "size": 658
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/safety-and-governance.md",
+      "sha256": "117a5616752cefe75f067d7f9e02313c265d52a2163faca173198140a349e075",
+      "size": 658
+    },
+    {
+      "package": "research",
+      "path": "change-records/categories/scripts-and-validation.md",
+      "sha256": "e50ea79218c4735cbd96fbca01a34433dc1d29946285fef5bf9ce1ee62d38e4e",
+      "size": 659
+    },
+    {
+      "package": "research",
+      "path": "change-records/entries/2026/2026-09/CR-20260908-001-research-routing.md",
+      "sha256": "cf49132d494f2d7ec77a5180579808362a01ca5f85cd5366d84abf003a7b5336",
+      "size": 1974
+    },
+    {
+      "package": "research",
+      "path": "change-records/index.md",
+      "sha256": "8d0954af0fff682a9b215a91247fc95860d6270c63c798455fc60245c72b59f2",
+      "size": 411
+    },
+    {
+      "package": "research",
+      "path": "references/guided-handoff.md",
+      "sha256": "f7b9904620a615add351c67b1d9b3de907967f2b786c6d1a53a21cd304063340",
+      "size": 1421
+    },
+    {
+      "package": "research",
+      "path": "references/runtime-contract.md",
+      "sha256": "acb5e65ffb990d3a27c0e02efebd9912affa5ea6dda560304ee90aafb8ddd6de",
+      "size": 4176
+    },
+    {
+      "package": "research",
+      "path": "references/upstream-manifest.json",
+      "sha256": "2bd5d8be9a027520b41ff631a7f9e440bcb017c4aa8e101b8c3faa273aab1bd9",
+      "size": 2745
+    },
+    {
+      "package": "research",
+      "path": "references/upstream-provenance.md",
+      "sha256": "8d4f30c981e10336bd627a98b467eb7b86243da417a46c765aebbfc8286bc35a",
+      "size": 838
+    },
+    {
+      "package": "research",
+      "path": "references/validation.md",
+      "sha256": "fc930274fadb50ac32273169df58501689141143dba93bb7b98d84206ff7b859",
+      "size": 1263
+    },
+    {
+      "package": "research",
+      "path": "scripts/anysearch_boundary.py",
+      "sha256": "0190ee59210b58228c93d34ab45921667842c5e53cccc1c9c7803f28bbc489ba",
+      "size": 2532
+    },
+    {
+      "package": "research",
+      "path": "scripts/research_cli.py",
+      "sha256": "2bbe5c3bbd146dada221071121bf99ff7506d92ad4f7434cf7ca2618f2b3f790",
+      "size": 5148
+    },
+    {
+      "package": "research",
+      "path": "scripts/research_runtime.py",
+      "sha256": "70a57e18887d286caec57e78954e036779ba176f368fb9cd2f8054b80e9ccad2",
+      "size": 19436
+    },
+    {
+      "package": "research",
+      "path": "scripts/test_research_runtime.py",
+      "sha256": "29dc6600c545ad58310e1025897149247662b5cae215d6a1768d0b3d157664d6",
+      "size": 14780
+    },
+    {
+      "package": "research",
+      "path": "SKILL.md",
+      "sha256": "6498659549482d548d19d26815afff4b8a17af0cfd7eb1341f158c29e4143bd8",
+      "size": 5570
+    },
+    {
+      "package": "research-guided",
+      "path": "agents/openai.yaml",
+      "sha256": "a7b61a83735245d2e4651556e28125fdd99eb435d248b304b957201eca8a6023",
+      "size": 250
+    },
+    {
+      "package": "research-guided",
+      "path": "assets/fixtures/adapter-ledger-fixture.json",
+      "sha256": "23f0b0d4ef2fa21f216d3e47abced26e0fbf5e224c23b5067f9747b8e3ed4262",
+      "size": 1754
+    },
+    {
+      "package": "research-guided",
+      "path": "assets/fixtures/preflight-canary-pass.json",
+      "sha256": "b1c33c6d85578b44b453bc95150d17c21b2c4c7363490a1227d62b4919f32779",
+      "size": 51
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/agent-metadata.md",
+      "sha256": "7b9cce50dd4737cdf8c40621a71f53a42a89f321c76b1d78b7af6283558a0e2d",
+      "size": 658
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/core-skill-md.md",
+      "sha256": "0d9095410beed8dee6c102b71d0bf64aa7b8c82f5a3628bde9b6f29a3a66d624",
+      "size": 5165
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/downstream-and-handoff.md",
+      "sha256": "05648eb3919a263d03dbf467ba89df94f09d2b091a8f032dc6c5cc827eecec89",
+      "size": 3722
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/references-and-assets.md",
+      "sha256": "9e32716c458298d35941058b6109b4d97cbe8f2268a61028e0f4af396a8ba6e3",
+      "size": 5045
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/safety-and-governance.md",
+      "sha256": "31b955fb8f047308dfc60c08ab1f74bd9385e4349c9d58761c6fa8f87ce1c0f3",
+      "size": 4858
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/categories/scripts-and-validation.md",
+      "sha256": "19dd72da5091694eee53bf7543d85625db5fc28cfa696231ce19639e60cc4e9b",
+      "size": 3034
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260809-001-claude-research-loop.md",
+      "sha256": "c9a2c391f1c82c30f0a45118d742e3f8e555b995cacc6f1df14f437ea5072518",
+      "size": 3809
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260809-002-live-adapter-cleanliness.md",
+      "sha256": "8d6cab703c695078a499fa3a7af82d5d8a4bc85fc7b4e49ed8a44d8b29f16016",
+      "size": 3013
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260810-001-strong-research-gate.md",
+      "sha256": "8ec4f98857cad11eca79719d3a57e5cf4e54e2f29b939bf4a36806d1f387829e",
+      "size": 4633
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260821-001-auto-approved-mcp-research.md",
+      "sha256": "64f4fa9264d4c1b2690b82d18290cf8f724e18888d31d30f18d3c85d8454015a",
+      "size": 4426
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260825-001-research-repair.md",
+      "sha256": "034c633aec8913340f2b574cf2ee6752215b6860b531cd4105d775831fe6f98d",
+      "size": 7550
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260825-002-live-mcp-bridge-and-completion-gate.md",
+      "sha256": "00a2d60615c69469fb93772a8ce26ee5269938153f9b3561c41491a6681c9b57",
+      "size": 3779
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260827-001-two-stage-adapter-validated-research.md",
+      "sha256": "e37aafe36bb888a8bb0ab9b4736d8c2d096e5cb475b655f60caeb6c1b0c50d4f",
+      "size": 7777
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260829-001-live-gap-schema-package-gate.md",
+      "sha256": "e6318d794b6eec53696cfa19422ac1527f65cc09afbfa83ee8b79e1d3b6177a7",
+      "size": 4935
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-08/CR-20260830-001-scholar-compatibility-bridge.md",
+      "sha256": "8957702b1a1dbf54ebc70bab524e72f5f77e1a554114220271f567c845752dac",
+      "size": 2781
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/entries/2026/2026-09/CR-20260908-002-research-routing.md",
+      "sha256": "7d17dd47bb5486816eebf7076eb5b60768fe1b35f49e03f0618fcc2072350407",
+      "size": 1981
+    },
+    {
+      "package": "research-guided",
+      "path": "change-records/index.md",
+      "sha256": "dbe9c8e999a2e26d6523b8ef5d0298c6d01dd1434afda0c6fc9732e08af4c16e",
+      "size": 2605
+    },
+    {
+      "package": "research-guided",
+      "path": "fixtures/compatibility/accepted-full-ledger.json",
+      "sha256": "7e2b4a77dbdbbe1a44925a919bbe01c93bbaf11e04c0eae08c6d3385dd8e5af7",
+      "size": 1978
+    },
+    {
+      "package": "research-guided",
+      "path": "fixtures/compatibility/accepted-full-result.json",
+      "sha256": "feba836b499629ca265250954c5197a2671980bb1e7248572af73e7744b6cb6d",
+      "size": 3226
+    },
+    {
+      "package": "research-guided",
+      "path": "fixtures/compatibility/full-pipeline-plan.json",
+      "sha256": "ab9850de01cf471b7c11eee4d6e51170645a7a7032461740c9f6b0f2b3eec779",
+      "size": 2013
+    },
+    {
+      "package": "research-guided",
+      "path": "install_structure.py",
+      "sha256": "7862667b5d181d03706c238e170f2265b818a9b0ef2beec1204c6e7846af815a",
+      "size": 2511
+    },
+    {
+      "package": "research-guided",
+      "path": "references/change-record-traceability.md",
+      "sha256": "2e6840c9aa837c2b656468f055179396aec92e2c1ded959aae367f2c54b9f480",
+      "size": 2535
+    },
+    {
+      "package": "research-guided",
+      "path": "references/claude-adapter-contract.md",
+      "sha256": "7ae25b794106edf547d0733219bf73fd5ff97c9cbdc07b72e3ce655b21485ff1",
+      "size": 10433
+    },
+    {
+      "package": "research-guided",
+      "path": "references/decision-gate-rules.md",
+      "sha256": "ff34b78edccb8bbc820312175d63aaf70a0f66567ae39bef88b6cc41fd595e26",
+      "size": 1333
+    },
+    {
+      "package": "research-guided",
+      "path": "references/downstream-and-handoff.md",
+      "sha256": "c3c64e04ea815f44d65094f795ea331b588a9bd62be8620cb1eb2147d0e9d34d",
+      "size": 5581
+    },
+    {
+      "package": "research-guided",
+      "path": "references/router-entry-compatibility.md",
+      "sha256": "141690651aa995806f269667c47879c03e0cd7f85f46a79f30d76a8687653ef8",
+      "size": 1625
+    },
+    {
+      "package": "research-guided",
+      "path": "references/severity-and-fallback-rules.md",
+      "sha256": "d162583e2066d73f794d76d51ef8c4cf7d4a0a7bf7aa8513709d8b6ea8309f72",
+      "size": 7223
+    },
+    {
+      "package": "research-guided",
+      "path": "references/strong-gate-and-light-path.md",
+      "sha256": "1177804ad698047f990db403137a62c00035a5618fe5a430e1054e60ba582451",
+      "size": 1631
+    },
+    {
+      "package": "research-guided",
+      "path": "schemas/failure-classification.json",
+      "sha256": "b0714c7f1d8b8a3201ea2b54303da3853497ab4d686c81ad238dbb65237dc44f",
+      "size": 5544
+    },
+    {
+      "package": "research-guided",
+      "path": "schemas/public-research-tool-registry.json",
+      "sha256": "c910cffbcf23579129214b040a7afa28d522a617b84bf5dbe37d49a571b8c0b0",
+      "size": 312
+    },
+    {
+      "package": "research-guided",
+      "path": "schemas/research-evidence-ledger.schema.json",
+      "sha256": "8a42fa1a41038a84a0534bd9e9d019f41b3a89d1e16bfe862a2fd27d30e72847",
+      "size": 5130
+    },
+    {
+      "package": "research-guided",
+      "path": "schemas/research-result.schema.json",
+      "sha256": "8f8f8a705bbee0b40e2e728f030d7defeb9b4821eb5c3756638ef1f1b24ac366",
+      "size": 7148
+    },
+    {
+      "package": "research-guided",
+      "path": "schemas/research-two-stage-manifest.schema.json",
+      "sha256": "484221ef7eb9161564086e26a7f36ba4242f14777c7f3362955ffe95d9910e1e",
+      "size": 3290
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/check_tool_drift.py",
+      "sha256": "0d34133e4d8890e2f67e92a08a121ef223cf8ef45a1e3d63b0b2cc8f4f669acb",
+      "size": 4443
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/complete_pipeline.py",
+      "sha256": "aef1eb9245a50451b8d72a082d036f5d61c9037574b81591d036461669f67d7b",
+      "size": 19055
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/phase_bridge.py",
+      "sha256": "a9be21ad499fae54986611e89b8ac52264889c33ca13f202d8178d6f1d3c5f96",
+      "size": 1702
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/pipeline-plan.schema.json",
+      "sha256": "1cc70a3ef219195a443cd6f123351e486a5978bec8d3430472b60f964e7b61e7",
+      "size": 1392
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/pipeline_contract.py",
+      "sha256": "ee5fc4e12c6a18dd90e4bcc3af4f9c564903653b1d362383d0dde84403066536",
+      "size": 8435
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/run_baseline_ingest.py",
+      "sha256": "b6612f0db590e48128d8f7de1a1da6eb20baa805d3368465bd291e184535f14e",
+      "size": 3652
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/scholar_result_adapter.py",
+      "sha256": "5176f1be7d0f047ab716817df7b3fa71c6cde99f2d59a34cdd906b8b55634665",
+      "size": 13932
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/test_complete_pipeline.py",
+      "sha256": "752780a0b59624d83201bfc8a2f8d804f92f32d7960c4ef0b307184b541831b0",
+      "size": 7445
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/test_phase_bridge.py",
+      "sha256": "da49805902ee6a29a9f8dc88b887a1c3f02f3598f7d8abb7933be06bbf40fbd5",
+      "size": 2909
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/compatibility/test_scholar_result_adapter.py",
+      "sha256": "93b1d0a13517fa8fd5bba46fd895c906f4c3731a556b8c1825fd006107ddae9b",
+      "size": 5277
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/exa_mcp_bridge.py",
+      "sha256": "8a1f31fe8065716e6dc266322ef64ae519ac81e7342fd8ef08fb1b33e041a1e6",
+      "size": 4397
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/live_mode_guard.py",
+      "sha256": "c54da335d7d3cbda62b4748b73d6445a61c4017cf8d26733a1f5585be19d0331",
+      "size": 5852
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/preflight_research.py",
+      "sha256": "8e98c4c41f28e8e20db510f0eddec7b9bfdc29af3de8e0949081cb6d43bea165",
+      "size": 11078
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/run_live_research.py",
+      "sha256": "d2d8cf6a3fad8f65eb152ebcae4d02c72de26b1dc064135ba25ad5e1bb816fb6",
+      "size": 22842
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/scan_sensitive.py",
+      "sha256": "4145569210158ca63ad23b1c216bfa04924c48998f2f3d7ea70925e1d44b432f",
+      "size": 1145
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/serialize_research.py",
+      "sha256": "9782aa80497f50797b75046e2ab879e019a913e51e55d1a0b3f2b923b06198a8",
+      "size": 20413
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/test_research_adapter.py",
+      "sha256": "5cfe8e1a7c5b6cbb7b0a2afc199914c06d31f6868bca315d4f446772a0a91a63",
+      "size": 30625
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/test_research_repair.py",
+      "sha256": "752f7106096e82ef57f76b90a9d6d1862cabd312bf19e917c5dfacc58d43c889",
+      "size": 25006
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/test_research_skill.py",
+      "sha256": "304ce820da9edf446d266df79403de9c5d80ee2d112212444e4a58d64e3f5e71",
+      "size": 1917
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/validate_research_result.py",
+      "sha256": "3ff6f63660855513b94f08e53289c9a70365fd2454fdf0a37bc6ceeb467f2321",
+      "size": 18846
+    },
+    {
+      "package": "research-guided",
+      "path": "scripts/validate_research_skill.py",
+      "sha256": "14ceaca255df61135007db86c99194b7c0cc215b02f058d7f47a29f57cd0d13a",
+      "size": 6321
+    },
+    {
+      "package": "research-guided",
+      "path": "SKILL.md",
+      "sha256": "041a9de0ca7497d4c41378d08c25e579192b9e30742001a68c095ad9dd77daa7",
+      "size": 15572
+    }
+  ],
+  "globalInstallationVerified": true,
+  "claudeLiveTest": "passed-with-tool-free-format-repair",
+  "anysearchLiveSmoke": "passed"
+}

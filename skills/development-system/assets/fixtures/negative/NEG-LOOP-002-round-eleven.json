@@ -1,0 +1,14 @@
+{
+  "fixtureId": "NEG-LOOP-002",
+  "targetFunction": "advance_circuit",
+  "description": "An attempt to continue after ten execution rounds must be blocked before an eleventh round starts.",
+  "input": {
+    "initialCounters": {"roundCount": 10, "circuitState": "CLOSED"},
+    "observation": {"actualExecution": false, "completionPassed": false}
+  },
+  "expectedState": "loop-limit-reached",
+  "expectedStopReason": "story-round-limit",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "eleventh-story-round-forbidden",
+  "traceTo": ["FR-020", "AC-010"]
+}

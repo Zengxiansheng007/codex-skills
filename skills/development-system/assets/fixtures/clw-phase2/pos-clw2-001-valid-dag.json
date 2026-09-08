@@ -1,0 +1,42 @@
+{
+  "fixtureId": "POS-CLW2-001",
+  "targetFunction": "validate_story_graph",
+  "description": "A valid DAG with unique IDs, known dependencies, acyclic edges and non-empty FR/AC mappings is accepted.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-A",
+        "title": "Root Story A",
+        "goal": "No dependencies.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-B",
+        "title": "Dependent Story B",
+        "goal": "Depends on A.",
+        "mappedRequirements": ["FR-CLW2-002"],
+        "acceptanceCriteria": ["AC-CLW2-002"],
+        "dependsOn": ["CLW-ST-201-A"],
+        "priority": 5,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-C",
+        "title": "Independent Story C",
+        "goal": "No dependencies, lower priority.",
+        "mappedRequirements": ["FR-CLW2-003"],
+        "acceptanceCriteria": ["AC-CLW2-003"],
+        "dependsOn": [],
+        "priority": 2,
+        "status": "pending"
+      }
+    ]
+  },
+  "expectedValidation": "accept",
+  "expectedFindings": [],
+  "traceTo": ["FR-CLW2-001", "AC-CLW2-001"]
+}

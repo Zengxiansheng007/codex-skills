@@ -1,0 +1,16 @@
+{
+  "fixtureId": "NEG-AUTH-009",
+  "targetFunction": "validate_preauthorization_policy",
+  "description": "An otherwise valid policy outside expiresAt must fail closed.",
+  "input": {
+    "observedAt": "2026-08-16T04:00:00+00:00",
+    "expiresAt": "2026-08-16T03:00:00+00:00"
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "policy-expired",
+  "traceTo": [
+    "FR-TOT-010",
+    "FR-TOT-016",
+    "AC-TOT-008"
+  ]
+}

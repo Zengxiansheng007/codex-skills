@@ -1,0 +1,8 @@
+{
+  "fixtureId": "NEG-CLW4-003-FEEDBACK-LINEAGE",
+  "targetFunction": "review_agent_feedback",
+  "description": "A stale cycle or Story lineage is routed to requirements review.",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "lineage-mismatch",
+  "traceTo": ["FR-CLW4-004", "FR-CLW4-005", "AC-CLW4-005"]
+}

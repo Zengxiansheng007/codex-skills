@@ -1,0 +1,1 @@
+{"fixtureId":"NEG-CLW2-202-SNAPSHOT-TAMPER","targetFunction":"resume_cycle","description":"A modified aggregate snapshot is rejected by snapshotHash.","expectedValidation":"reject","expectedRejectionRule":"snapshot-hash","traceTo":["FR-CLW2-005","FR-CLW2-007","AC-CLW2-008"]}

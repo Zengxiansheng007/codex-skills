@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Guided"
+  short_description: "Codex-Claude two-round research loop."
+  default_prompt: "Use research-guided to plan and execute a Codex-Claude two-round research workflow for standard or deep investigations."

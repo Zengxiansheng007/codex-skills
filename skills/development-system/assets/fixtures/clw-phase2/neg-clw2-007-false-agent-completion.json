@@ -1,0 +1,26 @@
+{
+  "fixtureId": "NEG-CLW2-007",
+  "targetFunction": "transition_story_after_review",
+  "description": "A false Agent completion claim (passed=false, state=completed) must not transition a Story to passed. The Story must not be marked passed without a real Codex completion evaluation.",
+  "input": {
+    "story": {
+      "storyId": "CLW-ST-201-FALSE-CLAIM",
+      "title": "Story with false Agent completion",
+      "goal": "Agent claimed completion without Codex evaluation.",
+      "mappedRequirements": ["FR-CLW2-004"],
+      "acceptanceCriteria": ["AC-CLW2-005"],
+      "dependsOn": [],
+      "priority": 1,
+      "status": "running"
+    },
+    "completionEvaluation": {
+      "state": "completed",
+      "passed": false,
+      "agentCompletionClaim": true
+    }
+  },
+  "expectedStatus": "repair-needed",
+  "expectedReason": "completion-gate-not-passed",
+  "expectedValidation": "reject",
+  "traceTo": ["FR-CLW2-004", "AC-CLW2-005"]
+}

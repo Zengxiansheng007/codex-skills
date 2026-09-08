@@ -1,0 +1,92 @@
+{
+  "fixtureId": "NEG-PH3-006",
+  "targetFunction": "run_live_loop",
+  "description": "A stale cycleId in feedback must block completion.",
+  "input": {
+    "packet": {
+      "packetId": "HND-NEG-PH3-006",
+      "requiredAuthorization": {}
+    },
+    "policy": {
+      "policyId": "DS-PH3-FIXTURE-POLICY",
+      "version": "1.0",
+      "status": "active",
+      "validFrom": "2026-08-15T00:00:00+00:00",
+      "expiresAt": "2099-01-01T00:00:00+00:00",
+      "workspaceRoots": [
+        "C:/approved/workspace"
+      ],
+      "actions": [
+        "read",
+        "edit",
+        "test",
+        "validate"
+      ],
+      "tools": [
+        "claude-code",
+        "python"
+      ],
+      "data": [
+        "workspace-source"
+      ],
+      "network": [],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "maxTimeoutSeconds": 900,
+      "maxRounds": 10,
+      "maxConcurrency": 1,
+      "maxTakeovers": 1,
+      "stopConditions": [
+        "p0-drift",
+        "timeout"
+      ],
+      "codexTakeoverAllowed": true,
+      "crossProjectReuse": false,
+      "policyHash": "1321de1c134f45f057e53392383834e38a0a8aa3e918d9fd6dbae3b2f01c5a32"
+    },
+    "simulatedOutcome": {
+      "feedback": {
+        "packetId": "FDB-PH3-STALE",
+        "packetType": "feedback",
+        "version": "1.0",
+        "cycleId": "OLD-CYCLE"
+      },
+      "processEvidence": {
+        "failureClass": null,
+        "spawnSucceeded": true,
+        "timedOut": false,
+        "childExitCode": 0
+      },
+      "changedFiles": [
+        {
+          "path": "stale.py",
+          "trace": [
+            "FR-TOT-001"
+          ]
+        }
+      ],
+      "driftSeverity": "none",
+      "unmappedActions": [],
+      "evidenceRefs": [
+        "EV-PH3-006"
+      ]
+    },
+    "cycleId": "C-PH3-001",
+    "storyId": "DSCR-ST-3-003",
+    "roundNumber": 1,
+    "attemptId": "ATT-NEG-PH3-006-001",
+    "evidenceLineage": [
+      "EV-PRE-001"
+    ],
+    "previousChangedFiles": null
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "stale-field-blocks-completion",
+  "traceTo": [
+    "FR-TOT-008",
+    "FR-TOT-017",
+    "AC-TOT-003",
+    "AC-TOT-006"
+  ]
+}

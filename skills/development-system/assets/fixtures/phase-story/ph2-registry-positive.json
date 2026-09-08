@@ -1,0 +1,28 @@
+{
+  "fixtureId": "POS-PH2-REGISTRY",
+  "targetFunction": "validate_claude_registry",
+  "description": "Valid Claude external Agent registry entry with isolated completion authority.",
+  "input": {
+    "entry": {
+      "agentId": "claude-code-v1",
+      "adapterId": "handoff-claude-executor",
+      "version": "1.0",
+      "capabilities": [
+        "multiFile",
+        "skillDevelopment",
+        "complexRepair",
+        "crossModule"
+      ],
+      "availability": "available",
+      "feedbackSchemaRef": "feedback-packet.schema.json",
+      "completionAuthorityIsolated": true
+    },
+    "existing": []
+  },
+  "expectedValidation": "accept",
+  "traceTo": [
+    "FR-TOT-009",
+    "AC-TOT-014",
+    "AC-TOT-017"
+  ]
+}

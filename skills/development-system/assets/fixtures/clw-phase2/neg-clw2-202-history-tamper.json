@@ -1,0 +1,1 @@
+{"fixtureId":"NEG-CLW2-202-HISTORY-TAMPER","targetFunction":"validate_history","description":"A modified hash-linked event is rejected during recovery.","expectedValidation":"reject","expectedRejectionRule":"event-hash","traceTo":["FR-CLW2-006","FR-CLW2-007","AC-CLW2-008"]}

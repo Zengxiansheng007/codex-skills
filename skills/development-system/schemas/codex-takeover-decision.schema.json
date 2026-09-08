@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codex-takeover-decision.schema.json",
+  "title": "Bounded same-Story Codex takeover decision",
+  "type": "object",
+  "required": ["takeoverId", "allowed", "reason"],
+  "properties": {
+    "takeoverId": {"type": "string", "minLength": 1},
+    "allowed": {"type": "boolean"},
+    "reason": {"type": "string", "minLength": 1},
+    "cycleId": {"type": "string", "minLength": 1},
+    "storyId": {"type": "string", "minLength": 1},
+    "roundNumber": {"type": "integer", "minimum": 1},
+    "evidenceLineage": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "authorizationFingerprint": {"type": ["string", "null"]},
+    "takeoverCount": {"type": "integer", "minimum": 1},
+    "auditRedacted": {"const": true}
+  }
+}

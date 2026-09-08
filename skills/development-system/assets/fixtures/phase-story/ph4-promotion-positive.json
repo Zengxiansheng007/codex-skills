@@ -1,0 +1,50 @@
+{
+  "fixtureId": "POS-PH4-PROMOTION",
+  "now": "2026-08-16T06:00:00+00:00",
+  "compatibility": {
+    "sourceHash": "src-001",
+    "targetBaselineHash": "target-001",
+    "backupPlanRef": "backup-plan.md",
+    "rollbackPlanRef": "rollback-plan.md",
+    "blockers": [],
+    "surfaces": [
+      {"surface": "skill", "compatible": true}, {"surface": "references", "compatible": true},
+      {"surface": "schemas", "compatible": true}, {"surface": "scripts", "compatible": true},
+      {"surface": "fixtures", "compatible": true}, {"surface": "reports", "compatible": true},
+      {"surface": "changeRecords", "compatible": true}, {"surface": "handoffInterface", "compatible": true}
+    ]
+  },
+  "backup": {
+    "manifestId": "BKP-PH4-001",
+    "targetPath": "C:/Users/example/.codex/skills/development-system",
+    "targetBaselineHash": "target-001",
+    "files": [{"path": "SKILL.md", "sha256": "old-001"}],
+    "createdAt": "2026-08-16T05:55:00+00:00",
+    "rollbackPlanRef": "rollback-plan.md",
+    "restoreValidation": "hash-and-validator"
+  },
+  "request": {
+    "mode": "dry-run",
+    "sourceHash": "src-001",
+    "targetPath": "C:/Users/example/.codex/skills/development-system",
+    "targetBaselineHash": "target-001",
+    "coverage": ["development-system", "handoff-claude-executor"],
+    "backupManifestRef": "backup-manifest.json",
+    "rollbackPlanRef": "rollback-plan.md"
+  },
+  "approval": {
+    "approvalId": "APP-PH4-001",
+    "status": "active",
+    "userApprovalRef": "user-explicit-install-approval",
+    "validFrom": "2026-08-16T05:00:00+00:00",
+    "expiresAt": "2026-08-17T05:00:00+00:00",
+    "sourceHash": "src-001",
+    "targetPath": "C:/Users/example/.codex/skills/development-system",
+    "targetBaselineHash": "target-001",
+    "coverage": ["development-system", "handoff-claude-executor"],
+    "backupManifestRef": "backup-manifest.json",
+    "rollbackPlanRef": "rollback-plan.md"
+  },
+  "traceTo": ["DSCR-ST-4-001", "DSCR-ST-4-002", "AC-TOT-016", "AC-TOT-017"]
+}
+

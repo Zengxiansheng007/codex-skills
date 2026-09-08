@@ -1,0 +1,8 @@
+{
+  "fixtureId": "NEG-CLW4-002-FEEDBACK-DRIFT",
+  "targetFunction": "review_agent_feedback",
+  "description": "P0 drift or an unmapped action cannot be accepted as normal feedback.",
+  "expectedValidation": "reject",
+  "expectedRejectionRules": ["requirement-drift", "unmapped-actions"],
+  "traceTo": ["FR-CLW4-004", "FR-CLW4-005", "AC-CLW4-005"]
+}

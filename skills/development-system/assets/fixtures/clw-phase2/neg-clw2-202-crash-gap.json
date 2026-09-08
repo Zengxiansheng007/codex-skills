@@ -1,0 +1,1 @@
+{"fixtureId":"NEG-CLW2-202-CRASH-GAP","targetFunction":"resume_cycle","description":"An event persisted before snapshot replacement must be detected as a snapshot sequence/hash gap.","expectedValidation":"reject","expectedRejectionRule":"snapshot-sequence","traceTo":["FR-CLW2-006","AC-CLW2-007"]}

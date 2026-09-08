@@ -1,0 +1,33 @@
+{
+  "resultType": "research-result",
+  "researchId": "RR-FULL-FIXTURE-001",
+  "requirementAnchor": "DS-OPT-COMPAT-CLOSURE-20260829-001",
+  "roundId": "round-1",
+  "completionClaim": "complete",
+  "evidenceComplete": true,
+  "adapterValidation": {"localSchemaValid": true, "semanticGatesPassed": true},
+  "evidenceLedgerRef": {"ledgerId": "LEDGER-FULL-001", "ledgerSha256": "878a7d5f4ff8f62fd370d05e3f652eedf7e5709e6c8cc92460c3bb055b61b12c"},
+  "scope": {"objective": "full compatibility pipeline fixture"},
+  "queries": [
+    {"queryId":"oa-r1","query":"fixture openalex round one","round":1,"source":"openalex"},
+    {"queryId":"oa-r2","query":"fixture openalex round two","round":2,"source":"openalex"},
+    {"queryId":"cr-r1","query":"fixture crossref round one","round":1,"source":"crossref"},
+    {"queryId":"cr-r2","query":"fixture crossref round two","round":2,"source":"crossref"},
+    {"queryId":"pm-r1","query":"fixture pubmed round one","round":1,"source":"pubmed"},
+    {"queryId":"pm-r2","query":"fixture pubmed round two","round":2,"source":"pubmed"}
+  ],
+  "sources": [
+    {"url":"https://doi.org/10.1000/oa-fixture","title":"OpenAlex fixture paper","doi":"10.1000/oa-fixture","authors":["OpenAlex Author"],"year":2025,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"openalex","queryId":"oa-r1"},
+    {"url":"https://doi.org/10.1000/oa-fixture","title":"OpenAlex fixture paper","doi":"10.1000/oa-fixture","authors":["OpenAlex Author"],"year":2025,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"openalex","queryId":"oa-r2"},
+    {"url":"https://doi.org/10.1000/cr-fixture","title":"Crossref fixture paper","doi":"10.1000/cr-fixture","authors":["Crossref Author"],"year":2024,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"crossref","queryId":"cr-r1"},
+    {"url":"https://doi.org/10.1000/cr-fixture","title":"Crossref fixture paper","doi":"10.1000/cr-fixture","authors":["Crossref Author"],"year":2024,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"crossref","queryId":"cr-r2"},
+    {"url":"https://doi.org/10.1000/pm-fixture","title":"PubMed fixture paper","doi":"10.1000/pm-fixture","authors":["PubMed Author"],"year":2023,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"pubmed","queryId":"pm-r1"},
+    {"url":"https://doi.org/10.1000/pm-fixture","title":"PubMed fixture paper","doi":"10.1000/pm-fixture","authors":["PubMed Author"],"year":2023,"abstract":"fixture compatibility research paper","verified":true,"retrievedAt":"2026-08-29T00:00:00Z","toolUsed":"mcp__exa__web_search_exa","scholarSource":"pubmed","queryId":"pm-r2"}
+  ],
+  "claims": [],
+  "claimSourceMap": {},
+  "coverageMatrix": [],
+  "contradictions": [],
+  "p0p1Gaps": [],
+  "gaps": []
+}

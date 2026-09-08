@@ -1,0 +1,31 @@
+{
+  "fixtureId": "NEG-PH3-011",
+  "targetFunction": "advance_circuit",
+  "description": "Three rounds with no verified progress must open the circuit.",
+  "input": {
+    "initialCounters": {},
+    "observations": [
+      {
+        "actualExecution": true,
+        "verifiedProgress": false
+      },
+      {
+        "actualExecution": true,
+        "verifiedProgress": false
+      },
+      {
+        "actualExecution": true,
+        "verifiedProgress": false
+      }
+    ]
+  },
+  "expectedState": "loop-limit-reached",
+  "expectedStopReason": "no-verified-progress",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "no-progress-stops-loop",
+  "traceTo": [
+    "FR-TOT-014",
+    "FR-TOT-016",
+    "AC-TOT-010"
+  ]
+}

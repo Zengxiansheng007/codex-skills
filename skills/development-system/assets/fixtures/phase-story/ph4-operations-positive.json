@@ -1,0 +1,15 @@
+{
+  "fixtureId": "POS-PH4-OPERATIONS",
+  "statusProjection": {"machineCode": "running", "statusZh": "运行中"},
+  "retentionDays": 30,
+  "failureBudget": {"maxFailures": 3, "used": 1},
+  "maintenanceRefs": ["operations-guide.md"],
+  "eventHistoryRef": "events.jsonl",
+  "decisionLogRef": "decisions.jsonl",
+  "resourceUsage": {"calls": 1, "durationSeconds": 600},
+  "resourceBudget": {"calls": 3, "durationSeconds": 1800},
+  "events": [{"eventId": "EV-PH4-001", "state": "running"}],
+  "decisions": [{"decisionId": "DEC-PH4-001", "decision": "dry-run-only"}],
+  "traceTo": ["DSCR-ST-4-003", "AC-TOT-013", "AC-TOT-018"]
+}
+

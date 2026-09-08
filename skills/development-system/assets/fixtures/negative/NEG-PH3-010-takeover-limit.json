@@ -1,0 +1,31 @@
+{
+  "fixtureId": "NEG-PH3-010",
+  "targetFunction": "decide_takeover",
+  "description": "Exceeding the takeover limit must be rejected.",
+  "input": {
+    "trigger": "timeout",
+    "cycleId": "C-PH3-001",
+    "storyId": "DSCR-ST-3-004",
+    "roundNumber": 1,
+    "policy": {
+      "status": "active",
+      "codexTakeoverAllowed": true,
+      "maxRounds": 10,
+      "maxTakeovers": 1
+    },
+    "evidenceLineage": [
+      "EV-1"
+    ],
+    "takeoverCount": 1
+  },
+  "expectedAllowed": false,
+  "expectedReason": "takeover-limit-reached",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "takeover-limit-stops-loop",
+  "traceTo": [
+    "FR-TOT-014",
+    "FR-TOT-016",
+    "AC-TOT-010",
+    "AC-TOT-013"
+  ]
+}

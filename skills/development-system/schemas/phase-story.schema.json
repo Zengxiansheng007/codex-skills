@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/phase-story.schema.json",
+  "title": "Phase Story Contract",
+  "description": "Contract for decomposing complex goals into phases with entry/exit criteria and stories that map FR/AC, dependencies and evidence (FR-008, AC-005).",
+  "type": "object",
+  "required": [
+    "phaseId",
+    "name",
+    "goal",
+    "entryCriteria",
+    "exitCriteria",
+    "stories"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "phaseId": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "goal": {"type": "string", "minLength": 1},
+    "entryCriteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "exitCriteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "runtimeBoundary": {"type": "string"},
+    "stories": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/story"},
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "story": {
+      "type": "object",
+      "required": [
+        "storyId",
+        "title",
+        "goal",
+        "mappedRequirements",
+        "acceptanceCriteria",
+        "dependsOn",
+        "testability",
+        "evidenceRequirements"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "storyId": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "goal": {"type": "string", "minLength": 1},
+        "mappedRequirements": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "description": "FR ids this story implements; empty stories are rejected (AC-005)."
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "description": "AC ids this story must satisfy; empty stories are rejected (AC-005)."
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Story ids that must complete first; cyclic dependencies are rejected."
+        },
+        "testability": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How this story is deterministically tested."
+        },
+        "evidenceRequirements": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "description": "Evidence artifacts required to close this story."
+        }
+      }
+    }
+  }
+}

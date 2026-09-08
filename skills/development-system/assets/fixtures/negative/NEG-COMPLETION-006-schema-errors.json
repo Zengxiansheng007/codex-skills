@@ -1,0 +1,30 @@
+{
+  "fixtureId": "NEG-COMPLETION-006",
+  "targetFunction": "evaluate_completion",
+  "description": "Feedback validation evidence that reports schema errors (ok=false, errorCount>0, non-empty errors) must not produce completed even when the hash matches.",
+  "input": {
+    "allStoriesPassed": true,
+    "allAcceptanceCriteriaVerified": true,
+    "feedback": {"packetId": "FB-006", "result": "completed"},
+    "feedbackValidation": {
+      "schemaRef": "feedback-packet.schema.json",
+      "validatorId": "handoff-feedback-reviewer",
+      "feedbackHash": "44c8bb412cfc3ea7989400e9e20ca4d054b281fdf430db94443b8fa69200b2f9",
+      "ok": false,
+      "errorCount": 2,
+      "errors": ["missing-required-field", "type-mismatch"],
+      "validatedAt": "2026-08-15T00:00:00Z"
+    },
+    "evidenceComplete": true,
+    "qaPassed": true,
+    "driftSeverity": "none",
+    "unmappedActions": [],
+    "permissionGatePassed": true,
+    "riskGatePassed": true,
+    "codexReviewPassed": true
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "feedback-validation-schema-errors",
+  "traceTo": ["FR-011", "FR-013", "AC-006", "AC-009", "AC-014", "REPAIR-ST-001"]
+}

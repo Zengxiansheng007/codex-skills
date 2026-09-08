@@ -1,0 +1,36 @@
+{
+  "fixtureId": "POS-CLW2-003",
+  "targetFunction": "select_next_story",
+  "description": "A Story whose dependency has passed the Codex completion gate becomes eligible for selection.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-ROOT",
+        "title": "Root Story",
+        "goal": "No dependencies.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "passed"
+      },
+      {
+        "storyId": "CLW-ST-201-DOWNSTREAM",
+        "title": "Downstream Story",
+        "goal": "Depends on Root which has passed.",
+        "mappedRequirements": ["FR-CLW2-002"],
+        "acceptanceCriteria": ["AC-CLW2-002"],
+        "dependsOn": ["CLW-ST-201-ROOT"],
+        "priority": 3,
+        "status": "pending"
+      }
+    ],
+    "completedStoryIds": ["CLW-ST-201-ROOT"],
+    "activeStoryId": null
+  },
+  "expectedAllowed": true,
+  "expectedSelectedStoryId": "CLW-ST-201-DOWNSTREAM",
+  "expectedEligibleCount": 1,
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW2-002", "AC-CLW2-002"]
+}

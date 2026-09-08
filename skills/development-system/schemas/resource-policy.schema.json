@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Resource Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policyId", "profileId", "calls", "durationSeconds", "tokens", "cost", "rate", "concurrency", "onLimit"],
+  "properties": {
+    "policyId": {"type": "string", "minLength": 1},
+    "profileId": {"type": "string", "minLength": 1},
+    "calls": {"type": "number", "minimum": 0},
+    "durationSeconds": {"type": "number", "minimum": 0},
+    "tokens": {"type": "number", "minimum": 0},
+    "cost": {"type": "number", "minimum": 0},
+    "rate": {"type": "number", "minimum": 0},
+    "concurrency": {"type": "number", "minimum": 1},
+    "onLimit": {"const": "resource-limit-reached"}
+  }
+}

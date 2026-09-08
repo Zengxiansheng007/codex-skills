@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["statusProjection", "retentionDays", "failureBudget", "maintenanceRefs", "eventHistoryRef", "decisionLogRef", "resourceUsage", "resourceBudget", "events", "decisions"],
+  "properties": {
+    "statusProjection": {"type": "object"},
+    "retentionDays": {"type": "integer", "minimum": 1},
+    "failureBudget": {"type": "object"},
+    "maintenanceRefs": {"type": "array", "minItems": 1},
+    "eventHistoryRef": {"type": "string", "minLength": 1},
+    "decisionLogRef": {"type": "string", "minLength": 1},
+    "resourceUsage": {"type": "object"},
+    "resourceBudget": {"type": "object"},
+    "events": {"type": "array", "minItems": 1},
+    "decisions": {"type": "array", "minItems": 1}
+  }
+}

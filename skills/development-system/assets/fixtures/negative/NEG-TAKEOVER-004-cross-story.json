@@ -1,0 +1,29 @@
+{
+  "fixtureId": "NEG-TAKEOVER-004",
+  "targetFunction": "decide_takeover",
+  "description": "A takeover request for a different Story than the failed Claude attempt must fail closed.",
+  "input": {
+    "trigger": "claude-unavailable",
+    "cycleId": "C1",
+    "storyId": "ST-2-006",
+    "roundNumber": 1,
+    "originCycleId": "C1",
+    "originStoryId": "ST-2-005",
+    "policy": {
+      "status": "active",
+      "codexTakeoverAllowed": true,
+      "maxRounds": 10,
+      "maxTakeovers": 1
+    },
+    "evidenceLineage": [
+      "EV-1"
+    ]
+  },
+  "expectedAllowed": false,
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "cross-story-takeover-forbidden",
+  "traceTo": [
+    "FR-TOT-014",
+    "AC-TOT-010"
+  ]
+}

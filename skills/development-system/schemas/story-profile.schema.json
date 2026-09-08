@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/story-profile.schema.json",
+  "title": "Story Profile",
+  "description": "CLW-ST-101: Story size classification and deadline budget. Large Stories must be split before live execution (FR-CLW-001, FR-CLW-002, AC-CLW-001, AC-CLW-002).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profileId": {"type": "string", "minLength": 1},
+    "size": {"enum": ["small", "medium", "large"]},
+    "initialTimeoutSeconds": {"type": "integer", "minimum": 1},
+    "noProgressTimeoutSeconds": {"type": "integer", "minimum": 1},
+    "extensionSliceSeconds": {"type": "integer", "minimum": 1},
+    "attemptHardDeadlineSeconds": {"type": "integer", "minimum": 1},
+    "storyTotalDeadlineSeconds": {"type": "integer", "minimum": 1},
+    "maxRounds": {"type": "integer", "minimum": 1, "maximum": 3},
+    "splitRequired": {"type": "boolean"}
+  },
+  "oneOf": [
+    {
+      "properties": {"size": {"enum": ["small", "medium"]}},
+      "required": ["profileId", "size", "initialTimeoutSeconds", "noProgressTimeoutSeconds", "extensionSliceSeconds", "attemptHardDeadlineSeconds", "storyTotalDeadlineSeconds", "maxRounds"]
+    },
+    {
+      "properties": {"size": {"const": "large"}, "splitRequired": {"const": true}},
+      "required": ["profileId", "size", "splitRequired"]
+    }
+  ]
+}

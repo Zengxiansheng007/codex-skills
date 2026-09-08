@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Event History Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventType", "cycleId", "sequenceIndex", "previousHash", "eventHash", "observedAt", "actor", "trace", "evidenceRefs"],
+  "properties": {
+    "eventType": {"type": "string", "minLength": 1},
+    "cycleId": {"type": "string", "minLength": 1},
+    "sequenceIndex": {"type": "integer", "minimum": 1},
+    "previousHash": {"type": "string", "pattern": "^(GENESIS|[a-f0-9]{64})$"},
+    "eventHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "observedAt": {"type": "string", "minLength": 1},
+    "actor": {"type": "string", "minLength": 1},
+    "phaseId": {"type": "string"},
+    "storyId": {"type": "string"},
+    "roundNumber": {"type": "integer", "minimum": 0, "maximum": 10},
+    "trace": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}}
+  }
+}

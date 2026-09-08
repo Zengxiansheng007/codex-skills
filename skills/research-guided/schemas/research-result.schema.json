@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "research-result.schema.json",
+  "title": "Public Research Result",
+  "description": "Strict schema for Claude public-research output. Output must be pure UTF-8 JSON validated by this schema and semantic evidence gates.",
+  "type": "object",
+  "required": ["resultType", "researchId", "requirementAnchor", "roundId", "skillsUsed", "scope", "queries", "mode", "sessionFresh", "sources", "claims", "claimSourceMap", "coverageMatrix", "contradictions", "p0p1Gaps", "followupQueryMatrix", "limitations", "selfValidation", "completionClaim", "schemaVersion", "schemaSha256", "gaps", "evidenceComplete", "toolRegistryMatch", "schemaEnforcementMode", "providerNativeSchema"],
+  "properties": {
+    "resultType": {"type": "string", "enum": ["research-result"]},
+    "schemaEnforcementMode": {
+      "type": "string",
+      "enum": ["provider-native", "adapter-validated"],
+      "description": "FR-ADP-001: explicit and auditable compatibility mode. provider-native = gateway enforces Schema at generation time. adapter-validated = local Schema/semantic validation is the acceptance authority; activation is explicit, never a silent downgrade from a native failure."
+    },
+    "providerNativeSchema": {
+      "type": "boolean",
+      "description": "FR-ADP-001: false for adapter-validated mode; true only when the gateway natively enforced the Schema."
+    },
+    "evidenceLedgerRef": {
+      "type": "object",
+      "description": "FR-ADP-003/004: reference to the frozen retrieval evidence ledger consumed by serialization. Every final source, URL, claim, and claim-source mapping must resolve to this ledger.",
+      "required": ["ledgerId", "ledgerSha256"],
+      "properties": {
+        "ledgerId": {"type": "string", "minLength": 1},
+        "ledgerSha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+      }
+    },
+    "adapterValidation": {
+      "type": "object",
+      "description": "FR-ADP-005/006: local validation evidence for adapter-validated mode. Recorded only when schemaEnforcementMode=adapter-validated.",
+      "properties": {
+        "localSchemaValid": {"type": "boolean"},
+        "semanticGatesPassed": {"type": "boolean"},
+        "formatAttempts": {"type": "integer", "minimum": 0, "maximum": 3, "description": "FR-ADP-006: serialization attempts recorded; all must use the same evidence hash."},
+        "evidenceHashStable": {"type": "boolean", "description": "True when every format attempt used the identical ledger hash."},
+        "reinforcementRounds": {"type": "integer", "minimum": 0, "maximum": 1}
+      }
+    },
+    "researchId": {"type": "string", "minLength": 1},
+    "requirementAnchor": {"type": "string", "minLength": 1},
+    "roundId": {"type": "string", "minLength": 1},
+    "skillsUsed": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "scope": {"type": "object"},
+    "queries": {"type": "array", "items": {"type": "object"}},
+    "mode": {"type": "string", "enum": ["live", "dry-run"]},
+    "sessionFresh": {"type": "boolean", "description": "Must be true; proves session is not stale"},
+    "permissionMode": {"type": "string", "enum": ["acceptEdits", "auto", "default", "dontAsk"], "description": "Must not be plan"},
+    "toolRegistryMatch": {"type": "boolean", "description": "Must be true; exact match against registry"},
+    "toolCount": {"type": "integer", "minimum": 1, "description": "Number of MCP tools visible; must be > 0"},
+    "mcpSchemaVisible": {"type": "boolean", "description": "Must be true; MCP schema was visible in session"},
+    "canaryEvidence": {
+      "type": "object",
+      "required": ["canaryPassed"],
+      "properties": {
+        "canaryPassed": {"type": "boolean"},
+        "canaryDetail": {"type": "string"}
+      }
+    },
+    "permissionDenials": {"type": "integer", "minimum": 0, "maximum": 0, "description": "Must be zero"},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["url", "title", "retrievedAt", "verified"],
+        "properties": {
+          "url": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "retrievedAt": {"type": "string", "minLength": 1},
+          "verified": {"type": "boolean"},
+          "toolUsed": {"type": "string"}
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "sourceUrl"],
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "sourceUrl": {"type": "string", "minLength": 1},
+          "sourceTitle": {"type": "string"}
+        }
+      }
+    },
+    "claimSourceMap": {"type": "object"},
+    "coverageMatrix": {"type": "array", "items": {"type": "object"}},
+    "contradictions": {"type": "array", "items": {"type": "object"}},
+    "p0p1Gaps": {"type": "array", "items": {"type": "object"}},
+    "followupQueryMatrix": {"type": "array", "items": {"type": "object"}},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "selfValidation": {"type": "object"},
+    "completionClaim": {"type": "string", "enum": ["complete", "partial", "blocked", "rerun"]},
+    "schemaVersion": {"type": "string", "minLength": 1},
+    "schemaSha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "description"],
+        "properties": {
+          "severity": {"type": "string", "enum": ["P0", "P1", "P2"]},
+          "description": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "evidenceComplete": {"type": "boolean", "description": "Must be true; unverified sources cannot be claimed complete"},
+    "formatRetries": {"type": "integer", "minimum": 0, "maximum": 3, "description": "Format repair retries without new retrieval; max 3"},
+    "reinforcementRounds": {"type": "integer", "minimum": 0, "maximum": 1, "description": "Content reinforcement rounds; max 1"},
+    "failureClass": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "plan-mode-blocked",
+        "unregistered-tool-requested",
+        "mcp-schema-absent",
+        "tool-count-zero",
+        "stale-session",
+        "canary-missing",
+        "canary-failed",
+        "permission-denials-nonzero",
+        "output-not-json",
+        "source-mappings-invalid",
+        "unverified-sources-claimed-complete",
+        "format-retry-limit-exceeded",
+        "reinforcement-limit-exceeded",
+        "claude-unavailable",
+        "timeout",
+        "internal-error",
+        "structured-output-empty",
+        "silent-native-downgrade",
+        "evidence-ledger-missing",
+        "evidence-hash-unstable",
+        "unsupported-fact-introduced",
+        "serialization-tool-access",
+        "adapter-validation-failed",
+        "format-attempt-exhaustion"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

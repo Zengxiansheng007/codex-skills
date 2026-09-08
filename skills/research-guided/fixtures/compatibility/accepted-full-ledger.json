@@ -1,0 +1,24 @@
+{
+  "ledgerType": "research-evidence-ledger",
+  "ledgerId": "LEDGER-FULL-001",
+  "requirementAnchor": "DS-OPT-COMPAT-CLOSURE-20260829-001",
+  "roundId": "round-1",
+  "schemaEnforcementMode": "adapter-validated",
+  "providerNativeSchema": false,
+  "session": {"sessionId": "fixture-session-001", "sessionStartedAt": "2026-08-29T00:00:00Z", "sessionFresh": true, "permissionMode": "default"},
+  "queries": [{"query": "fixture scholarly compatibility research"}],
+  "toolCalls": [{"toolName": "mcp__exa__web_search_exa", "toolInput": {"query": "fixture scholarly compatibility research"}, "resultStatus": "ok"}],
+  "permissionResults": {"permissionDenials": 0, "deniedTools": []},
+  "sources": [
+    {"url": "https://doi.org/10.1000/oa-fixture", "title": "OpenAlex fixture paper", "retrievedAt": "2026-08-29T00:00:00Z", "verified": true, "contentDigest": "1111111111111111111111111111111111111111111111111111111111111111"},
+    {"url": "https://doi.org/10.1000/cr-fixture", "title": "Crossref fixture paper", "retrievedAt": "2026-08-29T00:00:00Z", "verified": true, "contentDigest": "2222222222222222222222222222222222222222222222222222222222222222"},
+    {"url": "https://doi.org/10.1000/pm-fixture", "title": "PubMed fixture paper", "retrievedAt": "2026-08-29T00:00:00Z", "verified": true, "contentDigest": "3333333333333333333333333333333333333333333333333333333333333333"},
+    {"url": "https://doi.org/10.1000/chase", "title": "Citation chase fixture", "retrievedAt": "2026-08-29T00:00:00Z", "verified": true, "contentDigest": "4444444444444444444444444444444444444444444444444444444444444444"}
+  ],
+  "claims": [],
+  "registryHash": "5555555555555555555555555555555555555555555555555555555555555555",
+  "registryMatch": true,
+  "boundaryChecks": {"noPrivateSources": true, "noUnapprovedTools": true, "noCredentialLeakage": true, "publicOnly": true},
+  "frozenAt": "2026-08-29T00:00:00Z",
+  "ledgerSha256": "878a7d5f4ff8f62fd370d05e3f652eedf7e5709e6c8cc92460c3bb055b61b12c"
+}

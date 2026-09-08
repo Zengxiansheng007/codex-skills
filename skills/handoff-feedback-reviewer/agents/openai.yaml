@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff Feedback Reviewer"
+  short_description: "Review feedback, drift, and completion"
+  default_prompt: "Use $handoff-feedback-reviewer to validate this agent feedback and choose the next loop state."

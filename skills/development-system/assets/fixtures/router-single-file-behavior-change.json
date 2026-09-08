@@ -1,0 +1,13 @@
+{
+  "fixtureId": "router-single-file-behavior-change",
+  "inputTask": "Use development-system to change one validator file so a new completion condition is enforced.",
+  "expectedRoute": "local-global-skill-edit-loop",
+  "manualApprovalRequired": true,
+  "requiredObservableMarkers": [
+    "workspace-copy-first",
+    "single-file behavior change",
+    "requirement anchor",
+    "validation evidence",
+    "global deployment approval"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "repo": "anysearch-ai/anysearch-skill",
+  "ref": "v3.1.1",
+  "commitSha": "15b7ea5039983c9dee328be8c7c609f3eb86058e",
+  "excludedFromPayload": [
+    ".github"
+  ],
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "38ba2a57290ff77882cb28ce5496722d86c0eb4e5176628bc280eb798d4ffbca"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "1d5d71dcc6ccd28ab46a335349ecc74742ca4b81f4fcad212f8d134f70f1f13e"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "c46c6f288d3ec1733bd66ec8f2649cde63acef481c92c5f7e6926b4f0186a462"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "07a854e52ab475b19ac2bed1bb1e014da7be2e9613aa27a86808f07dba531d94"
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "5eab122dbb6c1198640222c32c15e57cee925c884619edfb133b3f210b24c9b2"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a090f413a5c48dfbb03364862439e08aa8506d069ccf57f2b45e98faef4a2602"
+    },
+    {
+      "path": "README_zh.md",
+      "sha256": "eecb62f19a1a7dfe5c64780f2b1849d9df4bdf5950d9e864774c827e27976c69"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "e6f639fef7f09e79c31bb68bf232e83a09e832c8fc9e1d1818514ca9b20d4713"
+    },
+    {
+      "path": "scripts/anysearch_cli.js",
+      "sha256": "c11c32aecbe3e330385850fbf88696a4188dc23b0dadbeb3f7a9297b57f23e5c"
+    },
+    {
+      "path": "scripts/anysearch_cli.ps1",
+      "sha256": "7c8cfcdb174ccd988970c739d51b93b1450a5adb496109a63c0f177153f7d2a1"
+    },
+    {
+      "path": "scripts/anysearch_cli.py",
+      "sha256": "4045623cc09f3289a17ddb83dd91c0039bb85d37eb809ebaa4e8dd8777ebcaae"
+    },
+    {
+      "path": "scripts/anysearch_cli.sh",
+      "sha256": "7f1002271640d97f14b1bdd317b55ddcc20dfa0bcd21f3a276f05764c2337e33"
+    },
+    {
+      "path": "scripts/generate.py",
+      "sha256": "8313494e60b6c3ff55d93cf0d2cbe49da5d63df02c158657d4df95b9eee628ac"
+    },
+    {
+      "path": "scripts/shared/constants.json",
+      "sha256": "8464aa5b51181ff76438c9275852e73d29216471d1b91d94682a270305869d20"
+    },
+    {
+      "path": "scripts/shared/doc_spec.md",
+      "sha256": "3fe372d6d5efd02324c073500d904b2209943ba5be9ee7e077cb1efeb9532f85"
+    },
+    {
+      "path": "scripts/test_cli.py",
+      "sha256": "93e9112dd80d34d136e9f92e23f0c8e7525da03490d9a3481ef2c5e8f8cfc51a"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "37bb52a2b58e86b950bce1bc905d454ca977c166094d9da9edfd8c7b58bb150a"
+    },
+    {
+      "path": "SHA256SUMS.txt",
+      "sha256": "8d24f50e4a929a93ec20d3ea612aa43c75ce0801799021b2c8b244700a7d3465"
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "54702f6066dc76cb2b3c04ba556404e6113b1cdcf0f63120ef3306343f9ab25e"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "fixtureId": "NEG-RECOVERY-001",
+  "targetFunction": "resume_cycle",
+  "description": "A tampered snapshot hash must block recovery.",
+  "input": {
+    "snapshotMutation": "replace-snapshotHash",
+    "anchorId": "A1",
+    "anchorVersion": "1.0",
+    "workspaceFingerprint": "W1",
+    "heartbeatFresh": true
+  },
+  "expectedState": "blocked-external-dependency",
+  "expectedError": "snapshot-hash",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "snapshot-hash-mismatch",
+  "traceTo": ["FR-021", "AC-008"]
+}

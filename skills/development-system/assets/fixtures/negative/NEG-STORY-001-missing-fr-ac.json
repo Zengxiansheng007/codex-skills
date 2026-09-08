@@ -1,0 +1,16 @@
+{
+  "fixtureId": "NEG-STORY-001",
+  "description": "A story with empty mappedRequirements and empty acceptanceCriteria. The validator must reject it (AC-005).",
+  "story": {
+    "storyId": "PH1-ST-BAD-001",
+    "title": "Story missing FR/AC",
+    "goal": "This story has no FR or AC mapping.",
+    "mappedRequirements": [],
+    "acceptanceCriteria": [],
+    "dependsOn": [],
+    "testability": "none",
+    "evidenceRequirements": []
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "AC-005"
+}

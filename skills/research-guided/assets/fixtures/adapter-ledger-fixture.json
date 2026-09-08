@@ -1,0 +1,55 @@
+{
+  "ledgerType": "research-evidence-ledger",
+  "ledgerId": "LEDGER-ADP-FIXTURE-001",
+  "requirementAnchor": "CLAUDE-GLM52-ADAPTER-REPAIR-20260827-001",
+  "roundId": "ROUND-1",
+  "schemaEnforcementMode": "adapter-validated",
+  "providerNativeSchema": false,
+  "session": {
+    "sessionId": "session-fixture-001",
+    "sessionStartedAt": "2026-08-27T10:00:00Z",
+    "sessionFresh": true,
+    "permissionMode": "default"
+  },
+  "queries": [
+    {"query": "model context protocol specification"}
+  ],
+  "toolCalls": [
+    {
+      "toolName": "mcp__exa__web_search_exa",
+      "toolInput": {"query": "model context protocol specification"},
+      "resultStatus": "ok",
+      "resultDetail": "fixture: one public HTTPS URL returned"
+    }
+  ],
+  "permissionResults": {
+    "permissionDenials": 0,
+    "deniedTools": []
+  },
+  "sources": [
+    {
+      "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "title": "MCP Server Tools Specification (fixture)",
+      "retrievedAt": "2026-08-27T10:00:02Z",
+      "verified": true,
+      "toolUsed": "mcp__exa__web_search_exa",
+      "contentDigest": "a3f5c9e1b7d2f8a4c0e6b1d3a5f7c9e1b7d2f8a4c0e6b1d3a5f7c9e1b7d2"
+    }
+  ],
+  "claims": [
+    {
+      "text": "The MCP specification defines a tools list method (fixture claim).",
+      "sourceUrl": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools"
+    }
+  ],
+  "registryHash": "c910cffbcf23579129214b040a7afa28d522a617b84bf5dbe37d49a571b8c0b0",
+  "registryMatch": true,
+  "boundaryChecks": {
+    "noPrivateSources": true,
+    "noUnapprovedTools": true,
+    "noCredentialLeakage": true,
+    "publicOnly": true
+  },
+  "frozenAt": "2026-08-27T10:00:05Z",
+  "ledgerSha256": "fixture-recompute-via-freeze-ledger"
+}

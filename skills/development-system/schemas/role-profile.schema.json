@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Private Role Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profileId", "namespace", "globallyDiscoverable", "responsibilities", "consumes", "produces", "entryGate", "exitGate"],
+  "properties": {
+    "profileId": {"enum": ["product-requirement", "architect", "project-planner", "engineer", "qa"]},
+    "namespace": {"const": "development-system.private"},
+    "globallyDiscoverable": {"const": false},
+    "responsibilities": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "consumes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "produces": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "entryGate": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "exitGate": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  }
+}

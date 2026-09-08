@@ -1,0 +1,31 @@
+{
+  "fixtureId": "NEG-CLW-002",
+  "targetFunction": "evaluate_live_handoff_stories",
+  "description": "A Large Story must fail with a split-required finding.",
+  "input": {
+    "packetId": "HND-CLW-LARGE-001",
+    "packetType": "handoff",
+    "version": "1.0",
+    "storyProfile": {
+      "profileId": "CLW-PROFILE-LARGE",
+      "size": "large",
+      "splitRequired": true
+    },
+    "stories": [
+      {
+        "storyId": "CLW-ST-101-LARGE",
+        "title": "Large Story negative",
+        "goal": "Execute a large cross-module feature."
+      }
+    ]
+  },
+  "expectedDecision": "split-required",
+  "expectedAllowed": false,
+  "expectedRejectionRule": "large-story-split-required",
+  "expectedValidation": "reject",
+  "expectedSplitFinding": {
+    "rule": "large-story-split-required",
+    "requiredAction": "split-story-before-execution"
+  },
+  "traceTo": ["FR-CLW-002", "AC-CLW-002"]
+}

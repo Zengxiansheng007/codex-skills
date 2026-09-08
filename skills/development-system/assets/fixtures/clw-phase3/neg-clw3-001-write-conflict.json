@@ -1,0 +1,8 @@
+{
+  "fixtureId": "NEG-CLW3-001-WRITE-CONFLICT",
+  "targetFunction": "evaluate_observed_write_set",
+  "description": "A child path outside a declared sibling write set is routed to requirements review.",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "out-of-scope-write",
+  "traceTo": ["FR-CLW3-006", "FR-CLW3-007", "AC-CLW3-007", "AC-CLW3-008"]
+}

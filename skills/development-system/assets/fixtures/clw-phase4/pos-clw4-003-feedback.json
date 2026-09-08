@@ -1,0 +1,7 @@
+{
+  "fixtureId": "POS-CLW4-003-FEEDBACK",
+  "targetFunction": "review_agent_feedback",
+  "description": "Feedback with current lineage and evidence is accepted for normal Codex review.",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW4-004", "FR-CLW4-006", "AC-CLW4-004"]
+}

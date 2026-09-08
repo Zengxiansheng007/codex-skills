@@ -1,0 +1,23 @@
+{
+  "fixtureId": "NEG-COMPLETION-001",
+  "targetFunction": "evaluate_completion",
+  "description": "An Agent completion claim with no feedback validation evidence must not produce completed.",
+  "input": {
+    "allStoriesPassed": false,
+    "allAcceptanceCriteriaVerified": false,
+    "feedback": {},
+    "feedbackValidation": {},
+    "evidenceComplete": false,
+    "qaPassed": false,
+    "driftSeverity": "P1",
+    "unmappedActions": ["untraced"],
+    "permissionGatePassed": false,
+    "riskGatePassed": false,
+    "codexReviewPassed": false,
+    "agentCompletionClaim": true
+  },
+  "expectedState": "requirements-review",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "agent-claim-cannot-complete",
+  "traceTo": ["FR-013", "FR-014", "AC-009"]
+}

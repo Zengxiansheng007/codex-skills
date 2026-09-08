@@ -1,0 +1,16 @@
+{
+  "fixtureId": "NEG-SLOT-001",
+  "targetFunction": "schedule_slots",
+  "description": "Two concurrent execution slots cannot share a workspace fingerprint.",
+  "input": {
+    "stories": [
+      {"storyId": "S1", "dependsOn": [], "workspaceFingerprint": "W1", "writeSet": ["a.py"]},
+      {"storyId": "S2", "dependsOn": [], "workspaceFingerprint": "W1", "writeSet": ["b.py"]}
+    ]
+  },
+  "expectedBlockedStory": "S2",
+  "expectedReason": "workspace-collision",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "execution-slot-workspace-isolation",
+  "traceTo": ["FR-029", "AC-026"]
+}

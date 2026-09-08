@@ -1,0 +1,8 @@
+{
+  "fixtureId": "NEG-CLW3-002-MERGE-CONFLICT",
+  "targetFunction": "integrate_candidates",
+  "description": "A real merge conflict retains the integration worktree and conflict evidence and cannot become a candidate baseline.",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "merge-conflict",
+  "traceTo": ["FR-CLW3-010", "FR-CLW3-011", "AC-CLW3-013", "AC-CLW3-015"]
+}

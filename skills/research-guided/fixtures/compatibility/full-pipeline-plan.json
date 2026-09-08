@@ -1,0 +1,46 @@
+{
+  "planType": "fixture",
+  "requirementAnchor": "DS-OPT-COMPAT-CLOSURE-20260829-001",
+  "researchId": "RR-FULL-FIXTURE-001",
+  "roundId": "round-1",
+  "ledgerSha256": "878a7d5f4ff8f62fd370d05e3f652eedf7e5709e6c8cc92460c3bb055b61b12c",
+  "baselineCommit": "e7ce1cbe657f2e0386f075f9aa9f6ead7171876e",
+  "sourceStateHash": "feba836b499629ca265250954c5197a2671980bb1e7248572af73e7744b6cb6d",
+  "derivedFrom": ["accepted-full-result.json", "accepted-full-ledger.json"],
+  "citationPatch": {
+    "new_records": [
+      {
+        "doi": "10.1000/chase",
+        "title": "Citation chase fixture",
+        "authors": ["Chase Author"],
+        "year": 2024,
+        "venue": "Fixture Journal",
+        "citations": 4,
+        "url": "https://doi.org/10.1000/chase",
+        "source": ["openalex"]
+      }
+    ],
+    "query_entry": {
+      "source": "openalex_citation_chase",
+      "query": "deterministic compatibility citation chase",
+      "round": 3
+    }
+  },
+  "themes": [
+    {"name": "Fixture theme 1", "summary": "Deterministic compatibility theme.", "paper_ids": ["doi:10.1000/oa-fixture", "doi:10.1000/cr-fixture", "doi:10.1000/pm-fixture"]},
+    {"name": "Fixture theme 2", "summary": "Deterministic compatibility theme.", "paper_ids": ["doi:10.1000/oa-fixture", "doi:10.1000/cr-fixture", "doi:10.1000/pm-fixture"]},
+    {"name": "Fixture theme 3", "summary": "Deterministic compatibility theme.", "paper_ids": ["doi:10.1000/oa-fixture", "doi:10.1000/cr-fixture", "doi:10.1000/pm-fixture"]}
+  ],
+  "tension": {
+    "topic": "Fixture provenance tension",
+    "sides": [
+      {"position": "Governed sources preserve provenance", "paper_ids": ["doi:10.1000/oa-fixture", "doi:10.1000/cr-fixture"]},
+      {"position": "Citation chase adds a distinct record", "paper_ids": ["doi:10.1000/chase"]}
+    ]
+  },
+  "critique": {
+    "finding": "Fixture self-critique finding",
+    "resolution": "Resolved by deterministic fixture review",
+    "appendix": "## Self-critique findings\n\nFixture review completed."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "fixtureId": "POS-CLW2-004",
+  "targetFunction": "transition_story_after_review",
+  "description": "A Story transitions to passed only when a real Codex completion evaluation with state=completed and passed=true is supplied.",
+  "input": {
+    "story": {
+      "storyId": "CLW-ST-201-COMPLETE",
+      "title": "Story with real completion",
+      "goal": "Completed via Codex evaluation.",
+      "mappedRequirements": ["FR-CLW2-004"],
+      "acceptanceCriteria": ["AC-CLW2-005"],
+      "dependsOn": [],
+      "priority": 1,
+      "status": "running"
+    },
+    "completionEvaluation": {
+      "state": "completed",
+      "passed": true
+    }
+  },
+  "expectedStatus": "passed",
+  "expectedReason": "codex-completion-evaluator",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW2-004", "AC-CLW2-005"]
+}

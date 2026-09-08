@@ -1,0 +1,13 @@
+{
+  "fixtureId": "router-local-global-skill-edit",
+  "inputTask": "Use development-system to fix a global Codex Skill after a retrospective found a missing safe global edit workflow.",
+  "expectedRoute": ["create-skill", "local-global-skill-edit-loop"],
+  "manualApprovalRequired": true,
+  "requiredObservableMarkers": [
+    "requirement anchor",
+    "workspace copy",
+    "explicit approval",
+    "deployed validation",
+    "system-use retrospective"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "fixtureId": "NEG-MERGE-001",
+  "targetFunction": "schedule_slots",
+  "description": "Parallel stories with overlapping write sets must not be scheduled together.",
+  "input": {
+    "stories": [
+      {"storyId": "S1", "dependsOn": [], "workspaceFingerprint": "W1", "writeSet": ["shared.py"]},
+      {"storyId": "S2", "dependsOn": [], "workspaceFingerprint": "W2", "writeSet": ["shared.py"]}
+    ]
+  },
+  "expectedBlockedStory": "S2",
+  "expectedReason": "write-set-conflict",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "parallel-write-set-conflict",
+  "traceTo": ["FR-007", "FR-029", "AC-027", "AC-028"]
+}

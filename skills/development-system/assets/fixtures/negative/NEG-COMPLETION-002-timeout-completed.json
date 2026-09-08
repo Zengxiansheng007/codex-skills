@@ -1,0 +1,24 @@
+{
+  "fixtureId": "NEG-COMPLETION-002",
+  "targetFunction": "evaluate_completion",
+  "description": "A timeout with no feedback validation evidence must not produce completed even when other checks appear successful.",
+  "input": {
+    "allStoriesPassed": true,
+    "allAcceptanceCriteriaVerified": true,
+    "feedback": {},
+    "feedbackValidation": {},
+    "evidenceComplete": true,
+    "qaPassed": true,
+    "driftSeverity": "none",
+    "unmappedActions": [],
+    "permissionGatePassed": true,
+    "riskGatePassed": true,
+    "codexReviewPassed": true,
+    "agentCompletionClaim": true,
+    "stopSignal": "timeout"
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "timeout-cannot-complete",
+  "traceTo": ["FR-013", "FR-019", "AC-009", "AC-024"]
+}

@@ -1,0 +1,8 @@
+{
+  "fixtureId": "NEG-CLW4-001-PROFILE-AUTHORITY",
+  "targetFunction": "validate_agent_profile",
+  "description": "A profile that claims completion authority must fail closed.",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "agent-completion-authority",
+  "traceTo": ["FR-CLW4-002", "AC-CLW4-002"]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development System"
+  short_description: "Route requirement-driven development loops"
+  default_prompt: "Use $development-system to anchor this goal and route its development, handoff, and review workflow."

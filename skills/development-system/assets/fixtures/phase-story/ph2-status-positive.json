@@ -1,0 +1,60 @@
+{
+  "fixtureId": "POS-PH2-STATUS",
+  "targetFunction": "project_all_status_zh",
+  "description": "All 11 governed machine states project to stable Chinese labels.",
+  "input": {},
+  "expectedStates": [
+    {
+      "machineCode": "running",
+      "statusZh": "运行中"
+    },
+    {
+      "machineCode": "waiting-approval",
+      "statusZh": "等待审批"
+    },
+    {
+      "machineCode": "blocked-external-dependency",
+      "statusZh": "外部依赖阻塞"
+    },
+    {
+      "machineCode": "blocked-user-decision",
+      "statusZh": "等待用户决策"
+    },
+    {
+      "machineCode": "repair-needed",
+      "statusZh": "需要修复"
+    },
+    {
+      "machineCode": "requirements-review",
+      "statusZh": "需求评审"
+    },
+    {
+      "machineCode": "risk-gate-required",
+      "statusZh": "风险门"
+    },
+    {
+      "machineCode": "loop-limit-reached",
+      "statusZh": "循环上限"
+    },
+    {
+      "machineCode": "resource-limit-reached",
+      "statusZh": "资源上限"
+    },
+    {
+      "machineCode": "completed",
+      "statusZh": "已完成"
+    },
+    {
+      "machineCode": "failed",
+      "statusZh": "失败"
+    }
+  ],
+  "expectedCount": 11,
+  "expectedValidation": "accept",
+  "traceTo": [
+    "FR-TOT-013",
+    "FR-TOT-017",
+    "AC-TOT-012",
+    "AC-TOT-018"
+  ]
+}

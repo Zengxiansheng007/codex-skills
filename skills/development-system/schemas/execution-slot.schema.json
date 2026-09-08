@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Development System Execution Slot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slotId", "storyId", "agentId", "workspaceFingerprint", "permissionPolicyRef", "writeSet", "baselineFingerprint", "state", "heartbeatAt"],
+  "properties": {
+    "slotId": {"type": "string", "minLength": 1},
+    "storyId": {"type": "string", "minLength": 1},
+    "agentId": {"type": "string", "minLength": 1},
+    "workspaceFingerprint": {"type": "string", "minLength": 1},
+    "permissionPolicyRef": {"type": "string", "minLength": 1},
+    "writeSet": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "baselineFingerprint": {"type": "string", "minLength": 1},
+    "state": {"enum": ["ready", "running", "review", "blocked", "passed", "failed"]},
+    "heartbeatAt": {"type": "string", "minLength": 1},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}}
+  }
+}

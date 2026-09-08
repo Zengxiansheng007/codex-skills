@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "research-evidence-ledger.schema.json",
+  "title": "Research Evidence Ledger",
+  "description": "Frozen retrieval evidence ledger produced by stage one (retrieval/evidence-freeze) of the two-stage Research adapter. Serialization stage two consumes this ledger verbatim and may not introduce any source, URL, claim, or fact absent from it. FR-ADP-002, FR-ADP-003, FR-ADP-004.",
+  "type": "object",
+  "required": [
+    "ledgerType",
+    "ledgerId",
+    "requirementAnchor",
+    "schemaEnforcementMode",
+    "providerNativeSchema",
+    "session",
+    "queries",
+    "toolCalls",
+    "permissionResults",
+    "sources",
+    "registryHash",
+    "registryMatch",
+    "boundaryChecks",
+    "frozenAt",
+    "ledgerSha256"
+  ],
+  "properties": {
+    "ledgerType": {"type": "string", "const": "research-evidence-ledger"},
+    "ledgerId": {"type": "string", "minLength": 1},
+    "requirementAnchor": {"type": "string", "minLength": 1},
+    "roundId": {"type": "string", "minLength": 1},
+    "schemaEnforcementMode": {
+      "type": "string",
+      "enum": ["provider-native", "adapter-validated"],
+      "description": "FR-ADP-001: explicit compatibility mode. adapter-validated means serialization is locally Schema-validated, never provider-native."
+    },
+    "providerNativeSchema": {
+      "type": "boolean",
+      "description": "FR-ADP-001: false for adapter-validated mode; true only for provider-native mode."
+    },
+    "session": {
+      "type": "object",
+      "required": ["sessionId", "sessionStartedAt", "sessionFresh", "permissionMode"],
+      "properties": {
+        "sessionId": {"type": "string", "minLength": 1},
+        "sessionStartedAt": {"type": "string", "minLength": 1},
+        "sessionFresh": {"type": "boolean"},
+        "permissionMode": {"type": "string", "enum": ["acceptEdits", "auto", "default", "dontAsk"]}
+      }
+    },
+    "queries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "object", "required": ["query"], "properties": {"query": {"type": "string", "minLength": 1}}}
+    },
+    "toolCalls": {
+      "type": "array",
+      "description": "FR-ADP-002: retrieval stage records every approved public MCP tool call.",
+      "items": {
+        "type": "object",
+        "required": ["toolName", "toolInput", "resultStatus"],
+        "properties": {
+          "toolName": {"type": "string", "minLength": 1},
+          "toolInput": {"type": "object"},
+          "resultStatus": {"type": "string", "enum": ["ok", "empty", "denied", "error"]},
+          "resultDetail": {"type": "string"}
+        }
+      }
+    },
+    "permissionResults": {
+      "type": "object",
+      "required": ["permissionDenials"],
+      "properties": {
+        "permissionDenials": {"type": "integer", "minimum": 0},
+        "deniedTools": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "description": "FR-ADP-003: frozen source set. Every final source/URL must resolve here.",
+      "items": {
+        "type": "object",
+        "required": ["url", "title", "retrievedAt", "verified", "contentDigest"],
+        "properties": {
+          "url": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "retrievedAt": {"type": "string", "minLength": 1},
+          "verified": {"type": "boolean"},
+          "toolUsed": {"type": "string"},
+          "contentDigest": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$", "description": "SHA-256 over canonical source content bytes"}
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "description": "Optional frozen claim seed extracted during retrieval; serialization may refine wording but every final claim sourceUrl must exist in sources.",
+      "items": {
+        "type": "object",
+        "required": ["text", "sourceUrl"],
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "sourceUrl": {"type": "string", "minLength": 1},
+          "sourceTitle": {"type": "string"}
+        }
+      }
+    },
+    "registryHash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA-256 over the public-research-tool-registry.json bytes captured at freeze time."
+    },
+    "registryMatch": {"type": "boolean", "description": "True when requested tools exactly match the registry."},
+    "boundaryChecks": {
+      "type": "object",
+      "required": ["noPrivateSources", "noUnapprovedTools", "noCredentialLeakage", "publicOnly"],
+      "properties": {
+        "noPrivateSources": {"type": "boolean"},
+        "noUnapprovedTools": {"type": "boolean"},
+        "noCredentialLeakage": {"type": "boolean"},
+        "publicOnly": {"type": "boolean"}
+      }
+    },
+    "frozenAt": {"type": "string", "minLength": 1},
+    "ledgerSha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "Canonical SHA-256 over the ledger body (all fields except ledgerSha256), computed by serialize_research.freeze_ledger."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,1 @@
+{"fixtureId":"NEG-CLW2-202-IDENTITY-DRIFT","targetFunction":"reconcile_phase_progress","description":"Anchor, Phase, workspace or queue identity drift fails closed before resume.","expectedValidation":"reject","expectedRejectionRules":["anchorId-mismatch","phaseId-mismatch","workspaceFingerprint-mismatch","queue-mismatch"],"traceTo":["FR-CLW2-007","AC-CLW2-008"]}

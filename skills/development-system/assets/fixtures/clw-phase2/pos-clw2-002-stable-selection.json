@@ -1,0 +1,46 @@
+{
+  "fixtureId": "POS-CLW2-002",
+  "targetFunction": "select_next_story",
+  "description": "Eligible Stories are sorted by descending explicit priority and then stable Story ID. The highest-priority Story is selected.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-ALPHA",
+        "title": "Priority 1 Alpha",
+        "goal": "Lower priority.",
+        "mappedRequirements": ["FR-CLW2-003"],
+        "acceptanceCriteria": ["AC-CLW2-003"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-BETA",
+        "title": "Priority 5 Beta",
+        "goal": "Higher priority.",
+        "mappedRequirements": ["FR-CLW2-003"],
+        "acceptanceCriteria": ["AC-CLW2-003"],
+        "dependsOn": [],
+        "priority": 5,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-GAMMA",
+        "title": "Priority 5 Gamma",
+        "goal": "Same priority as Beta, later ID.",
+        "mappedRequirements": ["FR-CLW2-003"],
+        "acceptanceCriteria": ["AC-CLW2-003"],
+        "dependsOn": [],
+        "priority": 5,
+        "status": "pending"
+      }
+    ],
+    "completedStoryIds": [],
+    "activeStoryId": null
+  },
+  "expectedAllowed": true,
+  "expectedSelectedStoryId": "CLW-ST-201-BETA",
+  "expectedEligibleCount": 3,
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW2-003", "AC-CLW2-003"]
+}

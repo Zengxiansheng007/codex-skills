@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://development-system/schemas/story-split-finding.schema.json",
+  "title": "Story Split Finding",
+  "description": "CLW-ST-101: Deterministic finding emitted when a Large Story is submitted for live execution. Codex must split the Story before retrying (FR-CLW-002, AC-CLW-002).",
+  "type": "object",
+  "required": [
+    "findingId",
+    "rule",
+    "storyId",
+    "storyProfileId",
+    "size",
+    "decision",
+    "reason",
+    "requiredAction",
+    "trace"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "findingId": {"type": "string", "minLength": 1},
+    "rule": {"const": "large-story-split-required"},
+    "storyId": {"type": "string", "minLength": 1},
+    "storyProfileId": {"type": "string", "minLength": 1},
+    "size": {"const": "large"},
+    "decision": {"const": "blocked"},
+    "reason": {"type": "string", "minLength": 1},
+    "requiredAction": {"const": "split-story-before-execution"},
+    "trace": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  }
+}

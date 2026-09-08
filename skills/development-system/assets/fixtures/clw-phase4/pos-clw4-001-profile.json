@@ -1,0 +1,7 @@
+{
+  "fixtureId": "POS-CLW4-001-PROFILE",
+  "targetFunction": "validate_agent_profile",
+  "description": "A versioned independent Agent profile has isolated completion authority and disjoint allow/deny actions.",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW4-001", "FR-CLW4-002", "AC-CLW4-001"]
+}

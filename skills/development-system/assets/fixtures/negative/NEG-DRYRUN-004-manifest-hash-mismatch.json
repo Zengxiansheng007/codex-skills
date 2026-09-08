@@ -1,0 +1,14 @@
+{
+  "fixtureId": "NEG-DRYRUN-004",
+  "targetFunction": "evaluate_dry_run_gate",
+  "description": "A dry-run manifest changed after hashing must fail closed.",
+  "input": {
+    "mutation": "spawnedProcess=true"
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "dry-run-manifest-hash-mismatch",
+  "traceTo": [
+    "FR-TOT-012",
+    "AC-TOT-009"
+  ]
+}

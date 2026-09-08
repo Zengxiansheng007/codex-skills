@@ -1,0 +1,22 @@
+{
+  "fixtureId": "NEG-COMPLETION-004",
+  "targetFunction": "evaluate_completion",
+  "description": "A bare feedbackValid boolean without hash-bound validation evidence must not produce completed. The old behavior accepted feedbackValid=true alone; the repaired evaluator requires the actual feedback object plus feedbackValidation evidence.",
+  "input": {
+    "allStoriesPassed": true,
+    "allAcceptanceCriteriaVerified": true,
+    "feedback": {"packetId": "FB-004", "result": "completed"},
+    "feedbackValidation": {},
+    "evidenceComplete": true,
+    "qaPassed": true,
+    "driftSeverity": "none",
+    "unmappedActions": [],
+    "permissionGatePassed": true,
+    "riskGatePassed": true,
+    "codexReviewPassed": true
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "missing-feedback-validation-evidence",
+  "traceTo": ["FR-011", "FR-013", "AC-006", "AC-009", "REPAIR-ST-001"]
+}

@@ -1,0 +1,12 @@
+{
+  "fixtureId": "router-plan-to-claude-handoff",
+  "inputTask": "把开发计划交给 Claude Code 执行，先 dry-run。",
+  "expectedRoute": ["handoff-system", "handoff-packet-builder", "handoff-claude-executor"],
+  "manualApprovalRequired": false,
+  "requiredObservableMarkers": [
+    "handoff packet",
+    "dry-run",
+    "do not run live"
+  ]
+}
+

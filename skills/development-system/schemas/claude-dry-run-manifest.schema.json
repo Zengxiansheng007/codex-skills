@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claude-dry-run-manifest.schema.json",
+  "title": "Verified dry-run transition record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifestIdentity", "manifestHash", "packetHash", "policyHash", "mode", "status", "spawnedProcess", "generatedAt"],
+  "properties": {
+    "manifestIdentity": {"type": "string", "minLength": 1},
+    "manifestHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "packetHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "policyHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "mode": {"const": "dry-run"},
+    "status": {"enum": ["DRY_RUN_OK", "DRY_RUN_BLOCKED"]},
+    "spawnedProcess": {"const": false},
+    "generatedAt": {"type": "string", "format": "date-time"}
+  }
+}

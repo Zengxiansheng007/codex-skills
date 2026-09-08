@@ -1,0 +1,24 @@
+{
+  "fixtureId": "NEG-TAKEOVER-001",
+  "targetFunction": "decide_takeover",
+  "description": "An unrecognized takeover trigger must be rejected.",
+  "input": {
+    "trigger": "unknown-trigger",
+    "cycleId": "C1",
+    "storyId": "ST-2-006",
+    "roundNumber": 1,
+    "policy": {
+      "codexTakeoverAllowed": true,
+      "maxRounds": 10
+    },
+    "evidenceLineage": []
+  },
+  "expectedAllowed": false,
+  "expectedReason": "unrecognized-takeover-trigger",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "unrecognized-takeover-trigger",
+  "traceTo": [
+    "FR-TOT-014",
+    "AC-TOT-010"
+  ]
+}

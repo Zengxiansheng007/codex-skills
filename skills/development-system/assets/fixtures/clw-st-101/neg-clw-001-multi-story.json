@@ -1,0 +1,29 @@
+{
+  "fixtureId": "NEG-CLW-001",
+  "targetFunction": "evaluate_live_handoff_stories",
+  "description": "A packet with multiple Stories must be rejected before live execution.",
+  "input": {
+    "packetId": "HND-CLW-MULTI-001",
+    "packetType": "handoff",
+    "version": "1.0",
+    "storyProfile": {
+      "profileId": "CLW-PROFILE-SMALL",
+      "size": "small",
+      "initialTimeoutSeconds": 900,
+      "noProgressTimeoutSeconds": 1200,
+      "extensionSliceSeconds": 600,
+      "attemptHardDeadlineSeconds": 2700,
+      "storyTotalDeadlineSeconds": 5400,
+      "maxRounds": 2
+    },
+    "stories": [
+      {"storyId": "CLW-ST-101-A", "title": "First story", "goal": "First goal."},
+      {"storyId": "CLW-ST-101-B", "title": "Second story", "goal": "Second goal."}
+    ]
+  },
+  "expectedDecision": "blocked",
+  "expectedAllowed": false,
+  "expectedRejectionRule": "multi-story-rejected",
+  "expectedValidation": "reject",
+  "traceTo": ["FR-CLW-001", "AC-CLW-001"]
+}

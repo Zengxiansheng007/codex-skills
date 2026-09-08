@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claude-status-projection.schema.json",
+  "title": "Governed machine state with Chinese projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["machineCode", "statusZh"],
+  "properties": {
+    "machineCode": {"enum": ["running", "waiting-approval", "blocked-external-dependency", "blocked-user-decision", "repair-needed", "requirements-review", "risk-gate-required", "loop-limit-reached", "resource-limit-reached", "completed", "failed"]},
+    "statusZh": {"type": "string", "minLength": 1}
+  }
+}

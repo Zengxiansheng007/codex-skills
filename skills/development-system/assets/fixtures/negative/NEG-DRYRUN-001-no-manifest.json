@@ -1,0 +1,18 @@
+{
+  "fixtureId": "NEG-DRYRUN-001",
+  "targetFunction": "evaluate_dry_run_gate",
+  "description": "A first-time packet/policy combo with no dry-run manifest cannot proceed to live.",
+  "input": {
+    "packetHash": "abc123",
+    "policyHash": "def456",
+    "dryRunRecords": []
+  },
+  "expectedAllowed": false,
+  "expectedStatus": "DRY_RUN_MISSING",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "no-dry-run-record-for-this-packet-policy-combo",
+  "traceTo": [
+    "FR-TOT-012",
+    "AC-TOT-009"
+  ]
+}

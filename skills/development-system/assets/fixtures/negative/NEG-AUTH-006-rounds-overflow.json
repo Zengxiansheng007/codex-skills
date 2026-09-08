@@ -1,0 +1,81 @@
+{
+  "fixtureId": "NEG-AUTH-006",
+  "targetFunction": "preauthorization_matches",
+  "description": "Requested rounds exceeding maxRounds must fail closed.",
+  "input": {
+    "required": {
+      "workspace": "C:/approved/workspace",
+      "actions": [
+        "read",
+        "edit",
+        "test"
+      ],
+      "data": [
+        "workspace-source"
+      ],
+      "network": [],
+      "tools": [
+        "python",
+        "claude"
+      ],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "timeoutSeconds": 300,
+      "rounds": 20,
+      "concurrency": 1,
+      "stopConditions": [
+        "p0-drift",
+        "timeout"
+      ],
+      "policyId": "DS-PH2-FIXTURE-POLICY",
+      "policyHash": "9e651a4f1cd856401b0d158b8e84cdce9dfa21e9605b28a2b851eb94ea351e0f"
+    },
+    "policy": {
+      "workspaceRoots": [
+        "C:/approved/workspace"
+      ],
+      "actions": [
+        "read",
+        "edit",
+        "test"
+      ],
+      "data": [
+        "workspace-source"
+      ],
+      "network": [],
+      "tools": [
+        "python",
+        "claude"
+      ],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "maxTimeoutSeconds": 600,
+      "maxRounds": 10,
+      "maxConcurrency": 1,
+      "stopConditions": [
+        "p0-drift",
+        "timeout"
+      ],
+      "policyId": "DS-PH2-FIXTURE-POLICY",
+      "version": "1.0",
+      "status": "active",
+      "validFrom": "2026-08-15T00:00:00+00:00",
+      "expiresAt": "2099-01-01T00:00:00+00:00",
+      "maxTakeovers": 1,
+      "codexTakeoverAllowed": true,
+      "crossProjectReuse": false,
+      "policyHash": "9e651a4f1cd856401b0d158b8e84cdce9dfa21e9605b28a2b851eb94ea351e0f"
+    }
+  },
+  "expectedMissingDimensions": [
+    "rounds"
+  ],
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "rounds-overflow",
+  "traceTo": [
+    "FR-TOT-010",
+    "FR-TOT-016",
+    "AC-TOT-008",
+    "AC-TOT-013"
+  ]
+}

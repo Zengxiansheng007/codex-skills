@@ -1,0 +1,10 @@
+{
+  "fixtureId": "NEG-PH4-003",
+  "now": "2026-08-16T06:00:00+00:00",
+  "compatibility": {"sourceHash":"src-001","targetBaselineHash":"target-001","backupPlanRef":"backup.md","rollbackPlanRef":"","blockers":[],"surfaces":[{"surface":"skill","compatible":true}]},
+  "backup": {"manifestId":"BKP-003","targetPath":"C:/target","targetBaselineHash":"target-001","files":[{"path":"SKILL.md","sha256":"old"}],"createdAt":"2026-08-16T05:00:00+00:00","rollbackPlanRef":"","restoreValidation":"hash"},
+  "request": {"mode":"dry-run","sourceHash":"src-001","targetPath":"C:/target","targetBaselineHash":"target-001","coverage":["development-system"],"backupManifestRef":"backup.json","rollbackPlanRef":""},
+  "approval": {"approvalId":"APP-003","status":"active","userApprovalRef":"user-approval","validFrom":"2026-08-16T05:00:00+00:00","expiresAt":"2026-08-17T05:00:00+00:00","sourceHash":"src-001","targetPath":"C:/target","targetBaselineHash":"target-001","coverage":["development-system"],"backupManifestRef":"backup.json","rollbackPlanRef":""},
+  "expectedState": "repair-needed"
+}
+

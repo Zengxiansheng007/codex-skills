@@ -1,0 +1,13 @@
+{
+  "fixtureId": "router-feedback-to-review",
+  "inputTask": "Claude 返回执行结果后，请验收并决定是否继续。",
+  "expectedRoute": ["handoff-feedback-reviewer"],
+  "manualApprovalRequired": false,
+  "requiredObservableMarkers": [
+    "feedback packet",
+    "requirementTraceDelta",
+    "driftReview",
+    "next state"
+  ]
+}
+

@@ -1,0 +1,30 @@
+{
+  "fixtureId": "NEG-TAKEOVER-003",
+  "targetFunction": "decide_takeover",
+  "description": "Takeover at round limit must be rejected.",
+  "input": {
+    "trigger": "timeout",
+    "cycleId": "C1",
+    "storyId": "ST-2-006",
+    "roundNumber": 11,
+    "policy": {
+      "status": "active",
+      "codexTakeoverAllowed": true,
+      "maxRounds": 10,
+      "maxTakeovers": 1
+    },
+    "evidenceLineage": [
+      "EV-1"
+    ]
+  },
+  "expectedAllowed": false,
+  "expectedReason": "round-limit-reached",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "round-limit-reached",
+  "traceTo": [
+    "FR-TOT-014",
+    "FR-TOT-016",
+    "AC-TOT-010",
+    "AC-TOT-013"
+  ]
+}

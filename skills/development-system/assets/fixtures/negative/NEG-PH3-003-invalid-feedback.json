@@ -1,0 +1,80 @@
+{
+  "fixtureId": "NEG-PH3-003",
+  "targetFunction": "run_live_loop",
+  "description": "Invalid child feedback must block the live loop and route to repair-needed.",
+  "input": {
+    "packet": {
+      "packetId": "HND-NEG-PH3-003",
+      "requiredAuthorization": {}
+    },
+    "policy": {
+      "policyId": "DS-PH3-FIXTURE-POLICY",
+      "version": "1.0",
+      "status": "active",
+      "validFrom": "2026-08-15T00:00:00+00:00",
+      "expiresAt": "2099-01-01T00:00:00+00:00",
+      "workspaceRoots": [
+        "C:/approved/workspace"
+      ],
+      "actions": [
+        "read",
+        "edit",
+        "test",
+        "validate"
+      ],
+      "tools": [
+        "claude-code",
+        "python"
+      ],
+      "data": [
+        "workspace-source"
+      ],
+      "network": [],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "maxTimeoutSeconds": 900,
+      "maxRounds": 10,
+      "maxConcurrency": 1,
+      "maxTakeovers": 1,
+      "stopConditions": [
+        "p0-drift",
+        "timeout"
+      ],
+      "codexTakeoverAllowed": true,
+      "crossProjectReuse": false,
+      "policyHash": "1321de1c134f45f057e53392383834e38a0a8aa3e918d9fd6dbae3b2f01c5a32"
+    },
+    "simulatedOutcome": {
+      "feedback": {},
+      "processEvidence": {
+        "failureClass": "feedback-missing",
+        "spawnSucceeded": true,
+        "timedOut": false,
+        "childExitCode": 0
+      },
+      "changedFiles": [],
+      "driftSeverity": "none",
+      "unmappedActions": [],
+      "evidenceRefs": []
+    },
+    "cycleId": "C-PH3-001",
+    "storyId": "DSCR-ST-3-002",
+    "roundNumber": 1,
+    "attemptId": "ATT-NEG-PH3-003-001",
+    "evidenceLineage": [
+      "EV-PRE-001"
+    ],
+    "previousChangedFiles": null
+  },
+  "expectedState": "repair-needed",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "invalid-feedback-blocks-loop",
+  "traceTo": [
+    "FR-TOT-005",
+    "FR-TOT-006",
+    "FR-TOT-007",
+    "AC-TOT-003",
+    "AC-TOT-004",
+    "AC-TOT-005"
+  ]
+}

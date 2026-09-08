@@ -1,0 +1,7 @@
+{
+  "fixtureId": "POS-CLW3-301-SLOT",
+  "targetFunction": "create_slot",
+  "description": "A unique Windows Git worktree slot has a separate branch, baseline commit and Codex-owned merge boundary.",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW3-001", "FR-CLW3-002", "FR-CLW3-003", "AC-CLW3-001", "AC-CLW3-005"]
+}

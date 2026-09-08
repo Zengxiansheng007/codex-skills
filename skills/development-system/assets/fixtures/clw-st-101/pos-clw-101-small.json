@@ -1,0 +1,31 @@
+{
+  "fixtureId": "POS-CLW-101-SMALL",
+  "targetFunction": "evaluate_live_handoff_stories",
+  "description": "A Small Story with a valid profile is executable.",
+  "input": {
+    "packetId": "HND-CLW-SMALL-001",
+    "packetType": "handoff",
+    "version": "1.0",
+    "storyProfile": {
+      "profileId": "CLW-PROFILE-SMALL",
+      "size": "small",
+      "initialTimeoutSeconds": 900,
+      "noProgressTimeoutSeconds": 1200,
+      "extensionSliceSeconds": 600,
+      "attemptHardDeadlineSeconds": 2700,
+      "storyTotalDeadlineSeconds": 5400,
+      "maxRounds": 2
+    },
+    "stories": [
+      {
+        "storyId": "CLW-ST-101-SMALL",
+        "title": "Small Story positive",
+        "goal": "Execute a small documentation fix."
+      }
+    ]
+  },
+  "expectedDecision": "execute",
+  "expectedAllowed": true,
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW-001", "FR-CLW-002", "AC-CLW-001", "AC-CLW-002"]
+}

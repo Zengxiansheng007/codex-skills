@@ -1,0 +1,7 @@
+{
+  "fixtureId": "POS-CLW3-303-INTEGRATION",
+  "targetFunction": "integrate_candidates",
+  "description": "Independent candidates merge in a separate Codex integration worktree and pass the regression gate.",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW3-009", "FR-CLW3-010", "FR-CLW3-012", "AC-CLW3-011", "AC-CLW3-012", "AC-CLW3-014"]
+}

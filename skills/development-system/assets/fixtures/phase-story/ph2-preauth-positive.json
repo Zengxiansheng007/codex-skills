@@ -1,0 +1,49 @@
+{
+  "fixtureId": "POS-PH2-PREAUTH",
+  "targetFunction": "validate_preauthorization_policy",
+  "description": "Valid active preauthorization policy with all required dimensions.",
+  "input": {
+    "policyId": "DS-PH2-CLAUDE-PREAUTH-20260816-001",
+    "version": "1.0",
+    "status": "active",
+    "validFrom": "2026-08-15T00:00:00+00:00",
+    "expiresAt": "2026-08-17T00:00:00+00:00",
+    "workspaceRoots": [
+      "C:/approved/workspace"
+    ],
+    "actions": [
+      "read",
+      "edit",
+      "test",
+      "validate"
+    ],
+    "tools": [
+      "claude-code",
+      "python"
+    ],
+    "data": [
+      "workspace-source"
+    ],
+    "network": [],
+    "credentialBoundary": "inherit-claude-auth-only",
+    "feedbackSchema": "feedback-packet.schema.json",
+    "maxTimeoutSeconds": 900,
+    "maxRounds": 1,
+    "maxConcurrency": 1,
+    "maxTakeovers": 1,
+    "stopConditions": [
+      "p0-drift",
+      "timeout"
+    ],
+    "codexTakeoverAllowed": true,
+    "crossProjectReuse": false,
+    "policyHash": "5b71315575fdbade3a032d88adc8bdf06887555d2e5f7c8ad2dbf75f5f8d973a"
+  },
+  "expectedValidation": "accept",
+  "traceTo": [
+    "FR-TOT-010",
+    "FR-TOT-016",
+    "AC-TOT-008",
+    "AC-TOT-013"
+  ]
+}

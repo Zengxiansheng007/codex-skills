@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent-feedback-review.schema.json",
+  "title": "CLW PH-4 Agent Feedback Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["accepted", "state", "gaps"],
+  "properties": {
+    "accepted": {"type": "boolean"},
+    "state": {"enum": ["running", "repair-needed", "requirements-review", "risk-gate-required"]},
+    "gaps": {"type": "array"},
+    "evidenceRefs": {"type": "array", "items": {"type": "string"}}
+  }
+}

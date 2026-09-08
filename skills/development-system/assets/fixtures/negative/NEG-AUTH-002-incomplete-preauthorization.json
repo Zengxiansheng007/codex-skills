@@ -1,0 +1,37 @@
+{
+  "fixtureId": "NEG-AUTH-002",
+  "targetFunction": "preauthorization_matches",
+  "description": "An empty network dimension is not a complete preauthorization match.",
+  "input": {
+    "required": {
+      "workspace": "C:/approved-development-system/work",
+      "actions": ["read", "edit", "test"],
+      "data": ["workspace-source"],
+      "network": [],
+      "tools": ["python", "claude"],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "timeoutSeconds": 300,
+      "rounds": 1,
+      "concurrency": 1,
+      "stopConditions": ["p0-drift", "timeout"]
+    },
+    "policy": {
+      "workspaceRoots": ["C:/approved-development-system"],
+      "actions": ["read", "edit", "test"],
+      "data": ["workspace-source"],
+      "network": ["none", "public-docs"],
+      "tools": ["python", "claude"],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "maxTimeoutSeconds": 600,
+      "maxRounds": 10,
+      "maxConcurrency": 1,
+      "stopConditions": ["p0-drift", "timeout"]
+    }
+  },
+  "expectedMissingDimensions": ["network"],
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "preauthorization-all-dimensions-required",
+  "traceTo": ["FR-TOT-010", "FR-TOT-011", "AC-TOT-007", "AC-TOT-008"]
+}

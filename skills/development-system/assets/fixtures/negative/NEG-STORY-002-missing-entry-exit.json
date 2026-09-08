@@ -1,0 +1,25 @@
+{
+  "fixtureId": "NEG-STORY-002",
+  "description": "A phase with empty entryCriteria and empty exitCriteria. The validator must reject it (AC-005).",
+  "phase": {
+    "phaseId": "PH-BAD",
+    "name": "Bad phase",
+    "goal": "Missing entry and exit criteria.",
+    "entryCriteria": [],
+    "exitCriteria": [],
+    "stories": [
+      {
+        "storyId": "PH-BAD-ST-001",
+        "title": "ok story",
+        "goal": "ok",
+        "mappedRequirements": ["FR-001"],
+        "acceptanceCriteria": ["AC-001"],
+        "dependsOn": [],
+        "testability": "validator",
+        "evidenceRequirements": ["test"]
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "AC-005"
+}

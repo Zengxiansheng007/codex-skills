@@ -1,0 +1,29 @@
+{
+  "fixtureId": "NEG-COMPLETION-003",
+  "targetFunction": "evaluate_completion",
+  "description": "P1 requirement drift and an unmapped action must route to requirements review.",
+  "input": {
+    "allStoriesPassed": true,
+    "allAcceptanceCriteriaVerified": true,
+    "feedback": {"packetId": "FB-003", "result": "completed"},
+    "feedbackValidation": {
+      "schemaRef": "feedback-packet.schema.json",
+      "validatorId": "handoff-feedback-reviewer",
+      "feedbackHash": "1396fe3f3d62ae760964e9e670721d65c0ae2326dab3597cea312a2c2a41928c",
+      "ok": true,
+      "errorCount": 0,
+      "validatedAt": "2026-08-15T00:00:00Z"
+    },
+    "evidenceComplete": true,
+    "qaPassed": true,
+    "driftSeverity": "P1",
+    "unmappedActions": ["untraced-action"],
+    "permissionGatePassed": true,
+    "riskGatePassed": true,
+    "codexReviewPassed": true
+  },
+  "expectedState": "requirements-review",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "p0-p1-drift-cannot-complete",
+  "traceTo": ["FR-013", "FR-032", "AC-009"]
+}

@@ -1,0 +1,14 @@
+{
+  "fixtureId": "NEG-REGISTRY-001",
+  "targetFunction": "validate_claude_registry",
+  "description": "Claude registry entries cannot own Development System completion authority.",
+  "input": {
+    "completionAuthorityIsolated": false
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "registry-completion-authority-not-isolated",
+  "traceTo": [
+    "FR-TOT-009",
+    "AC-TOT-014"
+  ]
+}

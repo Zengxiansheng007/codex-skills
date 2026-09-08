@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "failure-classification.json",
+  "title": "Stable Failure Classification",
+  "description": "Failure classes that propagate through research, handoff executor, feedback reviewer and development-system contracts.",
+  "version": "1.0",
+  "classes": [
+    {
+      "name": "plan-mode-blocked",
+      "severity": "P0",
+      "description": "Live research was attempted with permission mode plan, which cannot execute tools.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "unregistered-tool-requested",
+      "severity": "P0",
+      "description": "Claude requested an MCP tool outside the approved registry.",
+      "propagation": "blocked-user-decision"
+    },
+    {
+      "name": "mcp-schema-absent",
+      "severity": "P0",
+      "description": "MCP tool schema was not visible in the session.",
+      "propagation": "blocked-external-dependency"
+    },
+    {
+      "name": "tool-count-zero",
+      "severity": "P0",
+      "description": "No MCP tools were visible in the session.",
+      "propagation": "blocked-external-dependency"
+    },
+    {
+      "name": "stale-session",
+      "severity": "P0",
+      "description": "Session freshness was not proven; a stale session was detected.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "canary-missing",
+      "severity": "P0",
+      "description": "Canary evidence was missing from the session.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "canary-failed",
+      "severity": "P0",
+      "description": "Canary evidence was present but failed.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "permission-denials-nonzero",
+      "severity": "P0",
+      "description": "Permission denials were nonzero in the session.",
+      "propagation": "blocked-user-decision"
+    },
+    {
+      "name": "output-not-json",
+      "severity": "P0",
+      "description": "Research output was not pure UTF-8 JSON.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "source-mappings-invalid",
+      "severity": "P0",
+      "description": "Source mappings in research output were invalid.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "unverified-sources-claimed-complete",
+      "severity": "P0",
+      "description": "Unverified sources were claimed as complete evidence.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "format-retry-limit-exceeded",
+      "severity": "P1",
+      "description": "Format repair retries exceeded the maximum of 3 without new retrieval.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "reinforcement-limit-exceeded",
+      "severity": "P1",
+      "description": "Content reinforcement rounds exceeded the maximum of 1.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "claude-unavailable",
+      "severity": "P1",
+      "description": "Claude was unavailable for the research session.",
+      "propagation": "blocked-external-dependency"
+    },
+    {
+      "name": "timeout",
+      "severity": "P1",
+      "description": "The research session timed out.",
+      "propagation": "blocked-external-dependency"
+    },
+    {
+      "name": "internal-error",
+      "severity": "P1",
+      "description": "An internal adapter error occurred.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "structured-output-empty",
+      "severity": "P0",
+      "description": "The gateway returned no structured output when --json-schema was enabled; provider-native Schema enforcement is unavailable on this gateway/model combination.",
+      "propagation": "blocked-external-dependency"
+    },
+    {
+      "name": "silent-native-downgrade",
+      "severity": "P0",
+      "description": "Compatibility mode (adapter-validated) was activated silently after a provider-native failure instead of by an explicit profile selection.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "evidence-ledger-missing",
+      "severity": "P0",
+      "description": "Serialization produced output without a frozen retrieval evidence ledger.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "evidence-hash-unstable",
+      "severity": "P0",
+      "description": "The evidence hash changed between format attempts; serialization must use one unchanged evidence hash.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "unsupported-fact-introduced",
+      "severity": "P0",
+      "description": "Serialization introduced a source, URL, claim, or claim-source mapping absent from the frozen evidence ledger.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "serialization-tool-access",
+      "severity": "P0",
+      "description": "The serialization phase requested or used a retrieval, shell, browser, filesystem-write, or network tool.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "adapter-validation-failed",
+      "severity": "P0",
+      "description": "Local Schema or semantic validation failed for an adapter-validated result that nevertheless claimed complete.",
+      "propagation": "repair-needed"
+    },
+    {
+      "name": "format-attempt-exhaustion",
+      "severity": "P1",
+      "description": "Three format attempts were exhausted without producing a valid output.",
+      "propagation": "repair-needed"
+    }
+  ]
+}

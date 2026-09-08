@@ -1,0 +1,92 @@
+{
+  "fixtureId": "POS-PH3-LIVE-LOOP",
+  "targetFunction": "run_live_loop",
+  "description": "A positive live loop closed-loop: auto-approval, valid feedback, completion passed.",
+  "input": {
+    "packet": {
+      "packetId": "HND-PH3-POS",
+      "requiredAuthorization": {}
+    },
+    "policy": {
+      "policyId": "DS-PH3-FIXTURE-POLICY",
+      "version": "1.0",
+      "status": "active",
+      "validFrom": "2026-08-15T00:00:00+00:00",
+      "expiresAt": "2099-01-01T00:00:00+00:00",
+      "workspaceRoots": [
+        "C:/approved/workspace"
+      ],
+      "actions": [
+        "read",
+        "edit",
+        "test",
+        "validate"
+      ],
+      "tools": [
+        "claude-code",
+        "python"
+      ],
+      "data": [
+        "workspace-source"
+      ],
+      "network": [],
+      "credentialBoundary": "inherit-claude-auth-only",
+      "feedbackSchema": "feedback-packet.schema.json",
+      "maxTimeoutSeconds": 900,
+      "maxRounds": 1,
+      "maxConcurrency": 1,
+      "maxTakeovers": 1,
+      "stopConditions": [
+        "p0-drift",
+        "timeout"
+      ],
+      "codexTakeoverAllowed": true,
+      "crossProjectReuse": false,
+      "policyHash": "bd230e130095e67b9c79dbf11bb0ca52cdaf0f75ea8d3831d09dbc33bf0ff82b"
+    },
+    "simulatedOutcome": {
+      "feedback": {
+        "packetId": "FDB-PH3-POS",
+        "packetType": "feedback",
+        "version": "1.0"
+      },
+      "processEvidence": {
+        "failureClass": null,
+        "spawnSucceeded": true,
+        "timedOut": false,
+        "childExitCode": 0
+      },
+      "changedFiles": [
+        {
+          "path": "fixture.py",
+          "trace": [
+            "FR-TOT-001"
+          ]
+        }
+      ],
+      "driftSeverity": "none",
+      "unmappedActions": [],
+      "evidenceRefs": [
+        "EV-PH3-001"
+      ]
+    },
+    "cycleId": "C-PH3-001",
+    "storyId": "DSCR-ST-3-001",
+    "roundNumber": 1,
+    "attemptId": "ATT-PH3-POS-001",
+    "evidenceLineage": [
+      "EV-PRE-001"
+    ]
+  },
+  "expectedState": "completed",
+  "expectedValidation": "accept",
+  "traceTo": [
+    "FR-TOT-001",
+    "FR-TOT-011",
+    "FR-TOT-012",
+    "FR-TOT-017",
+    "AC-TOT-007",
+    "AC-TOT-009",
+    "AC-TOT-014"
+  ]
+}

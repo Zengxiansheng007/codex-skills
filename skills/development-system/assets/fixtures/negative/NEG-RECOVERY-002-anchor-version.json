@@ -1,0 +1,18 @@
+{
+  "fixtureId": "NEG-RECOVERY-002",
+  "targetFunction": "resume_cycle",
+  "description": "A snapshot from another requirement-anchor version must not resume.",
+  "input": {
+    "snapshotAnchorId": "A1",
+    "snapshotAnchorVersion": "2.0",
+    "requestedAnchorId": "A1",
+    "requestedAnchorVersion": "1.0",
+    "workspaceFingerprint": "W1",
+    "heartbeatFresh": true
+  },
+  "expectedState": "blocked-external-dependency",
+  "expectedError": "anchor-mismatch",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "anchor-version-mismatch",
+  "traceTo": ["FR-021", "AC-008"]
+}

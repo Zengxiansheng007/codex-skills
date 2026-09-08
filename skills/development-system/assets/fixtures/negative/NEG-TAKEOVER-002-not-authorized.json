@@ -1,0 +1,26 @@
+{
+  "fixtureId": "NEG-TAKEOVER-002",
+  "targetFunction": "decide_takeover",
+  "description": "Takeover without policy authorization must be rejected.",
+  "input": {
+    "trigger": "claude-unavailable",
+    "cycleId": "C1",
+    "storyId": "ST-2-006",
+    "roundNumber": 1,
+    "policy": {
+      "status": "active",
+      "codexTakeoverAllowed": false,
+      "maxRounds": 10
+    },
+    "evidenceLineage": []
+  },
+  "expectedAllowed": false,
+  "expectedReason": "takeover-not-authorized-by-active-policy",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "takeover-not-authorized-by-active-policy",
+  "traceTo": [
+    "FR-TOT-014",
+    "FR-TOT-016",
+    "AC-TOT-010"
+  ]
+}

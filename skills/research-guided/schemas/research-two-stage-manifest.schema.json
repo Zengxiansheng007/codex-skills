@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "research-two-stage-manifest.schema.json",
+  "title": "Research Two-Stage Adapter Run Manifest",
+  "description": "Manifest for a two-stage adapter-validated Research run. Records the separate retrieval/evidence-freeze and tool-free serialization stages, their tool boundaries, the frozen ledger reference, format attempts, and the local validation outcome. FR-ADP-002, FR-ADP-003, FR-ADP-005, FR-ADP-006, FR-ADP-008.",
+  "type": "object",
+  "required": [
+    "manifestType",
+    "manifestId",
+    "requirementAnchor",
+    "schemaEnforcementMode",
+    "providerNativeSchema",
+    "stageOne",
+    "stageTwo",
+    "outcome"
+  ],
+  "properties": {
+    "manifestType": {"type": "string", "const": "research-two-stage-manifest"},
+    "manifestId": {"type": "string", "minLength": 1},
+    "requirementAnchor": {"type": "string", "minLength": 1},
+    "researchId": {"type": "string", "minLength": 1},
+    "schemaEnforcementMode": {"type": "string", "enum": ["provider-native", "adapter-validated"]},
+    "providerNativeSchema": {"type": "boolean"},
+    "stageOne": {
+      "type": "object",
+      "description": "Retrieval/evidence-freeze stage. Exposes only approved public MCP tools.",
+      "required": ["ledgerId", "ledgerSha256", "retrievalTools", "boundaryChecks", "frozenAt"],
+      "properties": {
+        "ledgerId": {"type": "string", "minLength": 1},
+        "ledgerSha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+        "retrievalTools": {
+          "type": "array",
+          "description": "Exact approved public MCP tool names used in retrieval.",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "registryMatch": {"type": "boolean"},
+        "boundaryChecks": {"type": "object"},
+        "frozenAt": {"type": "string", "minLength": 1}
+      }
+    },
+    "stageTwo": {
+      "type": "object",
+      "description": "Tool-free serialization stage. Exposes no retrieval/shell/browser/write/network tools.",
+      "required": ["serializationTools", "formatAttempts", "evidenceHashStable", "localSchemaValid", "semanticGatesPassed"],
+      "properties": {
+        "serializationTools": {
+          "type": "array",
+          "description": "Must be empty: serialization exposes no tools.",
+          "items": {"type": "string"}
+        },
+        "formatAttempts": {"type": "integer", "minimum": 0, "maximum": 3},
+        "evidenceHashStable": {"type": "boolean"},
+        "localSchemaValid": {"type": "boolean"},
+        "semanticGatesPassed": {"type": "boolean"},
+        "reinforcementRounds": {"type": "integer", "minimum": 0, "maximum": 1},
+        "attempts": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["completionClaim", "p0Count", "p1Count"],
+      "properties": {
+        "completionClaim": {"type": "string", "enum": ["complete", "partial", "blocked", "rerun", "repair-needed"]},
+        "failureClass": {"type": ["string", "null"]},
+        "p0Count": {"type": "integer", "minimum": 0},
+        "p1Count": {"type": "integer", "minimum": 0},
+        "p2Count": {"type": "integer", "minimum": 0},
+        "accepted": {"type": "boolean"}
+      }
+    }
+  },
+  "additionalProperties": true
+}

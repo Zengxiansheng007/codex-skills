@@ -1,0 +1,25 @@
+{
+  "fixtureId": "NEG-PH3-009",
+  "targetFunction": "advance_circuit",
+  "description": "Reaching the round limit must stop the loop.",
+  "input": {
+    "initialCounters": {
+      "roundCount": 10,
+      "circuitState": "CLOSED"
+    },
+    "observation": {
+      "actualExecution": false,
+      "completionPassed": false
+    }
+  },
+  "expectedState": "loop-limit-reached",
+  "expectedStopReason": "story-round-limit",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "round-limit-stops-loop",
+  "traceTo": [
+    "FR-TOT-014",
+    "FR-TOT-016",
+    "AC-TOT-010",
+    "AC-TOT-013"
+  ]
+}

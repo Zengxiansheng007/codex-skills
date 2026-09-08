@@ -1,0 +1,38 @@
+{
+  "fixtureId": "NEG-CLW2-005",
+  "targetFunction": "select_next_story",
+  "description": "A second Story cannot be selected while another Story is already active. The single-active gate returns a P0 finding and no selected Story.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-ACTIVE",
+        "title": "Currently active Story",
+        "goal": "Already running.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "running"
+      },
+      {
+        "storyId": "CLW-ST-201-SECOND",
+        "title": "Second Story",
+        "goal": "Should not be selected while another is active.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      }
+    ],
+    "completedStoryIds": [],
+    "activeStoryId": "CLW-ST-201-ACTIVE"
+  },
+  "expectedAllowed": false,
+  "expectedSelectedStoryId": null,
+  "expectedRejectionRule": "single-active-story",
+  "expectedRejectionSeverity": "P0",
+  "expectedState": "running",
+  "expectedValidation": "reject",
+  "traceTo": ["FR-CLW2-003", "AC-CLW2-003"]
+}

@@ -1,0 +1,33 @@
+{
+  "fixtureId": "NEG-CLW2-001",
+  "targetFunction": "validate_story_graph",
+  "description": "A dependency cycle in the Story DAG must be rejected with a P0 finding before any executor call.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-CYCLE-A",
+        "title": "Cycle A",
+        "goal": "Depends on B which depends on A.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": ["CLW-ST-201-CYCLE-B"],
+        "priority": 1,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-CYCLE-B",
+        "title": "Cycle B",
+        "goal": "Depends on A which depends on B.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": ["CLW-ST-201-CYCLE-A"],
+        "priority": 1,
+        "status": "pending"
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "story-dependency-cycle",
+  "expectedRejectionSeverity": "P0",
+  "traceTo": ["FR-CLW2-001", "AC-CLW2-001"]
+}

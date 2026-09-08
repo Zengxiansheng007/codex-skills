@@ -1,0 +1,33 @@
+{
+  "fixtureId": "NEG-CLW2-003",
+  "targetFunction": "validate_story_graph",
+  "description": "Duplicate Story IDs must be rejected with a P0 finding before any selection.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-DUP",
+        "title": "First duplicate",
+        "goal": "First occurrence of a duplicated ID.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-DUP",
+        "title": "Second duplicate",
+        "goal": "Second occurrence of the same ID.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      }
+    ]
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "story-id-duplicate",
+  "expectedRejectionSeverity": "P0",
+  "traceTo": ["FR-CLW2-001", "AC-CLW2-001"]
+}

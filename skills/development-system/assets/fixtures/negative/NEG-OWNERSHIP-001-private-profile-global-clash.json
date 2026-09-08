@@ -1,0 +1,11 @@
+{
+  "fixtureId": "NEG-OWNERSHIP-001",
+  "description": "A private profile (e.g. development-system/profiles/architect) is also registered as a global same-name skill 'architect'. The validator must reject this ownership conflict (AC-001).",
+  "ownershipClaim": {
+    "profileNamespace": "development-system/profiles/architect",
+    "globalSkillName": "architect",
+    "conflictType": "same-name-global-skill"
+  },
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "AC-001"
+}

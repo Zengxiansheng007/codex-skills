@@ -1,0 +1,18 @@
+{
+  "fixtureId": "NEG-AUTH-003",
+  "targetFunction": "decide_execution",
+  "description": "A user-level Skill installation cannot be auto-approved by a workspace preauthorization policy.",
+  "input": {
+    "task": {
+      "signals": ["skillDevelopment"],
+      "userLevelInstall": true,
+      "requiredAuthorization": {}
+    },
+    "policy": {"codexTakeoverAllowed": true},
+    "claudeAvailable": true
+  },
+  "expectedState": "blocked-user-decision",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "user-level-install-requires-explicit-approval",
+  "traceTo": ["FR-022", "FR-023", "AC-011"]
+}

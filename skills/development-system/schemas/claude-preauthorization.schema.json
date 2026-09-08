@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claude-preauthorization.schema.json",
+  "title": "Task-scoped Claude preauthorization policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policyId", "version", "status", "policyHash", "validFrom", "expiresAt", "workspaceRoots", "actions", "tools", "data", "network", "credentialBoundary", "feedbackSchema", "maxTimeoutSeconds", "maxRounds", "maxConcurrency", "maxTakeovers", "stopConditions", "codexTakeoverAllowed", "crossProjectReuse"],
+  "properties": {
+    "policyId": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "revoked", "expired", "superseded"]},
+    "policyHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "validFrom": {"type": "string", "format": "date-time"},
+    "expiresAt": {"type": "string", "format": "date-time"},
+    "workspaceRoots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "actions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "tools": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "data": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "network": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "credentialBoundary": {"type": "string", "minLength": 1},
+    "feedbackSchema": {"type": "string", "minLength": 1},
+    "maxTimeoutSeconds": {"type": "integer", "minimum": 1},
+    "maxRounds": {"type": "integer", "minimum": 1},
+    "maxConcurrency": {"const": 1},
+    "maxTakeovers": {"type": "integer", "minimum": 1},
+    "stopConditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "codexTakeoverAllowed": {"type": "boolean"},
+    "crossProjectReuse": {"const": false}
+  }
+}

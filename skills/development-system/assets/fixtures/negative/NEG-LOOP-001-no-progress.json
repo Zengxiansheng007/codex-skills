@@ -1,0 +1,18 @@
+{
+  "fixtureId": "NEG-LOOP-001",
+  "targetFunction": "advance_circuit",
+  "description": "Three actual execution rounds without verified progress must open the circuit.",
+  "input": {
+    "initialCounters": {},
+    "observations": [
+      {"actualExecution": true, "verifiedProgress": false},
+      {"actualExecution": true, "verifiedProgress": false},
+      {"actualExecution": true, "verifiedProgress": false}
+    ]
+  },
+  "expectedState": "loop-limit-reached",
+  "expectedStopReason": "no-verified-progress",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "three-no-progress-rounds-open-circuit",
+  "traceTo": ["FR-015", "FR-016", "AC-010", "AC-023"]
+}

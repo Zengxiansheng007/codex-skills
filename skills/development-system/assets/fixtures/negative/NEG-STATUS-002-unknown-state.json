@@ -1,0 +1,17 @@
+{
+  "fixtureId": "NEG-STATUS-002",
+  "targetFunction": "project_status_zh",
+  "description": "An unknown state must map to failed, not be accepted as valid.",
+  "input": {
+    "state": "cancelled-or-superseded"
+  },
+  "expectedMachineCode": "failed",
+  "expectedStatusZh": "失败",
+  "expectedValidation": "reject",
+  "expectedRejectionRule": "unknown-state-maps-to-failed",
+  "traceTo": [
+    "FR-TOT-013",
+    "AC-TOT-012",
+    "AC-TOT-018"
+  ]
+}

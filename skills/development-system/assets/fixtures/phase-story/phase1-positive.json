@@ -1,0 +1,55 @@
+{
+  "fixtureId": "phase1-positive",
+  "description": "Valid PH-01 phase with four stories, each mapping FR/AC, dependencies, testability and evidence. Must validate against phase-story.schema.json.",
+  "phase": {
+    "phaseId": "PH-01",
+    "name": "最小治理纵向切片",
+    "goal": "Form a script-verifiable loop from Requirement Anchor to CompletionEvaluator without live Agents.",
+    "entryCriteria": ["Grill P0/P1/P2 open = 0", "research P0/P1 evidence gaps = 0", "requirements baseline confirmed"],
+    "exitCriteria": ["minimal vertical chain objects traceable", "deterministic hard gates reject bypass", "independent Skill ownership no conflict", "later phases can extend same contract"],
+    "runtimeBoundary": "contract, schema, fixture, validator and dry-run interface only",
+    "stories": [
+      {
+        "storyId": "PH1-ST-001",
+        "title": "冻结控制权与所有权",
+        "goal": "Freeze Codex authority order, internal profiles and independent Skill boundaries.",
+        "mappedRequirements": ["FR-001", "FR-002", "FR-003", "FR-004", "FR-005"],
+        "acceptanceCriteria": ["AC-001", "AC-002"],
+        "dependsOn": [],
+        "testability": "validator rejects ownership conflicts and missing authority entries",
+        "evidenceRequirements": ["validate_development_system.py accepted", "negative fixture NEG-OWNERSHIP-001 rejected"]
+      },
+      {
+        "storyId": "PH1-ST-002",
+        "title": "建立 Requirement Anchor 与 Artifact 谱系",
+        "goal": "Make goal, scope, FR/AC, artifact versions and owners traceable.",
+        "mappedRequirements": ["FR-006", "FR-007", "FR-032"],
+        "acceptanceCriteria": ["AC-003"],
+        "dependsOn": ["PH1-ST-001"],
+        "testability": "schema validation of anchor and artifact envelope",
+        "evidenceRequirements": ["requirement-anchor.schema.json validates", "artifact-envelope.schema.json validates"]
+      },
+      {
+        "storyId": "PH1-ST-003",
+        "title": "定义软件公司角色与 SOP 契约",
+        "goal": "Define five business roles, SOP stages, artifacts and ownership boundaries.",
+        "mappedRequirements": ["FR-004", "FR-009"],
+        "acceptanceCriteria": ["AC-004"],
+        "dependsOn": ["PH1-ST-001"],
+        "testability": "validator rejects overlapping ownership",
+        "evidenceRequirements": ["metagpt-role-sop-contract.md exists and referenced"]
+      },
+      {
+        "storyId": "PH1-ST-004",
+        "title": "建立 Phase/Story 需求契约",
+        "goal": "Let complex goals decompose into testable stories mapped to FR/AC.",
+        "mappedRequirements": ["FR-008"],
+        "acceptanceCriteria": ["AC-005"],
+        "dependsOn": ["PH1-ST-002", "PH1-ST-003"],
+        "testability": "phase-story.schema.json rejects missing fields and cycles",
+        "evidenceRequirements": ["phase-story.schema.json validates", "negative fixtures rejected"]
+      }
+    ]
+  },
+  "expectedValidation": "pass"
+}

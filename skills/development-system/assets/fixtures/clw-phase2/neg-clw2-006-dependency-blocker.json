@@ -1,0 +1,36 @@
+{
+  "fixtureId": "NEG-CLW2-006",
+  "targetFunction": "select_next_story",
+  "description": "A Story whose dependency has not passed the Codex completion gate cannot be selected. The selector returns a blocked state with the unmet dependency as a blocker.",
+  "input": {
+    "stories": [
+      {
+        "storyId": "CLW-ST-201-PREREQ",
+        "title": "Prerequisite Story",
+        "goal": "Dependency that has not completed.",
+        "mappedRequirements": ["FR-CLW2-001"],
+        "acceptanceCriteria": ["AC-CLW2-001"],
+        "dependsOn": [],
+        "priority": 1,
+        "status": "pending"
+      },
+      {
+        "storyId": "CLW-ST-201-BLOCKED",
+        "title": "Blocked Story",
+        "goal": "Depends on a Story that is still pending.",
+        "mappedRequirements": ["FR-CLW2-002"],
+        "acceptanceCriteria": ["AC-CLW2-002"],
+        "dependsOn": ["CLW-ST-201-PREREQ"],
+        "priority": 5,
+        "status": "pending"
+      }
+    ],
+    "completedStoryIds": [],
+    "activeStoryId": null
+  },
+  "expectedAllowed": false,
+  "expectedSelectedStoryId": "CLW-ST-201-PREREQ",
+  "expectedState": "running",
+  "expectedValidation": "accept",
+  "traceTo": ["FR-CLW2-002", "AC-CLW2-002"]
+}
