@@ -8,7 +8,6 @@
     "research",
     "research-guided"
   ],
-  "candidateArchiveSha256": "9de2a0b23bf89e2826ad5fdc111d222cba43a3a0f85aba9f32c4d937ab8c38a1",
   "files": [
     {
       "package": "anysearch",
@@ -1525,8 +1524,8 @@
     {
       "package": "research",
       "path": "change-records/categories/core-skill-md.md",
-      "sha256": "8642b292e29cf4db5fc254d738ffe430d094f50164f810863c98cc41a5929b75",
-      "size": 650
+      "sha256": "bf057f547082d5ecc0cde6d0fd1041c15ccb2db8d8582581909443aae2838395",
+      "size": 948
     },
     {
       "package": "research",
@@ -1555,14 +1554,14 @@
     {
       "package": "research",
       "path": "change-records/entries/2026/2026-09/CR-20260908-001-research-routing.md",
-      "sha256": "cf49132d494f2d7ec77a5180579808362a01ca5f85cd5366d84abf003a7b5336",
-      "size": 1974
+      "sha256": "d2670498937e77ed488209a6ffdb6c2e40dd2e31a960dc0aaafb16def76c4a77",
+      "size": 2278
     },
     {
       "package": "research",
       "path": "change-records/index.md",
-      "sha256": "8d0954af0fff682a9b215a91247fc95860d6270c63c798455fc60245c72b59f2",
-      "size": 411
+      "sha256": "af2066cd786ec719ff767be8442921a606d0721e99cccb8d874c7bbbc86470b2",
+      "size": 715
     },
     {
       "package": "research",
@@ -1621,8 +1620,8 @@
     {
       "package": "research",
       "path": "SKILL.md",
-      "sha256": "6498659549482d548d19d26815afff4b8a17af0cfd7eb1341f158c29e4143bd8",
-      "size": 5570
+      "sha256": "c9d9294ab162cfe0060be00b6af5d05b878fde50c7ed52dde8aa098c3f182e43",
+      "size": 5668
     },
     {
       "package": "research-guided",
@@ -1975,5 +1974,8 @@
   ],
   "globalInstallationVerified": true,
   "claudeLiveTest": "passed-with-tool-free-format-repair",
-  "anysearchLiveSmoke": "passed"
+  "anysearchLiveSmoke": "passed",
+  "releaseRevision": "1.0.1",
+  "releaseArchiveSha256": "a99cd1ed72b2c2b8c71f83f53f7ec6f06a394baf96ad15d25b728df22653bfbc",
+  "initialCandidateArchiveSha256": "9de2a0b23bf89e2826ad5fdc111d222cba43a3a0f85aba9f32c4d937ab8c38a1"
 }

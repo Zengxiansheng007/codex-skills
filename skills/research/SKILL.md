@@ -57,4 +57,4 @@ Pause for unrecognized faults or missing inputs. Ask only for a required user de
 
 ## Change Traceability
 
-See [change records](change-records/index.md). This candidate is not globally deployed.
+See [change records](change-records/index.md). Deployment status is determined by installation and release receipts; copying or validating a package alone does not establish deployment.

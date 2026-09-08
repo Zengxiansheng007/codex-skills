@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | validated / candidate only |
+| Status | validated / global checks passed |
 | Target Skill | research |
 | Author | Codex |
 | Scope | candidate only |
@@ -45,3 +45,5 @@ Live provider compatibility and separate global deployment review remain outstan
 
 
 Current formatting compatibility additions preserve original historical claims; see evidence/record-format-repairs.json. Recovery-probe gating prevents old evidence from completing a task immediately after resume.
+
+Post-install wording reconciliation: the global installation passed nine checks and the Claude Code live canary passed after one tool-free format repair. Deployment status is now sourced from release receipts instead of a static not-deployed sentence. Executable code and schemas are unchanged.

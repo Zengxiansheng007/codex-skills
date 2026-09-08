@@ -20,3 +20,5 @@ Trace related changes.
 - Impact: research; no global writes.
 - Validation: candidate evidence in development workspace; initially pending.
 - Detail record: [record](../entries/2026/2026-09/CR-20260908-001-research-routing.md).
+
+Post-install wording reconciliation: the global installation passed nine checks and the Claude Code live canary passed after one tool-free format repair. Deployment status is now sourced from release receipts instead of a static not-deployed sentence. Executable code and schemas are unchanged.

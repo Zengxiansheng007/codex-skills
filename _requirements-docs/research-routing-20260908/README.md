@@ -41,3 +41,5 @@ Official AnySearch v3.1.1 is pinned to commit 15b7ea5039983c9dee328be8c7c609f3eb
 Real quota exhaustion was not forced on the account. The compatibility mapping remains conservative and pauses on unknown responses. Host semantic review remains necessary; code-level state checks are not an OS sandbox or a proof of source truth.
 
 User environment updates do not retroactively change already running processes. The host must provide the configured environment to the CLI without putting credential values in command arguments.
+
+Release revision: deployment-status-reconciled (1.0.1). Runtime deployment status is read from installation/release receipts; executable behavior is unchanged.
