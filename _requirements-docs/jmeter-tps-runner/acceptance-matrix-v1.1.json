@@ -1,0 +1,184 @@
+{
+  "AC-001": {
+    "claim": "No implicit target; explicit config/hash confirmation",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_entry.py; tests/test_controller.py; live-task-confirmed.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-002": {
+    "claim": "Original unchanged; independent XML whitelist verification",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_jmx.py; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-003": {
+    "claim": "Exact enabled HTTP set; unresolved dependencies blocked",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_jmx.py; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-004": {
+    "claim": "Per-task confirmed 50..500, presets, 0.5%,2500ms,3%",
+    "status": "verified",
+    "originalEvidenceDescription": "live-task-confirmed.json; tests/test_controller.py",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-005": {
+    "claim": "Six actual official CLI runs, exit0, sequential report completion",
+    "status": "verified",
+    "originalEvidenceDescription": "real-test-independent-review.json; desktop events.jsonl",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-006": {
+    "claim": "Chinese/space/metacharacter batch probe; stable sanitized folders",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_process.py; tests/test_storage.py; actual report paths",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-007": {
+    "claim": "Target Statistics only; P90 title mapping and units",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_report.py; six actual official reports",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-008": {
+    "claim": "Official Start/End texts preserved",
+    "status": "verified",
+    "originalEvidenceDescription": "real-test-independent-review.json; summary-reviewed.md",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-009": {
+    "claim": "A/B prerequisite switching both branches; actual queue continues",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_controller.py; tests/test_jmx.py; actual events.jsonl",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-010": {
+    "claim": "Absolute presets 50/100/200/500",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; tests/test_controller.py",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-011": {
+    "claim": "Adjacent exact3% boundary, zero and precision cases",
+    "status": "verified",
+    "originalEvidenceDescription": "task001-final-codex-qa/independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-012": {
+    "claim": "Six-round cap and coarse-to-fine state",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; tests/test_controller.py; actual 1/4/1 rounds",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-013": {
+    "claim": "First failure ends A, native async question, B continues",
+    "status": "verified",
+    "originalEvidenceDescription": "host-bridge-evidence/target-1-quality-submitted.json; target-3-quality-answered.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-014": {
+    "claim": "Quality failure ceiling; actual100/70/60 failures excluded",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; summary-reviewed.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-015": {
+    "claim": "Floor-to10 midpoint and missing-side boundary",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; task001-final-codex-qa/independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-016": {
+    "claim": "No duplicate/out-of-range candidates or retesting",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-017": {
+    "claim": "Fixed pair then recenter; remaining-budget behavior",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_search.py; tests/test_controller.py",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-018": {
+    "claim": "Single observed qualified peak; no averaging/retest",
+    "status": "verified",
+    "originalEvidenceDescription": "summary-reviewed.json; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-019": {
+    "claim": "Filtered/unknown scope classified; report still drives scoring",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_report.py; tests/test_controller.py; post-run-qa/receipt.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-020": {
+    "claim": "TPS change is only a clue; representation precision not false error",
+    "status": "verified",
+    "originalEvidenceDescription": "scripts/controller.py; tests/test_report.py; original report hashes unchanged",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-021": {
+    "claim": "Highest qualified vs highest observed distinguished",
+    "status": "verified",
+    "originalEvidenceDescription": "summary-reviewed.md; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-022": {
+    "claim": "All six rounds, six columns, configured120s, report/JTL links",
+    "status": "verified",
+    "originalEvidenceDescription": "summary-reviewed.md",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-023": {
+    "claim": "No retest or global-peak precision claim",
+    "status": "verified",
+    "originalEvidenceDescription": "scripts/search.py; summary-reviewed.md; actual unique-concurrency check",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-024": {
+    "claim": "Fixed deterministic controller; independent decision replay",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_controller.py; real-test-independent-review.json",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-025": {
+    "claim": "Unsupported environment/input fails preflight; no installs",
+    "status": "verified",
+    "originalEvidenceDescription": "scripts/process.py; scripts/preflight.py; tests/test_jmx.py",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  },
+  "AC-026": {
+    "claim": "Unreadable/ambiguous metrics never fabricated; unknown lock retained",
+    "status": "verified",
+    "originalEvidenceDescription": "tests/test_report.py; tests/test_controller.py; task001 independent check",
+    "evidenceIndex": "evidence-index.json",
+    "scope": "Supported input and current qualified environment; see architecture-v1.3.md"
+  }
+}

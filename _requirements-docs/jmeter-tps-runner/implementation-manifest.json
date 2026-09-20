@@ -1,0 +1,34 @@
+{
+  "skill": "jmeter-tps-runner",
+  "files": {
+    "SKILL.md": "d508d3cec9e3fe3e5b1002a86f2b9c89400163b30d79bec5ebcdce496f6dfc5f",
+    "agents/openai.yaml": "d72fc9317a4b0614bfa63d770c8ca47bff2041dda8943d96919aafa276854ffa",
+    "references/report-fields.md": "109751beb655ab68ac850e433901eee241f32732b4323f0fac3f17da00751f01",
+    "references/supported-inputs.md": "7ceb591dff3ca84bfa57aba6a6f5d03c023f5f6b8047517724142c9bd7d9f439",
+    "references/task-config.md": "fe9e0db4f9c84ecae24af5c4434436bb6beae4f5a7bccea2f1ed67fd47e456b1",
+    "scripts/audit.py": "5f26ae6a6900d2b8d56efb26d47fe5b1e59ab7aedff71145584b76203b91896d",
+    "scripts/contracts.py": "e4af40b884c07cd8517f53cbe0f5e1c921b48493223fe98880caf19a761fc15b",
+    "scripts/controller.py": "badc38ae66ddfdde39fc3913a17824f1bb0f67db50acb7517f5c8262e305bb54",
+    "scripts/host.py": "c23715c0077bd4b942858f3cd6b89b26824ee1312c1b7442554762637dc2f19a",
+    "scripts/jmx.py": "837b954902c11d49f88c92ccc65cffc20d9965a2c93b6298bdb57c6b3d89f524",
+    "scripts/preflight.py": "663eaf8c86d70f932bad7ec64e6864f75d1cbd9d94430aa8d54ff8a3032861b1",
+    "scripts/process.py": "3759c25d5730d2b46584e876116d2fbc7da951af6f011868199b0d9daf0cbb4f",
+    "scripts/report.py": "ec79c9b9539ade0a6b20bd1acfe0b472fe9467f048bdeed311fbe7e7b97e6293",
+    "scripts/runner.py": "fcc605e1525bf4f20bbb2127b5defaf2fadfc23a586c6222c07b9fa9f1ead928",
+    "scripts/search.py": "cabd8abf761d46418e21cf5a44cd6a5c03e509bb13258ca7667d953aad1f8825",
+    "scripts/storage.py": "ab0968d64df26ffe48cbbd42fb3fb16e55cdf5c7f481d366e798e781af206232",
+    "scripts/summary.py": "351d29838646da90bd8b48f1b3268ca1a0b483e7f4ae7d6c5d6ddd9303dccbf8",
+    "tests/test_controller.py": "f83d4e2f46f3156164cfeb8d2ac100b1ad2d9babf3ac3bacb1382a6ca4977741",
+    "tests/test_entry.py": "afd5ad5ddcec2506d4fa8897995d981d7a006e616aed6965b7e9121fe68b7398",
+    "tests/test_jmx.py": "0a5ad34317ec6d29e2eaad58457e8fe23720576ad93a651d2c90b19b70daeba9",
+    "tests/test_process.py": "d8da6e2a22168e1d999c755cea62224f62671f1c04e15279f231436b66d8e952",
+    "tests/test_report.py": "507e124828c2a406d8e4bd45e2edf8dfb8e54adfb131523eb248ccfe12a0b6cc",
+    "tests/test_search.py": "2730ad1c8716c72ae0218111e5320e967e76db88ca08e7ed0361c05717e896bf",
+    "tests/test_storage.py": "c6222b2704179ce872109c7fe76833fdd8dc89a5e8b8a3d05bb0f5f75b126aea",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "excludes": [
+    "jmeter.log"
+  ],
+  "note": "Original candidate and old archive retain local probe log; this public source inventory excludes it"
+}

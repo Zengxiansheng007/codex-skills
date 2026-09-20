@@ -1,0 +1,25 @@
+{
+  "immutableBaselines": {
+    "prd-v1.3.md": {
+      "name": "JMeter自动寻峰Skill-PRD-v1.2.md",
+      "sha256": "28d2c9d4b63a31ae6e142e04bbc9d5572f661f8f7751917243197b1969b6cf13"
+    },
+    "architecture-v1.3.md": {
+      "name": "jmeter-tps-runner-architecture-v1.2.md",
+      "sha256": "060d1a3377a83d805f5e21c320d858b7b8e0bfe3e98780f8db1b5fe1c44bc181"
+    },
+    "development-plan-v1.2.md": {
+      "name": "development-plan-v1.1.md",
+      "sha256": "13e1b49c7a7e6f2d1887acfa85c29dbc8bcb64720dc7abbb964178c2e87386b3"
+    },
+    "test-plan-v1.2.md": {
+      "name": "test-plan-v1.1.md",
+      "sha256": "42421c99ff2893cf298cb7156bcef8774af873cfcc0a5aeb4de0df17b5e2351e"
+    }
+  },
+  "requirementAnchor": {
+    "version": "v1.2",
+    "sha256": "3a6ff756abdfbce1c34ec8f70d808d50366a893a9a422677e5e0eb51187441f3"
+  },
+  "note": "Historical originals retained locally; no past approval or receipt rewritten"
+}

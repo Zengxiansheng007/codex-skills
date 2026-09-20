@@ -1,0 +1,35 @@
+{
+  "TQ-001": {
+    "scope": "5.6.3 standard input and official report adapter",
+    "evidence": [
+      "DEV-E03",
+      "DEV-E05"
+    ],
+    "status": "passed-in-qualified-scope"
+  },
+  "TQ-002": {
+    "scope": "Windows argv and serial process lifecycle; documented rejected characters",
+    "evidence": [
+      "DEV-E03",
+      "DEV-E05"
+    ],
+    "status": "passed-in-qualified-scope"
+  },
+  "TQ-003": {
+    "scope": "XML preservation and exact whitelist; corrected original architecture identity",
+    "evidence": [
+      "DEV-E02",
+      "DEV-E04",
+      "DEV-E05"
+    ],
+    "status": "passed-in-qualified-scope"
+  },
+  "TQ-004": {
+    "scope": "Codex host asynchronous submission and actual answer; requires host bridge",
+    "evidence": [
+      "DEV-E07",
+      "DEV-E08"
+    ],
+    "status": "passed-in-qualified-scope"
+  }
+}

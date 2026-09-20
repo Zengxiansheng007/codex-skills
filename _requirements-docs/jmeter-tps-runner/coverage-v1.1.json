@@ -1,0 +1,1326 @@
+[
+  {
+    "requirement": "FR-001",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-001"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-001"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-001",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-002",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-025"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-025"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-025",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-003",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-004"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-005",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-004"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-004",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-004",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-003"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-003"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-003",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-005",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-002"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-002"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-002",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-006",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-005"
+    ],
+    "tasks": [
+      "TASK-004",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-005"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-005",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-007",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-006"
+    ],
+    "tasks": [
+      "TASK-004",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-006"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-006",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-008",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-007",
+      "AC-008"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-007",
+      "TCOV-008"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-007",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-008",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-009",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-009"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-009"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-009",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-010",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-010",
+      "AC-011",
+      "AC-012"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-010",
+      "TCOV-011",
+      "TCOV-012"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-010",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-011",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-011",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-015",
+      "AC-016",
+      "AC-017"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-015",
+      "TCOV-016",
+      "TCOV-017"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-015",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-016",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-017",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-012",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-012",
+      "AC-018",
+      "AC-023"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-012",
+      "TCOV-018",
+      "TCOV-023"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-018",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-023",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-013",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-013",
+      "AC-014"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-013",
+      "TCOV-014"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-013",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-014",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-014",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-019",
+      "AC-020"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-019",
+      "TCOV-020"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-019",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-020",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-015",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-021"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-021"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-021",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-016",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-022"
+    ],
+    "tasks": [
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-022"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-022",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-017",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-002",
+      "AC-019",
+      "AC-024"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-002",
+      "TASK-003",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-002",
+      "TCOV-019",
+      "TCOV-024"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-002",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-019",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-024",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "FR-018",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-024"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-024"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-024",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-001",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-001"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-001"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-001",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-002",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-002"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-002"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-002",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-003",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-003",
+      "AC-009"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-003",
+      "TCOV-009"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-003",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-009",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-004",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-004",
+      "AC-024"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-002",
+      "TASK-005",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-004",
+      "TCOV-024"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-004",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-024",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-005",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-007",
+      "AC-021"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-007",
+      "TCOV-021"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-007",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-021",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-006",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-012"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-012"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-007",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-010"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-010"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-010",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-008",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-011"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-011"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-011",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-009",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-011",
+      "AC-012"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-011",
+      "TCOV-012"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-011",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-010",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-012"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-012"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-011",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-014"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-014"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-014",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-012",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-013"
+    ],
+    "tasks": [
+      "TASK-005",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-013"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-013",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-013",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-015"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-015"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-015",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-014",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-016"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-016"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-016",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-015",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-017"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-017"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-017",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-016",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-018"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-018"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-018",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-017",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-007"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-007"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-007",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-018",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-019"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-019"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-019",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-019",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-008"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-008"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-008",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-020",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-021",
+      "AC-022"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-021",
+      "TCOV-022"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-021",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-022",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-021",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-020"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-020"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-020",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-022",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-023",
+      "AC-026"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-003",
+      "TASK-004",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-023",
+      "TCOV-026"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-023",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-026",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-023",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-005"
+    ],
+    "tasks": [
+      "TASK-004",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-005"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-005",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "BR-024",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-023"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-023"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-023",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-001",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-002"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-002"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-002",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-002",
+    "goal": "GOAL-002",
+    "acceptance": [
+      "AC-024"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-024"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-024",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-003",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-007",
+      "AC-008",
+      "AC-019"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-007",
+      "TCOV-008",
+      "TCOV-019"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-007",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-008",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-019",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-004",
+    "goal": "GOAL-001",
+    "acceptance": [
+      "AC-005",
+      "AC-012",
+      "AC-018"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-004",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-005",
+      "TCOV-012",
+      "TCOV-018"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-005",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-012",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-018",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-005",
+    "goal": "GOAL-004",
+    "acceptance": [
+      "AC-022",
+      "AC-024"
+    ],
+    "tasks": [
+      "TASK-001",
+      "TASK-005",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-022",
+      "TCOV-024"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-022",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-024",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "NFR-006",
+    "goal": "GOAL-003",
+    "acceptance": [
+      "AC-006",
+      "AC-025"
+    ],
+    "tasks": [
+      "TASK-002",
+      "TASK-004",
+      "TASK-005",
+      "TASK-006",
+      "TASK-007"
+    ],
+    "testCoverage": [
+      "TCOV-006",
+      "TCOV-025"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-006",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      },
+      {
+        "acceptance": "AC-025",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  },
+  {
+    "requirement": "AC-026",
+    "acceptance": [
+      "AC-026"
+    ],
+    "tasks": [
+      "TASK-003",
+      "TASK-004",
+      "TASK-005"
+    ],
+    "testCoverage": [
+      "TCOV-026"
+    ],
+    "evidence": [
+      {
+        "acceptance": "AC-026",
+        "matrix": "acceptance-matrix-v1.1.json",
+        "status": "verified"
+      }
+    ],
+    "status": "verified-with-supported-scope",
+    "limits": "architecture-v1.3.md; no wider environment qualification"
+  }
+]

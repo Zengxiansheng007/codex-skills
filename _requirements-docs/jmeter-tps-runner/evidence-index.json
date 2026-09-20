@@ -1,0 +1,59 @@
+{
+  "scope": "Existing local evidence re-read; raw business artifacts intentionally not published",
+  "items": [
+    {
+      "id": "DEV-E01",
+      "sourceRecord": "task001-acceptance.json",
+      "sha256": "40281026eebe7bf7b5ca940411fc7c7315a6e6b8c2ea48ae86d22067b53839e4",
+      "supports": "66 module / 16 independent checks"
+    },
+    {
+      "id": "DEV-E02",
+      "sourceRecord": "task002-acceptance.json",
+      "sha256": "b5bf42fa1965e33e93a1dfb130897beaf987411f7591bb2aa9593e03c941591d",
+      "supports": "29 module / 17 independent checks"
+    },
+    {
+      "id": "DEV-E03",
+      "sourceRecord": "receipt.json",
+      "sha256": "f62bb4d557d4d813a02cadcd28bf38559258bf0918dd88f4fd580e0c0d35d352",
+      "supports": "123 integration tests and official synthetic report probe"
+    },
+    {
+      "id": "DEV-E04",
+      "sourceRecord": "receipt.json",
+      "sha256": "33205a4b4d3223e90ed1b9af90833e2625fc2170aa1b473a7be61ec26aaf12a6",
+      "supports": "52 affected tests; no additional load; final source hashes"
+    },
+    {
+      "id": "DEV-E05",
+      "sourceRecord": "real-test-independent-review.json",
+      "sha256": "fdc1517ce83c8560ed81ca073647b4f851ce12e986af198e2d6229e1dba21144",
+      "supports": "6 actual rounds; XML, serial intervals, report fields/times and replay"
+    },
+    {
+      "id": "DEV-E06",
+      "sourceRecord": "skill-validation.json",
+      "sha256": "5f00831986535bb3aff6af6cfcbf4184ea73dad20ca5901d2639af0977d607ae",
+      "supports": "Skill structure P0/P1 zero"
+    },
+    {
+      "id": "DEV-E07",
+      "sourceRecord": "target-1-quality-submitted.json",
+      "sha256": "0c010b577a6464e610f8a36aab3285de2eeff6144e9ea63086cc5e9e794c7904",
+      "supports": "Actual host submission while next target continued"
+    },
+    {
+      "id": "DEV-E08",
+      "sourceRecord": "target-3-quality-answered.json",
+      "sha256": "3b8a26acc30520f6548562f38365dc3a6382bd62a15047a934ebeb71e617466e",
+      "supports": "Actual user answer; record issue and deliver"
+    },
+    {
+      "id": "DEV-E09",
+      "sourceRecord": "post-run-landed-receipt.json",
+      "sha256": "2ddbec06e75409dd02ce5f7f04205ae8425ec69e6d67259afdbd57a3783f93d2",
+      "supports": "Post-run fixes landed after controller ended"
+    }
+  ]
+}

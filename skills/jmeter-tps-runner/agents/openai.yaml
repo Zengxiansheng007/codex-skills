@@ -1,0 +1,4 @@
+interface:
+  display_name: "JMeter TPS Runner"
+  short_description: "逐HTTP请求串行寻峰，依据官方报告筛选合格TPS并汇总"
+  default_prompt: "使用 $jmeter-tps-runner 检查本次明确提供的JMX，确认并发范围和质量门槛后执行逐请求寻峰，并输出所有轮次汇总。"
