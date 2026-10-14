@@ -1,0 +1,829 @@
+{
+  "schema_version": "jmeter-publication-manifest-v1",
+  "date": "2026-10-14",
+  "repository": "Zengxiansheng007/codex-skills",
+  "branch": "main",
+  "expected_head": "77221738ff47becbe6b410553db1c0635fd6658b",
+  "base_tree": "acdabd36d2753092e23091f4450a98c4f871b61a",
+  "guidance_file": "AGENTS.md",
+  "guidance_selection_required": false,
+  "products": {
+    "runner": "existing WorkBuddy 0.3.0 candidate; no product changes",
+    "writer": "not implemented; README only"
+  },
+  "input_output_mapping": [
+    {
+      "destination": "docs/agents/domain.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "docs/agents/issue-tracker.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "docs/agents/triage-labels.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "jmeter/README.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-writer/README.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "jmeter/skills/README.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "README.md",
+      "kind": "new-repository-configuration-or-index"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/change-scope.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/change-scope.md",
+      "source_sha256": "02a9dcd7495ba2e965c5ef7050a07d3755d3bd8ec772004945456c4eb434ebb1",
+      "export_sha256": "66cbcdc573ad391d2e7b0755b391142d44010c9b91ae06f15bb88aab6e2c5af1",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/development-plan.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/development-plan.md",
+      "source_sha256": "d9f2d5458cf853d8f698982ad8fe64e74fbd44b51a713d648fffa9fc1e2ebeaf",
+      "export_sha256": "3b0512350e13f1f25331d549abc040d88bdbc84bb103a1d5bcd382f9aeedf27f",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/GLOSSARY.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/GLOSSARY.md",
+      "source_sha256": "e14e80b0549c21155fab36ebdb72f75e4e7724da31d0fd6d7d602deb7e3c05df",
+      "export_sha256": "0d55971b02fe881677e6f095955c4a0e2796fdfb65e3818369d705538e6930de",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/interfaces.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/interfaces.md",
+      "source_sha256": "7531a6213f11099b55a852ee0ca20d1108940ce2faead3bf591944ce658d7c50",
+      "export_sha256": "7cfd2425032676b7273459337f07e1aa96c8ccdfca278fad5d31fb17974f91e0",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/README.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/README.md",
+      "source_sha256": "fcc533f58e761ad47c46564e9cc062721fa6d787ecae1e6c0de0161614971416",
+      "export_sha256": "f8f24fd00795e1712c31637e1ee05a9fafceb9c1921f98cecd844d37126aec2c",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/source-baselines.json",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/source-baselines.json",
+      "source_sha256": "403a68a22fcf98edc46388f484d3700da95b30de2f87fd51d68198ed5a7324b3",
+      "export_sha256": "4bf57f05e9961b7bd2bd863cb42b38e7ec739b61befaee01563e1940da3620b2",
+      "kind": "portable-metadata-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/spec.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/spec.md",
+      "source_sha256": "21bfe2d8a40735cbb0de1e70061aef2d9e329b366c0d399a3445d0fa8400177b",
+      "export_sha256": "07939bc9bd4533c2b808dab9a0727db049aa76f70072d430dcb2e823f68c2303",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/test-plan.md",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/test-plan.md",
+      "source_sha256": "a7de19f76b1648c08566ba1b46a2e79d9aa6770ccf01ad50be76ad3c46f67234",
+      "export_sha256": "9c98afef11472ea78d7a36dce0078655f14e8484c66374f2d637a8336111adc5",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/traceability.json",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/traceability.json",
+      "source_sha256": "6a8577738e7894db3405f3cf6693c40a1dc807645390c6c70efe118da581776f",
+      "export_sha256": "d26df1923bb8bd8d546083350d760c148d598c075c7957e0b07b5531826b696a",
+      "kind": "portable-metadata-projection"
+    },
+    {
+      "destination": "jmeter/docs/joint-spec-v0.1/validation-source.json",
+      "source": "work/jmeter-writer-runner-joint-20261014/specification-v0.1/validation.json",
+      "source_sha256": "e55d74f446a8e710c4d6af85d83ea91fdee5a847b5b8e5f234b855a38e7193e6",
+      "export_sha256": "2242d7f49b2d1dcaa10b507d1f6c19be09c283125f18f231316e9909d9bfc4e6",
+      "kind": "portable-metadata-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/requirements-v1.1.md",
+      "source": "work/jmeter-preparation-skill-20261013/requirements-v1.1.md",
+      "source_sha256": "82068b0ad6d21ba6e59c9d065394f78f8b209d1b07baad1d0b4bea43c5115d18",
+      "export_sha256": "9531f240dbb708fc556c0c1b0a5429c016ac1ed5dd9e7a528a312df6b9590135",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/GLOSSARY.md",
+      "source": "work/jmeter-preparation-skill-20261013/GLOSSARY.md",
+      "source_sha256": "39f4d31c92ad36c134ee0f40ccf5c6e58e1884cc8d4baba369ea2e698041fbaa",
+      "export_sha256": "3b886f08abf0faecf67ffb1a081a333fc5515b9996d14cda0a48f4d25bd8dd6c",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/specification-v0.1/change-scope.md",
+      "source": "work/jmeter-preparation-skill-20261013/specification-v0.1/change-scope.md",
+      "source_sha256": "8ad8356ba50c9c0218beea32389e92766d2c85ba6e26976179f6bbf732e97ff7",
+      "export_sha256": "68921b942d98844870f84cfa42c46877de6e4bde3f88bdf6ea10ca7637ef3b81",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/specification-v0.1/interfaces.md",
+      "source": "work/jmeter-preparation-skill-20261013/specification-v0.1/interfaces.md",
+      "source_sha256": "ae3decb50eeeaaf899a3473e78973d62181b93e4a96792db6b3a6a7557f79040",
+      "export_sha256": "04922198c4f39bd0c400134b96027b3080459030d079161c8e29ab1c1b765d3c",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/specification-v0.1/README.md",
+      "source": "work/jmeter-preparation-skill-20261013/specification-v0.1/README.md",
+      "source_sha256": "a4a11d8432eeab9c29efde678dd70be3e31063d15c3c94ef634122587b925f9b",
+      "export_sha256": "e4d31455f9605d6e604d46da302596e5c20922269a0758c3e32703f9e20c34fb",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/specification-v0.1/spec.md",
+      "source": "work/jmeter-preparation-skill-20261013/specification-v0.1/spec.md",
+      "source_sha256": "336ca61ede7435260d915ed7cba0c0c39a83780df1535622f70e50c37d2d99f9",
+      "export_sha256": "1abf63cd0d2ceec851d195cac18db35b1f6a183e9eb80948488f99afa5a41a43",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/specification-v0.1/test-plan.md",
+      "source": "work/jmeter-preparation-skill-20261013/specification-v0.1/test-plan.md",
+      "source_sha256": "1c099c630991d5b823c192df4c293e160b50664ee40c42143555b6046d4df513",
+      "export_sha256": "35c60dac37b29972f3254dd7d493f60c9da6329f2b925c32b5c897ccb0d9260e",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-tools.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-tools.md",
+      "source_sha256": "57e0100e0671181d0cf0644f426e6f22a460e0f32478cfd759a943773589eb65",
+      "export_sha256": "3c28bb3e5120e2e5b54880f49097f66136bc963e59649a055bd0458f897e2ea0",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-auth-smoke.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-auth-smoke.md",
+      "source_sha256": "5f4730d178dc4408886cc7b2727b21641c44bbd4b8e5e745d141fc87ec9d601e",
+      "export_sha256": "186b9394ba41aead4399411957b86cdaad1f941835f5a34e1ba18f3ad386b1e4",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-same-jmx-threadgroups.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-same-jmx-threadgroups.md",
+      "source_sha256": "6bb41c9d230a576abec7fdedae268399d39578f76cc0c8ede8944468c2dd923e",
+      "export_sha256": "f26d0bdcd96843ea581b7734d1b45d12fe69db8bd25a753370eee918d44a397b",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-runner-compatibility.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-runner-compatibility.md",
+      "source_sha256": "0eb15056cb0b7296b21d599d452fa617d7d8548ee345e7bf9b3042f986f0681f",
+      "export_sha256": "9fa4dcb5943fae9228b4b33236aa0f2c0b124af5ccb83b9e3c612fbbfd38f874",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-thread-default-headers.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-thread-default-headers.md",
+      "source_sha256": "0177ffea728cb76361d19910ed29858aabcc30c10e8e537c1f903433def532d8",
+      "export_sha256": "6fabb1ea741663c8a6efd3afbef67ec59dc7edd1d6112c20a09b2d5b912204f7",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-json-cookie-one-second-smoke.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-json-cookie-one-second-smoke.md",
+      "source_sha256": "e5428b1fd0294bd2df6223bf85212a3f34458fe641bfdbe1651e87317b177efb",
+      "export_sha256": "978994ee5fc1985a656c65b70ced14d28f6f8d0d3ebd13e9097036871fef397b",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-decoupled-writer-runner.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-decoupled-writer-runner.md",
+      "source_sha256": "91a4b0da8f11c88fbd2ddcda12f85003b2dd882a44e38e2ae4cb61e69b017d0d",
+      "export_sha256": "4bcfa9e906cde2b8f249e022e5bc66fbf30c4923d97ca07c8bbcb04a17e53293",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-csv-defaults-confirmed.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-csv-defaults-confirmed.md",
+      "source_sha256": "64d4a75d334f7b5f419fc484154eee9d1104a0712e2410fb0332fb2ebd86d60f",
+      "export_sha256": "177f26319197a13b2add542fd2aafa54f40286289e76995e655897a7558651ae",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/writer/research-cookie-need-detection.md",
+      "source": "work/jmeter-preparation-skill-20261013/research-cookie-need-detection.md",
+      "source_sha256": "ae692ab797dfcf632cca1dfec12d7b2cee9445be07b99920a0a4c30263605f1a",
+      "export_sha256": "4c5ace2de0e826832347f2a93eb797fc3c13552a46ed46d614b7503b18ddf20c",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/runner/requirements-v0.3.1.md",
+      "source": "work/jmeter-workbuddy-development-20260921/requirements-v0.3.1.md",
+      "source_sha256": "5f3ca2831258a4b7e4b0190b00d27a663eccdd49aec3323902b5d372a4e2b113",
+      "export_sha256": "51223ecdb8c1a452559088463f63bbec0552d55595d1e44c68d1e676a6c79685",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/runner/requirements-output-report.md",
+      "source": "work/jmeter-workbuddy-development-20260921/requirements-output-report.md",
+      "source_sha256": "77894dc626a1cc3968010d81187bf8782a1c7a747a63c6321e8977aed5194519",
+      "export_sha256": "f06f13240a9698cc7e7b05d1efdcec6aec0491f3082c2a42324a76cc928b84d8",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/runner/GLOSSARY.md",
+      "source": "work/jmeter-workbuddy-development-20260921/GLOSSARY.md",
+      "source_sha256": "86c3508ae6be4b00a72bb191f85aaf106d838dfda865d64bbe9db45362fd9469",
+      "export_sha256": "84a2b912c94d9cb1cc64fc7b605498a314f31063e12b1168420f743ba23bc116",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/docs/baselines/runner/research-report-stages.md",
+      "source": "work/jmeter-workbuddy-development-20260921/.grill/output-and-report-20261013/research-report-stages.md",
+      "source_sha256": "006e38a1a493ed503f6f0382843946e69fdcd968090c438d589acc86a7adad4d",
+      "export_sha256": "ea592766aba3cb390082909828e8c5ed136218187fb6036a3b793f1b3202d245",
+      "kind": "portable-document-projection"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/MANIFEST.json",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/MANIFEST.json",
+      "source_sha256": "fb4f14df5e31390261d3bf64cf46239835c14802cb043872010f2d3d16ca80a0",
+      "export_sha256": "fb4f14df5e31390261d3bf64cf46239835c14802cb043872010f2d3d16ca80a0",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/SKILL.md",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/SKILL.md",
+      "source_sha256": "19867febdfade4465e79c4e9dad9b52b36e1b78f5cf9269b7f6d7d3270cead2d",
+      "export_sha256": "19867febdfade4465e79c4e9dad9b52b36e1b78f5cf9269b7f6d7d3270cead2d",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/references/report-fields.md",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/references/report-fields.md",
+      "source_sha256": "dafde0f59f1606fa27fd3857a32916c5640887a699a167350bcc521e31a695a1",
+      "export_sha256": "dafde0f59f1606fa27fd3857a32916c5640887a699a167350bcc521e31a695a1",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/references/supported-inputs.md",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/references/supported-inputs.md",
+      "source_sha256": "7ceb591dff3ca84bfa57aba6a6f5d03c023f5f6b8047517724142c9bd7d9f439",
+      "export_sha256": "7ceb591dff3ca84bfa57aba6a6f5d03c023f5f6b8047517724142c9bd7d9f439",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/references/task-config.md",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/references/task-config.md",
+      "source_sha256": "590d15c91c29aaf0007e0b35f86509dd212370424131ffa7e0238fa32a765b01",
+      "export_sha256": "590d15c91c29aaf0007e0b35f86509dd212370424131ffa7e0238fa32a765b01",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/references/workbuddy-host.md",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/references/workbuddy-host.md",
+      "source_sha256": "b868782479dbc240fe325caebcc68c66c534791047b47c0739a0129a79189933",
+      "export_sha256": "b868782479dbc240fe325caebcc68c66c534791047b47c0739a0129a79189933",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/audit.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/audit.py",
+      "source_sha256": "5f26ae6a6900d2b8d56efb26d47fe5b1e59ab7aedff71145584b76203b91896d",
+      "export_sha256": "5f26ae6a6900d2b8d56efb26d47fe5b1e59ab7aedff71145584b76203b91896d",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/contracts.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/contracts.py",
+      "source_sha256": "e4af40b884c07cd8517f53cbe0f5e1c921b48493223fe98880caf19a761fc15b",
+      "export_sha256": "e4af40b884c07cd8517f53cbe0f5e1c921b48493223fe98880caf19a761fc15b",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/controller.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/controller.py",
+      "source_sha256": "524f675aecdf7ad023c6ab0ed9e715b98755f1bfb088e09e2e68cabbf0340a62",
+      "export_sha256": "524f675aecdf7ad023c6ab0ed9e715b98755f1bfb088e09e2e68cabbf0340a62",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/host.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/host.py",
+      "source_sha256": "c23715c0077bd4b942858f3cd6b89b26824ee1312c1b7442554762637dc2f19a",
+      "export_sha256": "c23715c0077bd4b942858f3cd6b89b26824ee1312c1b7442554762637dc2f19a",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/jmx.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/jmx.py",
+      "source_sha256": "837b954902c11d49f88c92ccc65cffc20d9965a2c93b6298bdb57c6b3d89f524",
+      "export_sha256": "837b954902c11d49f88c92ccc65cffc20d9965a2c93b6298bdb57c6b3d89f524",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/package_integrity.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/package_integrity.py",
+      "source_sha256": "89dd96df75e381e8a6982df03f28f030fa8d92a6f671a49aabff3ec3f102769d",
+      "export_sha256": "89dd96df75e381e8a6982df03f28f030fa8d92a6f671a49aabff3ec3f102769d",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/preflight.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/preflight.py",
+      "source_sha256": "663eaf8c86d70f932bad7ec64e6864f75d1cbd9d94430aa8d54ff8a3032861b1",
+      "export_sha256": "663eaf8c86d70f932bad7ec64e6864f75d1cbd9d94430aa8d54ff8a3032861b1",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/process.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/process.py",
+      "source_sha256": "3759c25d5730d2b46584e876116d2fbc7da951af6f011868199b0d9daf0cbb4f",
+      "export_sha256": "3759c25d5730d2b46584e876116d2fbc7da951af6f011868199b0d9daf0cbb4f",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/report.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/report.py",
+      "source_sha256": "a8411dc4f13893ab7b7e318607540cd265b86920e9a22c3ec473bdc7249bbe67",
+      "export_sha256": "a8411dc4f13893ab7b7e318607540cd265b86920e9a22c3ec473bdc7249bbe67",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/runner.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/runner.py",
+      "source_sha256": "fcc605e1525bf4f20bbb2127b5defaf2fadfc23a586c6222c07b9fa9f1ead928",
+      "export_sha256": "fcc605e1525bf4f20bbb2127b5defaf2fadfc23a586c6222c07b9fa9f1ead928",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/search.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/search.py",
+      "source_sha256": "cabd8abf761d46418e21cf5a44cd6a5c03e509bb13258ca7667d953aad1f8825",
+      "export_sha256": "cabd8abf761d46418e21cf5a44cd6a5c03e509bb13258ca7667d953aad1f8825",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/storage.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/storage.py",
+      "source_sha256": "ab0968d64df26ffe48cbbd42fb3fb16e55cdf5c7f481d366e798e781af206232",
+      "export_sha256": "ab0968d64df26ffe48cbbd42fb3fb16e55cdf5c7f481d366e798e781af206232",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/summary.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/summary.py",
+      "source_sha256": "497099927ad81b6da3c61e76ccd268e5db806538f109d8ac59e69c92c0618543",
+      "export_sha256": "497099927ad81b6da3c61e76ccd268e5db806538f109d8ac59e69c92c0618543",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/scripts/workbuddy_bridge.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/scripts/workbuddy_bridge.py",
+      "source_sha256": "322f84d4dca15f838bb438b09cd3f8fa023047c8cb9984c598114f433264f37c",
+      "export_sha256": "322f84d4dca15f838bb438b09cd3f8fa023047c8cb9984c598114f433264f37c",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_controller.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_controller.py",
+      "source_sha256": "de0e00cb76d3484345c4c6353deb9fcfd665bb52c386842141905e2c4a934298",
+      "export_sha256": "de0e00cb76d3484345c4c6353deb9fcfd665bb52c386842141905e2c4a934298",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_entry.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_entry.py",
+      "source_sha256": "afd5ad5ddcec2506d4fa8897995d981d7a006e616aed6965b7e9121fe68b7398",
+      "export_sha256": "afd5ad5ddcec2506d4fa8897995d981d7a006e616aed6965b7e9121fe68b7398",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_jmx.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_jmx.py",
+      "source_sha256": "0a5ad34317ec6d29e2eaad58457e8fe23720576ad93a651d2c90b19b70daeba9",
+      "export_sha256": "0a5ad34317ec6d29e2eaad58457e8fe23720576ad93a651d2c90b19b70daeba9",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_package_integrity.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_package_integrity.py",
+      "source_sha256": "73c907ed5e9bfe9d0f46a02e411d8a15ffdbdae64acbae1053a3c06c918be490",
+      "export_sha256": "73c907ed5e9bfe9d0f46a02e411d8a15ffdbdae64acbae1053a3c06c918be490",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_process.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_process.py",
+      "source_sha256": "d8da6e2a22168e1d999c755cea62224f62671f1c04e15279f231436b66d8e952",
+      "export_sha256": "d8da6e2a22168e1d999c755cea62224f62671f1c04e15279f231436b66d8e952",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_report.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_report.py",
+      "source_sha256": "b3c820310cc32eb3527c2d750b116204d8724f09d25aedede46af56f87f3a4f0",
+      "export_sha256": "b3c820310cc32eb3527c2d750b116204d8724f09d25aedede46af56f87f3a4f0",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_search.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_search.py",
+      "source_sha256": "2730ad1c8716c72ae0218111e5320e967e76db88ca08e7ed0361c05717e896bf",
+      "export_sha256": "2730ad1c8716c72ae0218111e5320e967e76db88ca08e7ed0361c05717e896bf",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_storage.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_storage.py",
+      "source_sha256": "c6222b2704179ce872109c7fe76833fdd8dc89a5e8b8a3d05bb0f5f75b126aea",
+      "export_sha256": "c6222b2704179ce872109c7fe76833fdd8dc89a5e8b8a3d05bb0f5f75b126aea",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/test_workbuddy_bridge.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/test_workbuddy_bridge.py",
+      "source_sha256": "3cd856fb2d2c0908109eab5e6886bd4aded11eeff7385891abba6f18ec0a3a14",
+      "export_sha256": "3cd856fb2d2c0908109eab5e6886bd4aded11eeff7385891abba6f18ec0a3a14",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "jmeter/skills/jmeter-tps-runner/tests/__init__.py",
+      "source": "work/jmeter-workbuddy-development-20260921/packaging-20260921-192019/source/jmeter-tps-runner/tests/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "unchanged-existing-workbuddy-candidate"
+    },
+    {
+      "destination": "AGENTS.md",
+      "kind": "owner-selected-guidance"
+    }
+  ],
+  "planned_issue_count": 1,
+  "planned_issue_label": "ready-for-agent",
+  "product_tests_executed": false,
+  "status": "prepared-not-published",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "1233b88b2085b4decf36bd14b07214ebcf69e40b6f5f57a21ca2db14f309106d",
+      "size": 690
+    },
+    {
+      "path": "docs/agents/domain.md",
+      "sha256": "59c5dec8b7f1254f6d4427db2585c791d055a0db261f38a69c9a2e9741e3763f",
+      "size": 843
+    },
+    {
+      "path": "docs/agents/issue-tracker.md",
+      "sha256": "064d1d24d60d9ecedf5caae03aa64e0e12732d027211edb06b12304118c49abb",
+      "size": 1872
+    },
+    {
+      "path": "docs/agents/triage-labels.md",
+      "sha256": "b258ad04ba5ac5b89cffc89ffdfca362053a43b731eb6096d4c9a0d350de951c",
+      "size": 699
+    },
+    {
+      "path": "jmeter/docs/baselines/runner/GLOSSARY.md",
+      "sha256": "84a2b912c94d9cb1cc64fc7b605498a314f31063e12b1168420f743ba23bc116",
+      "size": 2976
+    },
+    {
+      "path": "jmeter/docs/baselines/runner/requirements-output-report.md",
+      "sha256": "f06f13240a9698cc7e7b05d1efdcec6aec0491f3082c2a42324a76cc928b84d8",
+      "size": 28444
+    },
+    {
+      "path": "jmeter/docs/baselines/runner/requirements-v0.3.1.md",
+      "sha256": "51223ecdb8c1a452559088463f63bbec0552d55595d1e44c68d1e676a6c79685",
+      "size": 4954
+    },
+    {
+      "path": "jmeter/docs/baselines/runner/research-report-stages.md",
+      "sha256": "ea592766aba3cb390082909828e8c5ed136218187fb6036a3b793f1b3202d245",
+      "size": 20776
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/GLOSSARY.md",
+      "sha256": "3b886f08abf0faecf67ffb1a081a333fc5515b9996d14cda0a48f4d25bd8dd6c",
+      "size": 2414
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/requirements-v1.1.md",
+      "sha256": "9531f240dbb708fc556c0c1b0a5429c016ac1ed5dd9e7a528a312df6b9590135",
+      "size": 32363
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-auth-smoke.md",
+      "sha256": "186b9394ba41aead4399411957b86cdaad1f941835f5a34e1ba18f3ad386b1e4",
+      "size": 17508
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-cookie-need-detection.md",
+      "sha256": "4c5ace2de0e826832347f2a93eb797fc3c13552a46ed46d614b7503b18ddf20c",
+      "size": 5597
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-csv-defaults-confirmed.md",
+      "sha256": "177f26319197a13b2add542fd2aafa54f40286289e76995e655897a7558651ae",
+      "size": 2161
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-decoupled-writer-runner.md",
+      "sha256": "4bcfa9e906cde2b8f249e022e5bc66fbf30c4923d97ca07c8bbcb04a17e53293",
+      "size": 9693
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-json-cookie-one-second-smoke.md",
+      "sha256": "978994ee5fc1985a656c65b70ced14d28f6f8d0d3ebd13e9097036871fef397b",
+      "size": 8226
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-runner-compatibility.md",
+      "sha256": "9fa4dcb5943fae9228b4b33236aa0f2c0b124af5ccb83b9e3c612fbbfd38f874",
+      "size": 20320
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-same-jmx-threadgroups.md",
+      "sha256": "f26d0bdcd96843ea581b7734d1b45d12fe69db8bd25a753370eee918d44a397b",
+      "size": 9645
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-thread-default-headers.md",
+      "sha256": "6fabb1ea741663c8a6efd3afbef67ec59dc7edd1d6112c20a09b2d5b912204f7",
+      "size": 9080
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/research-tools.md",
+      "sha256": "3c28bb3e5120e2e5b54880f49097f66136bc963e59649a055bd0458f897e2ea0",
+      "size": 13617
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/specification-v0.1/change-scope.md",
+      "sha256": "68921b942d98844870f84cfa42c46877de6e4bde3f88bdf6ea10ca7637ef3b81",
+      "size": 8407
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/specification-v0.1/interfaces.md",
+      "sha256": "04922198c4f39bd0c400134b96027b3080459030d079161c8e29ab1c1b765d3c",
+      "size": 20163
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/specification-v0.1/README.md",
+      "sha256": "e4d31455f9605d6e604d46da302596e5c20922269a0758c3e32703f9e20c34fb",
+      "size": 4511
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/specification-v0.1/spec.md",
+      "sha256": "1abf63cd0d2ceec851d195cac18db35b1f6a183e9eb80948488f99afa5a41a43",
+      "size": 16907
+    },
+    {
+      "path": "jmeter/docs/baselines/writer/specification-v0.1/test-plan.md",
+      "sha256": "35c60dac37b29972f3254dd7d493f60c9da6329f2b925c32b5c897ccb0d9260e",
+      "size": 12800
+    },
+    {
+      "path": "jmeter/docs/document-review.md",
+      "sha256": "f833001b916bf6b231983e1389d5216e1b53aed1d58c9040eb94adba9d0a5683",
+      "size": 1446
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/change-scope.md",
+      "sha256": "66cbcdc573ad391d2e7b0755b391142d44010c9b91ae06f15bb88aab6e2c5af1",
+      "size": 10754
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/development-plan.md",
+      "sha256": "3b0512350e13f1f25331d549abc040d88bdbc84bb103a1d5bcd382f9aeedf27f",
+      "size": 9166
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/GLOSSARY.md",
+      "sha256": "0d55971b02fe881677e6f095955c4a0e2796fdfb65e3818369d705538e6930de",
+      "size": 3066
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/interfaces.md",
+      "sha256": "7cfd2425032676b7273459337f07e1aa96c8ccdfca278fad5d31fb17974f91e0",
+      "size": 24684
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/README.md",
+      "sha256": "f8f24fd00795e1712c31637e1ee05a9fafceb9c1921f98cecd844d37126aec2c",
+      "size": 4573
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/source-baselines.json",
+      "sha256": "4bf57f05e9961b7bd2bd863cb42b38e7ec739b61befaee01563e1940da3620b2",
+      "size": 13759
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/spec.md",
+      "sha256": "07939bc9bd4533c2b808dab9a0727db049aa76f70072d430dcb2e823f68c2303",
+      "size": 22692
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/test-plan.md",
+      "sha256": "9c98afef11472ea78d7a36dce0078655f14e8484c66374f2d637a8336111adc5",
+      "size": 18336
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/traceability.json",
+      "sha256": "d26df1923bb8bd8d546083350d760c148d598c075c7957e0b07b5531826b696a",
+      "size": 27226
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/validation-source.json",
+      "sha256": "2242d7f49b2d1dcaa10b507d1f6c19be09c283125f18f231316e9909d9bfc4e6",
+      "size": 1880
+    },
+    {
+      "path": "jmeter/docs/joint-spec-v0.1/validation.json",
+      "sha256": "32a1c5cf26d652cdce7de882af4ee62f077730e654a1ea8885564cb474e6e28b",
+      "size": 558
+    },
+    {
+      "path": "jmeter/docs/publication-context.md",
+      "sha256": "e566eaad5fd8707b175012f8b5a0f7866971a5a0772eef9b1233730ececf11e4",
+      "size": 1832
+    },
+    {
+      "path": "jmeter/README.md",
+      "sha256": "8150ee8249c5d5e45d653ebc3595382c7719db563875b4fcc5db8cf319027501",
+      "size": 2239
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/MANIFEST.json",
+      "sha256": "fb4f14df5e31390261d3bf64cf46239835c14802cb043872010f2d3d16ca80a0",
+      "size": 4237
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/references/report-fields.md",
+      "sha256": "dafde0f59f1606fa27fd3857a32916c5640887a699a167350bcc521e31a695a1",
+      "size": 2543
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/references/supported-inputs.md",
+      "sha256": "7ceb591dff3ca84bfa57aba6a6f5d03c023f5f6b8047517724142c9bd7d9f439",
+      "size": 1726
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/references/task-config.md",
+      "sha256": "590d15c91c29aaf0007e0b35f86509dd212370424131ffa7e0238fa32a765b01",
+      "size": 1976
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/references/workbuddy-host.md",
+      "sha256": "b868782479dbc240fe325caebcc68c66c534791047b47c0739a0129a79189933",
+      "size": 5178
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/audit.py",
+      "sha256": "5f26ae6a6900d2b8d56efb26d47fe5b1e59ab7aedff71145584b76203b91896d",
+      "size": 2808
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/contracts.py",
+      "sha256": "e4af40b884c07cd8517f53cbe0f5e1c921b48493223fe98880caf19a761fc15b",
+      "size": 10866
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/controller.py",
+      "sha256": "524f675aecdf7ad023c6ab0ed9e715b98755f1bfb088e09e2e68cabbf0340a62",
+      "size": 9388
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/host.py",
+      "sha256": "c23715c0077bd4b942858f3cd6b89b26824ee1312c1b7442554762637dc2f19a",
+      "size": 1138
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/jmx.py",
+      "sha256": "837b954902c11d49f88c92ccc65cffc20d9965a2c93b6298bdb57c6b3d89f524",
+      "size": 10250
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/package_integrity.py",
+      "sha256": "89dd96df75e381e8a6982df03f28f030fa8d92a6f671a49aabff3ec3f102769d",
+      "size": 3160
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/preflight.py",
+      "sha256": "663eaf8c86d70f932bad7ec64e6864f75d1cbd9d94430aa8d54ff8a3032861b1",
+      "size": 5722
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/process.py",
+      "sha256": "3759c25d5730d2b46584e876116d2fbc7da951af6f011868199b0d9daf0cbb4f",
+      "size": 3178
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/report.py",
+      "sha256": "a8411dc4f13893ab7b7e318607540cd265b86920e9a22c3ec473bdc7249bbe67",
+      "size": 7179
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/runner.py",
+      "sha256": "fcc605e1525bf4f20bbb2127b5defaf2fadfc23a586c6222c07b9fa9f1ead928",
+      "size": 1821
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/search.py",
+      "sha256": "cabd8abf761d46418e21cf5a44cd6a5c03e509bb13258ca7667d953aad1f8825",
+      "size": 30787
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/storage.py",
+      "sha256": "ab0968d64df26ffe48cbbd42fb3fb16e55cdf5c7f481d366e798e781af206232",
+      "size": 3898
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/summary.py",
+      "sha256": "497099927ad81b6da3c61e76ccd268e5db806538f109d8ac59e69c92c0618543",
+      "size": 10386
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/scripts/workbuddy_bridge.py",
+      "sha256": "322f84d4dca15f838bb438b09cd3f8fa023047c8cb9984c598114f433264f37c",
+      "size": 19521
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/SKILL.md",
+      "sha256": "19867febdfade4465e79c4e9dad9b52b36e1b78f5cf9269b7f6d7d3270cead2d",
+      "size": 6959
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_controller.py",
+      "sha256": "de0e00cb76d3484345c4c6353deb9fcfd665bb52c386842141905e2c4a934298",
+      "size": 6332
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_entry.py",
+      "sha256": "afd5ad5ddcec2506d4fa8897995d981d7a006e616aed6965b7e9121fe68b7398",
+      "size": 1131
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_jmx.py",
+      "sha256": "0a5ad34317ec6d29e2eaad58457e8fe23720576ad93a651d2c90b19b70daeba9",
+      "size": 11920
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_package_integrity.py",
+      "sha256": "73c907ed5e9bfe9d0f46a02e411d8a15ffdbdae64acbae1053a3c06c918be490",
+      "size": 3793
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_process.py",
+      "sha256": "d8da6e2a22168e1d999c755cea62224f62671f1c04e15279f231436b66d8e952",
+      "size": 2060
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_report.py",
+      "sha256": "b3c820310cc32eb3527c2d750b116204d8724f09d25aedede46af56f87f3a4f0",
+      "size": 7541
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_search.py",
+      "sha256": "2730ad1c8716c72ae0218111e5320e967e76db88ca08e7ed0361c05717e896bf",
+      "size": 37580
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_storage.py",
+      "sha256": "c6222b2704179ce872109c7fe76833fdd8dc89a5e8b8a3d05bb0f5f75b126aea",
+      "size": 1439
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-runner/tests/test_workbuddy_bridge.py",
+      "sha256": "3cd856fb2d2c0908109eab5e6886bd4aded11eeff7385891abba6f18ec0a3a14",
+      "size": 14333
+    },
+    {
+      "path": "jmeter/skills/jmeter-tps-writer/README.md",
+      "sha256": "4e4d46a1d9e35f9d46cbeb194f4cbdd00ecfe44b96163c036fe54c02e6720d26",
+      "size": 550
+    },
+    {
+      "path": "jmeter/skills/README.md",
+      "sha256": "93231281387fa82c881c49ce892b5173474c327e376f6aa8b37cf63fd16c1271",
+      "size": 426
+    },
+    {
+      "path": "README.md",
+      "sha256": "f0c24075d77419a8ee0324a2b1ece3970eddc17b5005ad4c9153ff43cc2d4a5c",
+      "size": 681
+    }
+  ]
+}

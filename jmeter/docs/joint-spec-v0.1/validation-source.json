@@ -1,0 +1,38 @@
+{
+  "schema_version": "joint-document-validation-v1",
+  "date": "2026-10-14",
+  "status": "passed-document-checks",
+  "sources_checked": 60,
+  "sources_unchanged": true,
+  "writer_stories_reused_verbatim": true,
+  "stories": 57,
+  "requirements": 32,
+  "acceptance_criteria": 32,
+  "planned_work_packages": 8,
+  "planned_cases": 80,
+  "local_links_checked": 19,
+  "dependency_graph_acyclic": true,
+  "token_pattern_scan_findings": 0,
+  "research_executor": "anysearch",
+  "product_test_status": "not-run",
+  "joint_specification_status": "pending_review",
+  "github_published": false,
+  "errors": [],
+  "artifact_sha256": {
+    "change-scope.md": "02A9DCD7495BA2E965C5EF7050A07D3755D3BD8EC772004945456C4EB434EBB1",
+    "development-plan.md": "D9F2D5458CF853D8F698982AD8FE64E74FBD44B51A713D648FFFA9FC1E2EBEAF",
+    "GLOSSARY.md": "E14E80B0549C21155FAB36EBDB72F75E4E7724DA31D0FD6D7D602DEB7E3C05DF",
+    "interfaces.md": "7531A6213F11099B55A852EE0CA20D1108940CE2FAEAD3BF591944CE658D7C50",
+    "README.md": "FCC533F58E761AD47C46564E9CC062721FA6D787ECAE1E6C0DE0161614971416",
+    "source-baselines.json": "403A68A22FCF98EDC46388F484D3700DA95B30DE2F87FD51D68198ED5A7324B3",
+    "spec.md": "21BFE2D8A40735CBB0DE1E70061AEF2D9E329B366C0D399A3445D0FA8400177B",
+    "test-plan.md": "A7DE19F76B1648C08566BA1B46A2E79D9AA6770CCF01AD50BE76AD3C46F67234",
+    "traceability.json": "6A8577738E7894DB3405F3CF6693C40A1DC807645390C6C70EFE118DA581776F"
+  },
+  "limits": [
+    "Document checks do not qualify product behavior or live host execution.",
+    "Literal token-pattern scan is not proof that arbitrary private data is absent.",
+    "Writer full requirements/spec remain pending confirmation; no state is rewritten."
+  ],
+  "public_note": "Original local-spec document check. artifact_sha256 describes source documents, not their portable projections. See validation.json for export checks."
+}

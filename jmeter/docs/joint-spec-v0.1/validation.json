@@ -1,0 +1,17 @@
+{
+  "schema_version": "public-document-check-v1",
+  "date": "2026-10-14",
+  "status": "passed-publication-document-checks",
+  "files_scanned": 72,
+  "local_links_checked": 74,
+  "stories_unchanged": true,
+  "requirements_and_cases_unchanged": true,
+  "product_test_status": "not-run",
+  "guidance_file": "AGENTS.md",
+  "scope": "Portable public-document and existing candidate-byte checks only",
+  "errors": [],
+  "limits": [
+    "Pattern scan does not prove absence of arbitrary private data.",
+    "No live runtime or product acceptance is claimed."
+  ]
+}

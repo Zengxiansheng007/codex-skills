@@ -1,0 +1,1526 @@
+{
+  "schema_version": "joint-traceability-v1",
+  "date": "2026-10-14",
+  "scope": "specification-only; no product tests executed",
+  "test_seam_confirmation": {
+    "status": "confirmed",
+    "answer": "采用这些边界（推荐）",
+    "basis": "Owner confirmation on 2026-10-14; original private conversation receipt is not published."
+  },
+  "joint_specification_status": "pending_review",
+  "tracker": {
+    "destination": "https://github.com/Zengxiansheng007/codex-skills/issues",
+    "triage_labels": [
+      "needs-triage",
+      "needs-info",
+      "ready-for-agent",
+      "ready-for-human",
+      "wontfix"
+    ],
+    "published_issue": null,
+    "snapshot_stage": "prepared-before-issue-creation"
+  },
+  "namespace_note": "Writer AC-001–007 and runner WB-AC-001–025 remain distinct. Historical runner AC shorthand is qualified, not renumbered.",
+  "work_packages": [
+    {
+      "id": "JP-01",
+      "status": "planned-not-started",
+      "depends_on": []
+    },
+    {
+      "id": "JP-02",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-01"
+      ]
+    },
+    {
+      "id": "JP-03",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-01"
+      ]
+    },
+    {
+      "id": "JP-04",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-02",
+        "JP-03"
+      ]
+    },
+    {
+      "id": "JP-05",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-04"
+      ]
+    },
+    {
+      "id": "JP-06",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-02",
+        "JP-05"
+      ]
+    },
+    {
+      "id": "JP-07",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-02",
+        "JP-03",
+        "JP-04",
+        "JP-05",
+        "JP-06"
+      ]
+    },
+    {
+      "id": "JP-08",
+      "status": "planned-not-started",
+      "depends_on": [
+        "JP-07"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "REQ-001",
+      "acceptance_id": "AC-001",
+      "story_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        38
+      ],
+      "work_packages": [
+        "JP-01",
+        "JP-03",
+        "JP-04",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-01",
+        "J-01",
+        "W-01",
+        "W-02",
+        "W-03"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-002",
+      "acceptance_id": "AC-002",
+      "story_numbers": [
+        7,
+        8,
+        14,
+        15,
+        16,
+        17,
+        24,
+        38
+      ],
+      "work_packages": [
+        "JP-03",
+        "JP-04",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-02",
+        "J-01",
+        "J-04",
+        "W-02",
+        "W-04",
+        "W-05"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-003",
+      "acceptance_id": "AC-003",
+      "story_numbers": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        38
+      ],
+      "work_packages": [
+        "JP-01",
+        "JP-04",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-02",
+        "J-02",
+        "J-03",
+        "J-05",
+        "J-07",
+        "J-10",
+        "OR-10",
+        "R-08",
+        "R-09",
+        "W-06",
+        "W-07",
+        "W-08",
+        "W-14",
+        "W-17"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-004",
+      "acceptance_id": "AC-004",
+      "story_numbers": [
+        21,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        37,
+        38
+      ],
+      "work_packages": [
+        "JP-04",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-03",
+        "J-01",
+        "J-02",
+        "J-04",
+        "J-05",
+        "J-06",
+        "J-07",
+        "W-05",
+        "W-08",
+        "W-09",
+        "W-11",
+        "W-12",
+        "W-13",
+        "W-14",
+        "W-15",
+        "W-16",
+        "W-17"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-005",
+      "acceptance_id": "AC-005",
+      "story_numbers": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        38
+      ],
+      "work_packages": [
+        "JP-03",
+        "JP-04",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-03",
+        "J-01",
+        "J-06",
+        "W-02",
+        "W-10",
+        "W-11",
+        "W-12"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-006",
+      "acceptance_id": "AC-006",
+      "story_numbers": [
+        12,
+        13,
+        15,
+        30,
+        31,
+        32,
+        33,
+        36,
+        37,
+        38,
+        39
+      ],
+      "work_packages": [
+        "JP-04",
+        "JP-07",
+        "JP-08"
+      ],
+      "test_cases": [
+        "H-03",
+        "H-04",
+        "PK-02",
+        "PK-03",
+        "R-02",
+        "R-10",
+        "W-05",
+        "W-11",
+        "W-13",
+        "W-14",
+        "W-15",
+        "W-16",
+        "W-17",
+        "W-18"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "REQ-007",
+      "acceptance_id": "AC-007",
+      "story_numbers": [
+        23,
+        25,
+        29,
+        33,
+        34,
+        35,
+        38,
+        40
+      ],
+      "work_packages": [
+        "JP-01",
+        "JP-04",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-02",
+        "G-03",
+        "H-04",
+        "J-03",
+        "J-05",
+        "J-07",
+        "J-08",
+        "J-10",
+        "OR-10",
+        "R-01",
+        "R-02",
+        "R-03",
+        "R-04",
+        "R-05",
+        "R-06",
+        "R-07",
+        "R-08",
+        "R-09",
+        "R-10",
+        "R-11",
+        "R-12",
+        "W-18"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-001",
+      "acceptance_id": "WB-AC-001",
+      "story_numbers": [
+        38,
+        39
+      ],
+      "work_packages": [
+        "JP-07",
+        "JP-08"
+      ],
+      "test_cases": [
+        "H-01",
+        "H-05",
+        "PK-01",
+        "PK-02"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-002",
+      "acceptance_id": "WB-AC-002",
+      "story_numbers": [
+        28,
+        29,
+        33,
+        34
+      ],
+      "work_packages": [
+        "JP-01",
+        "JP-02",
+        "JP-04",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "OR-05",
+        "PK-01",
+        "R-02",
+        "R-03",
+        "R-11",
+        "W-17"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-003",
+      "acceptance_id": "WB-AC-003",
+      "story_numbers": [
+        34,
+        35,
+        40
+      ],
+      "work_packages": [
+        "JP-01",
+        "JP-02",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "OR-09",
+        "PK-03",
+        "R-01",
+        "R-04",
+        "R-05",
+        "R-12"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-004",
+      "acceptance_id": "WB-AC-004",
+      "story_numbers": [],
+      "work_packages": [
+        "JP-02",
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-06",
+        "H-10",
+        "H-11",
+        "OR-02",
+        "OR-07",
+        "OR-12",
+        "OR-14"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-005",
+      "acceptance_id": "WB-AC-005",
+      "story_numbers": [],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-07",
+        "H-09",
+        "OR-13",
+        "OR-16"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-006",
+      "acceptance_id": "WB-AC-006",
+      "story_numbers": [
+        35,
+        36
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-04",
+        "J-08",
+        "J-09",
+        "OR-09",
+        "OR-18",
+        "R-10"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-007",
+      "acceptance_id": "WB-AC-007",
+      "story_numbers": [
+        38,
+        39
+      ],
+      "work_packages": [
+        "JP-08"
+      ],
+      "test_cases": [
+        "H-01",
+        "PK-01",
+        "PK-02"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-008",
+      "acceptance_id": "WB-AC-008",
+      "story_numbers": [],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-11",
+        "J-11",
+        "J-12",
+        "OR-07",
+        "OR-17"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-009",
+      "acceptance_id": "WB-AC-009",
+      "story_numbers": [
+        41
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-04",
+        "H-10",
+        "J-09",
+        "OR-01",
+        "OR-04"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-010",
+      "acceptance_id": "WB-AC-010",
+      "story_numbers": [
+        42
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-07",
+        "J-09",
+        "OR-02",
+        "OR-03",
+        "OR-04"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-011",
+      "acceptance_id": "WB-AC-011",
+      "story_numbers": [
+        43
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-09",
+        "OR-03",
+        "OR-04",
+        "OR-05"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-012",
+      "acceptance_id": "WB-AC-012",
+      "story_numbers": [
+        44
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-09",
+        "OR-06",
+        "OR-07"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-013",
+      "acceptance_id": "WB-AC-013",
+      "story_numbers": [
+        45
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-09",
+        "J-10",
+        "OR-06",
+        "OR-08",
+        "OR-10"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-014",
+      "acceptance_id": "WB-AC-014",
+      "story_numbers": [
+        46
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-05",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-08",
+        "J-09",
+        "OR-09",
+        "R-10"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-015",
+      "acceptance_id": "WB-AC-015",
+      "story_numbers": [
+        47
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-04",
+        "J-09",
+        "J-11",
+        "OR-06",
+        "OR-07",
+        "OR-08"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-016",
+      "acceptance_id": "WB-AC-016",
+      "story_numbers": [
+        48
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-05",
+        "H-06",
+        "OR-12",
+        "OR-14"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-017",
+      "acceptance_id": "WB-AC-017",
+      "story_numbers": [
+        49
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-05",
+        "H-07",
+        "H-09",
+        "OR-13",
+        "OR-14"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-018",
+      "acceptance_id": "WB-AC-018",
+      "story_numbers": [
+        50
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-05",
+        "H-06",
+        "H-07",
+        "H-10",
+        "OR-14"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-019",
+      "acceptance_id": "WB-AC-019",
+      "story_numbers": [
+        51
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-05",
+        "H-07",
+        "H-09"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-020",
+      "acceptance_id": "WB-AC-020",
+      "story_numbers": [
+        52
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-04",
+        "G-05",
+        "H-08",
+        "J-11",
+        "OR-15",
+        "OR-16"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-021",
+      "acceptance_id": "WB-AC-021",
+      "story_numbers": [
+        53
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "G-04",
+        "H-10",
+        "J-12",
+        "OR-17"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-022",
+      "acceptance_id": "WB-AC-022",
+      "story_numbers": [
+        54
+      ],
+      "work_packages": [
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "H-09",
+        "OR-14",
+        "OR-16"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-023",
+      "acceptance_id": "WB-AC-023",
+      "story_numbers": [
+        55
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-05",
+        "JP-06",
+        "JP-07"
+      ],
+      "test_cases": [
+        "J-10",
+        "J-13",
+        "OR-08",
+        "OR-10",
+        "OR-11",
+        "R-09"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-024",
+      "acceptance_id": "WB-AC-024",
+      "story_numbers": [
+        56
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-06",
+        "JP-07",
+        "JP-08"
+      ],
+      "test_cases": [
+        "H-04",
+        "J-08",
+        "OR-18",
+        "PK-03",
+        "R-10"
+      ],
+      "product_acceptance_status": "not-run"
+    },
+    {
+      "requirement_id": "WB-FR-025",
+      "acceptance_id": "WB-AC-025",
+      "story_numbers": [
+        57
+      ],
+      "work_packages": [
+        "JP-02",
+        "JP-05",
+        "JP-06",
+        "JP-07",
+        "JP-08"
+      ],
+      "test_cases": [
+        "J-09",
+        "J-11",
+        "OR-06",
+        "OR-11",
+        "OR-18",
+        "PK-03",
+        "R-01",
+        "R-04",
+        "R-05",
+        "R-12"
+      ],
+      "product_acceptance_status": "not-run"
+    }
+  ],
+  "cases": [
+    {
+      "id": "G-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-001"
+      ]
+    },
+    {
+      "id": "G-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "G-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "G-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-015",
+        "WB-FR-020",
+        "WB-FR-021"
+      ]
+    },
+    {
+      "id": "G-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-016",
+        "WB-FR-017",
+        "WB-FR-018",
+        "WB-FR-019",
+        "WB-FR-020"
+      ]
+    },
+    {
+      "id": "W-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-001"
+      ]
+    },
+    {
+      "id": "W-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "W-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-001"
+      ]
+    },
+    {
+      "id": "W-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-002"
+      ]
+    },
+    {
+      "id": "W-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-002",
+        "REQ-004",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-06",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003"
+      ]
+    },
+    {
+      "id": "W-07",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003"
+      ]
+    },
+    {
+      "id": "W-08",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "W-09",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "W-10",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "W-11",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-005",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-12",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "W-13",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-14",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-15",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-16",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "W-17",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004",
+        "REQ-006",
+        "WB-FR-002"
+      ]
+    },
+    {
+      "id": "W-18",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "R-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-003",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "R-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "REQ-007",
+        "WB-FR-002"
+      ]
+    },
+    {
+      "id": "R-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-002"
+      ]
+    },
+    {
+      "id": "R-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-003",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "R-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-003",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "R-06",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "R-07",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "R-08",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "R-09",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007",
+        "WB-FR-023"
+      ]
+    },
+    {
+      "id": "R-10",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "REQ-007",
+        "WB-FR-006",
+        "WB-FR-014",
+        "WB-FR-024"
+      ]
+    },
+    {
+      "id": "R-11",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-002"
+      ]
+    },
+    {
+      "id": "R-12",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-003",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "OR-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-009"
+      ]
+    },
+    {
+      "id": "OR-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-010"
+      ]
+    },
+    {
+      "id": "OR-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-010",
+        "WB-FR-011"
+      ]
+    },
+    {
+      "id": "OR-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-009",
+        "WB-FR-010",
+        "WB-FR-011"
+      ]
+    },
+    {
+      "id": "OR-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-002",
+        "WB-FR-011"
+      ]
+    },
+    {
+      "id": "OR-06",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-012",
+        "WB-FR-013",
+        "WB-FR-015",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "OR-07",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-008",
+        "WB-FR-012",
+        "WB-FR-015"
+      ]
+    },
+    {
+      "id": "OR-08",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-013",
+        "WB-FR-015",
+        "WB-FR-023"
+      ]
+    },
+    {
+      "id": "OR-09",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-003",
+        "WB-FR-006",
+        "WB-FR-014"
+      ]
+    },
+    {
+      "id": "OR-10",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007",
+        "WB-FR-013",
+        "WB-FR-023"
+      ]
+    },
+    {
+      "id": "OR-11",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-023",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "OR-12",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-016"
+      ]
+    },
+    {
+      "id": "OR-13",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-005",
+        "WB-FR-017"
+      ]
+    },
+    {
+      "id": "OR-14",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-016",
+        "WB-FR-017",
+        "WB-FR-018",
+        "WB-FR-022"
+      ]
+    },
+    {
+      "id": "OR-15",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-020"
+      ]
+    },
+    {
+      "id": "OR-16",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-005",
+        "WB-FR-020",
+        "WB-FR-022"
+      ]
+    },
+    {
+      "id": "OR-17",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-008",
+        "WB-FR-021"
+      ]
+    },
+    {
+      "id": "OR-18",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-006",
+        "WB-FR-024",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "J-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-004",
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "J-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "J-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "J-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-002",
+        "REQ-004"
+      ]
+    },
+    {
+      "id": "J-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004",
+        "REQ-007"
+      ]
+    },
+    {
+      "id": "J-06",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-005"
+      ]
+    },
+    {
+      "id": "J-07",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-004",
+        "REQ-007",
+        "WB-FR-010"
+      ]
+    },
+    {
+      "id": "J-08",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-007",
+        "WB-FR-006",
+        "WB-FR-014",
+        "WB-FR-024"
+      ]
+    },
+    {
+      "id": "J-09",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-006",
+        "WB-FR-009",
+        "WB-FR-010",
+        "WB-FR-011",
+        "WB-FR-012",
+        "WB-FR-013",
+        "WB-FR-014",
+        "WB-FR-015",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "J-10",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-003",
+        "REQ-007",
+        "WB-FR-013",
+        "WB-FR-023"
+      ]
+    },
+    {
+      "id": "J-11",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-008",
+        "WB-FR-015",
+        "WB-FR-020",
+        "WB-FR-025"
+      ]
+    },
+    {
+      "id": "J-12",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-008",
+        "WB-FR-021"
+      ]
+    },
+    {
+      "id": "J-13",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-023"
+      ]
+    },
+    {
+      "id": "H-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-001",
+        "WB-FR-007"
+      ]
+    },
+    {
+      "id": "H-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-002"
+      ]
+    },
+    {
+      "id": "H-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-004",
+        "REQ-005",
+        "REQ-006"
+      ]
+    },
+    {
+      "id": "H-04",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "REQ-007",
+        "WB-FR-006",
+        "WB-FR-009",
+        "WB-FR-024"
+      ]
+    },
+    {
+      "id": "H-05",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-001"
+      ]
+    },
+    {
+      "id": "H-06",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-016",
+        "WB-FR-018"
+      ]
+    },
+    {
+      "id": "H-07",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-005",
+        "WB-FR-017",
+        "WB-FR-018",
+        "WB-FR-019"
+      ]
+    },
+    {
+      "id": "H-08",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-020"
+      ]
+    },
+    {
+      "id": "H-09",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-005",
+        "WB-FR-017",
+        "WB-FR-019",
+        "WB-FR-022"
+      ]
+    },
+    {
+      "id": "H-10",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-009",
+        "WB-FR-018",
+        "WB-FR-021"
+      ]
+    },
+    {
+      "id": "H-11",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-004",
+        "WB-FR-008"
+      ]
+    },
+    {
+      "id": "PK-01",
+      "status": "not-run",
+      "requirement_ids": [
+        "WB-FR-001",
+        "WB-FR-002",
+        "WB-FR-007"
+      ]
+    },
+    {
+      "id": "PK-02",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "WB-FR-001",
+        "WB-FR-007"
+      ]
+    },
+    {
+      "id": "PK-03",
+      "status": "not-run",
+      "requirement_ids": [
+        "REQ-006",
+        "WB-FR-003",
+        "WB-FR-024",
+        "WB-FR-025"
+      ]
+    }
+  ],
+  "excluded_for_writer": [
+    "whole-process-timeout-module",
+    "process-tree-stop-module",
+    "formal-tps-search"
+  ],
+  "qualification_note": "G-01–05 need applicable evidence; simulated clocks do not qualify a real 600-second host notification."
+}
